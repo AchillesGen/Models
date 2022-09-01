@@ -413,7 +413,7 @@ M$ClassesDescription = {
     FlavorIndex    -> SU2D,
     SelfConjugate  -> False,
     QuantumNumbers -> {Y -> -1/2},
-    Definitions    -> { LL[sp1_,1,ff_] :> Module[{sp2}, ProjM[sp1,sp2] (-svN[ff] Nv[sp2,ff] + cvN[ff] vl[sp2,ff])],
+    Definitions    -> { LL[sp1_,1,ff_] :> Module[{sp2}, ProjM[sp1,sp2] (-svN[ff,ff2] Nv[sp2,ff2] + cvN[ff,ff3] vl[sp2,ff3])],
                         LL[sp1_,2,ff_] :> Module[{sp2}, ProjM[sp1,sp2] l[sp2,ff]] }
   },
   F[12] == { 
@@ -470,7 +470,7 @@ M$ClassesDescription = {
     FlavorIndex    -> Generation,
     SelfConjugate  -> False,
     QuantumNumbers -> {Qdark -> 1},
-    Definitions    -> { nL[sp1_,ff_] :> Module[{sp2}, ProjM[sp1,sp2] (cvN[ff] Nv[sp2,ff] + svN[ff] vl[sp2,ff]) ] }
+    Definitions    -> { nL[sp1_,ff_] :> Module[{sp2}, ProjM[sp1,sp2] (cvN[ff,ff2] Nv[sp2,ff2] + svN[ff,ff3] vl[sp2,ff3]) ] }
   },
 
 (* Higgs: physical scalars  *)
@@ -826,15 +826,19 @@ M$Parameters = {
     Description -> "CKM-Matrix"},
   cvN == { 
     ParameterType -> Internal,
-    Indices       -> {Index[Generation]},
-    Value         -> {cvN[1] -> Cos[thN1], cvN[2] -> Cos[thN2], cvN[3] -> Cos[thN3]},
+    Indices       -> {Index[Generation], Index[Generation]},
+    Definitions      -> {cvN[i_?NumericQ, j_?NumericQ] :> 0  /; (i =!= j)},
+    Value         -> {cvN[1,1] -> Cos[thN1], cvN[2,2] -> Cos[thN2], cvN[3,3] -> Cos[thN3]},
     TeX         -> Superscript[c,vN],
+    ComplexParameter -> False,
     Description -> "cosine v-N mixing"},
   svN == { 
     ParameterType -> Internal,
-    Indices       -> {Index[Generation]},
-    Value         -> {svN[1] -> Sin[thN1], svN[2] -> Sin[thN2], svN[3] -> Sin[thN3]},
+    Indices       -> {Index[Generation], Index[Generation]},
+    Definitions      -> {svN[i_?NumericQ, j_?NumericQ] :> 0  /; (i =!= j)},
+    Value   -> {svN[1,1] -> Sqrt[1-cvN[1,1]^2], svN[2,2] -> Sqrt[1-cvN[2,2]^2], svN[3,3] -> Sqrt[1-cvN[3,3]^2]},
     TeX         -> Superscript[s,vN],
+    ComplexParameter -> False,
     Description -> "sine v-N mixing"}
 };
 
