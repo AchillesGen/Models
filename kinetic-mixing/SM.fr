@@ -393,8 +393,8 @@ M$ClassesDescription = {
     Indices          -> {Index[Generation]},
     FlavorIndex      -> Generation,
     SelfConjugate    -> False,
-    Mass             -> {MN, {MNe, 1E10}, {MNm, 1}, {MNt, 1E10}},
-    Width            -> {WN, {WNe, 1E10}, {WNm, 0.1}, {WNt, 1E10}},
+    Mass             -> {MN, {MNe, 1*^10}, {MNm, 1}, {MNt, 1*^10}},
+    Width            -> {WN, {WNe, 1*^10}, {WNm, 0.1}, {WNt, 1*^10}},
     QuantumNumbers   -> {LeptonNumber -> 1},
     PropagatorLabel  -> {"N", "Ne", "Nm", "Nt"} ,
     PropagatorType   -> S,
@@ -684,7 +684,7 @@ M$Parameters = {
     ParameterType -> External,
     BlockName     -> BSM,
     OrderBlock    -> 4,
-    Value         -> 1E-4,
+    Value         -> 1*^-4,
     TeX           -> Subscript[\[Theta], 2],
     Description   -> "vm-N2 mixing"
   },
@@ -709,7 +709,7 @@ M$Parameters = {
   },
   aDark == {
     ParameterType    -> Internal,
-    Value            -> gd^2/(4*Pi)
+    Value            -> gd^2/(4*Pi),
     InteractionOrder -> {BSM,2},
     TeX              -> Subscript[\[Alpha], D],
     Description      -> "Dark sector coupling constant"
