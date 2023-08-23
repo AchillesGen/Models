@@ -1,0 +1,111 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      4495,        103]
+NotebookOptionsPosition[      3481,         81]
+NotebookOutlinePosition[      3979,         99]
+CellTagsIndexPosition[      3936,         96]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"Quit", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.4921467751527157`*^9, 3.492146776183146*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"a6f124ee-6a10-4d83-86cd-d40620bc7e81"],
+
+Cell[BoxData[
+ RowBox[{"cwd", "=", 
+  RowBox[{"Directory", "[", "]"}]}]], "Input",
+ CellChangeTimes->{{3.901808243957285*^9, 3.9018082487012978`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"5865ed73-3969-4104-8a8e-e3eccfeaae27"],
+
+Cell[BoxData[
+ RowBox[{"$FeynRulesPath", "=", 
+  RowBox[{
+  "SetDirectory", "[", "\"\<< address of the package >\>\"", "]"}]}]], "Input",\
+
+ CellChangeTimes->{{3.41265862251538*^9, 3.412658649947229*^9}, {
+  3.423415585782702*^9, 3.423415597189939*^9}, {3.4234163173467493`*^9, 
+  3.4234163227881193`*^9}, {3.901808450114992*^9, 3.901808475620098*^9}, {
+  3.9018086614022417`*^9, 3.9018086669713573`*^9}, {3.9018088878528023`*^9, 
+  3.901808909818119*^9}, {3.901810123846571*^9, 
+  3.901810126509704*^9}},ExpressionUUID->"1ab6b768-3a6a-481f-9482-\
+0be20f004d45"],
+
+Cell[BoxData[
+ RowBox[{"<<", "FeynRules`"}]], "Input",
+ CellChangeTimes->{{3.547535564344927*^9, 3.547535564971527*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"afb47855-b83f-4365-91fc-19b23dd14d86"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SetDirectory", "[", "cwd", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.419073170860696*^9, 3.419073182827229*^9}, {
+  3.9018082530845013`*^9, 3.901808260711125*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"0ba225dd-9b5f-4e1e-8677-788a392ff06a"],
+
+Cell[BoxData[
+ RowBox[{"LoadModel", "[", "\"\<DarkNeutrino.fr\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.4022069973481913`*^9, 3.402207011768662*^9}, 
+   3.4022081212072697`*^9, {3.402208250379383*^9, 3.402208254043104*^9}, 
+   3.4027466057480917`*^9, {3.403240270135737*^9, 3.403240277228945*^9}, 
+   3.403266503388291*^9, {3.403267649630335*^9, 3.40326765417397*^9}, {
+   3.403269919787421*^9, 3.403269921965273*^9}, {3.403347551273425*^9, 
+   3.403347555049163*^9}, 3.4044490490588417`*^9, {3.411744339876704*^9, 
+   3.411744340012457*^9}, {3.4121886924550533`*^9, 3.412188699157571*^9}, 
+   3.412188808811866*^9, 3.4121888580521603`*^9, {3.412450464077868*^9, 
+   3.412450464378695*^9}, {3.413715097460478*^9, 3.41371509757642*^9}, {
+   3.41440825334604*^9, 3.414408254159686*^9}, {3.41862573831756*^9, 
+   3.4186257392223186`*^9}, {3.4190731862389174`*^9, 3.419073187003003*^9}, {
+   3.419073336802393*^9, 3.4190733374513063`*^9}, {3.4190828041801767`*^9, 
+   3.4190828048079023`*^9}, 3.542453089813714*^9, 3.547534567644828*^9, {
+   3.901808264341283*^9, 3.901808266613554*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"88272cb5-b91e-444f-9384-976a78bb7d4c"],
+
+Cell[BoxData[
+ RowBox[{"WriteUFO", "[", 
+  RowBox[{"LSM", ",", 
+   RowBox[{"Output", "\[Rule]", "\"\<DarkNeutrino\>\""}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.901808560897634*^9, 3.901808567975685*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"d4a891ed-7b08-4baf-b629-c6cfa593ef2c"]
+},
+WindowSize->{1440., 782.25},
+WindowMargins->{{1440, Automatic}, {Automatic, 0}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+ShowSelection->True,
+FrontEndVersion->"13.2 for Linux x86 (64-bit) (January 31, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"0cb05469-4daf-4ec3-b145-4a11d1c97cd3"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[545, 20, 198, 3, 29, "Input",ExpressionUUID->"a6f124ee-6a10-4d83-86cd-d40620bc7e81"],
+Cell[746, 25, 228, 4, 29, "Input",ExpressionUUID->"5865ed73-3969-4104-8a8e-e3eccfeaae27"],
+Cell[977, 31, 562, 11, 33, "Input",ExpressionUUID->"1ab6b768-3a6a-481f-9482-0be20f004d45"],
+Cell[1542, 44, 198, 3, 29, "Input",ExpressionUUID->"afb47855-b83f-4365-91fc-19b23dd14d86"],
+Cell[1743, 49, 280, 5, 29, "Input",ExpressionUUID->"0ba225dd-9b5f-4e1e-8677-788a392ff06a"],
+Cell[2026, 56, 1164, 16, 29, "Input",ExpressionUUID->"88272cb5-b91e-444f-9384-976a78bb7d4c"],
+Cell[3193, 74, 284, 5, 29, "Input",ExpressionUUID->"d4a891ed-7b08-4baf-b629-c6cfa593ef2c"]
+}
+]
+*)
+
