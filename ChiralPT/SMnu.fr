@@ -65,7 +65,7 @@ IndexRange[Index[IsoSpin   ]] = Range[2];
 IndexStyle[SU2W,       j];
 IndexStyle[SU2D,       k];
 IndexStyle[Generation, f];
-IndexStyle[IsoSpin,    s];
+IndexStyle[IsoSpin,    a];
 
 
 (* ************************** *)
