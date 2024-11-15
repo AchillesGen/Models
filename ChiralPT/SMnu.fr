@@ -277,24 +277,6 @@ M$ClassesDescription = {
     FlavorIndex      -> IsoSpin,
     Definitions      -> { Nucleon[sp1_, 1] :> Proton[sp1], Nucleon[sp1_, 2] :> Neutron[sp1] }
   },
-  (*
-  F[4] == {
-    ClassName        -> Delta,
-    ClassMembers     -> {DeltaPP, DeltaP, Delta0},
-    Indices          -> {Index[IsoSpin]},
-    FlavorIndex      -> IsoSpin,
-    SelfConjugate    -> False,
-    Mass             -> {MDelta, 1232},
-    Width            -> {WDelta, 0.12},
-    PropagatorLabel  -> {"D", "D++", "D+", "D0"},
-    PropagatorType   -> S,
-    PropagatorArrow  -> Forward,
-    PDG              -> {1232, 2214, 2114, 1114},
-    ParticleName     -> {"D++", "D+", "D0"},
-    AntiParticleName -> {"D--", "D-", "D0"},
-    FullName         -> {"Delta++", "Delta+", "Delta0"}
-  },
-  *)
 
 
 (* Fermions: unphysical fields *)
@@ -492,6 +474,15 @@ M$ClassesDescription = {
     AntiParticleName -> "DeltaBar"
     FullName         -> "Delta"
   }
+};
+
+M$FormFactors = {
+    FF1PA == {
+      Particles -> {Protonbar, Proton, A},
+      ComplexParameter -> True,
+      Value -> "F1PA(P(-1,3)**2)",
+      ParameterName -> FF1PA
+    }
 };
 
 
