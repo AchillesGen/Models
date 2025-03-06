@@ -60,13 +60,15 @@ M$GaugeGroups = {
 IndexRange[Index[SU2W      ]] = Unfold[Range[3]]; 
 IndexRange[Index[SU2D      ]] = Unfold[Range[2]];
 IndexRange[Index[Generation]] = Range[3];
-IndexRange[Index[IsoSpin   ]] = Range[2];
+IndexRange[Index[IsoSpin   ]] = Unfold[Range[2]];
+IndexRange[Index[IsoVector ]] = Unfold[Range[3]];
+
 
 IndexStyle[SU2W,       j];
 IndexStyle[SU2D,       k];
 IndexStyle[Generation, f];
 IndexStyle[IsoSpin,    s];
-
+IndexStyle[IsoVector,  v];
 
 (* ************************** *)
 (* *** Interaction orders *** *)
@@ -463,7 +465,7 @@ M$ClassesDescription = {
     PropagatorArrow  -> Forward,
     PDG              -> 2224,
     ParticleName     -> "Delta++",
-    AntiParticleName -> "Delta--"
+    AntiParticleName -> "Delta--Bar",
     FullName         -> "Delta++"
   },
   R[2] == {
@@ -476,22 +478,61 @@ M$ClassesDescription = {
     PropagatorArrow  -> Forward,
     PDG              -> 2214,
     ParticleName     -> "Delta+",
-    AntiParticleName -> "Delta-"
+    AntiParticleName -> "Delta-Bar",
     FullName         -> "Delta+"
   },
   R[3] == {
-    ClassName        -> Delta,
+    ClassName        -> Delta0,
     SelfConjugate    -> False,
     Mass             -> {MDelta, 1.232},
     Width            -> {WDelta, 0.120},
     PropagatorLabel  -> "D0",
     PropagatorType   -> S,
     PropagatorArrow  -> Forward,
-    PDG              -> 2214, (*Error*)
-    ParticleName     -> "Delta",
-    AntiParticleName -> "DeltaBar"
-    FullName         -> "Delta"
-  }
+    PDG              -> 2114, 
+    ParticleName     -> "Delta0",
+    AntiParticleName -> "Delta0Bar",
+    FullName         -> "Delta0"
+  },
+  R[4] == {
+    ClassName        -> DeltaM,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.232},
+    Width            -> {WDelta, 0.12},
+    PropagatorLabel  -> "D-",
+    PropagatorType   -> S,
+    PropagatorArrow  -> Forward,
+    PDG              -> 1114,
+    ParticleName     -> "Delta-",
+    AntiParticleName -> "Delta-bar",
+    FullName         -> "Delta-"
+  },
+  R[5] == {
+    ClassName        -> Delta,
+    Unphysical       -> True,
+    SelfConjugate    -> True,
+    Indices          -> {Index[IsoSpin], Index[IsoVector]},
+    FlavorIndex      -> IsoVector,
+    Definitions      -> { Delta[sp_, mu_, 1, 1] -> (1/Sqrt[2])*((1/Sqrt[3])*Delta0[sp, mu]-DeltaPP[sp, mu]),
+                          Delta[sp_, mu_, 2, 1] -> (1/Sqrt[2])*(-(1/Sqrt[3])*DeltaP[sp, mu] + DeltaM[sp, mu]),
+                          Delta[sp_, mu_, 1, 2] -> (-I/Sqrt[2])*((1/Sqrt[3])*Delta0[sp, mu] + DeltaPP[sp, mu]),
+                          Delta[sp_, mu_, 2, 2] -> (-I/Sqrt[2])*((1/Sqrt[3])*DeltaP[sp, mu] + DeltaM[sp, mu]),
+                          Delta[sp_, mu_, 1, 3] -> Sqrt[2/3]*DeltaP[sp, mu],
+                          Delta[sp_, mu_, 2, 3] -> Sqrt[2/3]*Delta0[sp, mu]}
+  }(*,
+  R[6] == {
+    ClassName        -> barDelta,
+    Unphysical       -> True,
+    SelfConjugate    -> True,
+    Indices          -> {Index[IsoSpin], Index[IsoVector]},
+    FlavorIndex      -> IsoVector,
+    Definitions      -> { barDelta[sp_, mu_, 1, 1] -> (1/Sqrt[2])*((1/Sqrt[3])*Delta0bar[sp, mu]-DeltaPPbar[sp, mu]),
+                          barDelta[sp_, mu_, 2, 1] -> (1/Sqrt[2])*(-(1/Sqrt[3])*DeltaPbar[sp, mu] + DeltaMbar[sp, mu]),
+                          barDelta[sp_, mu_, 1, 2] -> (I/Sqrt[2])*((1/Sqrt[3])*Delta0bar[sp, mu] + DeltaPPbar[sp, mu]),
+                          barDelta[sp_, mu_, 2, 2] -> (I/Sqrt[2])*((1/Sqrt[3])*DeltaPbar[sp, mu] + DeltaMbar[sp, mu]),
+                          barDelta[sp_, mu_, 1, 3] -> Sqrt[2/3]*DeltaPbar[sp, mu],
+                          barDelta[sp_, mu_, 2, 3] -> Sqrt[2/3]*Delta0bar[sp, mu]}
+  } Propably not required, same as Deltabar*)
 };
 
 (* *************************** *)
