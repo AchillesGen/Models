@@ -510,7 +510,7 @@ M$ClassesDescription = {
   R[5] == {
     ClassName        -> Delta,
     Unphysical       -> True,
-    SelfConjugate    -> True,
+    SelfConjugate    -> False,
     Indices          -> {Index[IsoSpin], Index[IsoVector]},
     FlavorIndex      -> IsoVector,
     Definitions      -> { Delta[sp_, mu_, 1, 1] -> (1/Sqrt[2])*((1/Sqrt[3])*Delta0[sp, mu]-DeltaPP[sp, mu]),
