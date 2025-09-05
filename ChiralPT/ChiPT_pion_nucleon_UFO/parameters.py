@@ -1,6 +1,6 @@
 # This file was automatically created by FeynRules 2.3.49
 # Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Wed 3 Sep 2025 23:28:42
+# Date: Fri 5 Sep 2025 16:14:08
 
 
 
@@ -17,21 +17,29 @@ ZERO = Parameter(name = 'ZERO',
                  texname = '0')
 
 # User-defined parameters.
-fPi = Parameter(name = 'fPi',
+gD = Parameter(name = 'gD',
                nature = 'external',
                type = 'real',
-               value = 0.093,
-               texname = '\\text{fPi}',
+               value = 1,
+               texname = '\\text{gD}',
                lhablock = 'CHIPT',
                lhacode = [ 1 ])
 
-ga = Parameter(name = 'ga',
+gD = Parameter(name = 'gD',
                nature = 'external',
                type = 'real',
-               value = 1.24,
+               value = 1,
                texname = '\\text{gD}',
                lhablock = 'CHIPT',
-               lhacode = [ 2 ])
+               lhacode = [ 1 ])
+
+gD = Parameter(name = 'gD',
+               nature = 'external',
+               type = 'real',
+               value = 1,
+               texname = '\\text{gD}',
+               lhablock = 'CHIPT',
+               lhacode = [ 1 ])
 
 cabi = Parameter(name = 'cabi',
                  nature = 'external',
@@ -201,6 +209,14 @@ WPi = Parameter(name = 'WPi',
                 lhablock = 'DECAY',
                 lhacode = [ 111 ])
 
+WPi = Parameter(name = 'WPi',
+                nature = 'external',
+                type = 'real',
+                value = 0.,
+                texname = '\\text{WPi}',
+                lhablock = 'DECAY',
+                lhacode = [ 211 ])
+
 WEta = Parameter(name = 'WEta',
                  nature = 'external',
                  type = 'real',
@@ -232,6 +248,30 @@ WDelta = Parameter(name = 'WDelta',
                    texname = '\\text{WDelta}',
                    lhablock = 'DECAY',
                    lhacode = [ 2224 ])
+
+WDelta = Parameter(name = 'WDelta',
+                   nature = 'external',
+                   type = 'real',
+                   value = 0.12,
+                   texname = '\\text{WDelta}',
+                   lhablock = 'DECAY',
+                   lhacode = [ 2214 ])
+
+WDelta = Parameter(name = 'WDelta',
+                   nature = 'external',
+                   type = 'real',
+                   value = 0.12,
+                   texname = '\\text{WDelta}',
+                   lhablock = 'DECAY',
+                   lhacode = [ 2114 ])
+
+WDelta = Parameter(name = 'WDelta',
+                   nature = 'external',
+                   type = 'real',
+                   value = 0.12,
+                   texname = '\\text{WDelta}',
+                   lhablock = 'DECAY',
+                   lhacode = [ 1114 ])
 
 aEW = Parameter(name = 'aEW',
                 nature = 'internal',

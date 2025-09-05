@@ -1,6 +1,6 @@
 # This file was automatically created by FeynRules 2.3.49
 # Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Wed 3 Sep 2025 23:28:42
+# Date: Fri 5 Sep 2025 16:14:08
 
 
 from object_library import all_lorentz, Lorentz
@@ -12,87 +12,107 @@ except ImportError:
    pass
 
 
-FFS2 = Lorentz(name = 'FFS2',
+SSS1 = Lorentz(name = 'SSS1',
+               spins = [ 1, 1, 1 ],
+               structure = '1')
+
+FFS1 = Lorentz(name = 'FFS1',
                spins = [ 2, 2, 1 ],
                structure = 'P(-1,3)*Gamma5(-2,1)*Gamma(-1,2,-2)')
 
-FFV3 = Lorentz(name = 'FFV3',
+FFS2 = Lorentz(name = 'FFS2',
+               spins = [ 2, 2, 1 ],
+               structure = 'ProjM(2,1) + ProjP(2,1)')
+
+FFV1 = Lorentz(name = 'FFV1',
                spins = [ 2, 2, 3 ],
                structure = 'Gamma(3,2,1)')
 
-FFV4 = Lorentz(name = 'FFV4',
+FFV2 = Lorentz(name = 'FFV2',
                spins = [ 2, 2, 3 ],
                structure = 'Gamma5(-1,1)*Gamma(3,2,-1)')
 
-VSS2 = Lorentz(name = 'VSS2',
+FFV3 = Lorentz(name = 'FFV3',
+               spins = [ 2, 2, 3 ],
+               structure = 'Gamma(3,2,-1)*ProjM(-1,1)')
+
+FFV4 = Lorentz(name = 'FFV4',
+               spins = [ 2, 2, 3 ],
+               structure = 'Gamma(3,2,-1)*ProjM(-1,1) + 2*Gamma(3,2,-1)*ProjP(-1,1)')
+
+VSS1 = Lorentz(name = 'VSS1',
                spins = [ 3, 1, 1 ],
                structure = 'P(1,2) - P(1,3)')
 
-VVS2 = Lorentz(name = 'VVS2',
+VVS1 = Lorentz(name = 'VVS1',
                spins = [ 3, 3, 1 ],
                structure = 'Metric(1,2)')
 
-SSSS4 = Lorentz(name = 'SSSS4',
+SSSS1 = Lorentz(name = 'SSSS1',
+                spins = [ 1, 1, 1, 1 ],
+                structure = '1')
+
+SSSS2 = Lorentz(name = 'SSSS2',
                 spins = [ 1, 1, 1, 1 ],
                 structure = 'P(-1,1)*P(-1,3) + P(-1,2)*P(-1,3) + P(-1,1)*P(-1,4) + P(-1,2)*P(-1,4)')
 
-SSSS5 = Lorentz(name = 'SSSS5',
+SSSS3 = Lorentz(name = 'SSSS3',
                 spins = [ 1, 1, 1, 1 ],
                 structure = 'P(-1,1)*P(-1,2) + (P(-1,1)*P(-1,3))/2. + (P(-1,2)*P(-1,3))/2. + (P(-1,1)*P(-1,4))/2. + (P(-1,2)*P(-1,4))/2. + P(-1,3)*P(-1,4)')
 
-SSSS6 = Lorentz(name = 'SSSS6',
+SSSS4 = Lorentz(name = 'SSSS4',
                 spins = [ 1, 1, 1, 1 ],
                 structure = 'P(-1,1)*P(-1,2) + P(-1,1)*P(-1,3) + P(-1,2)*P(-1,3) + P(-1,1)*P(-1,4) + P(-1,2)*P(-1,4) + P(-1,3)*P(-1,4)')
 
-FFSS2 = Lorentz(name = 'FFSS2',
+FFSS1 = Lorentz(name = 'FFSS1',
                 spins = [ 2, 2, 1, 1 ],
                 structure = 'P(-1,3)*Gamma(-1,2,1) - P(-1,4)*Gamma(-1,2,1)')
 
-FFVS3 = Lorentz(name = 'FFVS3',
+FFVS1 = Lorentz(name = 'FFVS1',
                 spins = [ 2, 2, 3, 1 ],
                 structure = 'Gamma(3,2,1)')
 
-FFVS4 = Lorentz(name = 'FFVS4',
+FFVS2 = Lorentz(name = 'FFVS2',
                 spins = [ 2, 2, 3, 1 ],
                 structure = 'Gamma5(-1,1)*Gamma(3,2,-1)')
 
-VSSS6 = Lorentz(name = 'VSSS6',
+VSSS1 = Lorentz(name = 'VSSS1',
                 spins = [ 3, 1, 1, 1 ],
                 structure = 'P(1,2)')
 
-VSSS7 = Lorentz(name = 'VSSS7',
+VSSS2 = Lorentz(name = 'VSSS2',
                 spins = [ 3, 1, 1, 1 ],
                 structure = 'P(1,2) - P(1,3) - P(1,4)')
 
-VSSS8 = Lorentz(name = 'VSSS8',
+VSSS3 = Lorentz(name = 'VSSS3',
                 spins = [ 3, 1, 1, 1 ],
                 structure = 'P(1,2) + P(1,3) - P(1,4)')
 
-VSSS9 = Lorentz(name = 'VSSS9',
+VSSS4 = Lorentz(name = 'VSSS4',
                 spins = [ 3, 1, 1, 1 ],
                 structure = 'P(1,4)')
 
-VSSS10 = Lorentz(name = 'VSSS10',
-                 spins = [ 3, 1, 1, 1 ],
-                 structure = 'P(1,2) + P(1,3) + P(1,4)')
+VSSS5 = Lorentz(name = 'VSSS5',
+                spins = [ 3, 1, 1, 1 ],
+                structure = 'P(1,2) + P(1,3) + P(1,4)')
 
-VVSS2 = Lorentz(name = 'VVSS2',
+VVSS1 = Lorentz(name = 'VVSS1',
                 spins = [ 3, 3, 1, 1 ],
                 structure = 'Metric(1,2)')
 
-FFVSS3 = Lorentz(name = 'FFVSS3',
+FFVSS1 = Lorentz(name = 'FFVSS1',
                  spins = [ 2, 2, 3, 1, 1 ],
                  structure = 'Gamma(3,2,1)')
 
-FFVSS4 = Lorentz(name = 'FFVSS4',
+FFVSS2 = Lorentz(name = 'FFVSS2',
                  spins = [ 2, 2, 3, 1, 1 ],
                  structure = 'Gamma5(-1,1)*Gamma(3,2,-1)')
 
-VVSSS2 = Lorentz(name = 'VVSSS2',
+VVSSS1 = Lorentz(name = 'VVSSS1',
                  spins = [ 3, 3, 1, 1, 1 ],
                  structure = 'Metric(1,2)')
 
-VVSSSS2 = Lorentz(name = 'VVSSSS2',
+VVSSSS1 = Lorentz(name = 'VVSSSS1',
                   spins = [ 3, 3, 1, 1, 1, 1 ],
                   structure = 'Metric(1,2)')
 

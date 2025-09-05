@@ -12,14 +12,14 @@
 (* ************************** *)
 (* *****  Information   ***** *)
 (* ************************** *)
-M$ModelName = "myPions";
+M$ModelName = "ChiPT_pion_nucleon";
 
 M$Information = {
-  Authors      -> {"M&S"}, 
-  Version      -> "0.0",
-  Date         -> "15/01/2025",
-  Institutions -> {"UCI"},
-  Emails       -> {"mtoman@uci.edu"}
+  Authors      -> {""}, 
+  Version      -> "",
+  Date         -> "",
+  Institutions -> {""},
+  Emails       -> {""}
 };
 
 FeynmanGauge = True;
@@ -908,3 +908,4 @@ ExpandIndices[ If[FeynmanGauge, LGh1 + LGhw + LGhphi,0], FlavorExpand->SU2W]];
 
 
 LSMnu:= LGauge + LFermions + LHiggs + LYukawa + LGhost + LPionKin;
+LSM:= LGauge + LFermions + LHiggs + LYukawa + LGhost;

@@ -45,6 +45,4 @@ else:
 gauge = [0]
 
 
-__author__ = "M&S"
-__date__ = "15/01/2025"
-__version__= "0.0"
+__author__ = ""
