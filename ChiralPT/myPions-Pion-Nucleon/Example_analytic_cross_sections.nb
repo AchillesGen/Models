@@ -1,0 +1,2355 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 14.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     97732,       2347]
+NotebookOptionsPosition[     95028,       2294]
+NotebookOutlinePosition[     95433,       2310]
+CellTagsIndexPosition[     95390,       2307]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "The cross section ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox["d\[Sigma]", "dz"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "303d5d84-26ba-bb45-9e14-f600f10bb619"],
+ " and \[Sigma](s). z = cos \[Theta] and I have included the factor of ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox["1", 
+    RowBox[{"2", "\[Cross]", "2"}]], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "3512b04d-c48e-c14c-bb02-2ef5d25a174c"],
+ " for averaging over polarizations of protons and neutrons."
+}], "Text",
+ CellChangeTimes->{{3.968439237486126*^9, 
+  3.9684393620696087`*^9}},ExpressionUUID->"75c3a97d-7ea9-7b4b-9908-\
+45b8258e7fb9"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"GeVtoBarn", "=", 
+   RowBox[{"0.3894", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "3"}]]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Barntocm2", "=", 
+   RowBox[{
+    SuperscriptBox["10", 
+     RowBox[{"-", "28"}]], 
+    SuperscriptBox[
+     RowBox[{"(", "100", ")"}], "2"]}]}], ";"}]}], "Input",
+ CellLabel->"In[70]:=",ExpressionUUID->"76bd826d-3914-f646-870f-10b8ff169452"],
+
+Cell[CellGroupData[{
+
+Cell["p n \[Rule] p n", "Subsection",
+ CellChangeTimes->{{3.968439952478647*^9, 
+  3.9684399765012627`*^9}},ExpressionUUID->"5e65ec1e-0b2f-734f-9307-\
+cf60553ed2a2"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"d\[Sigma]dzPN", "[", 
+    RowBox[{
+    "s_", ",", "ga_", ",", "fPi_", ",", "MNucleon_", ",", "MPi_", ",", "z_"}],
+     "]"}], ":=", 
+   RowBox[{
+    FractionBox["1", "4"], 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"ga", "^", "4"}], "*", 
+       RowBox[{"MNucleon", "^", "4"}], "*", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"4", "*", 
+           RowBox[{"MNucleon", "^", "2"}]}], "-", "s"}], ")"}], "^", "2"}], 
+       "*", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"48", "*", 
+          RowBox[{"MNucleon", "^", "4"}]}], "-", 
+         RowBox[{"48", "*", 
+          RowBox[{"MNucleon", "^", "2"}], "*", 
+          RowBox[{"MPi", "^", "2"}]}], "+", 
+         RowBox[{"12", "*", 
+          RowBox[{"MPi", "^", "4"}]}], "-", 
+         RowBox[{"24", "*", 
+          RowBox[{"MNucleon", "^", "2"}], "*", "s"}], "+", 
+         RowBox[{"12", "*", 
+          RowBox[{"MPi", "^", "2"}], "*", "s"}], "+", 
+         RowBox[{"3", "*", 
+          RowBox[{"s", "^", "2"}]}], "-", 
+         RowBox[{"48", "*", 
+          RowBox[{"MNucleon", "^", "2"}], "*", 
+          RowBox[{"MPi", "^", "2"}], "*", "z"}], "+", 
+         RowBox[{"24", "*", 
+          RowBox[{"MPi", "^", "4"}], "*", "z"}], "+", 
+         RowBox[{"12", "*", 
+          RowBox[{"MPi", "^", "2"}], "*", "s", "*", "z"}], "-", 
+         RowBox[{"96", "*", 
+          RowBox[{"MNucleon", "^", "4"}], "*", 
+          RowBox[{"z", "^", "2"}]}], "+", 
+         RowBox[{"48", "*", 
+          RowBox[{"MNucleon", "^", "2"}], "*", 
+          RowBox[{"MPi", "^", "2"}], "*", 
+          RowBox[{"z", "^", "2"}]}], "+", 
+         RowBox[{"28", "*", 
+          RowBox[{"MPi", "^", "4"}], "*", 
+          RowBox[{"z", "^", "2"}]}], "+", 
+         RowBox[{"48", "*", 
+          RowBox[{"MNucleon", "^", "2"}], "*", "s", "*", 
+          RowBox[{"z", "^", "2"}]}], "-", 
+         RowBox[{"12", "*", 
+          RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+          RowBox[{"z", "^", "2"}]}], "-", 
+         RowBox[{"6", "*", 
+          RowBox[{"s", "^", "2"}], "*", 
+          RowBox[{"z", "^", "2"}]}], "+", 
+         RowBox[{"48", "*", 
+          RowBox[{"MNucleon", "^", "2"}], "*", 
+          RowBox[{"MPi", "^", "2"}], "*", 
+          RowBox[{"z", "^", "3"}]}], "-", 
+         RowBox[{"12", "*", 
+          RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+          RowBox[{"z", "^", "3"}]}], "+", 
+         RowBox[{"48", "*", 
+          RowBox[{"MNucleon", "^", "4"}], "*", 
+          RowBox[{"z", "^", "4"}]}], "-", 
+         RowBox[{"24", "*", 
+          RowBox[{"MNucleon", "^", "2"}], "*", "s", "*", 
+          RowBox[{"z", "^", "4"}]}], "+", 
+         RowBox[{"3", "*", 
+          RowBox[{"s", "^", "2"}], "*", 
+          RowBox[{"z", "^", "4"}]}]}], ")"}]}], ")"}], "/", 
+     RowBox[{"(", 
+      RowBox[{"8", "*", 
+       RowBox[{"fPi", "^", "4"}], "*", "Pi", "*", "s", "*", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"4", "*", 
+           RowBox[{"MNucleon", "^", "2"}]}], "-", 
+          RowBox[{"2", "*", 
+           RowBox[{"MPi", "^", "2"}]}], "-", "s", "+", 
+          RowBox[{"4", "*", 
+           RowBox[{"MNucleon", "^", "2"}], "*", "z"}], "-", 
+          RowBox[{"s", "*", "z"}]}], ")"}], "^", "2"}], "*", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "4"}], "*", 
+           RowBox[{"MNucleon", "^", "2"}]}], "+", 
+          RowBox[{"2", "*", 
+           RowBox[{"MPi", "^", "2"}]}], "+", "s", "+", 
+          RowBox[{"4", "*", 
+           RowBox[{"MNucleon", "^", "2"}], "*", "z"}], "-", 
+          RowBox[{"s", "*", "z"}]}], ")"}], "^", "2"}]}], ")"}]}]}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"totalXSEC", "[", 
+   RowBox[{"s_", ",", "ga_", ",", "fPi_", ",", "MNucleon_", ",", "MPi_"}], 
+   "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", "1"}], "/", "16"}], "*", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"ga", "^", "4"}], "*", 
+      RowBox[{"MNucleon", "^", "4"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"12", "*", 
+         RowBox[{"MNucleon", "^", "2"}]}], "-", 
+        RowBox[{"8", "*", 
+         RowBox[{"MPi", "^", "2"}]}], "-", 
+        RowBox[{"3", "*", "s"}]}], ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"4", "*", 
+            RowBox[{"MNucleon", "^", "2"}]}], "-", "s"}], ")"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"4", "*", 
+            RowBox[{"MNucleon", "^", "2"}]}], "-", 
+           RowBox[{"2", "*", 
+            RowBox[{"MPi", "^", "2"}]}], "-", "s"}], ")"}]}], "+", 
+        RowBox[{"2", "*", 
+         RowBox[{"MPi", "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "4"}], "*", 
+            RowBox[{"MNucleon", "^", "2"}]}], "+", 
+           RowBox[{"MPi", "^", "2"}], "+", "s"}], ")"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", "*", 
+            RowBox[{"Log", "[", "MPi", "]"}]}], "-", 
+           RowBox[{"Log", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "4"}], "*", 
+              RowBox[{"MNucleon", "^", "2"}]}], "+", 
+             RowBox[{"MPi", "^", "2"}], "+", "s"}], "]"}]}], ")"}]}]}], 
+       ")"}]}], ")"}], "/", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"fPi", "^", "4"}], "*", "Pi", "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"4", "*", 
+         RowBox[{"MNucleon", "^", "2"}]}], "-", "s"}], ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"4", "*", 
+         RowBox[{"MNucleon", "^", "2"}]}], "-", 
+        RowBox[{"2", "*", 
+         RowBox[{"MPi", "^", "2"}]}], "-", "s"}], ")"}], "*", "s", "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "4"}], "*", 
+         RowBox[{"MNucleon", "^", "2"}]}], "+", 
+        RowBox[{"MPi", "^", "2"}], "+", "s"}], ")"}]}], ")"}]}]}]}]}], "Input",
+ CellChangeTimes->{{3.968375411229559*^9, 3.9683754384292393`*^9}, 
+   3.9684394219614906`*^9, {3.968439939795452*^9, 3.9684399457395096`*^9}, {
+   3.9684460372727737`*^9, 3.9684460373685513`*^9}},
+ CellLabel->"In[72]:=",ExpressionUUID->"c32d2b6a-b9aa-fd4c-a0c9-cd4e1da0f545"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"d\[Sigma]dzPN", "[", 
+       RowBox[{
+        SuperscriptBox["sqrts", "2"], ",", "ga", ",", "fPi", ",", "MNucleon", 
+        ",", "MPi", ",", "z"}], "]"}], "GeVtoBarn", "*", 
+      SuperscriptBox["10", "3"]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"z", ",", 
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*FractionBox[\(d\[Sigma]\), \(d\\\  cos\[Theta]\)]\) for p n \
+\[Rule] p n scattering at \!\(\*SqrtBox[\(s\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "sqrts"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", 
+      RowBox[{"{", 
+       RowBox[{"All", ",", "All"}], "}"}]}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Center of mass scattering angle \[Theta]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ mb ]\>\"", "]"}]}], 
+       "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"sqrts", ",", 
+       RowBox[{"4", "MNucleon"}]}], "}"}], ",", 
+     RowBox[{"2", "MNucleon"}], ",", "20"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.25"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.093"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.965997461227141*^9, 
+   3.96599755789806*^9}, {3.96836843573003*^9, 3.968368639344896*^9}, {
+   3.968368707568945*^9, 3.96836878089694*^9}, {3.968369142825249*^9, 
+   3.968369162688587*^9}, {3.968369225955225*^9, 3.968369255018572*^9}, {
+   3.96836930155859*^9, 3.9683693447419815`*^9}, 3.968369616375273*^9, {
+   3.968370756922413*^9, 3.9683707571269236`*^9}, {3.968370820880883*^9, 
+   3.968370832495272*^9}, {3.9683738234876003`*^9, 3.968373823807167*^9}, {
+   3.968375226685959*^9, 3.968375227161898*^9}, {3.9683754855425644`*^9, 
+   3.9683754904096565`*^9}, {3.9683757239111385`*^9, 3.968375797222683*^9}, {
+   3.968375969541584*^9, 3.968375973084652*^9}, {3.9683760335459976`*^9, 
+   3.968376055252699*^9}, {3.9684393814636707`*^9, 3.9684393909356976`*^9}, {
+   3.968439433440166*^9, 3.968439443542563*^9}, 3.9684394755202713`*^9, 
+   3.9684460419910183`*^9},
+ CellLabel->"In[84]:=",ExpressionUUID->"1cee0bb7-afc4-b041-84df-8f2a3faef4b6"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+    1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
+    0.139, $CellContext`sqrts$$ = 1.99608, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`sqrts$$], 3.92}, 
+      Dynamic[2 $CellContext`MNucleon$$], 20, ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.25}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {360., {131., 135.5283588768371}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+        1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
+        0.139, $CellContext`sqrts$$ = 4 $CellContext`MNucleon$$}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Plot[$CellContext`d\[Sigma]dzPN[$CellContext`sqrts$$^2, \
+$CellContext`ga$$, $CellContext`fPi$$, $CellContext`MNucleon$$, \
+$CellContext`MPi$$, $CellContext`z] $CellContext`GeVtoBarn 
+        10^3, {$CellContext`z, -1, 1}, PlotLabel -> 
+        "\!\(\*FractionBox[\(d\[Sigma]\), \(d\\  cos\[Theta]\)]\) for p n \
+\[Rule] p n scattering at \!\(\*SqrtBox[\(s\)]\) = " <> 
+         ToString[Round[100 $CellContext`sqrts$$] 0.01] <> "GeV", 
+        PlotRange -> {All, All}, Frame -> True, 
+        FrameLabel -> {"Center of mass scattering angle \[Theta]", 
+          Text["Cross section [ mb ]"]}], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`sqrts$$, 4 $CellContext`MNucleon$$}, 
+         Dynamic[2 $CellContext`MNucleon$$], 
+         20}, {{$CellContext`ga$$, 1.25}, -2, 
+         2}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{660., {160.63403328722342`, 166.36596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.9684459902484875`*^9, {3.968446027586586*^9, 3.9684460567447014`*^9}},
+ CellLabel->"Out[84]=",ExpressionUUID->"b215fa7e-88aa-3f46-9f19-ff8aacd4a7ff"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"totalXSEC", "[", 
+       RowBox[{
+        SuperscriptBox["sqrts", "2"], ",", "ga", ",", "fPi", ",", "MNucleon", 
+        ",", "MPi"}], "]"}], "GeVtoBarn", "*", 
+      SuperscriptBox["10", "3"]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"sqrts", ",", 
+       RowBox[{"2", "MNucleon"}], ",", "5"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+scattering\>\"", "<>", "\"\<\\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MNucleon"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\"", "<>", 
+       "\"\< \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MPi"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", "All"}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"AspectRatio", "->", "1"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{"\"\<\!\(\*SqrtBox[\(s\)]\) [ GeV ]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ mb ]\>\"", "]"}]}], 
+       "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.25"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.093"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.9658478252678375`*^9, 
+   3.965847946056858*^9}, {3.965848474994455*^9, 3.9658485128615513`*^9}, {
+   3.965848546372156*^9, 3.965848546456257*^9}, {3.965848611544502*^9, 
+   3.9658486314754963`*^9}, {3.965848664014458*^9, 3.965848751703453*^9}, {
+   3.965848794242895*^9, 3.965848872208477*^9}, {3.96584893633036*^9, 
+   3.965848965878433*^9}, {3.965853719510837*^9, 3.9658537319566765`*^9}, 
+   3.9658537740706577`*^9, {3.96596158439497*^9, 3.9659616109333115`*^9}, {
+   3.965961648954026*^9, 3.965961666082819*^9}, {3.965988944111058*^9, 
+   3.9659889781195717`*^9}, {3.965997008812159*^9, 3.9659970618177056`*^9}, {
+   3.965997126897524*^9, 3.965997212399565*^9}, {3.965997302825468*^9, 
+   3.965997328984646*^9}, {3.968368929721876*^9, 3.9683689371085777`*^9}, {
+   3.968369535361923*^9, 3.9683695639586544`*^9}, {3.9683708395585384`*^9, 
+   3.968370849046446*^9}, {3.968375448132595*^9, 3.96837544952256*^9}, {
+   3.9683754998826027`*^9, 3.968375509602661*^9}, {3.968376116622637*^9, 
+   3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
+   3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
+   3.968377354192826*^9}, {3.9684394943605976`*^9, 3.968439559894665*^9}, {
+   3.9684396274013586`*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
+   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}},
+ CellLabel->"In[75]:=",ExpressionUUID->"c350cd35-830c-bc42-994c-83690f9a118f"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+    1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.25}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {360., {193., 197.11335149400753`}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+        1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Plot[$CellContext`totalXSEC[$CellContext`sqrts^2, $CellContext`ga$$, \
+$CellContext`fPi$$, $CellContext`MNucleon$$, $CellContext`MPi$$] \
+$CellContext`GeVtoBarn 
+        10^3, {$CellContext`sqrts, 2 $CellContext`MNucleon$$, 5}, PlotLabel -> 
+        "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <> 
+         ToString[Round[100 $CellContext`MNucleon$$] 0.01] <> "GeV" <> 
+         " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = " <> 
+         ToString[Round[100 $CellContext`MPi$$] 0.01] <> "GeV", PlotRange -> 
+        All, Frame -> True, AspectRatio -> 1, 
+        FrameLabel -> {"\!\(\*SqrtBox[\(s\)]\) [ GeV ]", 
+          Text["Cross section [ mb ]"]}], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`ga$$, 1.25}, -2, 
+         2}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{660., {222.63403328722342`, 228.36596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.9684459904067726`*^9, 3.9684460459129906`*^9},
+ CellLabel->"Out[75]=",ExpressionUUID->"cdbdfd5c-e970-7044-9a72-b5a83d31669d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"totalXSEC", "[", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"2", 
+           SuperscriptBox["MNucleon", "2"]}], "+", 
+          RowBox[{"2", "MNucleon", "*", 
+           RowBox[{"(", 
+            RowBox[{"Ebeam", "+", "MNucleon"}], ")"}]}]}], ")"}], ",", "ga", 
+        ",", "fPi", ",", "MNucleon", ",", "MPi"}], "]"}], "GeVtoBarn", "*", 
+      SuperscriptBox["10", "3"]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Ebeam", ",", "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+fixed target scattering\>\"", "<>", 
+       "\"\<\\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MNucleon"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\"", "<>", 
+       "\"\< \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MPi"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"0", ",", "1"}], "}"}], ",", "All"}], "}"}]}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"AspectRatio", "->", "1"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Ebeam [ GeV ]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ mb ]\>\"", "]"}]}], 
+       "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.25"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.093"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.9658478252678375`*^9, 
+   3.965847946056858*^9}, {3.965848474994455*^9, 3.9658485128615513`*^9}, {
+   3.965848546372156*^9, 3.965848546456257*^9}, {3.965848611544502*^9, 
+   3.9658486314754963`*^9}, {3.965848664014458*^9, 3.965848751703453*^9}, {
+   3.965848794242895*^9, 3.965848872208477*^9}, {3.96584893633036*^9, 
+   3.965848965878433*^9}, {3.965853719510837*^9, 3.9658537319566765`*^9}, 
+   3.9658537740706577`*^9, {3.96596158439497*^9, 3.9659616109333115`*^9}, {
+   3.965961648954026*^9, 3.965961666082819*^9}, {3.965988944111058*^9, 
+   3.9659889781195717`*^9}, {3.965997008812159*^9, 3.9659970618177056`*^9}, {
+   3.965997126897524*^9, 3.965997212399565*^9}, {3.965997302825468*^9, 
+   3.965997328984646*^9}, {3.968368929721876*^9, 3.9683689371085777`*^9}, {
+   3.968369535361923*^9, 3.9683695639586544`*^9}, {3.9683708395585384`*^9, 
+   3.968370849046446*^9}, {3.968375448132595*^9, 3.96837544952256*^9}, {
+   3.9683754998826027`*^9, 3.968375509602661*^9}, {3.968376116622637*^9, 
+   3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
+   3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
+   3.968377354192826*^9}, 3.9684394943605976`*^9, {3.968439782664221*^9, 
+   3.9684398274151497`*^9}},
+ CellLabel->"In[76]:=",ExpressionUUID->"bea07f8d-4c00-1744-b984-2c9059329c7a"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+    1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.25}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {360., {187., 192.20068516731254`}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+        1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Plot[$CellContext`totalXSEC[
+         2 $CellContext`MNucleon$$^2 + 
+          2 $CellContext`MNucleon$$ ($CellContext`Ebeam + \
+$CellContext`MNucleon$$), $CellContext`ga$$, $CellContext`fPi$$, \
+$CellContext`MNucleon$$, $CellContext`MPi$$] $CellContext`GeVtoBarn 
+        10^3, {$CellContext`Ebeam, 0, 1}, PlotLabel -> 
+        "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+fixed target scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <> 
+         ToString[Round[100 $CellContext`MNucleon$$] 0.01] <> "GeV" <> 
+         " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = " <> 
+         ToString[Round[100 $CellContext`MPi$$] 0.01] <> "GeV", 
+        PlotRange -> {{0, 1}, All}, Frame -> True, AspectRatio -> 1, 
+        FrameLabel -> {"Ebeam [ GeV ]", 
+          Text["Cross section [ mb ]"]}], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`ga$$, 1.25}, -2, 
+         2}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{660., {217.13403328722342`, 222.86596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.968445990582924*^9, 3.968446046072399*^9},
+ CellLabel->"Out[76]=",ExpressionUUID->"d68c7f4b-7e5c-b34f-abea-2f9b419b1a5b"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["p\[Pi]", "-"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "8c07fc14-f232-2540-8ea0-3a1cdccb7b55"],
+ " \[Rule] ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["n\[Pi]", "0"], TraditionalForm]], "Subsection",
+  FormatType->TraditionalForm,ExpressionUUID->
+  "a995b0d9-7499-6243-be0d-deea48b2cbe8"]
+}], "Subsection",
+ CellChangeTimes->{{3.968439952478647*^9, 3.9684399944055634`*^9}, {
+  3.968440079293207*^9, 
+  3.9684401243036366`*^9}},ExpressionUUID->"1ae1919a-93eb-824b-b3f8-\
+acff5f1c8cfa"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"d\[Sigma]dz", "[", 
+   RowBox[{
+   "e_", ",", "ga_", ",", "fPi_", ",", "sw_", ",", "MPi_", ",", "MW_", ",", 
+    "MNucleon_", ",", "s_", ",", "z_"}], "]"}], ":=", 
+  RowBox[{"2", "\[Pi]", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"8", "*", 
+         RowBox[{"e", "^", "4"}], "*", "s", "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"MNucleon", "^", "6"}], "*", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "1"}], "+", "z"}], ")"}]}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"1", "+", 
+              RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"MPi", "^", "2"}], "-", "s"}], ")"}], "^", "2"}], "*", 
+            "s", "*", 
+            RowBox[{"(", 
+             RowBox[{"1", "+", "z"}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"2", "*", 
+               RowBox[{"MPi", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+              RowBox[{"s", "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", 
+                 RowBox[{"3", "*", "z"}], "+", 
+                 RowBox[{
+                  RowBox[{"ga", "^", "2"}], "*", 
+                  RowBox[{"(", 
+                   RowBox[{"1", "+", "z"}], ")"}]}]}], ")"}]}]}], ")"}]}], 
+           "-", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"MPi", "^", "4"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+              RowBox[{"2", "*", 
+               RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "2"}], "+", 
+                 RowBox[{
+                  RowBox[{"ga", "^", "2"}], "*", 
+                  RowBox[{"(", 
+                   RowBox[{"1", "+", "z"}], ")"}]}]}], ")"}]}], "+", 
+              RowBox[{
+               RowBox[{"s", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"3", "*", "z"}], "+", 
+                 RowBox[{"2", "*", 
+                  RowBox[{"ga", "^", "2"}], "*", 
+                  RowBox[{"(", 
+                   RowBox[{"1", "+", "z"}], ")"}]}]}], ")"}]}]}], ")"}]}]}], 
+          ")"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"sw", "^", "4"}], "*", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"s", "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", "2"}], "*", 
+                RowBox[{"MW", "^", "2"}]}], "+", 
+               RowBox[{"s", "*", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"-", "1"}], "+", "z"}], ")"}]}]}], ")"}]}], "+", 
+            RowBox[{
+             RowBox[{"MNucleon", "^", "4"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+            RowBox[{
+             RowBox[{"MPi", "^", "4"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+            RowBox[{"2", "*", 
+             RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+            RowBox[{"2", "*", 
+             RowBox[{"MNucleon", "^", "2"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"MPi", "^", "2"}], "+", "s"}], ")"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", "z"}], ")"}]}]}], ")"}], "^", "2"}]}],
+         ")"}]}], "+", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"16", "*", 
+         RowBox[{"e", "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"MNucleon", "^", "6"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"MPi", "^", "2"}], "-", "s"}], ")"}], "^", "2"}], "*", 
+            "s", "*", 
+            RowBox[{"(", 
+             RowBox[{"1", "+", "z"}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"(", 
+             RowBox[{"s", "-", 
+              RowBox[{"2", "*", 
+               RowBox[{"MPi", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+              RowBox[{"3", "*", "s", "*", "z"}]}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", "4"}], "*", 
+               RowBox[{"MPi", "^", "2"}], "*", "s"}], "+", 
+              RowBox[{
+               RowBox[{"MPi", "^", "4"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+              RowBox[{
+               RowBox[{"s", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"3", "*", "z"}]}], ")"}]}]}], ")"}]}]}], ")"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"1", "+", 
+              RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "6"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"(", 
+             RowBox[{"s", "-", 
+              RowBox[{
+               RowBox[{"ga", "^", "2"}], "*", "s", "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "3"}], "+", "z"}], ")"}]}], "-", 
+              RowBox[{"2", "*", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+               RowBox[{"MPi", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+              RowBox[{"3", "*", "s", "*", "z"}]}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", 
+              RowBox[{"ga", "^", "2"}]}], ")"}], "*", "s", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"MPi", "^", "4"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+              RowBox[{"2", "*", 
+               RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", "z"}], ")"}]}], "+", 
+              RowBox[{
+               RowBox[{"s", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", "z"}], ")"}]}]}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+               RowBox[{"MPi", "^", "4"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+              RowBox[{"4", "*", 
+               RowBox[{"MPi", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"s", "+", 
+                 RowBox[{
+                  RowBox[{"ga", "^", "2"}], "*", "s", "*", "z"}]}], ")"}]}], 
+              "+", 
+              RowBox[{
+               RowBox[{"s", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"3", "*", "z"}], "-", 
+                 RowBox[{
+                  RowBox[{"ga", "^", "2"}], "*", 
+                  RowBox[{"(", 
+                   RowBox[{"3", "+", "z"}], ")"}]}]}], ")"}]}]}], ")"}]}]}], 
+          ")"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"fPi", "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"MNucleon", "^", "2"}], "-", "s"}], ")"}], "*", 
+         RowBox[{"sw", "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"s", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", "2"}], "*", 
+               RowBox[{"MW", "^", "2"}]}], "+", 
+              RowBox[{"s", "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}]}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MPi", "^", "4"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+           RowBox[{"2", "*", 
+            RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+           RowBox[{"2", "*", 
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"MPi", "^", "2"}], "+", "s"}], ")"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}]}], ")"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MPi", "^", "4"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+           RowBox[{"2", "*", 
+            RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+            RowBox[{"(", 
+             RowBox[{"1", "+", "z"}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"s", "^", "2"}], "*", 
+            RowBox[{"(", 
+             RowBox[{"1", "+", "z"}], ")"}]}], "-", 
+           RowBox[{"2", "*", 
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"MPi", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+              RowBox[{"s", "*", "z"}]}], ")"}]}]}], ")"}]}], ")"}]}], "-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"8", "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"MNucleon", "^", "6"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"MPi", "^", "2"}], "-", "s"}], ")"}], "^", "2"}], "*", 
+            "s", "*", 
+            RowBox[{"(", 
+             RowBox[{"1", "+", "z"}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"(", 
+             RowBox[{"s", "-", 
+              RowBox[{"2", "*", 
+               RowBox[{"MPi", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+              RowBox[{"3", "*", "s", "*", "z"}]}], ")"}]}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", "4"}], "*", 
+               RowBox[{"MPi", "^", "2"}], "*", "s"}], "+", 
+              RowBox[{
+               RowBox[{"MPi", "^", "4"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+              RowBox[{
+               RowBox[{"s", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"3", "*", "z"}]}], ")"}]}]}], ")"}]}]}], ")"}], "*", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{"1", "+", 
+               RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+             RowBox[{"MNucleon", "^", "6"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+            RowBox[{
+             RowBox[{"MNucleon", "^", "4"}], "*", 
+             RowBox[{"(", 
+              RowBox[{"s", "-", 
+               RowBox[{
+                RowBox[{"ga", "^", "2"}], "*", "s", "*", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"-", "3"}], "+", "z"}], ")"}]}], "-", 
+               RowBox[{"2", "*", 
+                RowBox[{"(", 
+                 RowBox[{"1", "+", 
+                  RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+                RowBox[{"MPi", "^", "2"}], "*", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+               RowBox[{"3", "*", "s", "*", "z"}]}], ")"}]}], "+", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               RowBox[{"ga", "^", "2"}]}], ")"}], "*", "s", "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"MPi", "^", "4"}], "*", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+               RowBox[{"2", "*", 
+                RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+                RowBox[{"(", 
+                 RowBox[{"1", "+", "z"}], ")"}]}], "+", 
+               RowBox[{
+                RowBox[{"s", "^", "2"}], "*", 
+                RowBox[{"(", 
+                 RowBox[{"1", "+", "z"}], ")"}]}]}], ")"}]}], "+", 
+            RowBox[{
+             RowBox[{"MNucleon", "^", "2"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"1", "+", 
+                  RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+                RowBox[{"MPi", "^", "4"}], "*", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+               RowBox[{"4", "*", 
+                RowBox[{"MPi", "^", "2"}], "*", 
+                RowBox[{"(", 
+                 RowBox[{"s", "+", 
+                  RowBox[{
+                   RowBox[{"ga", "^", "2"}], "*", "s", "*", "z"}]}], ")"}]}], 
+               "+", 
+               RowBox[{
+                RowBox[{"s", "^", "2"}], "*", 
+                RowBox[{"(", 
+                 RowBox[{"1", "+", 
+                  RowBox[{"3", "*", "z"}], "-", 
+                  RowBox[{
+                   RowBox[{"ga", "^", "2"}], "*", 
+                   RowBox[{"(", 
+                    RowBox[{"3", "+", "z"}], ")"}]}]}], ")"}]}]}], ")"}]}]}], 
+           ")"}], "^", "2"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"fPi", "^", "4"}], "*", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "2"}], "-", "s"}], ")"}], "^", "2"}], 
+         "*", "s", "*", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"MNucleon", "^", "4"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+            RowBox[{
+             RowBox[{"MPi", "^", "4"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "-", 
+            RowBox[{"2", "*", 
+             RowBox[{"MPi", "^", "2"}], "*", "s", "*", 
+             RowBox[{"(", 
+              RowBox[{"1", "+", "z"}], ")"}]}], "+", 
+            RowBox[{
+             RowBox[{"s", "^", "2"}], "*", 
+             RowBox[{"(", 
+              RowBox[{"1", "+", "z"}], ")"}]}], "-", 
+            RowBox[{"2", "*", 
+             RowBox[{"MNucleon", "^", "2"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"MPi", "^", "2"}], "*", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"-", "1"}], "+", "z"}], ")"}]}], "+", 
+               RowBox[{"s", "*", "z"}]}], ")"}]}]}], ")"}], "^", "2"}]}], 
+        ")"}]}]}], ")"}], "/", 
+    RowBox[{"(", 
+     RowBox[{"2048", "*", 
+      RowBox[{"Pi", "^", "2"}], "*", "s"}], ")"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.96439142913262*^9, 3.96439144783209*^9}, {
+   3.96439190838966*^9, 3.964391914323363*^9}, 3.967659599322958*^9, 
+   3.9676596585575876`*^9, {3.967659729283041*^9, 3.967659783468162*^9}, {
+   3.967659817922533*^9, 3.967659821972145*^9}, {3.9676599107435703`*^9, 
+   3.967659914872961*^9}, 3.9676610803299255`*^9, {3.968440476873607*^9, 
+   3.968440513957512*^9}, {3.9684432745833626`*^9, 3.968443274830097*^9}},
+ CellLabel->"In[77]:=",ExpressionUUID->"7d33a12d-3524-9f40-8540-9a1000844720"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"TotalCrossSection", "[", 
+   RowBox[{
+   "e_", ",", "ga_", ",", "fPi_", ",", "sw_", ",", "MPi_", ",", "MW_", ",", 
+    "MNucleon_", ",", "s_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"MNucleon", "-", "MPi"}], ")"}], "^", "2"}], "-", "s"}], 
+       ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"MNucleon", "+", "MPi"}], ")"}], "^", "2"}], "-", "s"}], 
+       ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"ga", "^", "2"}]}], ")"}], "^", "2"}], "*", 
+         RowBox[{"MNucleon", "^", "6"}], "*", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "2"}], "-", 
+            RowBox[{"MPi", "^", "2"}]}], ")"}], "^", "4"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"MNucleon", "^", "2"}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"MPi", "^", "2"}]}]}], ")"}]}], "-", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "+", 
+           RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+         RowBox[{"MNucleon", "^", "4"}], "*", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"MNucleon", "-", "MPi"}], ")"}], "^", "2"}], "*", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"MNucleon", "+", "MPi"}], ")"}], "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"5", "+", 
+              RowBox[{"9", "*", 
+               RowBox[{"ga", "^", "2"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "6"}]}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", 
+              RowBox[{"7", "*", 
+               RowBox[{"ga", "^", "2"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"MPi", "^", "2"}]}], "-", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{"7", "+", 
+              RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "4"}]}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"3", "*", 
+               RowBox[{"ga", "^", "2"}]}]}], ")"}], "*", 
+            RowBox[{"MPi", "^", "6"}]}]}], ")"}], "*", "s"}], "+", 
+        RowBox[{
+         RowBox[{"MNucleon", "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"3", "*", 
+            RowBox[{"(", 
+             RowBox[{"3", "+", 
+              RowBox[{"7", "*", 
+               RowBox[{"ga", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"2", "+", 
+                 RowBox[{"ga", "^", "2"}]}], ")"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "10"}]}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "15"}], "-", 
+              RowBox[{"10", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"ga", "^", "4"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "8"}], "*", 
+            RowBox[{"MPi", "^", "2"}]}], "-", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"1", "+", 
+              RowBox[{"54", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"5", "*", 
+               RowBox[{"ga", "^", "4"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "6"}], "*", 
+            RowBox[{"MPi", "^", "4"}]}], "+", 
+           RowBox[{"32", "*", 
+            RowBox[{"(", 
+             RowBox[{"1", "+", 
+              RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"MPi", "^", "6"}]}], "-", 
+           RowBox[{"4", "*", 
+            RowBox[{"(", 
+             RowBox[{"5", "-", 
+              RowBox[{"ga", "^", "2"}], "+", 
+              RowBox[{"ga", "^", "4"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "8"}]}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "-", 
+              RowBox[{"2", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"3", "*", 
+               RowBox[{"ga", "^", "4"}]}]}], ")"}], "*", 
+            RowBox[{"MPi", "^", "10"}]}]}], ")"}], "*", 
+         RowBox[{"s", "^", "2"}]}], "-", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"5", "+", 
+              RowBox[{"70", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"13", "*", 
+               RowBox[{"ga", "^", "4"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "10"}]}], "+", 
+           RowBox[{"8", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "5"}], "+", 
+              RowBox[{"ga", "^", "4"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "8"}], "*", 
+            RowBox[{"MPi", "^", "2"}]}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{"3", "-", 
+              RowBox[{"22", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"21", "*", 
+               RowBox[{"ga", "^", "4"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "6"}], "*", 
+            RowBox[{"MPi", "^", "4"}]}], "-", 
+           RowBox[{"8", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "-", 
+              RowBox[{"2", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"ga", "^", "4"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"MPi", "^", "6"}]}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "7"}], "+", 
+              RowBox[{"4", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"3", "*", 
+               RowBox[{"ga", "^", "4"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "8"}]}], "-", 
+           RowBox[{"2", "*", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               RowBox[{"ga", "^", "2"}]}], ")"}], "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "10"}]}]}], ")"}], "*", 
+         RowBox[{"s", "^", "3"}]}], "+", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "5"}], "+", 
+              RowBox[{"70", "*", 
+               RowBox[{"ga", "^", "2"}]}], "-", 
+              RowBox[{"13", "*", 
+               RowBox[{"ga", "^", "4"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "8"}]}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "15"}], "+", 
+              RowBox[{"10", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"ga", "^", "4"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "6"}], "*", 
+            RowBox[{"MPi", "^", "2"}]}], "+", 
+           RowBox[{"4", "*", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"2", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"6", "*", 
+               RowBox[{"ga", "^", "4"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"MPi", "^", "4"}]}], "-", 
+           RowBox[{"8", "*", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               RowBox[{"ga", "^", "2"}]}], ")"}], "^", "2"}], "*", 
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "6"}]}], "-", 
+           RowBox[{"5", "*", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               RowBox[{"ga", "^", "2"}]}], ")"}], "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "8"}]}]}], ")"}], "*", 
+         RowBox[{"s", "^", "4"}]}], "+", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"3", "*", 
+            RowBox[{"(", 
+             RowBox[{"3", "+", 
+              RowBox[{"7", "*", 
+               RowBox[{"ga", "^", "2"}], "*", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "2"}], "+", 
+                 RowBox[{"ga", "^", "2"}]}], ")"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "6"}]}], "+", 
+           RowBox[{"4", "*", 
+            RowBox[{"(", 
+             RowBox[{"3", "-", 
+              RowBox[{"4", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"ga", "^", "4"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "4"}], "*", 
+            RowBox[{"MPi", "^", "2"}]}], "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"6", "*", 
+               RowBox[{"ga", "^", "2"}]}], "+", 
+              RowBox[{"5", "*", 
+               RowBox[{"ga", "^", "4"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "4"}]}], "+", 
+           RowBox[{"4", "*", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "+", 
+               RowBox[{"ga", "^", "2"}]}], ")"}], "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "6"}]}]}], ")"}], "*", 
+         RowBox[{"s", "^", "5"}]}], "-", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], "+", 
+           RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "5"}], "+", 
+              RowBox[{"9", "*", 
+               RowBox[{"ga", "^", "2"}]}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "4"}]}], "+", 
+           RowBox[{"2", "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", 
+              RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"MPi", "^", "2"}]}], "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], "+", 
+              RowBox[{"ga", "^", "2"}]}], ")"}], "*", 
+            RowBox[{"MPi", "^", "4"}]}]}], ")"}], "*", 
+         RowBox[{"s", "^", "6"}]}], "+", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "1"}], "+", 
+            RowBox[{"ga", "^", "2"}]}], ")"}], "^", "2"}], "*", 
+         RowBox[{"MNucleon", "^", "2"}], "*", 
+         RowBox[{"s", "^", "7"}]}]}], ")"}]}], "-", 
+     RowBox[{"8", "*", 
+      RowBox[{"ga", "^", "2"}], "*", 
+      RowBox[{"MNucleon", "^", "2"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"MNucleon", "^", "2"}], "-", "s"}], ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"MNucleon", "^", "2"}], "+", 
+        RowBox[{"2", "*", 
+         RowBox[{"MPi", "^", "2"}]}], "-", "s"}], ")"}], "*", 
+      RowBox[{"s", "^", "2"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"MNucleon", "^", "4"}], "+", 
+        RowBox[{"MPi", "^", "4"}], "-", 
+        RowBox[{
+         RowBox[{"MNucleon", "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", "*", 
+            RowBox[{"MPi", "^", "2"}]}], "+", "s"}], ")"}]}]}], ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"MPi", "^", "4"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", 
+            RowBox[{"MNucleon", "^", "2"}]}], "+", "s"}], ")"}]}], "+", 
+        RowBox[{
+         RowBox[{"ga", "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"MNucleon", "^", "6"}], "-", 
+           RowBox[{"2", "*", 
+            RowBox[{"MNucleon", "^", "4"}], "*", "s"}], "-", 
+           RowBox[{
+            RowBox[{"MPi", "^", "4"}], "*", "s"}], "+", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "2"}], "*", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", 
+               RowBox[{"MPi", "^", "4"}]}], "+", 
+              RowBox[{"s", "^", "2"}]}], ")"}]}]}], ")"}]}]}], ")"}], "*", 
+      RowBox[{"Log", "[", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"MNucleon", "^", "2"}], "+", 
+            RowBox[{"2", "*", 
+             RowBox[{"MPi", "^", "2"}]}], "-", "s"}], ")"}], "*", "s"}], 
+         ")"}], "/", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"MNucleon", "^", "4"}], "+", 
+          RowBox[{"MPi", "^", "4"}], "-", 
+          RowBox[{
+           RowBox[{"MNucleon", "^", "2"}], "*", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"2", "*", 
+              RowBox[{"MPi", "^", "2"}]}], "+", "s"}], ")"}]}]}], ")"}]}], 
+       "]"}]}]}], ")"}], "/", 
+   RowBox[{"(", 
+    RowBox[{"64", "*", 
+     RowBox[{"fPi", "^", "4"}], "*", "Pi", "*", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"MNucleon", "^", "2"}], "-", "s"}], ")"}], "^", "2"}], "*", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"MNucleon", "^", "2"}], "+", 
+       RowBox[{"2", "*", 
+        RowBox[{"MPi", "^", "2"}]}], "-", "s"}], ")"}], "*", 
+     RowBox[{"s", "^", "2"}], "*", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"MNucleon", "^", "4"}], "+", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"MPi", "^", "2"}], "-", "s"}], ")"}], "^", "2"}], "-", 
+       RowBox[{"2", "*", 
+        RowBox[{"MNucleon", "^", "2"}], "*", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"MPi", "^", "2"}], "+", "s"}], ")"}]}]}], ")"}], "*", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"MNucleon", "^", "4"}], "+", 
+       RowBox[{"MPi", "^", "4"}], "-", 
+       RowBox[{
+        RowBox[{"MNucleon", "^", "2"}], "*", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"2", "*", 
+           RowBox[{"MPi", "^", "2"}]}], "+", "s"}], ")"}]}]}], ")"}]}], 
+    ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.9676694199573193`*^9, 3.96766944516884*^9}, {
+   3.9684405328231926`*^9, 3.96844057507908*^9}, 3.968443100010078*^9, {
+   3.968443595539831*^9, 3.968443605090082*^9}, {3.968443813143623*^9, 
+   3.968443814220093*^9}},
+ CellLabel->"In[78]:=",ExpressionUUID->"d2fb498a-e4ba-4943-8bf9-eac5ff116bc0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"d\[Sigma]dz", "[", 
+       RowBox[{
+        SqrtBox[
+         RowBox[{"4", "\[Pi]", " ", "\[Alpha]"}]], ",", "ga", ",", "fPi", ",",
+         "sw", ",", "MPi", ",", "MW", ",", "MNucleon", ",", 
+        SuperscriptBox["sqrts", "2"], ",", "z"}], "]"}], "GeVtoBarn", "*", 
+      SuperscriptBox["10", "3"]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"z", ",", 
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*FractionBox[\(d\[Sigma]\), \(d\\\  cos\[Theta]\)]\) for p \!\
+\(\*SuperscriptBox[\(\[Pi]\), \(-\)]\) \[Rule] n \!\(\*SuperscriptBox[\(\[Pi]\
+\), \(0\)]\) scattering at \!\(\*SqrtBox[\(s\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "sqrts"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", 
+      RowBox[{"{", 
+       RowBox[{"All", ",", "All"}], "}"}]}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{"\"\<z = cos \[Theta]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ mb ]\>\"", "]"}]}], 
+       "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MW", ",", "81"}], "}"}], ",", "1", ",", "100"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"sqrts", ",", 
+       RowBox[{"2", "MNucleon"}]}], "}"}], ",", 
+     RowBox[{"MNucleon", "+", "MPi"}], ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Alpha]", ",", 
+       RowBox[{"1", "/", "137.0"}]}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.27"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"sw", ",", "0.5"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.13"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.965997461227141*^9, 
+   3.96599755789806*^9}, {3.96836843573003*^9, 3.968368639344896*^9}, {
+   3.968368707568945*^9, 3.96836878089694*^9}, {3.968369142825249*^9, 
+   3.968369162688587*^9}, {3.968369225955225*^9, 3.968369255018572*^9}, {
+   3.96836930155859*^9, 3.9683693447419815`*^9}, 3.968369616375273*^9, {
+   3.968370756922413*^9, 3.9683707571269236`*^9}, {3.968370820880883*^9, 
+   3.968370832495272*^9}, {3.9683738234876003`*^9, 3.968373823807167*^9}, {
+   3.968375226685959*^9, 3.968375227161898*^9}, {3.9683754855425644`*^9, 
+   3.9683754904096565`*^9}, {3.9683757239111385`*^9, 3.968375797222683*^9}, {
+   3.968375969541584*^9, 3.968375973084652*^9}, {3.9683760335459976`*^9, 
+   3.968376055252699*^9}, {3.9684393814636707`*^9, 3.9684393909356976`*^9}, {
+   3.968439433440166*^9, 3.968439443542563*^9}, 3.9684394755202713`*^9, {
+   3.968444002456917*^9, 3.968444069286892*^9}, {3.968444099743591*^9, 
+   3.9684441394469624`*^9}, {3.968444302257183*^9, 3.96844431164027*^9}},
+ CellLabel->"In[79]:=",ExpressionUUID->"79833266-0030-8340-9d22-e2669ca984d5"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.13, $CellContext`ga$$ = 
+    1.27, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
+    0.139, $CellContext`MW$$ = 81, $CellContext`sqrts$$ = 
+    1.96, $CellContext`sw$$ = 0.5, $CellContext`\[Alpha]$$ = 
+    0.0072992700729927005`, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MW$$], 81}, 1, 100, ControlType -> Manipulator}, {{
+       Hold[$CellContext`sqrts$$], 1.96}, 
+      Dynamic[$CellContext`MNucleon$$ + $CellContext`MPi$$], 10, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`\[Alpha]$$], 0.0072992700729927005`}, 0, 1, 
+      ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.27}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`sw$$], 0.5}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.13}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {360., {131., 136.00252807659876`}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.13, $CellContext`ga$$ = 
+        1.27, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
+        0.139, $CellContext`MW$$ = 81, $CellContext`sqrts$$ = 
+        2 $CellContext`MNucleon$$, $CellContext`sw$$ = 
+        0.5, $CellContext`\[Alpha]$$ = 0.0072992700729927005`}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Plot[$CellContext`d\[Sigma]dz[
+          Sqrt[
+          4 Pi $CellContext`\[Alpha]$$], $CellContext`ga$$, \
+$CellContext`fPi$$, $CellContext`sw$$, $CellContext`MPi$$, $CellContext`MW$$, \
+$CellContext`MNucleon$$, $CellContext`sqrts$$^2, $CellContext`z] \
+$CellContext`GeVtoBarn 10^3, {$CellContext`z, -1, 1}, PlotLabel -> 
+        "\!\(\*FractionBox[\(d\[Sigma]\), \(d\\  cos\[Theta]\)]\) for p \
+\!\(\*SuperscriptBox[\(\[Pi]\), \(-\)]\) \[Rule] n \!\(\*SuperscriptBox[\(\
+\[Pi]\), \(0\)]\) scattering at \!\(\*SqrtBox[\(s\)]\) = " <> 
+         ToString[Round[100 $CellContext`sqrts$$] 0.01] <> "GeV", 
+        PlotRange -> {All, All}, Frame -> True, 
+        FrameLabel -> {"z = cos \[Theta]", 
+          Text["Cross section [ mb ]"]}], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`MW$$, 81}, 1, 
+         100}, {{$CellContext`sqrts$$, 2 $CellContext`MNucleon$$}, 
+         Dynamic[$CellContext`MNucleon$$ + $CellContext`MPi$$], 
+         10}, {{$CellContext`\[Alpha]$$, 0.0072992700729927005`}, 0, 
+         1}, {{$CellContext`ga$$, 1.27}, -2, 2}, {{$CellContext`sw$$, 0.5}, 0,
+          1}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.13}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{660., {161.13403328722342`, 166.86596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.9684459907861958`*^9, 3.968446046279209*^9},
+ CellLabel->"Out[79]=",ExpressionUUID->"74e5bac2-9633-134b-a28f-1103820243ec"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"TotalCrossSection", "[", 
+       RowBox[{
+        SqrtBox[
+         RowBox[{"4", "\[Pi]", " ", "\[Alpha]"}]], ",", "ga", ",", "fPi", ",",
+         "sw", ",", "MPi", ",", "MW", ",", "MNucleon", ",", 
+        SuperscriptBox["sqrts", "2"]}], "]"}], "GeVtoBarn", "*", 
+      SuperscriptBox["10", "3"]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"sqrts", ",", 
+       RowBox[{"MNucleon", "+", "MPi"}], ",", "5"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for \
+\!\(\*SuperscriptBox[\(\[Pi]\), \(-\)]\) p \[Rule] \!\(\*SuperscriptBox[\(\
+\[Pi]\), \(0\)]\) n fixed target scattering\>\"", "<>", 
+       "\"\<\\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MNucleon"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\"", "<>", 
+       "\"\< \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MPi"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", "All"}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"AspectRatio", "->", "1"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<\!\(\*SubscriptBox[\(E\), \(\[Pi]\\\  beam\)]\) [ GeV ]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ mb ]\>\"", "]"}]}], 
+       "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MW", ",", "81"}], "}"}], ",", "1", ",", "100"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Alpha]", ",", 
+       RowBox[{"1", "/", "137.0"}]}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.27"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"sw", ",", "0.5"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.13"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.9658478252678375`*^9, 
+   3.965847946056858*^9}, {3.965848474994455*^9, 3.9658485128615513`*^9}, {
+   3.965848546372156*^9, 3.965848546456257*^9}, {3.965848611544502*^9, 
+   3.9658486314754963`*^9}, {3.965848664014458*^9, 3.965848751703453*^9}, {
+   3.965848794242895*^9, 3.965848872208477*^9}, {3.96584893633036*^9, 
+   3.965848965878433*^9}, {3.965853719510837*^9, 3.9658537319566765`*^9}, 
+   3.9658537740706577`*^9, {3.96596158439497*^9, 3.9659616109333115`*^9}, {
+   3.965961648954026*^9, 3.965961666082819*^9}, {3.965988944111058*^9, 
+   3.9659889781195717`*^9}, {3.965997008812159*^9, 3.9659970618177056`*^9}, {
+   3.965997126897524*^9, 3.965997212399565*^9}, {3.965997302825468*^9, 
+   3.965997328984646*^9}, {3.968368929721876*^9, 3.9683689371085777`*^9}, {
+   3.968369535361923*^9, 3.9683695639586544`*^9}, {3.9683708395585384`*^9, 
+   3.968370849046446*^9}, {3.968375448132595*^9, 3.96837544952256*^9}, {
+   3.9683754998826027`*^9, 3.968375509602661*^9}, {3.968376116622637*^9, 
+   3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
+   3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
+   3.968377354192826*^9}, {3.9684394943605976`*^9, 3.968439559894665*^9}, {
+   3.968439627401359*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
+   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
+   3.9684442505135593`*^9, 3.968444290183269*^9}, {3.9684443294165134`*^9, 
+   3.968444359457175*^9}, {3.9684447913536396`*^9, 3.968444809573715*^9}, {
+   3.968444840060074*^9, 3.9684449416303678`*^9}, {3.968444981936943*^9, 
+   3.968444987037071*^9}, {3.9684454137302084`*^9, 3.968445427323591*^9}},
+ CellLabel->"In[80]:=",ExpressionUUID->"c2cd8be3-c9ec-de43-a4d8-ff878ea5195a"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.13, $CellContext`ga$$ = 
+    1.27, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
+    0.139, $CellContext`MW$$ = 81, $CellContext`sw$$ = 
+    0.5, $CellContext`\[Alpha]$$ = 0.0072992700729927005`, Typeset`show$$ = 
+    True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MW$$], 81}, 1, 100, ControlType -> Manipulator}, {{
+       Hold[$CellContext`\[Alpha]$$], 0.0072992700729927005`}, 0, 1, 
+      ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.27}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`sw$$], 0.5}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.13}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {360., {195., 199.88930740356443`}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.13, $CellContext`ga$$ = 
+        1.27, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
+        0.139, $CellContext`MW$$ = 81, $CellContext`sw$$ = 
+        0.5, $CellContext`\[Alpha]$$ = 0.0072992700729927005`}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Plot[$CellContext`TotalCrossSection[
+          Sqrt[
+          4 Pi $CellContext`\[Alpha]$$], $CellContext`ga$$, \
+$CellContext`fPi$$, $CellContext`sw$$, $CellContext`MPi$$, $CellContext`MW$$, \
+$CellContext`MNucleon$$, $CellContext`sqrts^2] $CellContext`GeVtoBarn 
+        10^3, {$CellContext`sqrts, $CellContext`MNucleon$$ + \
+$CellContext`MPi$$, 5}, PlotLabel -> 
+        "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for \
+\!\(\*SuperscriptBox[\(\[Pi]\), \(-\)]\) p \[Rule] \!\(\*SuperscriptBox[\(\
+\[Pi]\), \(0\)]\) n fixed target scattering" <> 
+         "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <> 
+         ToString[Round[100 $CellContext`MNucleon$$] 0.01] <> "GeV" <> 
+         " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = " <> 
+         ToString[Round[100 $CellContext`MPi$$] 0.01] <> "GeV", PlotRange -> 
+        All, Frame -> True, AspectRatio -> 1, 
+        FrameLabel -> {
+         "\!\(\*SubscriptBox[\(E\), \(\[Pi]\\  beam\)]\) [ GeV ]", 
+          Text["Cross section [ mb ]"]}], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`MW$$, 81}, 1, 
+         100}, {{$CellContext`\[Alpha]$$, 0.0072992700729927005`}, 0, 
+         1}, {{$CellContext`ga$$, 1.27}, -2, 2}, {{$CellContext`sw$$, 0.5}, 0,
+          1}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.13}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{660., {224.63403328722342`, 230.36596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.9684459910026245`*^9, 3.968446046485155*^9},
+ CellLabel->"Out[80]=",ExpressionUUID->"05659455-bd68-0341-a3a1-d157604cdffa"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"TotalCrossSection", "[", 
+         RowBox[{
+          SqrtBox[
+           RowBox[{"4", "\[Pi]", " ", "\[Alpha]"}]], ",", "ga", ",", "fPi", 
+          ",", "sw", ",", "MPi", ",", "MW", ",", "MNucleon", ",", 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{
+             SuperscriptBox["MNucleon", "2"], "+", 
+             SuperscriptBox["MPi", "2"], "+", 
+             RowBox[{"2", "MNucleon", "*", 
+              RowBox[{"(", 
+               RowBox[{"Ebeam", "+", "MPi"}], ")"}]}]}], ")"}], "2"]}], "]"}],
+         "GeVtoBarn", "*", 
+        SuperscriptBox["10", "3"]}], ",", 
+       RowBox[{
+        RowBox[{"TotalCrossSectionNonUnitaryPiece", "[", 
+         RowBox[{
+          SqrtBox[
+           RowBox[{"4", "\[Pi]", " ", "\[Alpha]"}]], ",", "ga", ",", "fPi", 
+          ",", "sw", ",", "MPi", ",", "MW", ",", "MNucleon", ",", 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{
+             SuperscriptBox["MNucleon", "2"], "+", 
+             SuperscriptBox["MPi", "2"], "+", 
+             RowBox[{"2", "MNucleon", "*", 
+              RowBox[{"(", 
+               RowBox[{"Ebeam", "+", "MPi"}], ")"}]}]}], ")"}], "2"]}], "]"}],
+         "GeVtoBarn", "*", 
+        SuperscriptBox["10", "3"]}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"TotalCrossSection", "[", 
+          RowBox[{
+           SqrtBox[
+            RowBox[{"4", "\[Pi]", " ", "\[Alpha]"}]], ",", "ga", ",", "fPi", 
+           ",", "sw", ",", "MPi", ",", "MW", ",", "MNucleon", ",", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox["MNucleon", "2"], "+", 
+              SuperscriptBox["MPi", "2"], "+", 
+              RowBox[{"2", "MNucleon", "*", 
+               RowBox[{"(", 
+                RowBox[{"Ebeam", "+", "MPi"}], ")"}]}]}], ")"}], "2"]}], 
+          "]"}], "GeVtoBarn", "*", 
+         SuperscriptBox["10", "3"]}], "-", 
+        RowBox[{
+         RowBox[{"TotalCrossSectionNonUnitaryPiece", "[", 
+          RowBox[{
+           SqrtBox[
+            RowBox[{"4", "\[Pi]", " ", "\[Alpha]"}]], ",", "ga", ",", "fPi", 
+           ",", "sw", ",", "MPi", ",", "MW", ",", "MNucleon", ",", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox["MNucleon", "2"], "+", 
+              SuperscriptBox["MPi", "2"], "+", 
+              RowBox[{"2", "MNucleon", "*", 
+               RowBox[{"(", 
+                RowBox[{"Ebeam", "+", "MPi"}], ")"}]}]}], ")"}], "2"]}], 
+          "]"}], "GeVtoBarn", "*", 
+         SuperscriptBox["10", "3"]}]}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Ebeam", ",", "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for \
+\!\(\*SuperscriptBox[\(\[Pi]\), \(-\)]\) p \[Rule] \!\(\*SuperscriptBox[\(\
+\[Pi]\), \(0\)]\) n fixed target scattering\>\"", "<>", 
+       "\"\<\\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MNucleon"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\"", "<>", 
+       "\"\< \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MPi"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", "All"}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"AspectRatio", "->", "1"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<\!\(\*SubscriptBox[\(E\), \(\[Pi]\\\  beam\)]\) [ GeV ]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ mb ]\>\"", "]"}]}], "}"}]}],
+      ",", 
+     RowBox[{"PlotLegends", "->", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<Total Cross Section\>\"", ",", "\"\<The nonunitary piece\>\"", 
+        ",", "\"\<Total minus nonunitary\>\""}], "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MW", ",", "81"}], "}"}], ",", "1", ",", "100"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Alpha]", ",", 
+       RowBox[{"1", "/", "137.0"}]}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.27"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"sw", ",", "0.5"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.13"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.9658478252678375`*^9, 
+   3.965847946056858*^9}, {3.965848474994455*^9, 3.9658485128615513`*^9}, {
+   3.965848546372156*^9, 3.965848546456257*^9}, {3.965848611544502*^9, 
+   3.9658486314754963`*^9}, {3.965848664014458*^9, 3.965848751703453*^9}, {
+   3.965848794242895*^9, 3.965848872208477*^9}, {3.96584893633036*^9, 
+   3.965848965878433*^9}, {3.965853719510837*^9, 3.9658537319566765`*^9}, 
+   3.9658537740706577`*^9, {3.96596158439497*^9, 3.9659616109333115`*^9}, {
+   3.965961648954026*^9, 3.965961666082819*^9}, {3.965988944111058*^9, 
+   3.9659889781195717`*^9}, {3.965997008812159*^9, 3.9659970618177056`*^9}, {
+   3.965997126897524*^9, 3.965997212399565*^9}, {3.965997302825468*^9, 
+   3.965997328984646*^9}, {3.968368929721876*^9, 3.9683689371085777`*^9}, {
+   3.968369535361923*^9, 3.9683695639586544`*^9}, {3.9683708395585384`*^9, 
+   3.968370849046446*^9}, {3.968375448132595*^9, 3.96837544952256*^9}, {
+   3.9683754998826027`*^9, 3.968375509602661*^9}, {3.968376116622637*^9, 
+   3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
+   3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
+   3.968377354192826*^9}, {3.9684394943605976`*^9, 3.968439559894665*^9}, {
+   3.968439627401359*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
+   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
+   3.9684442505135593`*^9, 3.968444290183269*^9}, {3.9684443294165134`*^9, 
+   3.968444359457175*^9}, {3.9684447913536396`*^9, 3.968444809573715*^9}, {
+   3.968444840060074*^9, 3.9684449416303678`*^9}, {3.968444981936943*^9, 
+   3.968444987037071*^9}, {3.968445657113861*^9, 3.968445672777031*^9}, {
+   3.968445718503874*^9, 3.968445760903755*^9}, {3.968445798927046*^9, 
+   3.968445814526975*^9}},
+ CellLabel->"In[81]:=",ExpressionUUID->"838d41ce-43ab-2c49-8f68-b07bb885239e"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.13, $CellContext`ga$$ = 
+    1.27, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
+    0.139, $CellContext`MW$$ = 81, $CellContext`sw$$ = 
+    0.5, $CellContext`\[Alpha]$$ = 0.0072992700729927005`, Typeset`show$$ = 
+    True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MW$$], 81}, 1, 100, ControlType -> Manipulator}, {{
+       Hold[$CellContext`\[Alpha]$$], 0.0072992700729927005`}, 0, 1, 
+      ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.27}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`sw$$], 0.5}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.13}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {534.1999999999999, {192., 197.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.13, $CellContext`ga$$ = 
+        1.27, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
+        0.139, $CellContext`MW$$ = 81, $CellContext`sw$$ = 
+        0.5, $CellContext`\[Alpha]$$ = 0.0072992700729927005`}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Plot[{$CellContext`TotalCrossSection[
+           Sqrt[
+           4 Pi $CellContext`\[Alpha]$$], $CellContext`ga$$, \
+$CellContext`fPi$$, $CellContext`sw$$, $CellContext`MPi$$, $CellContext`MW$$, \
+$CellContext`MNucleon$$, ($CellContext`MNucleon$$^2 + $CellContext`MPi$$^2 + 
+            2 $CellContext`MNucleon$$ ($CellContext`Ebeam + \
+$CellContext`MPi$$))^2] $CellContext`GeVtoBarn 
+         10^3, $CellContext`TotalCrossSectionNonUnitaryPiece[
+           Sqrt[
+           4 Pi $CellContext`\[Alpha]$$], $CellContext`ga$$, \
+$CellContext`fPi$$, $CellContext`sw$$, $CellContext`MPi$$, $CellContext`MW$$, \
+$CellContext`MNucleon$$, ($CellContext`MNucleon$$^2 + $CellContext`MPi$$^2 + 
+            2 $CellContext`MNucleon$$ ($CellContext`Ebeam + \
+$CellContext`MPi$$))^2] $CellContext`GeVtoBarn 
+         10^3, $CellContext`TotalCrossSection[
+            Sqrt[
+            4 Pi $CellContext`\[Alpha]$$], $CellContext`ga$$, \
+$CellContext`fPi$$, $CellContext`sw$$, $CellContext`MPi$$, $CellContext`MW$$, \
+$CellContext`MNucleon$$, ($CellContext`MNucleon$$^2 + $CellContext`MPi$$^2 + 
+             2 $CellContext`MNucleon$$ ($CellContext`Ebeam + \
+$CellContext`MPi$$))^2] $CellContext`GeVtoBarn 
+          10^3 - $CellContext`TotalCrossSectionNonUnitaryPiece[
+           Sqrt[
+           4 Pi $CellContext`\[Alpha]$$], $CellContext`ga$$, \
+$CellContext`fPi$$, $CellContext`sw$$, $CellContext`MPi$$, $CellContext`MW$$, \
+$CellContext`MNucleon$$, ($CellContext`MNucleon$$^2 + $CellContext`MPi$$^2 + 
+            2 $CellContext`MNucleon$$ ($CellContext`Ebeam + \
+$CellContext`MPi$$))^2] $CellContext`GeVtoBarn 10^3}, {$CellContext`Ebeam, 0, 
+         1}, PlotLabel -> 
+        "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for \
+\!\(\*SuperscriptBox[\(\[Pi]\), \(-\)]\) p \[Rule] \!\(\*SuperscriptBox[\(\
+\[Pi]\), \(0\)]\) n fixed target scattering" <> 
+         "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <> 
+         ToString[Round[100 $CellContext`MNucleon$$] 0.01] <> "GeV" <> 
+         " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = " <> 
+         ToString[Round[100 $CellContext`MPi$$] 0.01] <> "GeV", PlotRange -> 
+        All, Frame -> True, AspectRatio -> 1, 
+        FrameLabel -> {
+         "\!\(\*SubscriptBox[\(E\), \(\[Pi]\\  beam\)]\) [ GeV ]", 
+          Text["Cross section [ mb ]"]}, 
+        PlotLegends -> {
+         "Total Cross Section", "The nonunitary piece", 
+          "Total minus nonunitary"}], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`MW$$, 81}, 1, 
+         100}, {{$CellContext`\[Alpha]$$, 0.0072992700729927005`}, 0, 
+         1}, {{$CellContext`ga$$, 1.27}, -2, 2}, {{$CellContext`sw$$, 0.5}, 0,
+          1}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.13}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{835., {221.63403328722342`, 227.36596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.968445991196823*^9, 3.96844604668169*^9},
+ CellLabel->"Out[81]=",ExpressionUUID->"d14c0678-6bff-4a43-b785-fddaf3bb02d5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Series", "[", 
+  RowBox[{
+   RowBox[{"TotalCrossSection", "[", 
+    RowBox[{
+    "e", ",", "ga", ",", "fPi", ",", "sw", ",", "MPi", ",", "MW", ",", 
+     "MNucleon", ",", "s"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"s", ",", "\[Infinity]", ",", "0"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.968445537387182*^9, 3.968445573830387*^9}, 
+   3.968445633713743*^9},
+ CellLabel->"In[82]:=",ExpressionUUID->"52d585d8-b1ce-b84c-b6de-387f90cb9067"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   FractionBox[
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "1"}], "+", 
+        SuperscriptBox["ga", "2"]}], ")"}], "2"], " ", "s"}], 
+    RowBox[{"64", " ", 
+     SuperscriptBox["fPi", "4"], " ", "\[Pi]"}]], "+", 
+   FractionBox[
+    RowBox[{
+     RowBox[{"-", 
+      SuperscriptBox["MNucleon", "2"]}], "+", 
+     RowBox[{"6", " ", 
+      SuperscriptBox["ga", "2"], " ", 
+      SuperscriptBox["MNucleon", "2"]}], "-", 
+     RowBox[{"5", " ", 
+      SuperscriptBox["ga", "4"], " ", 
+      SuperscriptBox["MNucleon", "2"]}], "-", 
+     RowBox[{"2", " ", 
+      SuperscriptBox["MPi", "2"]}], "+", 
+     RowBox[{"4", " ", 
+      SuperscriptBox["ga", "2"], " ", 
+      SuperscriptBox["MPi", "2"]}], "-", 
+     RowBox[{"2", " ", 
+      SuperscriptBox["ga", "4"], " ", 
+      SuperscriptBox["MPi", "2"]}]}], 
+    RowBox[{"64", " ", 
+     SuperscriptBox["fPi", "4"], " ", "\[Pi]"}]], "+", 
+   InterpretationBox[
+    SuperscriptBox[
+     RowBox[{"O", "[", 
+      FractionBox["1", "s"], "]"}], "1"],
+    SeriesData[$CellContext`s, 
+     DirectedInfinity[1], {}, -1, 1, 1],
+    Editable->False]}],
+  SeriesData[$CellContext`s, 
+   DirectedInfinity[1], {
+   Rational[1, 64] $CellContext`fPi^(-4) (-1 + $CellContext`ga^2)^2/Pi, 
+    Rational[1, 64] $CellContext`fPi^(-4) (-$CellContext`MNucleon^2 + 
+     6 $CellContext`ga^2 $CellContext`MNucleon^2 - 
+     5 $CellContext`ga^4 $CellContext`MNucleon^2 - 2 $CellContext`MPi^2 + 
+     4 $CellContext`ga^2 $CellContext`MPi^2 - 
+     2 $CellContext`ga^4 $CellContext`MPi^2)/Pi}, -1, 1, 1],
+  Editable->False]], "Output",
+ CellChangeTimes->{3.9684459914340744`*^9, 3.968446046928465*^9},
+ CellLabel->"Out[82]=",ExpressionUUID->"bfb81b49-5387-e246-b158-6de55c3be943"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"TotalCrossSectionNonUnitaryPiece", "[", 
+    RowBox[{
+    "e_", ",", "ga_", ",", "fPi_", ",", "sw_", ",", "MPi_", ",", "MW_", ",", 
+     "MNucleon_", ",", "s_"}], "]"}], ":=", 
+   FractionBox[
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "1"}], "+", 
+        SuperscriptBox["ga", "2"]}], ")"}], "2"], " ", "s"}], 
+    RowBox[{"64", " ", 
+     SuperscriptBox["fPi", "4"], " ", "\[Pi]"}]]}], ";"}]], "Input",
+ CellChangeTimes->{{3.968445598644045*^9, 3.968445638950411*^9}, 
+   3.968445695567379*^9},
+ CellLabel->"In[83]:=",ExpressionUUID->"3bb0bba0-9954-014f-9a9b-94e42009a45c"]
+}, Open  ]]
+},
+WindowSize->{1141.2, 568.8},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.0 for Microsoft Windows (64-bit) (December 12, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"f04f88c2-8f93-c345-86a7-eb7c0bc2069f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 677, 18, 38, "Text",ExpressionUUID->"75c3a97d-7ea9-7b4b-9908-45b8258e7fb9"],
+Cell[1238, 40, 414, 13, 48, "Input",ExpressionUUID->"76bd826d-3914-f646-870f-10b8ff169452"],
+Cell[CellGroupData[{
+Cell[1677, 57, 165, 3, 54, "Subsection",ExpressionUUID->"5e65ec1e-0b2f-734f-9307-cf60553ed2a2"],
+Cell[1845, 62, 6304, 175, 276, "Input",ExpressionUUID->"c32d2b6a-b9aa-fd4c-a0c9-cd4e1da0f545"],
+Cell[CellGroupData[{
+Cell[8174, 241, 3378, 74, 130, "Input",ExpressionUUID->"1cee0bb7-afc4-b041-84df-8f2a3faef4b6"],
+Cell[11555, 317, 3178, 58, 369, "Output",ExpressionUUID->"b215fa7e-88aa-3f46-9f19-ff8aacd4a7ff"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14770, 380, 3935, 79, 130, "Input",ExpressionUUID->"c350cd35-830c-bc42-994c-83690f9a118f"],
+Cell[18708, 461, 2963, 53, 470, "Output",ExpressionUUID->"cdbdfd5c-e970-7044-9a72-b5a83d31669d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21708, 519, 4111, 88, 112, "Input",ExpressionUUID->"bea07f8d-4c00-1744-b984-2c9059329c7a"],
+Cell[25822, 609, 3044, 55, 459, "Output",ExpressionUUID->"d68c7f4b-7e5c-b34f-abea-2f9b419b1a5b"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[28915, 670, 577, 16, 54, "Subsection",ExpressionUUID->"1ae1919a-93eb-824b-b3f8-acff5f1c8cfa"],
+Cell[29495, 688, 17992, 488, 390, "Input",ExpressionUUID->"7d33a12d-3524-9f40-8540-9a1000844720"],
+Cell[47490, 1178, 14902, 414, 390, "Input",ExpressionUUID->"d2fb498a-e4ba-4943-8bf9-eac5ff116bc0"],
+Cell[CellGroupData[{
+Cell[62417, 1596, 4065, 91, 149, "Input",ExpressionUUID->"79833266-0030-8340-9d22-e2669ca984d5"],
+Cell[66485, 1689, 3960, 70, 347, "Output",ExpressionUUID->"74e5bac2-9633-134b-a28f-1103820243ec"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[70482, 1764, 4891, 101, 130, "Input",ExpressionUUID->"c2cd8be3-c9ec-de43-a4d8-ff878ea5195a"],
+Cell[75376, 1867, 3854, 69, 474, "Output",ExpressionUUID->"05659455-bd68-0341-a3a1-d157604cdffa"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[79267, 1941, 7483, 166, 232, "Input",ExpressionUUID->"838d41ce-43ab-2c49-8f68-b07bb885239e"],
+Cell[86753, 2109, 5266, 94, 468, "Output",ExpressionUUID->"d14c0678-6bff-4a43-b785-fddaf3bb02d5"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[92056, 2208, 477, 11, 28, "Input",ExpressionUUID->"52d585d8-b1ce-b84c-b6de-387f90cb9067"],
+Cell[92536, 2221, 1791, 49, 53, "Output",ExpressionUUID->"bfb81b49-5387-e246-b158-6de55c3be943"]
+}, Open  ]],
+Cell[94342, 2273, 670, 18, 53, "Input",ExpressionUUID->"3bb0bba0-9954-014f-9a9b-94e42009a45c"]
+}, Open  ]]
+}
+]
+*)
+
