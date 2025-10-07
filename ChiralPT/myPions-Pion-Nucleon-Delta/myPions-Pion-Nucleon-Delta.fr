@@ -12,7 +12,7 @@
 (* ************************** *)
 (* *****  Information   ***** *)
 (* ************************** *)
-M$ModelName = "myPions-Pion-Nucleon";
+M$ModelName = "myPions-Pion-Nucleon-Delta";
 
 M$Information = {
   Authors      -> {""}, 
