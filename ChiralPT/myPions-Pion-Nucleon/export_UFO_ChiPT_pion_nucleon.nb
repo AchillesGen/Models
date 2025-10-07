@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     22336,        557]
+NotebookDataLength[     22312,        556]
 NotebookOptionsPosition[     20308,        515]
-NotebookOutlinePosition[     20933,        537]
-CellTagsIndexPosition[     20890,        534]
+NotebookOutlinePosition[     20909,        536]
+CellTagsIndexPosition[     20866,        533]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -514,7 +514,6 @@ Cell[BoxData[
 }, Open  ]]
 },
 NotebookAutoSave->True,
-Evaluator->"FeynRules",
 WindowSize->{1141.2, 568.8},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
