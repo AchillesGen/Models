@@ -12,7 +12,7 @@
 (* ************************** *)
 (* *****  Information   ***** *)
 (* ************************** *)
-M$ModelName = "myPions-Pion-Nucleon";
+M$ModelName = "myPions-Pion-Nucleon-Delta-GI-coupling";
 
 M$Information = {
   Authors      -> {""}, 
@@ -718,6 +718,14 @@ M$Parameters = {
     Value            -> -((1 + 2*AD + 3*AD^2)/2)*g1D,
     InteractionOrder -> {QED, 1},
     Description      -> ""
+  },
+  gDGI == { 
+    ParameterType    -> External, 
+    BlockName        -> CHIPT, 
+    OrderBlock       -> 1, 
+    Value            -> 0.1,
+    InteractionOrder -> {QED, 1},
+    Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
   },
   ztilde == { 
     ParameterType    -> Internal, 
