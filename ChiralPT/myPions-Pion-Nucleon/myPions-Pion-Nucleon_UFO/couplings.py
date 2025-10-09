@@ -32,27 +32,27 @@ GC_5 = Coupling(name = 'GC_5',
 
 GC_6 = Coupling(name = 'GC_6',
                 value = '-0.25*complex(0,1)/fPi**2',
-                order = {'1':1})
+                order = {'QED':0})
 
 GC_7 = Coupling(name = 'GC_7',
                 value = 'complex(0,1)/(4.*fPi**2)',
-                order = {'1':1})
+                order = {'QED':0})
 
 GC_8 = Coupling(name = 'GC_8',
                 value = '-(complex(0,1)/fPi**2)',
-                order = {'1':1})
+                order = {'QED':0})
 
 GC_9 = Coupling(name = 'GC_9',
                 value = '(-2*complex(0,1))/fPi**2',
-                order = {'1':1})
+                order = {'QED':0})
 
 GC_10 = Coupling(name = 'GC_10',
                  value = '-0.5*complex(0,1)/(fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_11 = Coupling(name = 'GC_11',
                  value = 'complex(0,1)/(2.*fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_12 = Coupling(name = 'GC_12',
                  value = '-0.5*(ee*complex(0,1))/fPi**2',
