@@ -26,22 +26,6 @@ gD = Parameter(name = 'gD',
                lhablock = 'CHIPT',
                lhacode = [ 1 ])
 
-gD = Parameter(name = 'gD',
-               nature = 'external',
-               type = 'real',
-               value = 1,
-               texname = '\\text{gD}',
-               lhablock = 'CHIPT',
-               lhacode = [ 1 ])
-
-gD = Parameter(name = 'gD',
-               nature = 'external',
-               type = 'real',
-               value = 1,
-               texname = '\\text{gD}',
-               lhablock = 'CHIPT',
-               lhacode = [ 1 ])
-
 cabi = Parameter(name = 'cabi',
                  nature = 'external',
                  type = 'real',
@@ -210,14 +194,6 @@ WPi = Parameter(name = 'WPi',
                 lhablock = 'DECAY',
                 lhacode = [ 111 ])
 
-WPi = Parameter(name = 'WPi',
-                nature = 'external',
-                type = 'real',
-                value = 0.,
-                texname = '\\text{WPi}',
-                lhablock = 'DECAY',
-                lhacode = [ 211 ])
-
 WEta = Parameter(name = 'WEta',
                  nature = 'external',
                  type = 'real',
@@ -249,30 +225,6 @@ WDelta = Parameter(name = 'WDelta',
                    texname = '\\text{WDelta}',
                    lhablock = 'DECAY',
                    lhacode = [ 2224 ])
-
-WDelta = Parameter(name = 'WDelta',
-                   nature = 'external',
-                   type = 'real',
-                   value = 0.12,
-                   texname = '\\text{WDelta}',
-                   lhablock = 'DECAY',
-                   lhacode = [ 2214 ])
-
-WDelta = Parameter(name = 'WDelta',
-                   nature = 'external',
-                   type = 'real',
-                   value = 0.12,
-                   texname = '\\text{WDelta}',
-                   lhablock = 'DECAY',
-                   lhacode = [ 2114 ])
-
-WDelta = Parameter(name = 'WDelta',
-                   nature = 'external',
-                   type = 'real',
-                   value = 0.12,
-                   texname = '\\text{WDelta}',
-                   lhablock = 'DECAY',
-                   lhacode = [ 1114 ])
 
 aEW = Parameter(name = 'aEW',
                 nature = 'internal',
