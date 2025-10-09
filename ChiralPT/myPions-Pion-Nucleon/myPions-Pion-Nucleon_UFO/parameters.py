@@ -26,6 +26,22 @@ gD = Parameter(name = 'gD',
                lhablock = 'CHIPT',
                lhacode = [ 1 ])
 
+ga = Parameter(name = 'ga',
+               nature = 'external',
+               type = 'real',
+               value = 1.27,
+               texname = '\\text{gD}',
+               lhablock = 'CHIPT',
+               lhacode = [ 2 ])
+
+fPi = Parameter(name = 'fPi',
+               nature = 'external',
+               type = 'real',
+               value = 0.093,
+               texname = '\\text{gD}',
+               lhablock = 'CHIPT',
+               lhacode = [ 3 ])
+
 cabi = Parameter(name = 'cabi',
                  nature = 'external',
                  type = 'real',
