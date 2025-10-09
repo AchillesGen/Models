@@ -2,7 +2,8 @@
 # Mathematica version: 8.0 for Mac OS X x86 (64-bit) (November 6, 2010)
 # Date: Mon 1 Oct 2012 14:58:26
 
-from object_library import all_propagators, Propagator
+from __future__ import absolute_import
+from .object_library import all_propagators, Propagator
 
 
 # define only once the denominator since this is always the same
@@ -22,7 +23,7 @@ F = Propagator(name = "F",
 
 # massive vector in the unitary gauge, can't be use for massless particles
 V1 = Propagator(name = "V1",
-                numerator = "complex(0,1) * (-1 * Metric(1, 2) + Metric(1,'mu')* P('mu', id) * P(2, id) / Mass(id)**2)",
+                numerator = "complex(0,1) * (-1 * Metric(1, 2) + Metric(1,'mu')* P('mu', id) * P(2, id) / Mass(id)**2 ",
                 denominator = denominator
                )
 
