@@ -723,7 +723,7 @@ M$Parameters = {
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
     OrderBlock       -> 1, 
-    Value            -> 0.1,
+    Value            -> 1,
     InteractionOrder -> {QED, 1},
     Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
   },
