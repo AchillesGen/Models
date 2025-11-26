@@ -1,12 +1,8 @@
 # This file was automatically created by FeynRules 2.3.49
 # Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Wed 26 Nov 2025 10:42:34
-
-
+# Date: Tue 7 Oct 2025 13:28:48
 
 from object_library import all_parameters, Parameter
-
-
 from function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
 
 # This is a default parameter object representing 0.
@@ -17,77 +13,53 @@ ZERO = Parameter(name = 'ZERO',
                  texname = '0')
 
 # User-defined parameters.
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
+AD = Parameter(name = 'AD',
+               nature = 'external',
+               type = 'real',
+               value = -1,
+               texname = '\\text{AD}',
+               lhablock = 'CHIPT',
+               lhacode = [ 1 ])
 
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
+gD = Parameter(name = 'gD',
+               nature = 'external',
+               type = 'real',
+               value = 1,
+               texname = '\\text{gD}',
+               lhablock = 'CHIPT',
+               lhacode = [ 2 ])
 
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
+g1D = Parameter(name = 'g1D',
+               nature = 'external',
+               type = 'real',
+               value = 1,
+               texname = '\\text{g1D}',
+               lhablock = 'CHIPT',
+               lhacode = [ 3 ])
 
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
+ga = Parameter(name = 'ga',
+               nature = 'external',
+               type = 'real',
+               value = 1.27,
+               texname = '\\text{ga}',
+               lhablock = 'CHIPT',
+               lhacode = [ 4 ])
 
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
+fPi = Parameter(name = 'fPi',
+               nature = 'external',
+               type = 'real',
+               value = 0.093,
+               texname = '\\text{fPi}',
+               lhablock = 'CHIPT',
+               lhacode = [ 5 ])
 
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
+gDGI = Parameter(name = 'gDGI',
+               nature = 'external',
+               type = 'real',
+               value = 1,
+               texname = '\\text{gDGI}',
+               lhablock = 'CHIPT',
+               lhacode = [ 5 ])
 
 cabi = Parameter(name = 'cabi',
                  nature = 'external',
@@ -257,13 +229,29 @@ WPi = Parameter(name = 'WPi',
                 lhablock = 'DECAY',
                 lhacode = [ 111 ])
 
-WPi = Parameter(name = 'WPi',
+WPiP = Parameter(name = 'WPiP',
                 nature = 'external',
                 type = 'real',
-                value = 0.,
-                texname = '\\text{WPi}',
+                value = 0.001,
+                texname = '\\text{WPiP}',
                 lhablock = 'DECAY',
-                lhacode = [ 211 ])
+                lhacode = [ 112 ])
+
+WP = Parameter(name = 'WP',
+                nature = 'external',
+                type = 'real',
+                value = 0.001,
+                texname = '\\text{WP}',
+                lhablock = 'DECAY',
+                lhacode = [ 2212 ])
+
+WN = Parameter(name = 'WN',
+                nature = 'external',
+                type = 'real',
+                value = 0.001,
+                texname = '\\text{WN}',
+                lhablock = 'DECAY',
+                lhacode = [ 2112 ])
 
 WEta = Parameter(name = 'WEta',
                  nature = 'external',
@@ -296,30 +284,6 @@ WDelta = Parameter(name = 'WDelta',
                    texname = '\\text{WDelta}',
                    lhablock = 'DECAY',
                    lhacode = [ 2224 ])
-
-WDelta = Parameter(name = 'WDelta',
-                   nature = 'external',
-                   type = 'real',
-                   value = 0.12,
-                   texname = '\\text{WDelta}',
-                   lhablock = 'DECAY',
-                   lhacode = [ 2214 ])
-
-WDelta = Parameter(name = 'WDelta',
-                   nature = 'external',
-                   type = 'real',
-                   value = 0.12,
-                   texname = '\\text{WDelta}',
-                   lhablock = 'DECAY',
-                   lhacode = [ 2114 ])
-
-WDelta = Parameter(name = 'WDelta',
-                   nature = 'external',
-                   type = 'real',
-                   value = 0.12,
-                   texname = '\\text{WDelta}',
-                   lhablock = 'DECAY',
-                   lhacode = [ 1114 ])
 
 g2D = Parameter(name = 'g2D',
                 nature = 'internal',
