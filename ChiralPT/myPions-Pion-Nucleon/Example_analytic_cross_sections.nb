@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     97732,       2347]
-NotebookOptionsPosition[     95028,       2294]
-NotebookOutlinePosition[     95433,       2310]
-CellTagsIndexPosition[     95390,       2307]
+NotebookDataLength[    147850,       3412]
+NotebookOptionsPosition[    142926,       3328]
+NotebookOutlinePosition[    143331,       3344]
+CellTagsIndexPosition[    143288,       3341]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -51,7 +51,7 @@ Cell[BoxData[{
      RowBox[{"-", "28"}]], 
     SuperscriptBox[
      RowBox[{"(", "100", ")"}], "2"]}]}], ";"}]}], "Input",
- CellLabel->"In[70]:=",ExpressionUUID->"76bd826d-3914-f646-870f-10b8ff169452"],
+ CellLabel->"In[1]:=",ExpressionUUID->"76bd826d-3914-f646-870f-10b8ff169452"],
 
 Cell[CellGroupData[{
 
@@ -235,7 +235,7 @@ Cell[BoxData[{
  CellChangeTimes->{{3.968375411229559*^9, 3.9683754384292393`*^9}, 
    3.9684394219614906`*^9, {3.968439939795452*^9, 3.9684399457395096`*^9}, {
    3.9684460372727737`*^9, 3.9684460373685513`*^9}},
- CellLabel->"In[72]:=",ExpressionUUID->"c32d2b6a-b9aa-fd4c-a0c9-cd4e1da0f545"],
+ CellLabel->"In[3]:=",ExpressionUUID->"c32d2b6a-b9aa-fd4c-a0c9-cd4e1da0f545"],
 
 Cell[CellGroupData[{
 
@@ -305,22 +305,22 @@ Cell[BoxData[
    3.968368707568945*^9, 3.96836878089694*^9}, {3.968369142825249*^9, 
    3.968369162688587*^9}, {3.968369225955225*^9, 3.968369255018572*^9}, {
    3.96836930155859*^9, 3.9683693447419815`*^9}, 3.968369616375273*^9, {
-   3.968370756922413*^9, 3.9683707571269236`*^9}, {3.968370820880883*^9, 
+   3.968370756922413*^9, 3.9683707571269255`*^9}, {3.968370820880883*^9, 
    3.968370832495272*^9}, {3.9683738234876003`*^9, 3.968373823807167*^9}, {
    3.968375226685959*^9, 3.968375227161898*^9}, {3.9683754855425644`*^9, 
    3.9683754904096565`*^9}, {3.9683757239111385`*^9, 3.968375797222683*^9}, {
    3.968375969541584*^9, 3.968375973084652*^9}, {3.9683760335459976`*^9, 
    3.968376055252699*^9}, {3.9684393814636707`*^9, 3.9684393909356976`*^9}, {
    3.968439433440166*^9, 3.968439443542563*^9}, 3.9684394755202713`*^9, 
-   3.9684460419910183`*^9},
- CellLabel->"In[84]:=",ExpressionUUID->"1cee0bb7-afc4-b041-84df-8f2a3faef4b6"],
+   3.968446041991019*^9},
+ CellLabel->"In[5]:=",ExpressionUUID->"1cee0bb7-afc4-b041-84df-8f2a3faef4b6"],
 
 Cell[BoxData[
  TagBox[
   StyleBox[
    DynamicModuleBox[{$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
     1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 
-    0.139, $CellContext`sqrts$$ = 1.99608, Typeset`show$$ = True, 
+    0.139, $CellContext`sqrts$$ = 3.92, Typeset`show$$ = True, 
     Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
     Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
     "\"untitled\"", Typeset`specs$$ = {{
@@ -330,7 +330,7 @@ Cell[BoxData[
        Hold[$CellContext`ga$$], 1.25}, -2, 2, ControlType -> Manipulator}, {{
        Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
        Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
-    Typeset`size$$ = {360., {131., 135.5283588768371}}, Typeset`update$$ = 0, 
+    Typeset`size$$ = {360., {128., 133.1648674663657}}, Typeset`update$$ = 0, 
     Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
     DynamicBox[Manipulate`ManipulateBoxes[
      1, StandardForm, 
@@ -346,10 +346,11 @@ Cell[BoxData[
       Plot[$CellContext`d\[Sigma]dzPN[$CellContext`sqrts$$^2, \
 $CellContext`ga$$, $CellContext`fPi$$, $CellContext`MNucleon$$, \
 $CellContext`MPi$$, $CellContext`z] $CellContext`GeVtoBarn 
-        10^3, {$CellContext`z, -1, 1}, PlotLabel -> 
-        "\!\(\*FractionBox[\(d\[Sigma]\), \(d\\  cos\[Theta]\)]\) for p n \
+        10^3, {$CellContext`z, -1, 1}, 
+        PlotLabel -> (
+          "\!\(\*FractionBox[\(d\[Sigma]\), \(d\\  cos\[Theta]\)]\) for p n \
 \[Rule] p n scattering at \!\(\*SqrtBox[\(s\)]\) = " <> 
-         ToString[Round[100 $CellContext`sqrts$$] 0.01] <> "GeV", 
+          ToString[Round[100 $CellContext`sqrts$$] 0.01]) <> "GeV", 
         PlotRange -> {All, All}, Frame -> True, 
         FrameLabel -> {"Center of mass scattering angle \[Theta]", 
           Text["Cross section [ mb ]"]}], 
@@ -360,7 +361,7 @@ $CellContext`MPi$$, $CellContext`z] $CellContext`GeVtoBarn
          2}, {{$CellContext`MPi$$, 0.139}, 0, 
          1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
       "DefaultOptions" :> {}],
-     ImageSizeCache->{660., {160.63403328722342`, 166.36596671277658`}},
+     ImageSizeCache->{660., {158.13403328722342`, 163.86596671277658`}},
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
@@ -372,8 +373,9 @@ $CellContext`MPi$$, $CellContext`z] $CellContext`GeVtoBarn
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
  CellChangeTimes->{
-  3.9684459902484875`*^9, {3.968446027586586*^9, 3.9684460567447014`*^9}},
- CellLabel->"Out[84]=",ExpressionUUID->"b215fa7e-88aa-3f46-9f19-ff8aacd4a7ff"]
+  3.968445990248487*^9, {3.968446027586586*^9, 3.968446056744701*^9}, 
+   3.971911628548107*^9, 3.97203941724048*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"19c3451b-32dd-9645-8261-13e10cf36455"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -391,7 +393,7 @@ Cell[BoxData[
       SuperscriptBox["10", "3"]}], ",", 
      RowBox[{"{", 
       RowBox[{"sqrts", ",", 
-       RowBox[{"2", "MNucleon"}], ",", "5"}], "}"}], ",", 
+       RowBox[{"2", "MNucleon"}], ",", "10"}], "}"}], ",", 
      RowBox[{"PlotLabel", "->", 
       RowBox[{
       "\"\<\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
@@ -455,9 +457,10 @@ scattering\>\"", "<>", "\"\<\\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = \>\"", "<>"
    3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
    3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
    3.968377354192826*^9}, {3.9684394943605976`*^9, 3.968439559894665*^9}, {
-   3.9684396274013586`*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
-   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}},
- CellLabel->"In[75]:=",ExpressionUUID->"c350cd35-830c-bc42-994c-83690f9a118f"],
+   3.968439627401359*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
+   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
+   3.971911889724281*^9, 3.971911898982199*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"c350cd35-830c-bc42-994c-83690f9a118f"],
 
 Cell[BoxData[
  TagBox[
@@ -471,8 +474,8 @@ Cell[BoxData[
        Hold[$CellContext`ga$$], 1.25}, -2, 2, ControlType -> Manipulator}, {{
        Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
        Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
-    Typeset`size$$ = {360., {193., 197.11335149400753`}}, Typeset`update$$ = 
-    0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    Typeset`size$$ = {360., {191., 195.996563149527}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
     DynamicBox[Manipulate`ManipulateBoxes[
      1, StandardForm, 
       "Variables" :> {$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
@@ -486,12 +489,13 @@ Cell[BoxData[
       Plot[$CellContext`totalXSEC[$CellContext`sqrts^2, $CellContext`ga$$, \
 $CellContext`fPi$$, $CellContext`MNucleon$$, $CellContext`MPi$$] \
 $CellContext`GeVtoBarn 
-        10^3, {$CellContext`sqrts, 2 $CellContext`MNucleon$$, 5}, PlotLabel -> 
-        "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
-scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <> 
-         ToString[Round[100 $CellContext`MNucleon$$] 0.01] <> "GeV" <> 
-         " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = " <> 
-         ToString[Round[100 $CellContext`MPi$$] 0.01] <> "GeV", PlotRange -> 
+        10^3, {$CellContext`sqrts, 2 $CellContext`MNucleon$$, 10}, 
+        PlotLabel -> (((((
+              "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] \
+p n scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = ") <> 
+             ToString[Round[100 $CellContext`MNucleon$$] 0.01]) <> "GeV") <> 
+           " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = ") <> 
+          ToString[Round[100 $CellContext`MPi$$] 0.01]) <> "GeV", PlotRange -> 
         All, Frame -> True, AspectRatio -> 1, 
         FrameLabel -> {"\!\(\*SqrtBox[\(s\)]\) [ GeV ]", 
           Text["Cross section [ mb ]"]}], 
@@ -500,7 +504,7 @@ scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <>
          2}, {{$CellContext`MPi$$, 0.139}, 0, 
          1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
       "DefaultOptions" :> {}],
-     ImageSizeCache->{660., {222.63403328722342`, 228.36596671277658`}},
+     ImageSizeCache->{660., {220.63403328722342`, 226.36596671277658`}},
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
@@ -511,8 +515,1032 @@ scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <>
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.9684459904067726`*^9, 3.9684460459129906`*^9},
- CellLabel->"Out[75]=",ExpressionUUID->"cdbdfd5c-e970-7044-9a72-b5a83d31669d"]
+ CellChangeTimes->{
+  3.968445990406772*^9, 3.968446045912991*^9, 3.9719116287918262`*^9, {
+   3.971911875594076*^9, 3.9719118995942726`*^9}, 3.9720394175235553`*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"ce5d55ae-5397-5049-823b-e795eb3f2aab"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Column", "@", 
+    RowBox[{"Sort", "@", 
+     RowBox[{"Flatten", "[", 
+      RowBox[{
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"Ebeam", "/.", 
+            RowBox[{"FindRoot", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"totalXSEC", "[", 
+                 RowBox[{
+                  SuperscriptBox[
+                   RowBox[{"(", 
+                    RowBox[{"2", "Ebeam"}], ")"}], "2"], ",", "ga", ",", 
+                  "fPi", ",", "MNucleon", ",", "MPi"}], "]"}], "GeVtoBarn", 
+                "*", 
+                SuperscriptBox["10", "3"]}], "==", "target"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"Ebeam", ",", 
+                RowBox[{"MNucleon", "*", "#"}]}], "}"}]}], "]"}]}], "&"}], "/@", 
+          RowBox[{"{", 
+           RowBox[{"1.01", ",", "1.1"}], "}"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"target", ",", 
+           RowBox[{"{", 
+            RowBox[{"10", ",", "20", ",", "30", ",", "40"}], "}"}]}], "}"}]}],
+         "]"}], ",", "1"}], "]"}]}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.25"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.093"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.9658478252678375`*^9, 
+   3.965847946056858*^9}, {3.965848474994455*^9, 3.9658485128615513`*^9}, {
+   3.965848546372156*^9, 3.965848546456257*^9}, {3.965848611544502*^9, 
+   3.9658486314754963`*^9}, {3.965848664014458*^9, 3.965848751703453*^9}, {
+   3.965848794242895*^9, 3.965848872208477*^9}, {3.96584893633036*^9, 
+   3.965848965878433*^9}, {3.965853719510837*^9, 3.9658537319566765`*^9}, 
+   3.9658537740706577`*^9, {3.96596158439497*^9, 3.9659616109333115`*^9}, {
+   3.965961648954026*^9, 3.965961666082819*^9}, {3.965988944111058*^9, 
+   3.9659889781195717`*^9}, {3.965997008812159*^9, 3.9659970618177056`*^9}, {
+   3.965997126897524*^9, 3.965997212399565*^9}, {3.965997302825468*^9, 
+   3.965997328984646*^9}, {3.968368929721876*^9, 3.9683689371085777`*^9}, {
+   3.968369535361923*^9, 3.9683695639586544`*^9}, {3.9683708395585384`*^9, 
+   3.968370849046446*^9}, {3.968375448132595*^9, 3.96837544952256*^9}, {
+   3.9683754998826027`*^9, 3.968375509602661*^9}, {3.968376116622637*^9, 
+   3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
+   3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
+   3.968377354192826*^9}, {3.9684394943605976`*^9, 3.968439559894665*^9}, {
+   3.968439627401359*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
+   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
+   3.9719119453713512`*^9, 3.971911961962099*^9}, {3.971911999419136*^9, 
+   3.971912009174354*^9}, 3.9719120477768726`*^9, {3.971996532182177*^9, 
+   3.971996571852192*^9}, {3.9719966050750427`*^9, 3.9719966250938635`*^9}, {
+   3.971996659564703*^9, 3.971996696051691*^9}, {3.9719967291689663`*^9, 
+   3.9719967313416824`*^9}, {3.971996764554556*^9, 3.971996847425429*^9}, {
+   3.971997026825478*^9, 3.971997178049238*^9}, {3.971997211022375*^9, 
+   3.971997245414406*^9}, {3.971997615432411*^9, 3.971997618695015*^9}},
+ CellLabel->"In[7]:=",ExpressionUUID->"28811407-b2d0-8d48-a167-41d5cb1414a7"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+    1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.25}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {
+    57.179685974121085`, {61.773485049512246`, 67.50541847506538}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+        1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Column[
+        Sort[
+         Flatten[
+          Table[
+           Map[ReplaceAll[$CellContext`Ebeam, 
+             
+             FindRoot[$CellContext`totalXSEC[(
+                  2 $CellContext`Ebeam)^2, $CellContext`ga$$, \
+$CellContext`fPi$$, $CellContext`MNucleon$$, $CellContext`MPi$$] \
+$CellContext`GeVtoBarn 
+               10^3 == $CellContext`target, {$CellContext`Ebeam, \
+$CellContext`MNucleon$$ #}]]& , {1.01, 1.1}], {$CellContext`target, {10, 20, 
+            30, 40}}], 1]]], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`ga$$, 1.25}, -2, 
+         2}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{358., {92.13403328722343, 97.86596671277657}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.971996699141199*^9, {3.9719967321977615`*^9, 3.971996816361826*^9}, {
+   3.971996848373188*^9, 3.971996868135919*^9}, {3.9719970337594833`*^9, 
+   3.971997047772866*^9}, {3.971997091313965*^9, 3.9719971040627613`*^9}, {
+   3.9719971669458504`*^9, 3.971997178463852*^9}, {3.971997214160517*^9, 
+   3.97199724579644*^9}, {3.9719975985195255`*^9, 3.971997619954361*^9}, 
+   3.97203941774654*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"ad3cc6e1-24a7-0e42-af6b-0c91477ca247"],
+
+Cell["\<\
+FindRoot::nlnum: 
+   The function value {-10. + 1000. GeVtoBarn 
+       totalXSEC[3.91882, 1.25, 0.093, 0.98, 0.139]} is not a list of numbers
+     with dimensions {1} at {Ebeam} = {0.9898}.\
+\>", "Message", "MSG",
+ CellChangeTimes->{3.9731040896567745`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"7995f6fa-53fd-914d-91f6-2a38863914ea"],
+
+Cell["\<\
+ReplaceAll::reps: 
+                                2
+   {FindRoot[totalXSEC[(2 Ebeam) , FE`ga$$313, FE`fPi$$313, FE`MNucleon$$313, 
+                                  3
+         FE`MPi$$313] GeVtoBarn 10  == target, {Ebeam, FE`MNucleon$$313 1.01}]
+      } is neither a list of replacement rules nor a valid dispatch table, and
+     so cannot be used for replacing.\
+\>", "Message", "MSG",
+ CellChangeTimes->{3.9731040898454857`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"e4fe1c00-9926-144b-8699-e68070c96e15"],
+
+Cell["\<\
+FindRoot::nlnum: 
+   The function value {-10. + 1000. GeVtoBarn 
+       totalXSEC[4.64834, 1.25, 0.093, 0.98, 0.139]} is not a list of numbers
+     with dimensions {1} at {Ebeam} = {1.078}.\
+\>", "Message", "MSG",
+ CellChangeTimes->{3.9731040899050426`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"b3e8dc15-58e7-9347-8448-a40a545da511"],
+
+Cell["\<\
+ReplaceAll::reps: 
+                                2
+   {FindRoot[totalXSEC[(2 Ebeam) , FE`ga$$313, FE`fPi$$313, FE`MNucleon$$313, 
+                                  3
+         FE`MPi$$313] GeVtoBarn 10  == target, {Ebeam, FE`MNucleon$$313 1.1}]}
+     is neither a list of replacement rules nor a valid dispatch table, and so
+     cannot be used for replacing.\
+\>", "Message", "MSG",
+ CellChangeTimes->{3.973104089959936*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"32f36097-8229-714b-baba-12bd2a3621a7"],
+
+Cell["\<\
+FindRoot::nlnum: 
+   The function value {-20. + 1000. GeVtoBarn 
+       totalXSEC[3.91882, 1.25, 0.093, 0.98, 0.139]} is not a list of numbers
+     with dimensions {1} at {Ebeam} = {0.9898}.\
+\>", "Message", "MSG",
+ CellChangeTimes->{3.9731040900172577`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"b8e25a34-1735-8741-a04a-c14de5d3d558"],
+
+Cell["\<\
+General::stop: Further output of FindRoot::nlnum
+     will be suppressed during this calculation.\
+\>", "Message", "MSG",
+ CellChangeTimes->{3.9731040900733414`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"15319865-e4f0-9648-872b-5a72485a6caf"],
+
+Cell["\<\
+ReplaceAll::reps: 
+                                2
+   {FindRoot[totalXSEC[(2 Ebeam) , FE`ga$$313, FE`fPi$$313, FE`MNucleon$$313, 
+                                  3
+         FE`MPi$$313] GeVtoBarn 10  == target, {Ebeam, FE`MNucleon$$313 1.01}]
+      } is neither a list of replacement rules nor a valid dispatch table, and
+     so cannot be used for replacing.\
+\>", "Message", "MSG",
+ CellChangeTimes->{3.973104090131092*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"75246747-3653-ea43-821f-cc1d12ebad1d"],
+
+Cell["\<\
+General::stop: Further output of ReplaceAll::reps
+     will be suppressed during this calculation.\
+\>", "Message", "MSG",
+ CellChangeTimes->{3.973104090190151*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"560ba7c7-9355-f44b-893b-456a82379f17"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"totalXSEC", "[", 
+         RowBox[{
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"2", "Ebeam"}], ")"}], "2"], ",", "ga", ",", "fPi", ",", 
+          "MNucleon", ",", "MPi"}], "]"}], "GeVtoBarn", "*", 
+        SuperscriptBox["10", "3"]}], ",", "100", ",", "110", ",", "120"}], 
+      "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Ebeam", ",", "MNucleon", ",", "1.3"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+scattering\>\"", "<>", "\"\<\\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MNucleon"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\"", "<>", 
+       "\"\< \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MPi"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", "All"}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"AspectRatio", "->", "1"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Ebeam [ GeV ]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ mb ]\>\"", "]"}]}], 
+       "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.25"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.093"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.9658478252678375`*^9, 
+   3.965847946056858*^9}, {3.965848474994455*^9, 3.9658485128615513`*^9}, {
+   3.965848546372156*^9, 3.965848546456257*^9}, {3.965848611544502*^9, 
+   3.9658486314754963`*^9}, {3.965848664014458*^9, 3.965848751703453*^9}, {
+   3.965848794242895*^9, 3.965848872208477*^9}, {3.96584893633036*^9, 
+   3.965848965878433*^9}, {3.965853719510837*^9, 3.9658537319566765`*^9}, 
+   3.9658537740706577`*^9, {3.96596158439497*^9, 3.9659616109333115`*^9}, {
+   3.965961648954026*^9, 3.965961666082819*^9}, {3.965988944111058*^9, 
+   3.9659889781195717`*^9}, {3.965997008812159*^9, 3.9659970618177056`*^9}, {
+   3.965997126897524*^9, 3.965997212399565*^9}, {3.965997302825468*^9, 
+   3.965997328984646*^9}, {3.968368929721876*^9, 3.9683689371085777`*^9}, {
+   3.968369535361923*^9, 3.9683695639586544`*^9}, {3.9683708395585384`*^9, 
+   3.968370849046446*^9}, {3.968375448132595*^9, 3.96837544952256*^9}, {
+   3.9683754998826027`*^9, 3.968375509602661*^9}, {3.968376116622637*^9, 
+   3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
+   3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
+   3.968377354192826*^9}, {3.9684394943605976`*^9, 3.968439559894665*^9}, {
+   3.968439627401359*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
+   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
+   3.9719119453713512`*^9, 3.971911961962099*^9}, {3.971911999419136*^9, 
+   3.971912009174354*^9}, 3.9719120477768726`*^9, {3.971996532182177*^9, 
+   3.971996571852192*^9}, {3.9719966050750427`*^9, 3.9719966250938635`*^9}},
+ CellLabel->"In[8]:=",ExpressionUUID->"178584ca-b9f2-5444-98f3-cf9b859c264f"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+    1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.25}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {360., {189., 193.8160827792508}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+        1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Plot[{$CellContext`totalXSEC[(
+            2 $CellContext`Ebeam)^2, $CellContext`ga$$, $CellContext`fPi$$, \
+$CellContext`MNucleon$$, $CellContext`MPi$$] $CellContext`GeVtoBarn 10^3, 100,
+          110, 120}, {$CellContext`Ebeam, $CellContext`MNucleon$$, 1.3}, 
+        PlotLabel -> (((((
+              "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] \
+p n scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = ") <> 
+             ToString[Round[100 $CellContext`MNucleon$$] 0.01]) <> "GeV") <> 
+           " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = ") <> 
+          ToString[Round[100 $CellContext`MPi$$] 0.01]) <> "GeV", PlotRange -> 
+        All, Frame -> True, AspectRatio -> 1, FrameLabel -> {"Ebeam [ GeV ]", 
+          Text["Cross section [ mb ]"]}], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`ga$$, 1.25}, -2, 
+         2}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{660., {218.63403328722342`, 224.36596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.9719119350267487`*^9, {3.97191200123983*^9, 3.971912048368111*^9}, {
+   3.9719122213728733`*^9, 3.971912224502846*^9}, 3.9719965414478855`*^9, 
+   3.971996574003153*^9, {3.971996607062374*^9, 3.971996625633486*^9}, 
+   3.9720394179601383`*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"a3441de2-4d71-4241-ac94-e72e9cdba57a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"LogPlot", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"totalXSEC", "[", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{"2", "Ebeam"}], ")"}], "2"], ",", "ga", ",", "fPi", ",", 
+         "MNucleon", ",", "MPi"}], "]"}], "GeVtoBarn", "*", 
+       SuperscriptBox["10", "9"]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Ebeam", ",", "MNucleon", ",", "6500"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+scattering\>\"", "<>", "\"\<\\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MNucleon"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\"", "<>", 
+       "\"\< \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MPi"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", "All"}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"AspectRatio", "->", "1"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Ebeam [ GeV ]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ mb ]\>\"", "]"}]}], 
+       "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.98", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.25"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.139"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.093"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.9658478252678375`*^9, 
+   3.965847946056858*^9}, {3.965848474994455*^9, 3.9658485128615513`*^9}, {
+   3.965848546372156*^9, 3.965848546456257*^9}, {3.965848611544502*^9, 
+   3.9658486314754963`*^9}, {3.965848664014458*^9, 3.965848751703453*^9}, {
+   3.965848794242895*^9, 3.965848872208477*^9}, {3.96584893633036*^9, 
+   3.965848965878433*^9}, {3.965853719510837*^9, 3.9658537319566765`*^9}, 
+   3.9658537740706577`*^9, {3.96596158439497*^9, 3.9659616109333115`*^9}, {
+   3.965961648954026*^9, 3.965961666082819*^9}, {3.965988944111058*^9, 
+   3.9659889781195717`*^9}, {3.965997008812159*^9, 3.9659970618177056`*^9}, {
+   3.965997126897524*^9, 3.965997212399565*^9}, {3.965997302825468*^9, 
+   3.965997328984646*^9}, {3.968368929721876*^9, 3.9683689371085777`*^9}, {
+   3.968369535361923*^9, 3.9683695639586544`*^9}, {3.9683708395585384`*^9, 
+   3.968370849046446*^9}, {3.968375448132595*^9, 3.96837544952256*^9}, {
+   3.9683754998826027`*^9, 3.968375509602661*^9}, {3.968376116622637*^9, 
+   3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
+   3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
+   3.968377354192826*^9}, {3.9684394943605976`*^9, 3.968439559894665*^9}, {
+   3.968439627401359*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
+   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
+   3.9719119453713512`*^9, 3.971911961962099*^9}, {3.971911999419136*^9, 
+   3.971912009174354*^9}, 3.9719120477768726`*^9, {3.971996532182177*^9, 
+   3.971996571852192*^9}, {3.9719966050750427`*^9, 3.9719966250938635`*^9}, 
+   3.971998126706249*^9, {3.971998164414404*^9, 3.971998180947073*^9}, {
+   3.971998215236273*^9, 3.9719982318418064`*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"f661176f-2cc9-5544-8fc9-b693ae4ff9d8"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+    1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.98, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.25}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {360., {186., 191.58984527587887`}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+        1.25, $CellContext`MNucleon$$ = 0.98, $CellContext`MPi$$ = 0.139}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      LogPlot[{$CellContext`totalXSEC[(
+            2 $CellContext`Ebeam)^2, $CellContext`ga$$, $CellContext`fPi$$, \
+$CellContext`MNucleon$$, $CellContext`MPi$$] $CellContext`GeVtoBarn 
+         10^9}, {$CellContext`Ebeam, $CellContext`MNucleon$$, 6500}, 
+        PlotLabel -> 
+        "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <> 
+         ToString[Round[100 $CellContext`MNucleon$$] 0.01] <> "GeV" <> 
+         " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = " <> 
+         ToString[Round[100 $CellContext`MPi$$] 0.01] <> "GeV", PlotRange -> 
+        All, Frame -> True, AspectRatio -> 1, FrameLabel -> {"Ebeam [ GeV ]", 
+          Text["Cross section [ mb ]"]}], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.98, 
+         10}, {{$CellContext`ga$$, 1.25}, -2, 
+         2}, {{$CellContext`MPi$$, 0.139}, 0, 
+         1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{660., {216.13403328722342`, 221.86596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.971998127791956*^9, {3.9719981657781963`*^9, 3.971998181636886*^9}, {
+   3.971998217809105*^9, 3.971998232479795*^9}, 3.9720394181648006`*^9},
+ CellLabel->"Out[9]=",ExpressionUUID->"f5c29575-b127-794b-aa45-55ff1f939b73"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"xseclist", "=", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"3830", ",", "\[IndentingNewLine]", 
+      RowBox[{"1.255", " ", 
+       SuperscriptBox["10", "11"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"1.259", " ", 
+       SuperscriptBox["10", "11"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"1.262", " ", 
+       SuperscriptBox["10", "11"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"1.235", " ", 
+       SuperscriptBox["10", "11"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"1.225", " ", 
+       SuperscriptBox["10", "11"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"1.092", " ", 
+       SuperscriptBox["10", "11"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"9.966", " ", 
+       SuperscriptBox["10", "11"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"9.026", " ", 
+       SuperscriptBox["10", "11"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"3.579", " ", 
+       SuperscriptBox["10", "10"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"2.683", " ", 
+       SuperscriptBox["10", "10"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"1.793", " ", 
+       SuperscriptBox["10", "10"]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"8.948", " ", 
+       SuperscriptBox["10", "9"]}]}], "}"}], "/", 
+    SuperscriptBox["10", "12"]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.971997860546555*^9, 3.971997860546555*^9}, {
+  3.971997924545221*^9, 3.97199807698139*^9}, {3.971999451973718*^9, 
+  3.971999500528353*^9}, {3.971999911573784*^9, 3.97199991988726*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"a2a59573-2ecd-b042-b839-27d105273440"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ebeamlist", "=", 
+   RowBox[{"Sqrt", "/@", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+        "n", " ", "p", "\n", "6500.0", " ", "x", " ", "6500.0", " ", "GeV", 
+         "\n", "n", " ", "p"}], ",", "\n", 
+        RowBox[{
+        "0.996955", " ", "x", " ", "0.996955", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "1.00286", " ", "x", " ", "1.00286", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "1.0132", " ", "x", " ", "1.0132", " ", "GeV", "\n", "n", " ", "p"}], 
+        ",", "\n", 
+        RowBox[{
+        "1.05265", " ", "x", " ", "1.05265", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "1.06046", " ", "x", " ", "1.06046", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "1.14829", " ", "x", " ", "1.14829", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "1.21409", " ", "x", " ", "1.21409", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "1.28322", " ", "x", " ", "1.28322", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "2.07372", " ", "x", " ", "2.07372", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "2.39976", " ", "x", " ", "2.39976", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{
+        "2.94508", " ", "x", " ", "2.94508", " ", "GeV", "\n", "n", " ", 
+         "p"}], ",", "\n", 
+        RowBox[{"4.17318", " ", "x", " ", "4.17318", " ", "GeV"}]}], "\n", 
+       "}"}], "/.", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"GeV", "->", "1"}], ",", 
+        RowBox[{"n", "->", "1"}], ",", 
+        RowBox[{"p", "->", "1"}], ",", 
+        RowBox[{"x", "->", "1"}]}], "}"}]}], ")"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.9719995041977844`*^9, 3.9719996202238226`*^9}, {
+  3.9719997311434345`*^9, 3.971999766985428*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"ec0b6a6b-acc7-5741-866b-6d539a29c740"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"datapoints", "=", 
+   RowBox[{"Transpose", "@", 
+    RowBox[{"{", 
+     RowBox[{"ebeamlist", ",", "xseclist"}], "}"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.9720000344840713`*^9, 3.972000038814724*^9}},
+ CellLabel->"In[12]:=",ExpressionUUID->"17a3ba4f-a360-f947-bec1-20dd1e16b2b4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", "datapoints", "]"}]], "Input",
+ CellChangeTimes->{{3.97199962685387*^9, 3.971999699723409*^9}, {
+   3.971999805473873*^9, 3.971999822093937*^9}, 3.971999873037161*^9, 
+   3.9720000461334534`*^9},
+ CellLabel->"In[13]:=",ExpressionUUID->"e066384c-e0ad-b543-80bc-333de7ed639a"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, 
+   InterpretationBox[{
+     TagBox[
+      TagBox[
+       {RGBColor[0.368417, 0.506779, 0.709798], PointSize[
+        0.012833333333333334`], AbsoluteThickness[2], 
+        PointBox[{{6500., 3.83*^-9}, {0.996955, 0.12549999999999997`}, {
+         1.00286, 0.12589999999999998`}, {1.0132, 0.1262}, {1.05265, 
+         0.12350000000000001`}, {1.06046, 0.12250000000000001`}, {1.14829, 
+         0.10920000000000002`}, {1.21409, 0.9965999999999998}, {1.28322, 
+         0.9026}, {2.07372, 0.03579}, {2.39976, 0.02683}, {2.94508, 
+         0.017929999999999998`}, {4.17318, 0.008948}}]},
+       Annotation[#, "Charting`Private`Tag#1"]& ],
+      {"WolframDynamicHighlight", <|
+       "Label" -> {"XYLabel"}, "Ball" -> {"IndicatedBall"}|>}], 
+     StyleBox[
+      DynamicBox[(Charting`HighlightActionBox["DynamicHighlight", {}, 
+        Slot["HighlightElements"], 
+        Slot["LayoutOptions"], 
+        Slot["Meta"], 
+        Charting`HighlightActionFunction["DynamicHighlight", {{
+           Annotation[{
+             Directive[
+              PointSize[0.012833333333333334`], 
+              RGBColor[0.368417, 0.506779, 0.709798], 
+              AbsoluteThickness[2]], 
+             
+             Point[{{6500., 3.83*^-9}, {0.996955, 0.12549999999999997`}, {
+              1.00286, 0.12589999999999998`}, {1.0132, 0.1262}, {1.05265, 
+              0.12350000000000001`}, {1.06046, 0.12250000000000001`}, {
+              1.14829, 0.10920000000000002`}, {1.21409, 0.9965999999999998}, {
+              1.28322, 0.9026}, {2.07372, 0.03579}, {2.39976, 0.02683}, {
+              2.94508, 0.017929999999999998`}, {4.17318, 0.008948}}]}, 
+            "Charting`Private`Tag#1"]}}, <|
+         "HighlightElements" -> <|
+           "Label" -> {"XYLabel"}, "Ball" -> {"IndicatedBall"}|>, 
+          "LayoutOptions" -> <|
+           "PanelPlotLayout" -> <||>, 
+            "PlotRange" -> {{0.8959978125000023, 5.8429}, {0, 0.288605}}, 
+            "Frame" -> {{False, False}, {False, False}}, 
+            "AxesOrigin" -> {0.8959978125000023, 0}, 
+            "ImageSize" -> {360, 360/GoldenRatio}, "Axes" -> {True, True}, 
+            "LabelStyle" -> {}, "AspectRatio" -> GoldenRatio^(-1), 
+            "DefaultStyle" -> {
+              Directive[
+               PointSize[0.012833333333333334`], 
+               RGBColor[0.368417, 0.506779, 0.709798], 
+               AbsoluteThickness[2]]}, 
+            "HighlightLabelingFunctions" -> <|"CoordinatesToolOptions" -> ({
+                Identity[
+                 Part[#, 1]], 
+                Identity[
+                 Part[#, 2]]}& ), 
+              "ScalingFunctions" -> {{Identity, Identity}, {
+                Identity, Identity}}|>, "Primitives" -> {}, "GCFlag" -> 
+            False|>, 
+          "Meta" -> <|
+           "DefaultHighlight" -> {"Dynamic", None}, "Index" -> {}, "Function" -> 
+            ListPlot, "GroupHighlight" -> False|>|>]]& )[<|
+        "HighlightElements" -> <|
+          "Label" -> {"XYLabel"}, "Ball" -> {"IndicatedBall"}|>, 
+         "LayoutOptions" -> <|
+          "PanelPlotLayout" -> <||>, 
+           "PlotRange" -> {{0.8959978125000023, 5.8429}, {0, 0.288605}}, 
+           "Frame" -> {{False, False}, {False, False}}, 
+           "AxesOrigin" -> {0.8959978125000023, 0}, 
+           "ImageSize" -> {360, 360/GoldenRatio}, "Axes" -> {True, True}, 
+           "LabelStyle" -> {}, "AspectRatio" -> GoldenRatio^(-1), 
+           "DefaultStyle" -> {
+             Directive[
+              PointSize[0.012833333333333334`], 
+              RGBColor[0.368417, 0.506779, 0.709798], 
+              AbsoluteThickness[2]]}, 
+           "HighlightLabelingFunctions" -> <|"CoordinatesToolOptions" -> ({
+               Identity[
+                Part[#, 1]], 
+               Identity[
+                Part[#, 2]]}& ), 
+             "ScalingFunctions" -> {{Identity, Identity}, {
+               Identity, Identity}}|>, "Primitives" -> {}, "GCFlag" -> 
+           False|>, 
+         "Meta" -> <|
+          "DefaultHighlight" -> {"Dynamic", None}, "Index" -> {}, "Function" -> 
+           ListPlot, "GroupHighlight" -> False|>|>],
+       ImageSizeCache->{{4.503599627370496*^15, -4.503599627370496*^15}, {
+        4.503599627370496*^15, -4.503599627370496*^15}}],
+      Selectable->False]},
+    Annotation[{{
+       Annotation[{
+         Directive[
+          PointSize[0.012833333333333334`], 
+          RGBColor[0.368417, 0.506779, 0.709798], 
+          AbsoluteThickness[2]], 
+         Point[{{6500., 3.83*^-9}, {0.996955, 0.12549999999999997`}, {1.00286,
+           0.12589999999999998`}, {1.0132, 0.1262}, {1.05265, 
+          0.12350000000000001`}, {1.06046, 0.12250000000000001`}, {1.14829, 
+          0.10920000000000002`}, {1.21409, 0.9965999999999998}, {1.28322, 
+          0.9026}, {2.07372, 0.03579}, {2.39976, 0.02683}, {2.94508, 
+          0.017929999999999998`}, {4.17318, 0.008948}}]}, 
+        "Charting`Private`Tag#1"]}}, <|
+     "HighlightElements" -> <|
+       "Label" -> {"XYLabel"}, "Ball" -> {"IndicatedBall"}|>, 
+      "LayoutOptions" -> <|
+       "PanelPlotLayout" -> <||>, 
+        "PlotRange" -> {{0.8959978125000023, 5.8429}, {0, 0.288605}}, 
+        "Frame" -> {{False, False}, {False, False}}, 
+        "AxesOrigin" -> {0.8959978125000023, 0}, 
+        "ImageSize" -> {360, 360/GoldenRatio}, "Axes" -> {True, True}, 
+        "LabelStyle" -> {}, "AspectRatio" -> GoldenRatio^(-1), "DefaultStyle" -> {
+          Directive[
+           PointSize[0.012833333333333334`], 
+           RGBColor[0.368417, 0.506779, 0.709798], 
+           AbsoluteThickness[2]]}, 
+        "HighlightLabelingFunctions" -> <|"CoordinatesToolOptions" -> ({
+            Identity[
+             Part[#, 1]], 
+            Identity[
+             Part[#, 2]]}& ), 
+          "ScalingFunctions" -> {{Identity, Identity}, {
+            Identity, Identity}}|>, "Primitives" -> {}, "GCFlag" -> False|>, 
+      "Meta" -> <|
+       "DefaultHighlight" -> {"Dynamic", None}, "Index" -> {}, "Function" -> 
+        ListPlot, "GroupHighlight" -> False|>|>, 
+     "DynamicHighlight"]], {{}, {}}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0.8959978125000023, 0},
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  Method->{
+   "AxisPadding" -> Scaled[0.02], "DefaultBoundaryStyle" -> Automatic, 
+    "DefaultGraphicsInteraction" -> {
+     "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+      "Effects" -> {
+       "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2}, 
+        "Droplines" -> {
+         "freeformCursorMode" -> True, 
+          "placement" -> {"x" -> "All", "y" -> "None"}}}}, "DefaultMeshStyle" -> 
+    AbsolutePointSize[6], "DefaultPlotStyle" -> {
+      Directive[
+       RGBColor[0.368417, 0.506779, 0.709798], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.880722, 0.611041, 0.142051], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.560181, 0.691569, 0.194885], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.922526, 0.385626, 0.209179], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.528488, 0.470624, 0.701351], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.772079, 0.431554, 0.102387], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.363898, 0.618501, 0.782349], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[1, 0.75, 0], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.647624, 0.37816, 0.614037], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.571589, 0.586483, 0.], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.915, 0.3325, 0.2125], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.40082222609352647`, 0.5220066643438841, 0.85], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.9728288904374106, 0.621644452187053, 0.07336199581899142], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.736782672705901, 0.358, 0.5030266573755369], 
+       AbsoluteThickness[2]], 
+      Directive[
+       RGBColor[0.28026441037696703`, 0.715, 0.4292089322474965], 
+       AbsoluteThickness[2]]}, "DomainPadding" -> Scaled[0.02], 
+    "PointSizeFunction" -> "SmallPointSize", "RangePadding" -> Scaled[0.05], 
+    "OptimizePlotMarkers" -> True, "IncludeHighlighting" -> "CurrentPoint", 
+    "HighlightStyle" -> Automatic, "OptimizePlotMarkers" -> True, 
+    "CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+        Identity[
+         Part[#, 1]], 
+        Identity[
+         Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+        Identity[
+         Part[#, 1]], 
+        Identity[
+         Part[#, 2]]}& )}},
+  PlotRange->{{0.8959978125000023, 5.8429}, {0, 0.288605}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.05]}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{{3.9719996510835915`*^9, 3.971999700602137*^9}, {
+   3.971999740499449*^9, 3.971999771833658*^9}, {3.971999806508566*^9, 
+   3.971999822893387*^9}, 3.9719998737037773`*^9, 3.9719999273391438`*^9, 
+   3.972000046885355*^9, 3.972039419770487*^9},
+ CellLabel->"Out[13]=",ExpressionUUID->"121cf474-4b67-7546-a2a2-4cc044868b61"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"totalXSEC", "[", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{"2", "Ebeam"}], ")"}], "2"], ",", "ga", ",", "fPi", ",", 
+         "MNucleon", ",", "MPi"}], "]"}], "GeVtoBarn"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"Ebeam", ",", "MNucleon", ",", "5"}], "}"}], ",", 
+     RowBox[{"PlotLabel", "->", 
+      RowBox[{
+      "\"\<\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+scattering\>\"", "<>", "\"\<\\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MNucleon"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\"", "<>", 
+       "\"\< \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = \>\"", "<>", 
+       RowBox[{"ToString", "[", 
+        RowBox[{
+         RowBox[{"Round", "[", 
+          RowBox[{"100", "MPi"}], "]"}], "*", "0.01"}], "]"}], "<>", 
+       "\"\<GeV\>\""}]}], ",", 
+     RowBox[{"PlotRange", "->", "All"}], ",", 
+     RowBox[{"Frame", "->", "True"}], ",", 
+     RowBox[{"AspectRatio", "->", "1"}], ",", 
+     RowBox[{"FrameLabel", "->", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Ebeam [ GeV ]\>\"", ",", 
+        RowBox[{"Text", "[", "\"\<Cross section [ barn ]\>\"", "]"}]}], 
+       "}"}]}], ",", 
+     RowBox[{"Epilog", "->", 
+      RowBox[{"Point", "/@", "datapoints"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"MNucleon", ",", "0.938272", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ga", ",", "1.27"}], "}"}], ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"MPi", ",", "0.1398"}], "}"}], ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"fPi", ",", "0.093"}], "}"}], ",", "0", ",", "1"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.961144963201886*^9, 3.961145172534809*^9}, {
+   3.9643720998091793`*^9, 3.9643721543755913`*^9}, {3.964387471575039*^9, 
+   3.964387583199299*^9}, {3.964387641592525*^9, 3.964387797361697*^9}, {
+   3.964387873339382*^9, 3.9643879849391785`*^9}, {3.964388037713169*^9, 
+   3.964388088332047*^9}, {3.964388186148838*^9, 3.964388320018701*^9}, {
+   3.964388353265301*^9, 3.964388695831865*^9}, {3.964389734904177*^9, 
+   3.964389735311054*^9}, {3.964389774321939*^9, 3.964389802024439*^9}, {
+   3.964389852660375*^9, 3.964389877101151*^9}, {3.9658478252678375`*^9, 
+   3.965847946056858*^9}, {3.965848474994455*^9, 3.9658485128615513`*^9}, {
+   3.965848546372156*^9, 3.965848546456257*^9}, {3.965848611544502*^9, 
+   3.9658486314754963`*^9}, {3.965848664014458*^9, 3.965848751703453*^9}, {
+   3.965848794242895*^9, 3.965848872208477*^9}, {3.96584893633036*^9, 
+   3.965848965878433*^9}, {3.965853719510837*^9, 3.9658537319566765`*^9}, 
+   3.9658537740706577`*^9, {3.96596158439497*^9, 3.9659616109333115`*^9}, {
+   3.965961648954026*^9, 3.965961666082819*^9}, {3.965988944111058*^9, 
+   3.9659889781195717`*^9}, {3.965997008812159*^9, 3.9659970618177056`*^9}, {
+   3.965997126897524*^9, 3.965997212399565*^9}, {3.965997302825468*^9, 
+   3.965997328984646*^9}, {3.968368929721876*^9, 3.9683689371085777`*^9}, {
+   3.968369535361923*^9, 3.9683695639586544`*^9}, {3.9683708395585384`*^9, 
+   3.968370849046446*^9}, {3.968375448132595*^9, 3.96837544952256*^9}, {
+   3.9683754998826027`*^9, 3.968375509602661*^9}, {3.968376116622637*^9, 
+   3.968376151209528*^9}, {3.968377072799459*^9, 3.968377142486076*^9}, {
+   3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
+   3.968377354192826*^9}, {3.9684394943605976`*^9, 3.968439559894665*^9}, {
+   3.968439627401359*^9, 3.968439636550691*^9}, {3.968439679975468*^9, 
+   3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
+   3.9719119453713512`*^9, 3.971911961962099*^9}, {3.971911999419136*^9, 
+   3.971912009174354*^9}, 3.9719120477768726`*^9, {3.971996532182177*^9, 
+   3.971996571852192*^9}, {3.9719966050750427`*^9, 3.9719966250938635`*^9}, {
+   3.971999953663339*^9, 3.972000002383678*^9}, {3.972000057587969*^9, 
+   3.972000077263706*^9}, {3.972001698477009*^9, 3.972001742225615*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"edb1bc11-0b0b-9b4b-8709-cc23dfc3abc2"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+    1.27, $CellContext`MNucleon$$ = 0.938272, $CellContext`MPi$$ = 0.1398, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`MNucleon$$], 0.938272, 10, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`ga$$], 1.27}, -2, 2, ControlType -> Manipulator}, {{
+       Hold[$CellContext`MPi$$], 0.1398}, 0, 1, ControlType -> Manipulator}, {{
+       Hold[$CellContext`fPi$$], 0.093}, 0, 1, ControlType -> Manipulator}}, 
+    Typeset`size$$ = {360., {189., 193.87304811477657`}}, Typeset`update$$ = 
+    0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`fPi$$ = 0.093, $CellContext`ga$$ = 
+        1.27, $CellContext`MNucleon$$ = 0.938272, $CellContext`MPi$$ = 
+        0.1398}, "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Plot[{$CellContext`totalXSEC[(
+            2 $CellContext`Ebeam)^2, $CellContext`ga$$, $CellContext`fPi$$, \
+$CellContext`MNucleon$$, $CellContext`MPi$$] $CellContext`GeVtoBarn}, \
+{$CellContext`Ebeam, $CellContext`MNucleon$$, 5}, PlotLabel -> 
+        "\!\(\*SubscriptBox[\(\[Sigma]\), \(total\)]\) for p n \[Rule] p n \
+scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <> 
+         ToString[Round[100 $CellContext`MNucleon$$] 0.01] <> "GeV" <> 
+         " \!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\) = " <> 
+         ToString[Round[100 $CellContext`MPi$$] 0.01] <> "GeV", PlotRange -> 
+        All, Frame -> True, AspectRatio -> 1, FrameLabel -> {"Ebeam [ GeV ]", 
+          Text["Cross section [ barn ]"]}, Epilog -> 
+        Map[Point, $CellContext`datapoints]], 
+      "Specifications" :> {{$CellContext`MNucleon$$, 0.938272, 
+         10}, {{$CellContext`ga$$, 1.27}, -2, 
+         2}, {{$CellContext`MPi$$, 0.1398}, 0, 
+         1}, {{$CellContext`fPi$$, 0.093}, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{660., {218.63403328722342`, 224.36596671277658`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.971999955198808*^9, 3.971999962833441*^9}, {
+   3.971999994195627*^9, 3.972000003073559*^9}, {3.9720000707036853`*^9, 
+   3.972000078013548*^9}, 3.972000126763319*^9, {3.97200015934556*^9, 
+   3.9720001869137073`*^9}, 3.9720002988135967`*^9, {3.972000400133384*^9, 
+   3.9720004162674713`*^9}, {3.972001718852936*^9, 3.9720017431149826`*^9}, 
+   3.972039419910095*^9},
+ CellLabel->"Out[14]=",ExpressionUUID->"12a3ba0c-39d4-6747-820e-ddb0700dac96"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -605,7 +1633,7 @@ fixed target scattering\>\"", "<>",
    3.968377172979433*^9, 3.968377210109495*^9}, {3.968377262882822*^9, 
    3.968377354192826*^9}, 3.9684394943605976`*^9, {3.968439782664221*^9, 
    3.9684398274151497`*^9}},
- CellLabel->"In[76]:=",ExpressionUUID->"bea07f8d-4c00-1744-b984-2c9059329c7a"],
+ CellLabel->"In[15]:=",ExpressionUUID->"bea07f8d-4c00-1744-b984-2c9059329c7a"],
 
 Cell[BoxData[
  TagBox[
@@ -661,8 +1689,9 @@ fixed target scattering" <> "\n \!\(\*SubscriptBox[\(m\), \(N\)]\) = " <>
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.968445990582924*^9, 3.968446046072399*^9},
- CellLabel->"Out[76]=",ExpressionUUID->"d68c7f4b-7e5c-b34f-abea-2f9b419b1a5b"]
+ CellChangeTimes->{3.968445990582924*^9, 3.968446046072399*^9, 
+  3.971911628988289*^9, 3.9720394201002254`*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"9b4fa219-049f-5e46-967b-3c703452e31c"]
 }, Open  ]]
 }, Open  ]],
 
@@ -1174,7 +2203,7 @@ Cell[BoxData[
    3.967659817922533*^9, 3.967659821972145*^9}, {3.9676599107435703`*^9, 
    3.967659914872961*^9}, 3.9676610803299255`*^9, {3.968440476873607*^9, 
    3.968440513957512*^9}, {3.9684432745833626`*^9, 3.968443274830097*^9}},
- CellLabel->"In[77]:=",ExpressionUUID->"7d33a12d-3524-9f40-8540-9a1000844720"],
+ CellLabel->"In[16]:=",ExpressionUUID->"7d33a12d-3524-9f40-8540-9a1000844720"],
 
 Cell[BoxData[
  RowBox[{
@@ -1590,7 +2619,7 @@ Cell[BoxData[
    3.9684405328231926`*^9, 3.96844057507908*^9}, 3.968443100010078*^9, {
    3.968443595539831*^9, 3.968443605090082*^9}, {3.968443813143623*^9, 
    3.968443814220093*^9}},
- CellLabel->"In[78]:=",ExpressionUUID->"d2fb498a-e4ba-4943-8bf9-eac5ff116bc0"],
+ CellLabel->"In[17]:=",ExpressionUUID->"d2fb498a-e4ba-4943-8bf9-eac5ff116bc0"],
 
 Cell[CellGroupData[{
 
@@ -1676,7 +2705,7 @@ Cell[BoxData[
    3.968368707568945*^9, 3.96836878089694*^9}, {3.968369142825249*^9, 
    3.968369162688587*^9}, {3.968369225955225*^9, 3.968369255018572*^9}, {
    3.96836930155859*^9, 3.9683693447419815`*^9}, 3.968369616375273*^9, {
-   3.968370756922413*^9, 3.9683707571269236`*^9}, {3.968370820880883*^9, 
+   3.968370756922413*^9, 3.9683707571269255`*^9}, {3.968370820880883*^9, 
    3.968370832495272*^9}, {3.9683738234876003`*^9, 3.968373823807167*^9}, {
    3.968375226685959*^9, 3.968375227161898*^9}, {3.9683754855425644`*^9, 
    3.9683754904096565`*^9}, {3.9683757239111385`*^9, 3.968375797222683*^9}, {
@@ -1685,7 +2714,7 @@ Cell[BoxData[
    3.968439433440166*^9, 3.968439443542563*^9}, 3.9684394755202713`*^9, {
    3.968444002456917*^9, 3.968444069286892*^9}, {3.968444099743591*^9, 
    3.9684441394469624`*^9}, {3.968444302257183*^9, 3.96844431164027*^9}},
- CellLabel->"In[79]:=",ExpressionUUID->"79833266-0030-8340-9d22-e2669ca984d5"],
+ CellLabel->"In[18]:=",ExpressionUUID->"79833266-0030-8340-9d22-e2669ca984d5"],
 
 Cell[BoxData[
  TagBox[
@@ -1709,7 +2738,7 @@ Cell[BoxData[
        Hold[$CellContext`sw$$], 0.5}, 0, 1, ControlType -> Manipulator}, {{
        Hold[$CellContext`MPi$$], 0.139}, 0, 1, ControlType -> Manipulator}, {{
        Hold[$CellContext`fPi$$], 0.13}, 0, 1, ControlType -> Manipulator}}, 
-    Typeset`size$$ = {360., {131., 136.00252807659876`}}, Typeset`update$$ = 
+    Typeset`size$$ = {360., {131., 136.00250121485203`}}, Typeset`update$$ = 
     0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
     DynamicBox[Manipulate`ManipulateBoxes[
      1, StandardForm, 
@@ -1756,8 +2785,9 @@ $CellContext`GeVtoBarn 10^3, {$CellContext`z, -1, 1}, PlotLabel ->
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.9684459907861958`*^9, 3.968446046279209*^9},
- CellLabel->"Out[79]=",ExpressionUUID->"74e5bac2-9633-134b-a28f-1103820243ec"]
+ CellChangeTimes->{3.968445990786195*^9, 3.968446046279209*^9, 
+  3.971911629228069*^9, 3.9720394203300877`*^9},
+ CellLabel->"Out[18]=",ExpressionUUID->"6986ad66-d2cc-fe4d-9506-b3feee9d5c0f"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1861,9 +2891,9 @@ Cell[BoxData[
    3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
    3.9684442505135593`*^9, 3.968444290183269*^9}, {3.9684443294165134`*^9, 
    3.968444359457175*^9}, {3.9684447913536396`*^9, 3.968444809573715*^9}, {
-   3.968444840060074*^9, 3.9684449416303678`*^9}, {3.968444981936943*^9, 
-   3.968444987037071*^9}, {3.9684454137302084`*^9, 3.968445427323591*^9}},
- CellLabel->"In[80]:=",ExpressionUUID->"c2cd8be3-c9ec-de43-a4d8-ff878ea5195a"],
+   3.968444840060074*^9, 3.968444941630368*^9}, {3.968444981936943*^9, 
+   3.968444987037071*^9}, {3.9684454137302065`*^9, 3.968445427323591*^9}},
+ CellLabel->"In[19]:=",ExpressionUUID->"c2cd8be3-c9ec-de43-a4d8-ff878ea5195a"],
 
 Cell[BoxData[
  TagBox[
@@ -1933,8 +2963,9 @@ $CellContext`MPi$$, 5}, PlotLabel ->
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.9684459910026245`*^9, 3.968446046485155*^9},
- CellLabel->"Out[80]=",ExpressionUUID->"05659455-bd68-0341-a3a1-d157604cdffa"]
+ CellChangeTimes->{3.968445991002624*^9, 3.968446046485155*^9, 
+  3.971911629449953*^9, 3.9720394205638905`*^9, 3.9720395277056217`*^9},
+ CellLabel->"Out[19]=",ExpressionUUID->"25ccc1fd-85d1-7042-9803-0b9ed8d95ef3"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2101,11 +3132,11 @@ Cell[BoxData[
    3.9684397011830196`*^9}, {3.968439857248686*^9, 3.968439922798893*^9}, {
    3.9684442505135593`*^9, 3.968444290183269*^9}, {3.9684443294165134`*^9, 
    3.968444359457175*^9}, {3.9684447913536396`*^9, 3.968444809573715*^9}, {
-   3.968444840060074*^9, 3.9684449416303678`*^9}, {3.968444981936943*^9, 
+   3.968444840060074*^9, 3.968444941630368*^9}, {3.968444981936943*^9, 
    3.968444987037071*^9}, {3.968445657113861*^9, 3.968445672777031*^9}, {
    3.968445718503874*^9, 3.968445760903755*^9}, {3.968445798927046*^9, 
    3.968445814526975*^9}},
- CellLabel->"In[81]:=",ExpressionUUID->"838d41ce-43ab-2c49-8f68-b07bb885239e"],
+ CellLabel->"In[23]:=",ExpressionUUID->"838d41ce-43ab-2c49-8f68-b07bb885239e"],
 
 Cell[BoxData[
  TagBox[
@@ -2200,8 +3231,10 @@ $CellContext`MPi$$))^2] $CellContext`GeVtoBarn 10^3}, {$CellContext`Ebeam, 0,
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.968445991196823*^9, 3.96844604668169*^9},
- CellLabel->"Out[81]=",ExpressionUUID->"d14c0678-6bff-4a43-b785-fddaf3bb02d5"]
+ CellChangeTimes->{
+  3.968445991196823*^9, 3.96844604668169*^9, 3.9719116296478558`*^9, 
+   3.972039420788809*^9, {3.9720396665266857`*^9, 3.9720396970476723`*^9}},
+ CellLabel->"Out[23]=",ExpressionUUID->"f1db3da1-7a84-7b48-8bd0-f0591aba5fa4"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2217,7 +3250,7 @@ Cell[BoxData[
     RowBox[{"s", ",", "\[Infinity]", ",", "0"}], "}"}]}], "]"}]], "Input",
  CellChangeTimes->{{3.968445537387182*^9, 3.968445573830387*^9}, 
    3.968445633713743*^9},
- CellLabel->"In[82]:=",ExpressionUUID->"52d585d8-b1ce-b84c-b6de-387f90cb9067"],
+ CellLabel->"In[21]:=",ExpressionUUID->"52d585d8-b1ce-b84c-b6de-387f90cb9067"],
 
 Cell[BoxData[
  InterpretationBox[
@@ -2267,8 +3300,9 @@ Cell[BoxData[
      4 $CellContext`ga^2 $CellContext`MPi^2 - 
      2 $CellContext`ga^4 $CellContext`MPi^2)/Pi}, -1, 1, 1],
   Editable->False]], "Output",
- CellChangeTimes->{3.9684459914340744`*^9, 3.968446046928465*^9},
- CellLabel->"Out[82]=",ExpressionUUID->"bfb81b49-5387-e246-b158-6de55c3be943"]
+ CellChangeTimes->{3.968445991434074*^9, 3.968446046928465*^9, 
+  3.9719116319528675`*^9, 3.972039423184572*^9},
+ CellLabel->"Out[21]=",ExpressionUUID->"986b2098-dc37-df49-9b57-66f696e22680"]
 }, Open  ]],
 
 Cell[BoxData[
@@ -2289,7 +3323,7 @@ Cell[BoxData[
      SuperscriptBox["fPi", "4"], " ", "\[Pi]"}]]}], ";"}]], "Input",
  CellChangeTimes->{{3.968445598644045*^9, 3.968445638950411*^9}, 
    3.968445695567379*^9},
- CellLabel->"In[83]:=",ExpressionUUID->"3bb0bba0-9954-014f-9a9b-94e42009a45c"]
+ CellLabel->"In[22]:=",ExpressionUUID->"3bb0bba0-9954-014f-9a9b-94e42009a45c"]
 }, Open  ]]
 },
 WindowSize->{1141.2, 568.8},
@@ -2310,44 +3344,75 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[558, 20, 677, 18, 38, "Text",ExpressionUUID->"75c3a97d-7ea9-7b4b-9908-45b8258e7fb9"],
-Cell[1238, 40, 414, 13, 48, "Input",ExpressionUUID->"76bd826d-3914-f646-870f-10b8ff169452"],
+Cell[1238, 40, 413, 13, 48, "Input",ExpressionUUID->"76bd826d-3914-f646-870f-10b8ff169452"],
 Cell[CellGroupData[{
-Cell[1677, 57, 165, 3, 54, "Subsection",ExpressionUUID->"5e65ec1e-0b2f-734f-9307-cf60553ed2a2"],
-Cell[1845, 62, 6304, 175, 276, "Input",ExpressionUUID->"c32d2b6a-b9aa-fd4c-a0c9-cd4e1da0f545"],
+Cell[1676, 57, 165, 3, 54, "Subsection",ExpressionUUID->"5e65ec1e-0b2f-734f-9307-cf60553ed2a2"],
+Cell[1844, 62, 6303, 175, 276, "Input",ExpressionUUID->"c32d2b6a-b9aa-fd4c-a0c9-cd4e1da0f545"],
 Cell[CellGroupData[{
-Cell[8174, 241, 3378, 74, 130, "Input",ExpressionUUID->"1cee0bb7-afc4-b041-84df-8f2a3faef4b6"],
-Cell[11555, 317, 3178, 58, 369, "Output",ExpressionUUID->"b215fa7e-88aa-3f46-9f19-ff8aacd4a7ff"]
+Cell[8172, 241, 3375, 74, 130, "Input",ExpressionUUID->"1cee0bb7-afc4-b041-84df-8f2a3faef4b6"],
+Cell[11550, 317, 3231, 60, 341, "Output",ExpressionUUID->"19c3451b-32dd-9645-8261-13e10cf36455"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[14770, 380, 3935, 79, 130, "Input",ExpressionUUID->"c350cd35-830c-bc42-994c-83690f9a118f"],
-Cell[18708, 461, 2963, 53, 470, "Output",ExpressionUUID->"cdbdfd5c-e970-7044-9a72-b5a83d31669d"]
+Cell[14818, 382, 3983, 80, 130, "Input",ExpressionUUID->"c350cd35-830c-bc42-994c-83690f9a118f"],
+Cell[18804, 464, 3091, 56, 466, "Output",ExpressionUUID->"ce5d55ae-5397-5049-823b-e795eb3f2aab"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[21708, 519, 4111, 88, 112, "Input",ExpressionUUID->"bea07f8d-4c00-1744-b984-2c9059329c7a"],
-Cell[25822, 609, 3044, 55, 459, "Output",ExpressionUUID->"d68c7f4b-7e5c-b34f-abea-2f9b419b1a5b"]
+Cell[21932, 525, 4209, 83, 93, "Input",ExpressionUUID->"28811407-b2d0-8d48-a167-41d5cb1414a7"],
+Cell[26144, 610, 3091, 60, 209, "Output",ExpressionUUID->"ad3cc6e1-24a7-0e42-af6b-0c91477ca247"],
+Cell[29238, 672, 372, 9, 68, "Message",ExpressionUUID->"7995f6fa-53fd-914d-91f6-2a38863914ea"],
+Cell[29613, 683, 545, 12, 113, "Message",ExpressionUUID->"e4fe1c00-9926-144b-8699-e68070c96e15"],
+Cell[30161, 697, 371, 9, 68, "Message",ExpressionUUID->"b3e8dc15-58e7-9347-8448-a40a545da511"],
+Cell[30535, 708, 540, 12, 113, "Message",ExpressionUUID->"32f36097-8229-714b-baba-12bd2a3621a7"],
+Cell[31078, 722, 372, 9, 68, "Message",ExpressionUUID->"b8e25a34-1735-8741-a04a-c14de5d3d558"],
+Cell[31453, 733, 279, 7, 38, "Message",ExpressionUUID->"15319865-e4f0-9648-872b-5a72485a6caf"],
+Cell[31735, 742, 543, 12, 113, "Message",ExpressionUUID->"75246747-3653-ea43-821f-cc1d12ebad1d"],
+Cell[32281, 756, 278, 7, 38, "Message",ExpressionUUID->"560ba7c7-9355-f44b-893b-456a82379f17"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32596, 768, 4278, 86, 112, "Input",ExpressionUUID->"178584ca-b9f2-5444-98f3-cf9b859c264f"],
+Cell[36877, 856, 3199, 57, 462, "Output",ExpressionUUID->"a3441de2-4d71-4241-ac94-e72e9cdba57a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[40113, 918, 4338, 86, 112, "Input",ExpressionUUID->"f661176f-2cc9-5544-8fc9-b693ae4ff9d8"],
+Cell[44454, 1006, 3066, 55, 457, "Output",ExpressionUUID->"f5c29575-b127-794b-aa45-55ff1f939b73"]
+}, Open  ]],
+Cell[47535, 1064, 1596, 34, 262, "Input",ExpressionUUID->"a2a59573-2ecd-b042-b839-27d105273440"],
+Cell[49134, 1100, 2120, 54, 523, "Input",ExpressionUUID->"ec0b6a6b-acc7-5741-866b-6d539a29c740"],
+Cell[51257, 1156, 321, 7, 28, "Input",ExpressionUUID->"17a3ba4f-a360-f947-bec1-20dd1e16b2b4"],
+Cell[CellGroupData[{
+Cell[51603, 1167, 314, 5, 28, "Input",ExpressionUUID->"e066384c-e0ad-b543-80bc-333de7ed639a"],
+Cell[51920, 1174, 9541, 215, 242, "Output",ExpressionUUID->"121cf474-4b67-7546-a2a2-4cc044868b61"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[61498, 1394, 4405, 87, 112, "Input",ExpressionUUID->"edb1bc11-0b0b-9b4b-8709-cc23dfc3abc2"],
+Cell[65906, 1483, 3350, 59, 462, "Output",ExpressionUUID->"12a3ba0c-39d4-6747-820e-ddb0700dac96"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[69293, 1547, 4111, 88, 112, "Input",ExpressionUUID->"bea07f8d-4c00-1744-b984-2c9059329c7a"],
+Cell[73407, 1637, 3093, 56, 459, "Output",ExpressionUUID->"9b4fa219-049f-5e46-967b-3c703452e31c"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[28915, 670, 577, 16, 54, "Subsection",ExpressionUUID->"1ae1919a-93eb-824b-b3f8-acff5f1c8cfa"],
-Cell[29495, 688, 17992, 488, 390, "Input",ExpressionUUID->"7d33a12d-3524-9f40-8540-9a1000844720"],
-Cell[47490, 1178, 14902, 414, 390, "Input",ExpressionUUID->"d2fb498a-e4ba-4943-8bf9-eac5ff116bc0"],
+Cell[76549, 1699, 577, 16, 54, "Subsection",ExpressionUUID->"1ae1919a-93eb-824b-b3f8-acff5f1c8cfa"],
+Cell[77129, 1717, 17992, 488, 390, "Input",ExpressionUUID->"7d33a12d-3524-9f40-8540-9a1000844720"],
+Cell[95124, 2207, 14902, 414, 390, "Input",ExpressionUUID->"d2fb498a-e4ba-4943-8bf9-eac5ff116bc0"],
 Cell[CellGroupData[{
-Cell[62417, 1596, 4065, 91, 149, "Input",ExpressionUUID->"79833266-0030-8340-9d22-e2669ca984d5"],
-Cell[66485, 1689, 3960, 70, 347, "Output",ExpressionUUID->"74e5bac2-9633-134b-a28f-1103820243ec"]
+Cell[110051, 2625, 4065, 91, 149, "Input",ExpressionUUID->"79833266-0030-8340-9d22-e2669ca984d5"],
+Cell[114119, 2718, 4007, 71, 347, "Output",ExpressionUUID->"6986ad66-d2cc-fe4d-9506-b3feee9d5c0f"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[70482, 1764, 4891, 101, 130, "Input",ExpressionUUID->"c2cd8be3-c9ec-de43-a4d8-ff878ea5195a"],
-Cell[75376, 1867, 3854, 69, 474, "Output",ExpressionUUID->"05659455-bd68-0341-a3a1-d157604cdffa"]
+Cell[118163, 2794, 4889, 101, 130, "Input",ExpressionUUID->"c2cd8be3-c9ec-de43-a4d8-ff878ea5195a"],
+Cell[123055, 2897, 3925, 70, 474, "Output",ExpressionUUID->"25ccc1fd-85d1-7042-9803-0b9ed8d95ef3"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[79267, 1941, 7483, 166, 232, "Input",ExpressionUUID->"838d41ce-43ab-2c49-8f68-b07bb885239e"],
-Cell[86753, 2109, 5266, 94, 468, "Output",ExpressionUUID->"d14c0678-6bff-4a43-b785-fddaf3bb02d5"]
+Cell[127017, 2972, 7481, 166, 232, "Input",ExpressionUUID->"838d41ce-43ab-2c49-8f68-b07bb885239e"],
+Cell[134501, 3140, 5369, 96, 468, "Output",ExpressionUUID->"f1db3da1-7a84-7b48-8bd0-f0591aba5fa4"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[92056, 2208, 477, 11, 28, "Input",ExpressionUUID->"52d585d8-b1ce-b84c-b6de-387f90cb9067"],
-Cell[92536, 2221, 1791, 49, 53, "Output",ExpressionUUID->"bfb81b49-5387-e246-b158-6de55c3be943"]
+Cell[139907, 3241, 477, 11, 28, "Input",ExpressionUUID->"52d585d8-b1ce-b84c-b6de-387f90cb9067"],
+Cell[140387, 3254, 1838, 50, 53, "Output",ExpressionUUID->"986b2098-dc37-df49-9b57-66f696e22680"]
 }, Open  ]],
-Cell[94342, 2273, 670, 18, 53, "Input",ExpressionUUID->"3bb0bba0-9954-014f-9a9b-94e42009a45c"]
+Cell[142240, 3307, 670, 18, 53, "Input",ExpressionUUID->"3bb0bba0-9954-014f-9a9b-94e42009a45c"]
 }, Open  ]]
 }
 ]
