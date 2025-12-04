@@ -1,11 +1,11 @@
 # This file was automatically created by FeynRules 2.3.49
 # Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Tue 7 Oct 2025 13:28:48
+# Date: Thu 23 Oct 2025 08:13:12
 
 
-from object_library import all_couplings, Coupling
+from .object_library import all_couplings, Coupling
 
-from function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
+from .function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
 
 
 
@@ -63,51 +63,51 @@ GC_13 = Coupling(name = 'GC_13',
 
 GC_14 = Coupling(name = 'GC_14',
                  value = '-0.125*complex(0,1)/fPi**2',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_15 = Coupling(name = 'GC_15',
                  value = 'complex(0,1)/(8.*fPi**2)',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_16 = Coupling(name = 'GC_16',
                  value = '-0.25*complex(0,1)/fPi**2',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_17 = Coupling(name = 'GC_17',
                  value = 'complex(0,1)/(4.*fPi**2)',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_18 = Coupling(name = 'GC_18',
                  value = '(-3*complex(0,1))/(8.*fPi**2)',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_19 = Coupling(name = 'GC_19',
                  value = '(3*complex(0,1))/(8.*fPi**2)',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_20 = Coupling(name = 'GC_20',
                  value = '-(complex(0,1)/fPi**2)',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_21 = Coupling(name = 'GC_21',
                  value = '(-2*complex(0,1))/fPi**2',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_22 = Coupling(name = 'GC_22',
                  value = '-0.25*(complex(0,1)*cmath.sqrt(1.5))/fPi**2',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_23 = Coupling(name = 'GC_23',
                  value = '(complex(0,1)*cmath.sqrt(1.5))/(4.*fPi**2)',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_24 = Coupling(name = 'GC_24',
                  value = '-0.5*complex(0,1)/(fPi**2*cmath.sqrt(2))',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_25 = Coupling(name = 'GC_25',
                  value = 'complex(0,1)/(2.*fPi**2*cmath.sqrt(2))',
-                 order = {'QED':0})
+                 order = {'1':1})
 
 GC_26 = Coupling(name = 'GC_26',
                  value = '-0.25*(AD*complex(0,1))/fPi**2',

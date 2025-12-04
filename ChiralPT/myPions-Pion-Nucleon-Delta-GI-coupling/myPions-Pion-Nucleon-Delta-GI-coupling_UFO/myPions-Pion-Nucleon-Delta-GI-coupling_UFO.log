@@ -1,10 +1,10 @@
 # This file was automatically created by FeynRules 2.3.49
 # Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Tue 7 Oct 2025 19:47:36
+# Date: Wed 26 Nov 2025 10:39:17
 
 
 # 
-# This is the logfile for the model myPions-Pion-Nucleon
+# This is the logfile for the model myPions-Pion-Nucleon-Delta-GI-coupling
 
 # Authors: 
 # Model version: 
@@ -41,7 +41,7 @@
    * Calling FeynmanRules for 1 Lagrangians.
    * Number of classes vertices: 308
    * Number of flavored vertices: 308
-   * Saved vertices in InterfaceRun[ 1 ].
+   * Saved vertices in InterfaceRun[ 2 ].
    * Checked QNumber conservation.
       - Quantum number BaryonNumber conserved in all vertices.
       - Quantum number GhostNumber conserved in all vertices.
@@ -60,13 +60,13 @@
 # Lorentz structure definitions
 #
 
-   * 78 lorentz structures written.
+   * 74 lorentz structures written.
    * lorentz.py written.
 #
 # Coupling definitions
 #
 
-   * 486 couplings written.
+   * 483 couplings written.
    * couplings.py written.
 #
 # Coupling order definitions

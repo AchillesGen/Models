@@ -691,7 +691,7 @@ M$Parameters = {
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
     OrderBlock       -> 1, 
-    Value            -> 1,
+    Value            -> 0.88,
     InteractionOrder -> {QED, 1},
     Description      -> ""
   },
@@ -699,7 +699,7 @@ M$Parameters = {
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
     OrderBlock       -> 1, 
-    Value            -> 1,
+    Value            -> 2.29,
     InteractionOrder -> {QED, 1},
     Description      -> ""
   },
@@ -734,6 +734,30 @@ M$Parameters = {
     Value            -> (3*AD + 1)/2,
     InteractionOrder -> {QED, 1},
     Description      -> ""
+  },
+  Kappa == { 
+    ParameterType    -> External, 
+    BlockName        -> CHIPT, 
+    OrderBlock       -> 1, 
+    Value            -> 0.01,
+    InteractionOrder -> {QED, 1},
+    Description      -> "An overall constant equal to 3 e / (M (M + M^*)) from doi:10.1016/j.aop.2006.02.009."
+  },
+  G1 == { 
+    ParameterType    -> External, 
+    BlockName        -> CHIPT, 
+    OrderBlock       -> 1, 
+    Value            -> 0.1,
+    InteractionOrder -> {QED, 1},
+    Description      -> "G1 form factor from Eq. XX in doi:10.1016/j.aop.2006.02.009."
+  },
+  G2 == { 
+    ParameterType    -> External, 
+    BlockName        -> CHIPT, 
+    OrderBlock       -> 1, 
+    Value            -> 0.1,
+    InteractionOrder -> {QED, 1},
+    Description      -> "G2 form factor from Eq. XX in doi:10.1016/j.aop.2006.02.009."
   },
   aEWM1 == { 
     ParameterType    -> External, 
