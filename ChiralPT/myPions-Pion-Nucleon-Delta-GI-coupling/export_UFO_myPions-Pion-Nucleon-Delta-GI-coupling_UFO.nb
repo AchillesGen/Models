@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    129943,       2737]
-NotebookOptionsPosition[    125779,       2662]
-NotebookOutlinePosition[    126380,       2683]
-CellTagsIndexPosition[    126337,       2680]
+NotebookDataLength[    129979,       2737]
+NotebookOptionsPosition[    125815,       2662]
+NotebookOutlinePosition[    126416,       2683]
+CellTagsIndexPosition[    126373,       2680]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2473,7 +2473,7 @@ https://arxiv.org/pdf/1909.04282 I have concluded that  (1909 paper)",
     FractionBox[
      SubscriptBox["g", 
       RowBox[{"\[Pi]", " ", "N", " ", "\[CapitalDelta]"}]], 
-     SubscriptBox["m", "\[CapitalDelta]"]], "=", 
+     SubscriptBox["m", "\[Pi]"]], "=", 
     SubscriptBox["g", "D"]}], TraditionalForm]],ExpressionUUID->
   "96be371e-e56a-d545-bf7c-60c359465efb"],
  "(ChiPT book). From this it follows that"
@@ -2483,8 +2483,8 @@ https://arxiv.org/pdf/1909.04282 I have concluded that  (1909 paper)",
   3.968859001453445*^9}, {3.9688591377333508`*^9, 3.968859145283655*^9}, {
   3.968860116417118*^9, 3.968860129780325*^9}, {3.9688603460831013`*^9, 
   3.96886042040263*^9}, {3.973102126041731*^9, 3.973102133709863*^9}, {
-  3.973168936246664*^9, 
-  3.973168937468172*^9}},ExpressionUUID->"3c73e7ed-9589-c542-83a5-\
+  3.973168936246664*^9, 3.973168937468172*^9}, {3.9780611267840385`*^9, 
+  3.978061127359398*^9}},ExpressionUUID->"3c73e7ed-9589-c542-83a5-\
 51270ae3279e"],
 
 Cell[BoxData[
@@ -2580,7 +2580,7 @@ Cell[BoxData[
    3.9688611346977234`*^9}, {3.9688611862197323`*^9, 3.968861186602377*^9}, {
    3.968861275448233*^9, 3.968861469629856*^9}, {3.968876505413933*^9, 
    3.968876510140028*^9}, {3.968876560347224*^9, 3.9688765740019417`*^9}, 
-   3.968878395721189*^9, {3.9731688936535683`*^9, 3.973168898577894*^9}},
+   3.968878395721189*^9, {3.973168893653568*^9, 3.973168898577894*^9}},
  CellLabel->"In[38]:=",ExpressionUUID->"d11c3b33-0f87-fd42-bad8-8c8e8be23aff"],
 
 Cell["\<\
@@ -2726,17 +2726,17 @@ Cell[112454, 2364, 3751, 80, 332, "Input",ExpressionUUID->"584d2b85-4f5c-4e17-83
 }, Closed]],
 Cell[CellGroupData[{
 Cell[116242, 2449, 599, 12, 45, "Subsubsection",ExpressionUUID->"a194ce68-eb9c-e24b-85e7-21bcdde393d3"],
-Cell[116844, 2463, 1218, 24, 108, "Text",ExpressionUUID->"3c73e7ed-9589-c542-83a5-51270ae3279e"],
-Cell[118065, 2489, 4453, 94, 248, "Input",ExpressionUUID->"d11c3b33-0f87-fd42-bad8-8c8e8be23aff"],
-Cell[122521, 2585, 379, 8, 72, "Text",ExpressionUUID->"7bb83c6f-bf55-9d4f-a8c2-3f7cd297f8fc"]
+Cell[116844, 2463, 1256, 24, 108, "Text",ExpressionUUID->"3c73e7ed-9589-c542-83a5-51270ae3279e"],
+Cell[118103, 2489, 4451, 94, 248, "Input",ExpressionUUID->"d11c3b33-0f87-fd42-bad8-8c8e8be23aff"],
+Cell[122557, 2585, 379, 8, 72, "Text",ExpressionUUID->"7bb83c6f-bf55-9d4f-a8c2-3f7cd297f8fc"]
 }, Open  ]],
-Cell[122915, 2596, 465, 10, 57, "Subsubsection",ExpressionUUID->"68551897-011a-e94b-be32-65ee52eee498"]
+Cell[122951, 2596, 465, 10, 57, "Subsubsection",ExpressionUUID->"68551897-011a-e94b-be32-65ee52eee498"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[123417, 2611, 169, 3, 67, "Subsection",ExpressionUUID->"18dca5da-2703-4768-8b7e-80508e8f6195"],
-Cell[123589, 2616, 327, 6, 35, "Input",ExpressionUUID->"b8e80ef3-0b7d-194c-bc09-dd72ded73c23"],
-Cell[123919, 2624, 1056, 18, 35, "Input",ExpressionUUID->"8e9bcb65-62b1-8842-94b8-b3ffd9539c28"],
-Cell[124978, 2644, 773, 14, 60, "Input",ExpressionUUID->"1cb5d15e-1776-eb4a-9d6e-2b8d78df7158"]
+Cell[123453, 2611, 169, 3, 67, "Subsection",ExpressionUUID->"18dca5da-2703-4768-8b7e-80508e8f6195"],
+Cell[123625, 2616, 327, 6, 35, "Input",ExpressionUUID->"b8e80ef3-0b7d-194c-bc09-dd72ded73c23"],
+Cell[123955, 2624, 1056, 18, 35, "Input",ExpressionUUID->"8e9bcb65-62b1-8842-94b8-b3ffd9539c28"],
+Cell[125014, 2644, 773, 14, 60, "Input",ExpressionUUID->"1cb5d15e-1776-eb4a-9d6e-2b8d78df7158"]
 }, Open  ]]
 }, Open  ]]
 }
