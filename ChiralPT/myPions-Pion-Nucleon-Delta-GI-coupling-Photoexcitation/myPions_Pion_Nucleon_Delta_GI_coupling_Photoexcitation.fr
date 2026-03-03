@@ -12,11 +12,11 @@
 (* ************************** *)
 (* *****  Information   ***** *)
 (* ************************** *)
-M$ModelName = "myPions-Pion-Nucleon-Delta-GI-coupling";
+M$ModelName = "myPions_Pion_Nucleon_Delta_GI_coupling_Photoexcitation";
 
 M$Information = {
   Authors      -> {""}, 
-  Version      -> "",
+  Version      -> "1.0",
   Date         -> "",
   Institutions -> {""},
   Emails       -> {""}
@@ -76,9 +76,14 @@ IndexStyle[IsoVector,  v];
 (* ************************** *)
 
 M$InteractionOrderHierarchy = {
-  {QED, 1}
+  {QED, 1}, 
+  {QCD, 1}
 };
 
+M$InteractionOrderLimit = {
+  {QED, 99},   
+  {QCD, 0}     
+};
 
 (* ************************** *)
 (* **** Particle classes **** *)
@@ -378,7 +383,7 @@ M$ClassesDescription = {
 (*  Mass             -> {MPi0, 134.98}, *)
 (*  Width            -> {WPi0, 0.0}, *)
     Mass             -> {MPi, 0.13498},
-    Width            -> {WPi, 0.0},
+    Width            -> 0.0,
     PropagatorLabel  -> Superscript[\[Pi], "0"],
     PropagatorType   -> D,
     PropagatorArrow  -> None,
@@ -393,7 +398,7 @@ M$ClassesDescription = {
 (*  Mass             -> {MPiP, 139.57}, *)
 (*  Width            -> {WPiP, 0.0}, *)
     Mass             -> {MPi, 0.13498},
-    Width            -> {WPi, 0.0},
+    Width            -> 0.0,
     QuantumNumbers   -> {Q -> 1},
     PropagatorLabel  -> Superscript[\[Pi], "+"],
     PropagatorType   -> D,
@@ -455,7 +460,7 @@ M$ClassesDescription = {
     ClassName        -> DeltaPP,
     SelfConjugate    -> False,
     Mass             -> {MDelta, 1.232},
-    Width            -> {WDelta, 0.120},
+    Width            -> {WDeltaPP, 0.120},
     QuantumNumbers   -> {Q -> 2, BaryonNumber -> 1, Y -> 1},
     PropagatorLabel  -> "D++",
     PropagatorType   -> S,
@@ -469,7 +474,7 @@ M$ClassesDescription = {
     ClassName        -> DeltaP,
     SelfConjugate    -> False,
     Mass             -> {MDelta, 1.232},
-    Width            -> {WDelta, 0.120},
+    Width            -> {WDeltaP, 0.120},
     QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1, Y -> 1},
     PropagatorLabel  -> "D+",
     PropagatorType   -> S,
@@ -483,7 +488,7 @@ M$ClassesDescription = {
     ClassName        -> Delta0,
     SelfConjugate    -> False,
     Mass             -> {MDelta, 1.232},
-    Width            -> {WDelta, 0.120},
+    Width            -> {WDelta0, 0.120},
     QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1, Y -> 1},
     PropagatorLabel  -> "D0",
     PropagatorType   -> S,
@@ -497,7 +502,7 @@ M$ClassesDescription = {
     ClassName        -> DeltaM,
     SelfConjugate    -> False,
     Mass             -> {MDelta, 1.232},
-    Width            -> {WDelta, 0.12},
+    Width            -> {WDeltaM, 0.12},
     QuantumNumbers   -> {Q -> -1, BaryonNumber -> 1, Y -> 1},
     PropagatorLabel  -> "D-",
     PropagatorType   -> S,
@@ -674,7 +679,7 @@ M$Parameters = {
   ga == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    OrderBlock       -> 2, 
     Value            -> 1.271,
     InteractionOrder -> {QED, 1},
     Description      -> "Inverse of the EW coupling constant at the Z pole"
@@ -682,7 +687,7 @@ M$Parameters = {
   AD == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    OrderBlock       -> 3, 
     Value            -> -1,
     InteractionOrder -> {QED, 1},
     Description      -> ""
@@ -690,7 +695,7 @@ M$Parameters = {
   gD == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    OrderBlock       -> 4, 
     Value            -> 0.88,
     InteractionOrder -> {QED, 1},
     Description      -> ""
@@ -698,47 +703,23 @@ M$Parameters = {
   g1D == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    OrderBlock       -> 5, 
     Value            -> 2.29,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
-  },
-  g2D == { 
-    ParameterType    -> Internal, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
-    Value            -> AD * g1D,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
-  },
-  g3D == { 
-    ParameterType    -> Internal, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
-    Value            -> -((1 + 2*AD + 3*AD^2)/2)*g1D,
     InteractionOrder -> {QED, 1},
     Description      -> ""
   },
   gDGI == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    OrderBlock       -> 6, 
     Value            -> 1,
     InteractionOrder -> {QED, 1},
     Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
   },
-  ztilde == { 
-    ParameterType    -> Internal, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
-    Value            -> (3*AD + 1)/2,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
-  },
   Kappa == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    OrderBlock       -> 7, 
     Value            -> 0.01,
     InteractionOrder -> {QED, 1},
     Description      -> "An overall constant equal to 3 e / (M (M + M^*)) from doi:10.1016/j.aop.2006.02.009."
@@ -746,7 +727,7 @@ M$Parameters = {
   G1 == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    OrderBlock       -> 8, 
     Value            -> 0.1,
     InteractionOrder -> {QED, 1},
     Description      -> "G1 form factor from Eq. XX in doi:10.1016/j.aop.2006.02.009."
@@ -754,7 +735,7 @@ M$Parameters = {
   G2 == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    OrderBlock       -> 9, 
     Value            -> 0.1,
     InteractionOrder -> {QED, 1},
     Description      -> "G2 form factor from Eq. XX in doi:10.1016/j.aop.2006.02.009."
@@ -896,6 +877,24 @@ M$Parameters = {
                       CKM[3,1] -> 0,          CKM[3,2] -> 0,         CKM[3,3] -> 1},
     TeX         -> Superscript[V,CKM],
     Description -> "CKM-Matrix"
+  },
+  g2D == { 
+    ParameterType    -> Internal, 
+    Value            -> AD * g1D,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
+  },
+  g3D == { 
+    ParameterType    -> Internal, 
+    Value            -> -((1 + 2*AD + 3*AD^2)/2)*g1D,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
+  },
+  ztilde == { 
+    ParameterType    -> Internal, 
+    Value            -> (3*AD + 1)/2,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
   }
 };
 
