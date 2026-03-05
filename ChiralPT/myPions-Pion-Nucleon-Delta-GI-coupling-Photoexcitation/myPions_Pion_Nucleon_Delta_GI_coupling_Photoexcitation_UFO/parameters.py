@@ -1,6 +1,6 @@
 # This file was automatically created by FeynRules 2.3.49
 # Mathematica version: 13.3.1 for Linux x86 (64-bit) (July 24, 2023)
-# Date: Wed 4 Mar 2026 10:58:35
+# Date: Thu 5 Mar 2026 21:12:51
 
 
 
@@ -65,21 +65,13 @@ gDGI = Parameter(name = 'gDGI',
                  lhablock = 'CHIPT',
                  lhacode = [ 6 ])
 
-Kappa = Parameter(name = 'Kappa',
-                  nature = 'external',
-                  type = 'real',
-                  value = 0.01,
-                  texname = '\\text{Kappa}',
-                  lhablock = 'CHIPT',
-                  lhacode = [ 7 ])
-
 G1 = Parameter(name = 'G1',
                nature = 'external',
                type = 'real',
                value = 0.1,
                texname = '\\text{G1}',
                lhablock = 'CHIPT',
-               lhacode = [ 8 ])
+               lhacode = [ 7 ])
 
 G2 = Parameter(name = 'G2',
                nature = 'external',
@@ -87,7 +79,7 @@ G2 = Parameter(name = 'G2',
                value = 0.1,
                texname = '\\text{G2}',
                lhablock = 'CHIPT',
-               lhacode = [ 9 ])
+               lhacode = [ 8 ])
 
 cabi = Parameter(name = 'cabi',
                  nature = 'external',
@@ -416,6 +408,12 @@ sw2 = Parameter(name = 'sw2',
                 type = 'real',
                 value = '1 - MW**2/MZ**2',
                 texname = '\\text{sw2}')
+
+Kappa = Parameter(name = 'Kappa',
+                  nature = 'internal',
+                  type = 'real',
+                  value = '(3*ee)/(2.*MNucleon*(MDelta + MNucleon))',
+                  texname = '\\text{Kappa}')
 
 cw = Parameter(name = 'cw',
                nature = 'internal',

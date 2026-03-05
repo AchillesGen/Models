@@ -716,18 +716,10 @@ M$Parameters = {
     InteractionOrder -> {QED, 1},
     Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
   },
-  Kappa == { 
-    ParameterType    -> External, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 7, 
-    Value            -> 0.01,
-    InteractionOrder -> {QED, 1},
-    Description      -> "An overall constant equal to 3 e / (M (M + M^*)) from doi:10.1016/j.aop.2006.02.009."
-  },
   G1 == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 8, 
+    OrderBlock       -> 7, 
     Value            -> 0.1,
     InteractionOrder -> {QED, 1},
     Description      -> "G1 form factor from Eq. XX in doi:10.1016/j.aop.2006.02.009."
@@ -735,7 +727,7 @@ M$Parameters = {
   G2 == { 
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
-    OrderBlock       -> 9, 
+    OrderBlock       -> 8, 
     Value            -> 0.1,
     InteractionOrder -> {QED, 1},
     Description      -> "G2 form factor from Eq. XX in doi:10.1016/j.aop.2006.02.009."
@@ -895,6 +887,12 @@ M$Parameters = {
     Value            -> (3*AD + 1)/2,
     InteractionOrder -> {QED, 1},
     Description      -> ""
+  }, 
+  Kappa == { 
+    ParameterType    -> Internal, 
+    Value            -> (3*ee/(2*MNucleon*(MNucleon+MDelta))),
+    InteractionOrder -> {QED, 1},
+    Description      -> "An overall constant equal to 3 e / 2*(M (M + M^*)) from doi:10.1016/j.aop.2006.02.009."
   }
 };
 
