@@ -1,6 +1,6 @@
 # This file was automatically created by FeynRules 2.3.49
 # Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Fri 27 Mar 2026 15:56:54
+# Date: Fri 27 Mar 2026 17:56:30
 
 
 
@@ -17,6 +17,14 @@ ZERO = Parameter(name = 'ZERO',
                  texname = '0')
 
 # User-defined parameters.
+ztilde = Parameter(name = 'ztilde',
+                   nature = 'external',
+                   type = 'real',
+                   value = 1,
+                   texname = '\\text{ztilde}',
+                   lhablock = 'CHIPT',
+                   lhacode = [ 1 ])
+
 ztilde = Parameter(name = 'ztilde',
                    nature = 'external',
                    type = 'real',
@@ -416,6 +424,12 @@ sw2 = Parameter(name = 'sw2',
                 type = 'real',
                 value = '1 - MW**2/MZ**2',
                 texname = '\\text{sw2}')
+
+Kappa = Parameter(name = 'Kappa',
+                  nature = 'internal',
+                  type = 'real',
+                  value = '(3*ee)/(2.*MNucleon*(MDelta + MNucleon))',
+                  texname = '\\text{Kappa}')
 
 cw = Parameter(name = 'cw',
                nature = 'internal',
