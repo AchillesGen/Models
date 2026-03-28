@@ -727,6 +727,14 @@ M$Parameters = {
     InteractionOrder -> {QED, 1},
     Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
   },
+  Kappa == { 
+    ParameterType    -> Internal, 
+    BlockName        -> CHIPT, 
+    OrderBlock       -> 1, 
+    Value            -> 3*ee/(2*MNucleon*(MNucleon+MDelta)),
+    InteractionOrder -> {QED, 1},
+    Description      -> "This was just a useful quantity to define."
+  },
   ztilde == { 
     ParameterType    -> Internal, 
     BlockName        -> CHIPT, 
