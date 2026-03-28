@@ -735,6 +735,22 @@ M$Parameters = {
     InteractionOrder -> {QED, 1},
     Description      -> "This was just a useful quantity to define."
   },
+  G1 == { 
+    ParameterType    -> Internal, 
+    BlockName        -> CHIPT, 
+    OrderBlock       -> 1, 
+    Value            -> 1,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Proton photo-excitation vertex."
+  },
+  G2 == { 
+    ParameterType    -> Internal, 
+    BlockName        -> CHIPT, 
+    OrderBlock       -> 1, 
+    Value            -> 1,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Proton photo-excitation vertex."
+  },
   ztilde == { 
     ParameterType    -> Internal, 
     BlockName        -> CHIPT, 
