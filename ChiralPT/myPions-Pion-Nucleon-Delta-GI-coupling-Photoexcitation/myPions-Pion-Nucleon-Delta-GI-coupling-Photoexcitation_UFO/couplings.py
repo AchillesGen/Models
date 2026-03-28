@@ -7,6 +7,7 @@ from object_library import all_couplings, Coupling
 
 from function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
 
+import couplings_patch
 
 
 GC_1 = Coupling(name = 'GC_1',
