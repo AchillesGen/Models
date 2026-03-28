@@ -1,6 +1,6 @@
 # This file was automatically created by FeynRules 2.3.49
 # Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Fri 27 Mar 2026 18:31:12
+# Date: Sat 28 Mar 2026 10:58:22
 
 
 
@@ -17,102 +17,6 @@ ZERO = Parameter(name = 'ZERO',
                  texname = '0')
 
 # User-defined parameters.
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
-ztilde = Parameter(name = 'ztilde',
-                   nature = 'external',
-                   type = 'real',
-                   value = 1,
-                   texname = '\\text{ztilde}',
-                   lhablock = 'CHIPT',
-                   lhacode = [ 1 ])
-
 cabi = Parameter(name = 'cabi',
                  nature = 'external',
                  type = 'real',
@@ -160,6 +64,118 @@ ymtau = Parameter(name = 'ymtau',
                   texname = '\\text{ymtau}',
                   lhablock = 'YUKAWA',
                   lhacode = [ 15 ])
+
+AD = Parameter(name = 'AD',
+               nature = 'external',
+               type = 'real',
+               value = -1,
+               texname = '\\text{AD}',
+               lhablock = 'CHIPT_DELTA',
+               lhacode = [ 1 ])
+
+gD = Parameter(name = 'gD',
+               nature = 'external',
+               type = 'real',
+               value = 1,
+               texname = '\\text{gD}',
+               lhablock = 'CHIPT_DELTA',
+               lhacode = [ 2 ])
+
+g1D = Parameter(name = 'g1D',
+                nature = 'external',
+                type = 'real',
+                value = 1,
+                texname = '\\text{g1D}',
+                lhablock = 'CHIPT_DELTA',
+                lhacode = [ 3 ])
+
+hD = Parameter(name = 'hD',
+               nature = 'external',
+               type = 'real',
+               value = 0.76,
+               texname = '\\text{hD}',
+               lhablock = 'CHIPT_DELTA',
+               lhacode = [ 4 ])
+
+G1 = Parameter(name = 'G1',
+               nature = 'external',
+               type = 'real',
+               value = 6.061,
+               texname = '\\text{G1}',
+               lhablock = 'CHIPT_DELTA',
+               lhacode = [ 5 ])
+
+G2 = Parameter(name = 'G2',
+               nature = 'external',
+               type = 'real',
+               value = 2.414,
+               texname = '\\text{G2}',
+               lhablock = 'CHIPT_DELTA',
+               lhacode = [ 6 ])
+
+fPi = Parameter(name = 'fPi',
+                nature = 'external',
+                type = 'real',
+                value = 0.093,
+                texname = '\\text{fPi}',
+                lhablock = 'CHIPT_PION',
+                lhacode = [ 1 ])
+
+ga = Parameter(name = 'ga',
+               nature = 'external',
+               type = 'real',
+               value = 1.271,
+               texname = '\\text{ga}',
+               lhablock = 'CHIPT_PION',
+               lhacode = [ 2 ])
+
+AD = Parameter(name = 'AD',
+               nature = 'external',
+               type = 'real',
+               value = -1,
+               texname = '\\text{AD}',
+               lhablock = 'CHIPT_PION',
+               lhacode = [ 3 ])
+
+gD = Parameter(name = 'gD',
+               nature = 'external',
+               type = 'real',
+               value = 1,
+               texname = '\\text{gD}',
+               lhablock = 'CHIPT_PION',
+               lhacode = [ 4 ])
+
+g1D = Parameter(name = 'g1D',
+                nature = 'external',
+                type = 'real',
+                value = 1,
+                texname = '\\text{g1D}',
+                lhablock = 'CHIPT_PION',
+                lhacode = [ 5 ])
+
+hD = Parameter(name = 'hD',
+               nature = 'external',
+               type = 'real',
+               value = 0.76,
+               texname = '\\text{hD}',
+               lhablock = 'CHIPT_PION',
+               lhacode = [ 6 ])
+
+G1 = Parameter(name = 'G1',
+               nature = 'external',
+               type = 'real',
+               value = 6.061,
+               texname = '\\text{G1}',
+               lhablock = 'CHIPT_PION',
+               lhacode = [ 7 ])
+
+G2 = Parameter(name = 'G2',
+               nature = 'external',
+               type = 'real',
+               value = 2.414,
+               texname = '\\text{G2}',
+               lhablock = 'CHIPT_PION',
+               lhacode = [ 8 ])
 
 MZ = Parameter(name = 'MZ',
                nature = 'external',
@@ -356,18 +372,6 @@ g3D = Parameter(name = 'g3D',
                 type = 'real',
                 value = '((-1 - 2*AD - 3*AD**2)*g1D)/2.',
                 texname = '\\text{g3D}')
-
-G1 = Parameter(name = 'G1',
-               nature = 'internal',
-               type = 'real',
-               value = '1',
-               texname = '\\text{G1}')
-
-G2 = Parameter(name = 'G2',
-               nature = 'internal',
-               type = 'real',
-               value = '1',
-               texname = '\\text{G2}')
 
 ztilde = Parameter(name = 'ztilde',
                    nature = 'internal',
