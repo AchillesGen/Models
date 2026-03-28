@@ -63,51 +63,51 @@ GC_13 = Coupling(name = 'GC_13',
 
 GC_14 = Coupling(name = 'GC_14',
                  value = '-0.125*complex(0,1)/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_15 = Coupling(name = 'GC_15',
                  value = 'complex(0,1)/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_16 = Coupling(name = 'GC_16',
                  value = '-0.25*complex(0,1)/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_17 = Coupling(name = 'GC_17',
                  value = 'complex(0,1)/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_18 = Coupling(name = 'GC_18',
                  value = '(-3*complex(0,1))/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_19 = Coupling(name = 'GC_19',
                  value = '(3*complex(0,1))/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_20 = Coupling(name = 'GC_20',
                  value = '-(complex(0,1)/fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_21 = Coupling(name = 'GC_21',
                  value = '(-2*complex(0,1))/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_22 = Coupling(name = 'GC_22',
                  value = '-0.25*(complex(0,1)*cmath.sqrt(1.5))/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_23 = Coupling(name = 'GC_23',
                  value = '(complex(0,1)*cmath.sqrt(1.5))/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_24 = Coupling(name = 'GC_24',
                  value = '-0.5*complex(0,1)/(fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_25 = Coupling(name = 'GC_25',
                  value = 'complex(0,1)/(2.*fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_26 = Coupling(name = 'GC_26',
                  value = '-0.25*(AD*complex(0,1))/fPi**2',
