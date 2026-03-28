@@ -736,7 +736,7 @@ M$Parameters = {
     Description      -> "This was just a useful quantity to define."
   },
   G1 == { 
-    ParameterType    -> Internal, 
+    ParameterType    -> External, 
     BlockName        -> CHIPT, 
     OrderBlock       -> 1, 
     Value            -> 1,
@@ -744,7 +744,7 @@ M$Parameters = {
     Description      -> "Proton photo-excitation vertex."
   },
   G2 == { 
-    ParameterType    -> Internal, 
+    ParameterType    -> External, 
     BlockName        -> CHIPT, 
     OrderBlock       -> 1, 
     Value            -> 1,
