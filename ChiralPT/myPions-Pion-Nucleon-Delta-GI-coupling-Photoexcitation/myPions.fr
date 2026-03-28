@@ -723,7 +723,7 @@ M$Parameters = {
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
     OrderBlock       -> 1, 
-    Value            -> 1,
+    Value            -> 0.76,
     InteractionOrder -> {QED, 1},
     Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
   },
@@ -739,7 +739,7 @@ M$Parameters = {
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
     OrderBlock       -> 1, 
-    Value            -> 1,
+    Value            -> 6.061,
     InteractionOrder -> {QED, 0},
     Description      -> "Proton photo-excitation vertex."
   },
@@ -747,7 +747,7 @@ M$Parameters = {
     ParameterType    -> External, 
     BlockName        -> CHIPT, 
     OrderBlock       -> 1, 
-    Value            -> 1,
+    Value            -> 2.414,
     InteractionOrder -> {QED, 0},
     Description      -> "Proton photo-excitation vertex."
   },
