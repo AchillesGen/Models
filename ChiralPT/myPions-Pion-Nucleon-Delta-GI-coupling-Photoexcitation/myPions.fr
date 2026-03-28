@@ -665,7 +665,7 @@ M$Parameters = {
   
   fPi == {
     ParameterType -> External,
-    BlockName     -> CHIPT,
+    BlockName     -> CHIPT_PION,
     OrderBlock    -> 1,
     Value         -> 0.093,
     InteractionOrder -> {QED, 0},
@@ -673,91 +673,59 @@ M$Parameters = {
   },
   ga == { 
     ParameterType    -> External, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    BlockName        -> CHIPT_PION, 
+    OrderBlock       -> 2, 
     Value            -> 1.271,
-    InteractionOrder -> {QED, 1},
+    InteractionOrder -> {QED, 0},
     Description      -> "Inverse of the EW coupling constant at the Z pole"
   },
   AD == { 
     ParameterType    -> External, 
-    BlockName        -> CHIPT, 
+    BlockName        -> CHIPT_DELTA, 
     OrderBlock       -> 1, 
     Value            -> -1,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
+    InteractionOrder -> {QED, 0},
+    Description      -> "Must be set to -1 for consistency."
   },
   gD == { 
     ParameterType    -> External, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    BlockName        -> CHIPT_DELTA, 
+    OrderBlock       -> 2, 
     Value            -> 1,
-    InteractionOrder -> {QED, 1},
+    InteractionOrder -> {QED, 0},
     Description      -> ""
   },
   g1D == { 
     ParameterType    -> External, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    BlockName        -> CHIPT_DELTA, 
+    OrderBlock       -> 3, 
     Value            -> 1,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
-  },
-  g2D == { 
-    ParameterType    -> Internal, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
-    Value            -> AD * g1D,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
-  },
-  g3D == { 
-    ParameterType    -> Internal, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
-    Value            -> -((1 + 2*AD + 3*AD^2)/2)*g1D,
-    InteractionOrder -> {QED, 1},
+    InteractionOrder -> {QED, 0},
     Description      -> ""
   },
   hD == { 
     ParameterType    -> External, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    BlockName        -> CHIPT_DELTA, 
+    OrderBlock       -> 4, 
     Value            -> 0.76,
-    InteractionOrder -> {QED, 1},
+    InteractionOrder -> {QED, 0},
     Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
-  },
-  Kappa == { 
-    ParameterType    -> Internal, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
-    Value            -> 3*ee/(2*MNucleon*(MNucleon+MDelta)),
-    InteractionOrder -> {QED, 1},
-    Description      -> "This was just a useful quantity to define."
   },
   G1 == { 
     ParameterType    -> External, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    BlockName        -> CHIPT_DELTA, 
+    OrderBlock       -> 5, 
     Value            -> 6.061,
     InteractionOrder -> {QED, 0},
     Description      -> "Proton photo-excitation vertex."
   },
   G2 == { 
     ParameterType    -> External, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
+    BlockName        -> CHIPT_DELTA, 
+    OrderBlock       -> 6, 
     Value            -> 2.414,
     InteractionOrder -> {QED, 0},
     Description      -> "Proton photo-excitation vertex."
-  },
-  ztilde == { 
-    ParameterType    -> Internal, 
-    BlockName        -> CHIPT, 
-    OrderBlock       -> 1, 
-    Value            -> (3*AD + 1)/2,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
   },
   aEWM1 == { 
     ParameterType    -> External, 
@@ -807,6 +775,31 @@ M$Parameters = {
   },
 
   (* Internal Parameters *)
+  
+  g2D == { 
+    ParameterType    -> Internal, 
+    Value            -> AD * g1D,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
+  },
+  g3D == { 
+    ParameterType    -> Internal, 
+    Value            -> -((1 + 2*AD + 3*AD^2)/2)*g1D,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
+  },
+  Kappa == { 
+    ParameterType    -> Internal, 
+    Value            -> 3*ee/(2*MNucleon*(MNucleon+MDelta)),
+    InteractionOrder -> {QED, 1},
+    Description      -> "This was just a useful quantity to define."
+  },
+    ztilde == { 
+    ParameterType    -> Internal, 
+    Value            -> (3*AD + 1)/2,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
+  },
   aEW == {
     ParameterType    -> Internal,
     Value            -> 1/aEWM1,
