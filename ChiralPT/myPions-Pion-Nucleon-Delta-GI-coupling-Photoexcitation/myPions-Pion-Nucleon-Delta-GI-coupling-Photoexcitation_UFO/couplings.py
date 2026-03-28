@@ -63,115 +63,115 @@ GC_13 = Coupling(name = 'GC_13',
 
 GC_14 = Coupling(name = 'GC_14',
                  value = '-0.125*complex(0,1)/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_15 = Coupling(name = 'GC_15',
                  value = 'complex(0,1)/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_16 = Coupling(name = 'GC_16',
                  value = '-0.25*complex(0,1)/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_17 = Coupling(name = 'GC_17',
                  value = 'complex(0,1)/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_18 = Coupling(name = 'GC_18',
                  value = '(-3*complex(0,1))/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_19 = Coupling(name = 'GC_19',
                  value = '(3*complex(0,1))/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_20 = Coupling(name = 'GC_20',
                  value = '-(complex(0,1)/fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_21 = Coupling(name = 'GC_21',
                  value = '(-2*complex(0,1))/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_22 = Coupling(name = 'GC_22',
                  value = '-0.25*(complex(0,1)*cmath.sqrt(1.5))/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_23 = Coupling(name = 'GC_23',
                  value = '(complex(0,1)*cmath.sqrt(1.5))/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_24 = Coupling(name = 'GC_24',
                  value = '-0.5*complex(0,1)/(fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_25 = Coupling(name = 'GC_25',
                  value = 'complex(0,1)/(2.*fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_26 = Coupling(name = 'GC_26',
                  value = '-0.25*(AD*complex(0,1))/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_27 = Coupling(name = 'GC_27',
                  value = '(AD*complex(0,1))/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_28 = Coupling(name = 'GC_28',
                  value = '(-3*AD*complex(0,1))/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_29 = Coupling(name = 'GC_29',
                  value = '(3*AD*complex(0,1))/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_30 = Coupling(name = 'GC_30',
                  value = '-0.5*(AD*complex(0,1)*cmath.sqrt(1.5))/fPi**2',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_31 = Coupling(name = 'GC_31',
                  value = '(AD*complex(0,1)*cmath.sqrt(1.5))/(2.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_32 = Coupling(name = 'GC_32',
                  value = '-((AD*complex(0,1))/(fPi**2*cmath.sqrt(2)))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_33 = Coupling(name = 'GC_33',
                  value = '(AD*complex(0,1))/(fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_34 = Coupling(name = 'GC_34',
                  value = '(-3*AD**2*complex(0,1))/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_35 = Coupling(name = 'GC_35',
                  value = '(3*AD**2*complex(0,1))/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_36 = Coupling(name = 'GC_36',
                  value = '(-9*AD**2*complex(0,1))/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_37 = Coupling(name = 'GC_37',
                  value = '(9*AD**2*complex(0,1))/(8.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_38 = Coupling(name = 'GC_38',
                  value = '(-3*AD**2*complex(0,1)*cmath.sqrt(1.5))/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_39 = Coupling(name = 'GC_39',
                  value = '(3*AD**2*complex(0,1)*cmath.sqrt(1.5))/(4.*fPi**2)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_40 = Coupling(name = 'GC_40',
                  value = '(-3*AD**2*complex(0,1))/(2.*fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_41 = Coupling(name = 'GC_41',
                  value = '(3*AD**2*complex(0,1))/(2.*fPi**2*cmath.sqrt(2))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_42 = Coupling(name = 'GC_42',
                  value = '-0.25*(ee*complex(0,1))/fPi**2',
@@ -283,27 +283,27 @@ GC_68 = Coupling(name = 'GC_68',
 
 GC_69 = Coupling(name = 'GC_69',
                  value = '-0.5*g1D/fPi',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_70 = Coupling(name = 'GC_70',
                  value = '-0.16666666666666666*g1D/fPi',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_71 = Coupling(name = 'GC_71',
                  value = 'g1D/(6.*fPi)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_72 = Coupling(name = 'GC_72',
                  value = 'g1D/(2.*fPi)',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_73 = Coupling(name = 'GC_73',
                  value = '-0.3333333333333333*(g1D*cmath.sqrt(2))/fPi',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_74 = Coupling(name = 'GC_74',
                  value = '-(g1D/(fPi*cmath.sqrt(6)))',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_75 = Coupling(name = 'GC_75',
                  value = '-0.3333333333333333*(ee*g1D*cmath.sqrt(2))/fPi',
@@ -403,15 +403,15 @@ GC_98 = Coupling(name = 'GC_98',
 
 GC_99 = Coupling(name = 'GC_99',
                  value = '-0.5*ga/fPi',
-                 order = {'1':1})
+                 order = {'QED':0})
 
 GC_100 = Coupling(name = 'GC_100',
                   value = 'ga/(2.*fPi)',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_101 = Coupling(name = 'GC_101',
                   value = '-(ga/(fPi*cmath.sqrt(2)))',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_102 = Coupling(name = 'GC_102',
                   value = '-((ee*ga)/(fPi*cmath.sqrt(2)))',
@@ -423,23 +423,23 @@ GC_103 = Coupling(name = 'GC_103',
 
 GC_104 = Coupling(name = 'GC_104',
                   value = '-(gD/fPi)',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_105 = Coupling(name = 'GC_105',
                   value = 'gD/fPi',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_106 = Coupling(name = 'GC_106',
                   value = '(gD*cmath.sqrt(0.6666666666666666))/fPi',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_107 = Coupling(name = 'GC_107',
                   value = '-(gD/(fPi*cmath.sqrt(3)))',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_108 = Coupling(name = 'GC_108',
                   value = 'gD/(fPi*cmath.sqrt(3))',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_109 = Coupling(name = 'GC_109',
                   value = '-((ee*gD)/fPi)',
@@ -479,23 +479,23 @@ GC_117 = Coupling(name = 'GC_117',
 
 GC_118 = Coupling(name = 'GC_118',
                   value = '-((complex(0,1)*hD)/(fPi*MDelta))',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_119 = Coupling(name = 'GC_119',
                   value = '(complex(0,1)*hD)/(fPi*MDelta)',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_120 = Coupling(name = 'GC_120',
                   value = '(complex(0,1)*hD*cmath.sqrt(0.6666666666666666))/(fPi*MDelta)',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_121 = Coupling(name = 'GC_121',
                   value = '-((complex(0,1)*hD)/(fPi*MDelta*cmath.sqrt(3)))',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_122 = Coupling(name = 'GC_122',
                   value = '(complex(0,1)*hD)/(fPi*MDelta*cmath.sqrt(3))',
-                  order = {'1':1})
+                  order = {'QED':0})
 
 GC_123 = Coupling(name = 'GC_123',
                   value = '-((ee*complex(0,1)*hD)/(fPi*MDelta))',
