@@ -10,16 +10,23 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     43371,       1582]
-NotebookOptionsPosition[     41348,       1539]
-NotebookOutlinePosition[     41742,       1555]
-CellTagsIndexPosition[     41699,       1552]
+NotebookDataLength[     47421,       1687]
+NotebookOptionsPosition[     45053,       1637]
+NotebookOutlinePosition[     45444,       1653]
+CellTagsIndexPosition[     45401,       1650]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
+Cell["FeynCalc", "Section",
+ CellChangeTimes->{{3.985357455546707*^9, 
+  3.985357459274624*^9}},ExpressionUUID->"cb8cc040-f9d2-4231-94cc-\
+bd43d81af749"],
+
+Cell[CellGroupData[{
+
 Cell[BoxData[
  RowBox[{"<<", "FeynCalc`"}]], "Input",
  CellChangeTimes->{{3.985349298463448*^9, 3.9853493003590937`*^9}},
@@ -148,7 +155,97 @@ our work is crucial to ensure the future development of this package!\"\>",
   "During evaluation of \
 In[1]:=",ExpressionUUID->"12787040-b165-40a1-a6f3-668c6e862515"]
 }, Open  ]]
+}, Open  ]]
 }, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Delta Width Calculation", "Section",
+ CellChangeTimes->{{3.9853574435371428`*^9, 
+  3.985357447213491*^9}},ExpressionUUID->"836615a4-894a-430d-b9f3-\
+288cff737f79"],
+
+Cell[TextData[{
+ "The calculation of the width is carried out below. The vertex for \
+Delta-nucleon-pion is taken from the FeynRules output and is given as: ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["\[CapitalGamma]", "\[Mu]"], "=", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "h"}], 
+      RowBox[{
+       SubscriptBox["M", "\[CapitalDelta]"], 
+       SubscriptBox["f", "\[Pi]"]}]], 
+     SuperscriptBox["\[Epsilon]", "\[Mu]\[Nu]\[Alpha]\[Beta]"], 
+     SubscriptBox["p", "\[CapitalDelta]\[Alpha]"], 
+     SubscriptBox["p", "\[Pi]\[Nu]"], 
+     SubscriptBox["\[Gamma]", "\[Beta]"], 
+     SubscriptBox["\[Gamma]", "5"]}]}], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "661b50aa-a969-4624-9bc9-4cc445ce660e"],
+ ". The spin sum is related to the numerator of the propagator according to \
+Weinberg\[CloseCurlyQuote]s QFT textbook (Sections 5.5, 5.7, and 6.2, namely \
+the (anti)commutator of the fields is related to the completeness relation, \
+and the propagator is related to the (anti)commutator of the fields). \n\nIf \
+we choose to use the propagator given as Eq. B45 in our draft, we get that \
+the completeness relation is:  ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"(", 
+      RowBox[{
+       StyleBox[
+        RowBox[{"p", 
+         AdjustmentBox["\:29f8",
+          
+          BoxMargins->{{-0.8258064516129032, 0.8258064516129032}, {0., 
+           0.}}]}]], "+", 
+       SubscriptBox["M", "\[CapitalDelta]"]}], ")"}]}], 
+    RowBox[{"(", 
+     RowBox[{
+      SuperscriptBox["\[Eta]", "\[Mu]\[Nu]"], "-", 
+      RowBox[{
+       FractionBox["1", "3"], 
+       SuperscriptBox["\[Gamma]", "mu"], 
+       SuperscriptBox["\[Gamma]", "nu"]}], "-", 
+      RowBox[{
+       FractionBox["1", 
+        RowBox[{"3", 
+         SubscriptBox["M", "\[CapitalDelta]"]}]], 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          SuperscriptBox["p", "\[Mu]"], 
+          SuperscriptBox["\[Gamma]", "\[Nu]"]}], "-", 
+         RowBox[{
+          SuperscriptBox["\[Gamma]", "\[Mu]"], 
+          SuperscriptBox["p", "\[Nu]"]}]}], ")"}]}], "-", 
+      RowBox[{
+       FractionBox["2", 
+        RowBox[{"3", 
+         SuperscriptBox[
+          SubscriptBox["M", "\[CapitalDelta]"], "2"]}]], 
+       SuperscriptBox["p", "\[Mu]"], 
+       SuperscriptBox["p", "\[Nu]"]}]}], ")"}]}], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "21f7fda8-ac73-4a9d-a838-c39efd529d2b"],
+ ". Combining these together and taking the trace for the setup, we get the \
+equations below, which are consistent with the paper. (I will work on \
+breaking it up into the individual pieces and attempt to do the \[Gamma]N \
+\[Rule] \[Pi]N calculation next)"
+}], "Text",
+ CellChangeTimes->{{3.9853574697083387`*^9, 3.985357676062344*^9}, {
+   3.985357708190444*^9, 3.985357748854987*^9}, {3.985357811747136*^9, 
+   3.9853578225741587`*^9}, 3.98538690420864*^9, {3.98538712946453*^9, 
+   3.9853872005938663`*^9}, {3.9853873589716377`*^9, 3.98538737285186*^9}, {
+   3.9853874935457973`*^9, 3.985387494746921*^9}, {3.985387754861158*^9, 
+   3.9853877925177593`*^9}, {3.985387824789112*^9, 3.985388023133192*^9}, {
+   3.9853880633698463`*^9, 
+   3.985388328508977*^9}},ExpressionUUID->"583d1016-6423-4e2a-ac44-\
+8b6c6b28b2b2"],
 
 Cell[CellGroupData[{
 
@@ -1536,9 +1633,10 @@ Cell[BoxData[
    3.985350506539521*^9, 3.985350533221949*^9}, 3.9853505658401337`*^9},
  CellLabel->"Out[49]=",ExpressionUUID->"4404bd95-34d6-4987-8177-659f4240e52b"]
 }, Open  ]]
+}, Open  ]]
 },
-WindowSize->{714, 779.25},
-WindowMargins->{{Automatic, -2154}, {Automatic, 0}},
+WindowSize->{1434, 869.25},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 FrontEndVersion->"14.3 for Linux x86 (64-bit) (July 8, 2025)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"49579195-a873-4bca-b37c-a62bb727b0eb"
@@ -1555,38 +1653,43 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 199, 3, 29, "Input",ExpressionUUID->"8d915d3a-5b6a-4157-96d8-9ccf893f3224"],
+Cell[576, 22, 153, 3, 65, "Section",ExpressionUUID->"cb8cc040-f9d2-4231-94cc-bd43d81af749"],
 Cell[CellGroupData[{
-Cell[800, 29, 3765, 97, 73, "Print",ExpressionUUID->"f41d501f-6dee-4c70-90d9-d462f08d79aa"],
-Cell[4568, 128, 388, 8, 48, "Print",ExpressionUUID->"0987f9e7-c38a-43cf-8898-82f472393dd8"],
-Cell[4959, 138, 434, 10, 48, "Print",ExpressionUUID->"12787040-b165-40a1-a6f3-668c6e862515"]
+Cell[754, 29, 199, 3, 29, "Input",ExpressionUUID->"8d915d3a-5b6a-4157-96d8-9ccf893f3224"],
+Cell[CellGroupData[{
+Cell[978, 36, 3765, 97, 26, "Print",ExpressionUUID->"f41d501f-6dee-4c70-90d9-d462f08d79aa"],
+Cell[4746, 135, 388, 8, 26, "Print",ExpressionUUID->"0987f9e7-c38a-43cf-8898-82f472393dd8"],
+Cell[5137, 145, 434, 10, 26, "Print",ExpressionUUID->"12787040-b165-40a1-a6f3-668c6e862515"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5442, 154, 1903, 52, 117, "Input",ExpressionUUID->"0f3ab5e2-7cd7-415d-b8f2-2bc2c955cf31"],
-Cell[7348, 208, 25048, 1063, 503, "Output",ExpressionUUID->"7e925a01-2389-4b81-a4aa-ecd614bb295d"]
-}, Open  ]],
-Cell[32411, 1274, 1544, 47, 129, "Input",ExpressionUUID->"d6e3b2aa-3e07-4a7e-9d6b-12aca7f1b71b"],
+Cell[5632, 162, 170, 3, 65, "Section",ExpressionUUID->"836615a4-894a-430d-b9f3-288cff737f79"],
+Cell[5805, 167, 3305, 80, 163, "Text",ExpressionUUID->"583d1016-6423-4e2a-ac44-8b6c6b28b2b2"],
 Cell[CellGroupData[{
-Cell[33980, 1325, 1200, 29, 91, "Input",ExpressionUUID->"523f960f-31e9-48ac-b6b9-49ebd398f72e"],
-Cell[35183, 1356, 918, 22, 55, "Output",ExpressionUUID->"b3c775f7-4205-4c06-9955-ee2413cfab27"]
+Cell[9135, 251, 1903, 52, 95, "Input",ExpressionUUID->"0f3ab5e2-7cd7-415d-b8f2-2bc2c955cf31"],
+Cell[11041, 305, 25048, 1063, 230, "Output",ExpressionUUID->"7e925a01-2389-4b81-a4aa-ecd614bb295d"]
 }, Open  ]],
-Cell[36116, 1381, 644, 18, 58, "Input",ExpressionUUID->"44da0247-514f-4d31-a22d-e11157734639"],
+Cell[36104, 1371, 1544, 47, 129, "Input",ExpressionUUID->"d6e3b2aa-3e07-4a7e-9d6b-12aca7f1b71b"],
 Cell[CellGroupData[{
-Cell[36785, 1403, 518, 12, 52, "Input",ExpressionUUID->"b84101b5-ed06-4c90-b96a-90b691525db4"],
-Cell[37306, 1417, 954, 26, 55, "Output",ExpressionUUID->"a41ad5a4-872e-4991-9dcb-9ed27cbd29ec"]
+Cell[37673, 1422, 1200, 29, 30, "Input",ExpressionUUID->"523f960f-31e9-48ac-b6b9-49ebd398f72e"],
+Cell[38876, 1453, 918, 22, 55, "Output",ExpressionUUID->"b3c775f7-4205-4c06-9955-ee2413cfab27"]
+}, Open  ]],
+Cell[39809, 1478, 644, 18, 58, "Input",ExpressionUUID->"44da0247-514f-4d31-a22d-e11157734639"],
+Cell[CellGroupData[{
+Cell[40478, 1500, 518, 12, 52, "Input",ExpressionUUID->"b84101b5-ed06-4c90-b96a-90b691525db4"],
+Cell[40999, 1514, 954, 26, 55, "Output",ExpressionUUID->"a41ad5a4-872e-4991-9dcb-9ed27cbd29ec"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[38297, 1448, 1304, 37, 102, "Input",ExpressionUUID->"5c23c1e2-5ee1-4d8a-a0f4-4f4db5bb602d"],
-Cell[39604, 1487, 1161, 33, 78, "Output",ExpressionUUID->"8eded134-f826-4d87-9760-2cc0f8f89da7"]
+Cell[41990, 1545, 1304, 37, 50, "Input",ExpressionUUID->"5c23c1e2-5ee1-4d8a-a0f4-4f4db5bb602d"],
+Cell[43297, 1584, 1161, 33, 52, "Output",ExpressionUUID->"8eded134-f826-4d87-9760-2cc0f8f89da7"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[40802, 1525, 250, 5, 29, "Input",ExpressionUUID->"acfe35f5-e4ed-46a4-96b9-17dc86aa58f2"],
-Cell[41055, 1532, 277, 4, 32, "Output",ExpressionUUID->"4404bd95-34d6-4987-8177-659f4240e52b"]
+Cell[44495, 1622, 250, 5, 29, "Input",ExpressionUUID->"acfe35f5-e4ed-46a4-96b9-17dc86aa58f2"],
+Cell[44748, 1629, 277, 4, 32, "Output",ExpressionUUID->"4404bd95-34d6-4987-8177-659f4240e52b"]
+}, Open  ]]
 }, Open  ]]
 }
 ]
 *)
-
-(* End of internal cache information *)
 
