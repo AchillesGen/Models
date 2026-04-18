@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    175442,       3276]
-NotebookOptionsPosition[    170253,       3187]
-NotebookOutlinePosition[    170712,       3205]
-CellTagsIndexPosition[    170669,       3202]
+NotebookDataLength[    175377,       3273]
+NotebookOptionsPosition[    170188,       3184]
+NotebookOutlinePosition[    170647,       3202]
+CellTagsIndexPosition[    170604,       3199]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -761,7 +761,7 @@ Cell[BoxData[{
    "FullSimplify"}]}]}], "Input",
  CellChangeTimes->{{3.983236256274*^9, 3.983236362792015*^9}, {
   3.983236411377043*^9, 3.983236416878927*^9}, {3.985465803548088*^9, 
-  3.9854658045787735`*^9}, {3.9854664498367634`*^9, 3.9854664874900913`*^9}},
+  3.985465804578773*^9}, {3.985466449836763*^9, 3.9854664874900913`*^9}},
  CellLabel->"In[25]:=",ExpressionUUID->"d335c027-d860-5149-a5c4-61dbce4b269a"],
 
 Cell["The ratio of their decay width to our", "Text",
@@ -785,7 +785,7 @@ Cell[BoxData[
   RowBox[{"{", 
    RowBox[{"isospinFactor", "->", "1"}], "}"}]}]], "Input",
  CellChangeTimes->{{3.98546675909239*^9, 3.985466831450222*^9}, {
-  3.9854670191234894`*^9, 3.9854670238334713`*^9}},
+  3.985467019123489*^9, 3.9854670238334713`*^9}},
  CellLabel->"In[27]:=",ExpressionUUID->"97275203-1180-8e41-9ed2-39c715f3147e"],
 
 Cell[TextData[{
@@ -1261,7 +1261,7 @@ BwcHBwdHMf8Hy2Y32w==
   3.9854669656645813`*^9, 
   3.9854669928906593`*^9}},ExpressionUUID->"bdbdadb0-9ddd-7f4a-86db-\
 a11891f46fbe"]
-}, Closed]],
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -1279,14 +1279,12 @@ We fully agree with Pascalutsa because indeed ",
     SubscriptBox["h", "us"], "==", 
     RowBox[{
      FractionBox["1", "2"], 
-     SubscriptBox["h", "pascalutsa"]}]}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+     SubscriptBox["h", "pascalutsa"]}]}], TraditionalForm]],ExpressionUUID->
   "a36d52af-c2f4-5f43-bdd6-50761938824b"],
  " \[Rule] 1.43 = ",
  Cell[BoxData[
   FormBox[
-   FractionBox["1", "2"], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+   FractionBox["1", "2"], TraditionalForm]],ExpressionUUID->
   "77a90372-9a2d-564c-bf5a-d6bd07e729ee"],
  " 2.85.\[LineSeparator]\[LineSeparator]To agree with Ramirez we would need ",
  Cell[BoxData[
@@ -1294,8 +1292,7 @@ We fully agree with Pascalutsa because indeed ",
    RowBox[{
     SubscriptBox["h", "us"], "==", 
     RowBox[{"2", 
-     SubscriptBox["h", "ramirez"]}]}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+     SubscriptBox["h", "ramirez"]}]}], TraditionalForm]],ExpressionUUID->
   "4d164494-a462-c64c-acf5-d1ec22464ea0"],
  " which is ",
  StyleBox["numerically",
@@ -2840,25 +2837,25 @@ AAAAAAAA6NT8H1niRcs=
    PlotRange->{{0, 726.}, {0, 335.4}}]], "Input",ExpressionUUID->
   "3524ee0f-45a8-014c-8d13-d7f9100b652e"]
 }], "Text",
- CellChangeTimes->{{3.9854671753258247`*^9, 3.9854672373461285`*^9}, {
-  3.9854672674831524`*^9, 3.985467270041315*^9}, {3.9854673496813107`*^9, 
-  3.9854673680330257`*^9}, {3.9854674112636833`*^9, 3.985467506425411*^9}, {
+ CellChangeTimes->{{3.9854671753258243`*^9, 3.9854672373461285`*^9}, {
+  3.985467267483153*^9, 3.985467270041315*^9}, {3.985467349681311*^9, 
+  3.9854673680330257`*^9}, {3.985467411263683*^9, 3.985467506425411*^9}, {
   3.985467573056612*^9, 3.985467583192026*^9}, {3.98546984295936*^9, 
   3.985469853383543*^9}, {3.985470372726536*^9, 3.9854703957910843`*^9}, {
-  3.985470752686489*^9, 3.9854707751754227`*^9}, {3.9854708150615273`*^9, 
-  3.9854709243349*^9}, {3.9854710147898617`*^9, 3.9854710150954266`*^9}, {
-  3.9854710575229435`*^9, 
+  3.985470752686489*^9, 3.985470775175423*^9}, {3.9854708150615273`*^9, 
+  3.9854709243349*^9}, {3.985471014789861*^9, 3.9854710150954266`*^9}, {
+  3.985471057522944*^9, 
   3.985471119152994*^9}},ExpressionUUID->"08984b30-cfdb-a347-b307-\
 438e72bdc86c"],
 
 Cell[CellGroupData[{
 
 Cell["\<\
-Double checking is Pascalutsa has some isospin factors different to us\
+Double checking if Pascalutsa has some isospin factors different to us\
 \>", "Subsection",
- CellChangeTimes->{{3.985468586734827*^9, 3.9854685933205624`*^9}, {
-  3.9854696969822617`*^9, 
-  3.9854697240953045`*^9}},ExpressionUUID->"ccdfefa0-0608-e742-aeb0-\
+ CellChangeTimes->{{3.985468586734827*^9, 3.985468593320562*^9}, {
+  3.985469696982261*^9, 3.9854697240953045`*^9}, {3.9854785603207645`*^9, 
+  3.9854785604064407`*^9}},ExpressionUUID->"ccdfefa0-0608-e742-aeb0-\
 fdb25082e363"],
 
 Cell[BoxData[
@@ -3182,11 +3179,11 @@ Cell[TextData[{
   3.98546960271142*^9, 
   3.985469631951086*^9}},ExpressionUUID->"42dbaef0-35cf-ca42-8602-\
 cf1c0cb77180"]
-}, Closed]]
-}, Closed]]
+}, Open  ]]
+}, Open  ]]
 },
 Evaluator->"FeynCalc",
-WindowSize->{1141.2, 573.6},
+WindowSize->{1141.2, 568.8},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
 Magnification:>0.95 Inherited,
 FrontEndVersion->"14.0 for Microsoft Windows (64-bit) (December 12, 2023)",
@@ -3261,23 +3258,23 @@ Cell[26423, 641, 1190, 26, 26, "Input",ExpressionUUID->"4ee73522-9ef4-e443-aa65-
 Cell[CellGroupData[{
 Cell[27674, 674, 179, 3, 51, "Section",ExpressionUUID->"25cf1317-422d-6343-a098-f7df62b70ed4"],
 Cell[27856, 679, 385, 8, 55, "Text",ExpressionUUID->"632e75bd-ad28-de40-ac2b-6f42d99c553b"],
-Cell[28244, 689, 2694, 75, 120, "Input",ExpressionUUID->"d335c027-d860-5149-a5c4-61dbce4b269a"],
-Cell[30941, 766, 183, 3, 33, "Text",ExpressionUUID->"da3041eb-48ed-a247-9ac3-cdb8c1579513"],
-Cell[31127, 771, 669, 17, 46, "Input",ExpressionUUID->"97275203-1180-8e41-9ed2-39c715f3147e"],
-Cell[31799, 790, 11050, 188, 78, "Text",ExpressionUUID->"83259017-41f7-9f48-ab0e-c34c35f858cc"],
-Cell[42852, 980, 16393, 282, 72, "Text",ExpressionUUID->"bdbdadb0-9ddd-7f4a-86db-a11891f46fbe"]
-}, Closed]],
+Cell[28244, 689, 2690, 75, 102, "Input",ExpressionUUID->"d335c027-d860-5149-a5c4-61dbce4b269a"],
+Cell[30937, 766, 183, 3, 33, "Text",ExpressionUUID->"da3041eb-48ed-a247-9ac3-cdb8c1579513"],
+Cell[31123, 771, 667, 17, 46, "Input",ExpressionUUID->"97275203-1180-8e41-9ed2-39c715f3147e"],
+Cell[31793, 790, 11050, 188, 78, "Text",ExpressionUUID->"83259017-41f7-9f48-ab0e-c34c35f858cc"],
+Cell[42846, 980, 16393, 282, 72, "Text",ExpressionUUID->"bdbdadb0-9ddd-7f4a-86db-a11891f46fbe"]
+}, Open  ]],
 Cell[CellGroupData[{
-Cell[59282, 1267, 155, 3, 51, "Section",ExpressionUUID->"948fabe9-1d1e-f049-9852-d24d215ca30a"],
-Cell[59440, 1272, 94985, 1579, 465, "Text",ExpressionUUID->"08984b30-cfdb-a347-b307-438e72bdc86c"],
+Cell[59276, 1267, 155, 3, 64, "Section",ExpressionUUID->"948fabe9-1d1e-f049-9852-d24d215ca30a"],
+Cell[59434, 1272, 94880, 1576, 465, "Text",ExpressionUUID->"08984b30-cfdb-a347-b307-438e72bdc86c"],
 Cell[CellGroupData[{
-Cell[154450, 2855, 281, 6, 51, "Subsection",ExpressionUUID->"ccdfefa0-0608-e742-aeb0-fdb25082e363"],
-Cell[154734, 2863, 11042, 186, 48, "Input",ExpressionUUID->"f67de1bc-5b90-9d49-aad9-25c46d8b8a16"],
-Cell[165779, 3051, 1624, 48, 406, "Input",ExpressionUUID->"248532be-93ba-2e44-9a86-cc739459e16a"],
-Cell[167406, 3101, 2054, 57, 49, "Input",ExpressionUUID->"ca41e0c4-5114-b44d-822d-7a5ad322aace"],
-Cell[169463, 3160, 762, 23, 39, "Text",ExpressionUUID->"42dbaef0-35cf-ca42-8602-cf1c0cb77180"]
-}, Closed]]
-}, Closed]]
+Cell[154339, 2852, 327, 6, 51, "Subsection",ExpressionUUID->"ccdfefa0-0608-e742-aeb0-fdb25082e363"],
+Cell[154669, 2860, 11042, 186, 48, "Input",ExpressionUUID->"f67de1bc-5b90-9d49-aad9-25c46d8b8a16"],
+Cell[165714, 3048, 1624, 48, 406, "Input",ExpressionUUID->"248532be-93ba-2e44-9a86-cc739459e16a"],
+Cell[167341, 3098, 2054, 57, 49, "Input",ExpressionUUID->"ca41e0c4-5114-b44d-822d-7a5ad322aace"],
+Cell[169398, 3157, 762, 23, 39, "Text",ExpressionUUID->"42dbaef0-35cf-ca42-8602-cf1c0cb77180"]
+}, Open  ]]
+}, Open  ]]
 }
 ]
 *)
