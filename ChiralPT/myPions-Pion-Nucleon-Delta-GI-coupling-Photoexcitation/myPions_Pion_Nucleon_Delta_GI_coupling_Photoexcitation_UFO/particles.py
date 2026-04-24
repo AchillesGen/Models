@@ -1,13 +1,12 @@
 # This file was automatically created by FeynRules 2.3.49
-# Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Sat 28 Mar 2026 10:58:22
+# Mathematica version: 13.3.1 for Linux x86 (64-bit) (July 24, 2023)
+# Date: Thu 23 Apr 2026 19:11:53
 
 
-from __future__ import division
-from object_library import all_particles, Particle
-import parameters as Param
+from .object_library import all_particles, Particle
+from . import parameters as Param
 
-import propagators as Prop
+from . import propagators as Prop
 
 A = Particle(pdg_code = 22,
              name = 'A',
@@ -315,7 +314,7 @@ Pi0 = Particle(pdg_code = 111,
                spin = 1,
                color = 1,
                mass = Param.MPi,
-               width = Param.WPi,
+               width = Param.WPi0,
                texname = 'Pi0',
                antitexname = 'Pi0',
                charge = 0,
@@ -330,7 +329,7 @@ Pi__plus__ = Particle(pdg_code = 211,
                       spin = 1,
                       color = 1,
                       mass = Param.MPi,
-                      width = Param.WPi,
+                      width = Param.WPiP,
                       texname = 'Pi+',
                       antitexname = 'Pi-',
                       charge = 1,
@@ -396,7 +395,7 @@ Delta__plus____plus__ = Particle(pdg_code = 2224,
                                  spin = 4,
                                  color = 1,
                                  mass = Param.MDelta,
-                                 width = Param.WDelta,
+                                 width = Param.WDeltaPP,
                                  texname = 'Delta++',
                                  antitexname = 'Delta--Bar',
                                  charge = 2,
@@ -413,7 +412,7 @@ Delta__plus__ = Particle(pdg_code = 2214,
                          spin = 4,
                          color = 1,
                          mass = Param.MDelta,
-                         width = Param.WDelta,
+                         width = Param.WDeltaP,
                          texname = 'Delta+',
                          antitexname = 'Delta-Bar',
                          charge = 1,
@@ -430,7 +429,7 @@ Delta0 = Particle(pdg_code = 2114,
                   spin = 4,
                   color = 1,
                   mass = Param.MDelta,
-                  width = Param.WDelta,
+                  width = Param.WDelta0,
                   texname = 'Delta0',
                   antitexname = 'Delta0Bar',
                   charge = 0,
@@ -447,7 +446,7 @@ Delta__minus__ = Particle(pdg_code = 1114,
                           spin = 4,
                           color = 1,
                           mass = Param.MDelta,
-                          width = Param.WDelta,
+                          width = Param.WDeltaM,
                           texname = 'Delta-',
                           antitexname = 'Delta-bar',
                           charge = -1,

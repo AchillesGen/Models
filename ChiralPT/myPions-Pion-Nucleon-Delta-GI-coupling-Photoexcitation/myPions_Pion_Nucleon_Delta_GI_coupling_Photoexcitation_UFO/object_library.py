@@ -172,13 +172,17 @@ all_CTparameters = []
 
 class CTParameter(UFOBaseClass):
 
-    require_args=['name', 'type', 'value', 'texname']
+    require_args=['name', 'nature,', 'type', 'value', 'texname']
 
     def __init__(self, name, type, value, texname):
 
-        args = (name,type,value,texname)
+        args = (name,'internal',type,value,texname)
 
         UFOBaseClass.__init__(self, *args)
+
+        args=(name,'internal',type,value,texname)
+
+        self.nature='interal'
 
         global all_CTparameters
         all_CTparameters.append(self)
@@ -252,7 +256,7 @@ class Coupling(UFOBaseClass):
         parameter or just a string which can possibly contain CTparameter defining the Laurent serie."""
         
         if isinstance(self.value,dict):
-            if -x in self.value.keys():
+            if -x in list(self.value.keys()):
                 return self.value[-x]
             else:
                 return 'ZERO'
@@ -265,9 +269,9 @@ class Coupling(UFOBaseClass):
                if not CTparam:
                    CTparam=param
                else:
-                   raise UFOError, "UFO does not support yet more than one occurence of CTParameters in the couplings values."
+                   raise UFOError("UFO does not support yet more than one occurence of CTParameters in the couplings values.")
            elif numberOfMatches>1:
-               raise UFOError, "UFO does not support yet more than one occurence of CTParameters in the couplings values."
+               raise UFOError("UFO does not support yet more than one occurence of CTParameters in the couplings values.")
 
         if not CTparam:
             if x==0:

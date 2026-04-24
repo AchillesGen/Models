@@ -1,13 +1,13 @@
 # This file was automatically created by FeynRules 2.3.49
-# Mathematica version: 14.0.0 for Microsoft Windows (64-bit) (December 13, 2023)
-# Date: Sat 28 Mar 2026 10:58:22
+# Mathematica version: 13.3.1 for Linux x86 (64-bit) (July 24, 2023)
+# Date: Thu 23 Apr 2026 19:11:53
 
 
-from object_library import all_lorentz, Lorentz
+from .object_library import all_lorentz, Lorentz
 
-from function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
+from .function_library import complexconjugate, re, im, csc, sec, acsc, asec, cot
 try:
-   import form_factors as ForFac 
+   from . import form_factors as ForFac 
 except ImportError:
    pass
 
@@ -242,33 +242,25 @@ RRSS4 = Lorentz(name = 'RRSS4',
 
 RRVS1 = Lorentz(name = 'RRVS1',
                 spins = [ 4, 4, 3, 1 ],
-                structure = 'Gamma(1,-2,1)*Gamma(2,2,-1)*Gamma(3,-1,-2)')
+                structure = 'Gamma(1,-1,1)*Gamma(2,2,-2)*Gamma(3,-2,-1)')
 
 RRVS2 = Lorentz(name = 'RRVS2',
                 spins = [ 4, 4, 3, 1 ],
-                structure = 'Gamma(1,-1,1)*Gamma(2,2,-2)*Gamma(3,-2,-1)')
+                structure = 'Gamma5(-1,1)*Gamma(1,-2,-1)*Gamma(2,2,-3)*Gamma(3,-3,-2)')
 
 RRVS3 = Lorentz(name = 'RRVS3',
                 spins = [ 4, 4, 3, 1 ],
-                structure = 'Gamma5(-1,1)*Gamma(1,-2,-1)*Gamma(2,2,-3)*Gamma(3,-3,-2)')
+                structure = 'Gamma5(-1,1)*Gamma(3,2,-1)*Metric(1,2)')
 
 RRVS4 = Lorentz(name = 'RRVS4',
                 spins = [ 4, 4, 3, 1 ],
-                structure = 'Gamma5(-1,1)*Gamma(3,2,-1)*Metric(1,2)')
+                structure = 'Gamma(1,-1,1)*Gamma(2,2,-2)*Gamma(3,-2,-1) + 2*Gamma(3,2,1)*Metric(1,2)')
 
 RRVS5 = Lorentz(name = 'RRVS5',
                 spins = [ 4, 4, 3, 1 ],
-                structure = 'Gamma(1,-1,1)*Gamma(2,2,-2)*Gamma(3,-2,-1) + 2*Gamma(3,2,1)*Metric(1,2)')
-
-RRVS6 = Lorentz(name = 'RRVS6',
-                spins = [ 4, 4, 3, 1 ],
-                structure = 'Gamma(1,-2,1)*Gamma(2,2,-1)*Gamma(3,-1,-2) + Gamma(2,2,1)*Metric(1,3) + Gamma(1,2,1)*Metric(2,3)')
-
-RRVS7 = Lorentz(name = 'RRVS7',
-                spins = [ 4, 4, 3, 1 ],
                 structure = 'Gamma(1,-1,1)*Gamma(2,2,-2)*Gamma(3,-2,-1) + Gamma(2,2,1)*Metric(1,3) + Gamma(1,2,1)*Metric(2,3)')
 
-RRVS8 = Lorentz(name = 'RRVS8',
+RRVS6 = Lorentz(name = 'RRVS6',
                 spins = [ 4, 4, 3, 1 ],
                 structure = 'Gamma5(-1,1)*Gamma(2,2,-1)*Metric(1,3) + Gamma5(-1,1)*Gamma(1,2,-1)*Metric(2,3)')
 
@@ -326,9 +318,13 @@ RRVSS4 = Lorentz(name = 'RRVSS4',
 
 RRVSS5 = Lorentz(name = 'RRVSS5',
                  spins = [ 4, 4, 3, 1, 1 ],
-                 structure = 'Gamma(1,-1,1)*Gamma(2,2,-2)*Gamma(3,-2,-1) + Gamma(2,2,1)*Metric(1,3) + Gamma(1,2,1)*Metric(2,3)')
+                 structure = 'Gamma(1,-2,1)*Gamma(2,2,-1)*Gamma(3,-1,-2) + Gamma(2,2,1)*Metric(1,3) + Gamma(1,2,1)*Metric(2,3)')
 
 RRVSS6 = Lorentz(name = 'RRVSS6',
+                 spins = [ 4, 4, 3, 1, 1 ],
+                 structure = 'Gamma(1,-1,1)*Gamma(2,2,-2)*Gamma(3,-2,-1) + Gamma(2,2,1)*Metric(1,3) + Gamma(1,2,1)*Metric(2,3)')
+
+RRVSS7 = Lorentz(name = 'RRVSS7',
                  spins = [ 4, 4, 3, 1, 1 ],
                  structure = 'Gamma5(-1,1)*Gamma(2,2,-1)*Metric(1,3) + Gamma5(-1,1)*Gamma(1,2,-1)*Metric(2,3)')
 
