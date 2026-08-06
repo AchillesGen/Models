@@ -1,0 +1,1604 @@
+(* ****************************************************************************** *)
+(*                                                                                *)
+(*   ChiPT.fr  --  chiral pion / nucleon / Delta(1232) model with the             *)
+(*                gauge-invariant (Pascalutsa) piN-Delta and gammaN-Delta          *)
+(*                couplings.                                                       *)
+(*                                                                                *)
+(*   Successor to myPions.fr.  The Lagrangian now lives HERE rather than in        *)
+(*   export_UFO_myPions.nb, so the model is self-contained: LoadModel["ChiPT.fr"]  *)
+(*   followed by WriteUFO[LTotal, ...] reproduces the full model.                  *)
+(*                                                                                *)
+(* ------------------------------------------------------------------------------ *)
+(*  CHANGES RELATIVE TO myPions.fr + export_UFO_myPions.nb                         *)
+(* ------------------------------------------------------------------------------ *)
+(*                                                                                 *)
+(*  1. LAGRANGIAN MOVED IN.  myPions.fr defined particles and parameters only;     *)
+(*     every interaction (LPionKin, LNucleonKin, LNNAxial, LNNVector, the four     *)
+(*     Rarita-Schwinger blocks) was defined in the export notebook, and the file's *)
+(*     last line referred to LPionKin, which it never defined.  All of it is now   *)
+(*     in this file, in the "Lagrangian" section below.                            *)
+(*                                                                                 *)
+(*  2. DelU CONVENTION.  myPions.fr had two versions of DelU, the second          *)
+(*     overwriting the first:                                                      *)
+(*         d U - i l U + i U r     (active,   convention U -> L U R^+)             *)
+(*         d U - i r U + i U l     (commented out, convention U -> R U L^+)        *)
+(*     The second is the one that matches ChiConnect / ChiVielbein, which use      *)
+(*     u^+(d - i r)u and u(d - i l)u^+, so the active one is now the second.       *)
+(*     l = r for electromagnetism, so this is invisible in gamma p -> pi0 p; it    *)
+(*     matters only for W couplings, which live in LMat alone.                     *)
+(*                                                                                 *)
+(*     NOT a bug, checked and left alone:                                          *)
+(*       * EMStrengthTensor[mu_,nu_] := del[A[mu],nu] - del[A[nu],mu] is MINUS     *)
+(*         the usual F_{mu nu}, but this model's photon also has the opposite      *)
+(*         sign to the standard one -- LNNVector gives Vertex(p~ p A) = +I ee Ga,  *)
+(*         against the standard -I ee Ga.  The two conventions cancel and the      *)
+(*         model reproduces Eq. (36) of nucl-th/0509020v2 correctly.  Flipping     *)
+(*         this line alone would flip the Delta against the Born terms.  See the   *)
+(*         long comment at the definition.                                         *)
+(*       * LMatTilda / RMatTilda pair l with u^+ and r with u, the opposite way    *)
+(*         round from ChiConnect / ChiVielbein.  Again invisible for l = r.  The   *)
+(*         two-line change that would make them agree is written out at LNNVector, *)
+(*         but it flips the sign of the W and Z axial couplings and the correct    *)
+(*         sign has not been established, so it is NOT applied here.               *)
+(*       * LNNVector / LNNAxial must keep using aVec / vVec / LMatTilda /          *)
+(*         RMatTilda.  Rewriting them via ChiConnect / ChiVielbein looks           *)
+(*         equivalent but is not: those two are wrapped in Series[..., fPi,        *)
+(*         Infinity, 2], which differentiates the unevaluated HC and del heads     *)
+(*         and contaminates the result.  Verified consequence: pion-nucleon        *)
+(*         couplings come out a factor 2 too small and spurious parity-violating   *)
+(*         pi-N-N vertices appear.                                                 *)
+(*                                                                                 *)
+(*  4. LMat / RMat DEFINED ONCE.  myPions.fr defined each of them three times      *)
+(*     (lines 909-911 and 913-915); only the last survived.  The two dead ones     *)
+(*     were quark-hypercharge versions (g1/6).  The surviving, correct choice is   *)
+(*     kept and is now the only one:  l_mu = r_mu = e Q A_mu with Q = (1+tau3)/2,  *)
+(*     which gives the pion charges through the commutator and the proton/neutron  *)
+(*     charges through Gamma_mu.                                                    *)
+(*                                                                                 *)
+(*  5. UNITS.  MEta, MK0, MKp were 547.86 / 497.61 / 493.68, i.e. MeV, while       *)
+(*     everything else in the file is GeV.  Now in GeV.                            *)
+(*                                                                                 *)
+(*  6. PION MASSES SPLIT.  Pi0 and PiP both used MPi = 0.13498 (the pi0 mass).     *)
+(*     They now carry the physical MPi0 and MPiP.  The chiral Lagrangian is        *)
+(*     isospin symmetric by construction, so the mass matrix ChiMat still uses a   *)
+(*     single MPi (internal, = MPi0 by default, which reproduces the previous      *)
+(*     numbers).  The pi+ two-point term from LPionKin therefore carries MPi while *)
+(*     the propagator carries MPiP; that is the usual phenomenological compromise,  *)
+(*     not an inconsistency to be fixed here.  Set MPi -> MPiP if you prefer the    *)
+(*     more common chiral convention.                                              *)
+(*                                                                                 *)
+(*  7. DEAD CODE REMOVED.  The commented-out spin-1/2-style F[4] Delta class       *)
+(*     (superseded by R[1]-R[5], and flagged "Error" in its own PDG list) is gone. *)
+(*     FeynmanGauge is set to False here, which is what the export notebook set    *)
+(*     immediately after loading anyway.                                           *)
+(*                                                                                 *)
+(* ------------------------------------------------------------------------------ *)
+(*  RESOLVED -- premature evaluation during LoadModel (see ChiPTClearCache below) *)
+(* ------------------------------------------------------------------------------ *)
+(*   Symptom: every pi-N-Delta vertex built from LPiNDeltaGI / LPiNDelta /         *)
+(*   LDeltaSector carried spurious Derivative[1][HC][0], Derivative[2][HC][0] and  *)
+(*   Derivative[1,0][del][0,...] factors, e.g.                                     *)
+(*                                                                                 *)
+(*     -I hD/(Sqrt[6] fPi MDelta) Eps[...] FV[1,b] FV[3,a] Ga[c].Ga[5]             *)
+(*        * ( 1 + Derivative[1][HC][0] + ... )                                     *)
+(*                                                                                 *)
+(*   Cause: FeynRules' LoadModel evaluates some of the chiral helper functions      *)
+(*   WHILE the model is still being set up, at a point where HC[umat] and           *)
+(*   del[umat,mu] cannot yet resolve.  getRidOfhigherOrderTerm (= Series in 1/fPi)  *)
+(*   then differentiates the surviving HC and del heads as ordinary functions of    *)
+(*   fPi.  Because those helpers are memoised, that premature, contaminated result  *)
+(*   was cached permanently, and no later evaluation could recover.  Rebuilding the *)
+(*   character-identical expression at top level after loading was always clean --  *)
+(*   which is what made this confusing to track down.                               *)
+(*                                                                                 *)
+(*   Fix: call ChiPTClearCache[] immediately after LoadModel (see below).  Verified *)
+(*   afterwards: LPionKin, LNucleonKin, LNNVector, LNNAxial, LDeltaSector,          *)
+(*   LPiNDelta, LPiNDeltaGI and LGammaNDelta all report zero Derivative-junk and    *)
+(*   zero leftover HC, and the exported UFO contains none either.                   *)
+(*                                                                                 *)
+(*   NOTE: this was NEVER a problem for export_UFO_myPions.nb.  That notebook       *)
+(*   defines the Lagrangians AFTER LoadModel has returned, so nothing is evaluated  *)
+(*   prematurely.  The shipped                                                      *)
+(*   myPions_Pion_Nucleon_Delta_GI_coupling_Photoexcitation_UFO was checked file by *)
+(*   file and is completely free of this junk.  The bug is specific to moving the   *)
+(*   Lagrangian into the .fr, i.e. it was introduced by THIS file.                  *)
+(*                                                                                 *)
+(* ------------------------------------------------------------------------------ *)
+(*  STILL TO VERIFY (not changed here, flagged for the record)                     *)
+(* ------------------------------------------------------------------------------ *)
+(*   - The overall sign of LPiNDeltaGI relative to LNNAxial has not been checked   *)
+(*     against Fernandez-Ramirez et al. Eq. (36).  After regenerating the UFO,     *)
+(*     compare gamma p -> pi0 p against ELA-Pion-Photoproduction/Fig33v2.m, which  *)
+(*     is validated against that paper's Appendix A to 1e-16.  A wrong relative    *)
+(*     sign shows up as the Delta ADDING to the Born below the resonance instead   *)
+(*     of cancelling it.                                                           *)
+(*   - The Delta electric charges generated by DeltaConnection (isospinor piece    *)
+(*     from ChiConnect plus adjoint piece from ChiConnectV) have not been checked   *)
+(*     against the declared Q of R[1]-R[4].                                        *)
+(*                                                                                 *)
+(* ****************************************************************************** *)
+
+(* ************************** *)
+(* *****  Information   ***** *)
+(* ************************** *)
+M$ModelName = "ChiPT";
+
+M$Information = {
+  Authors      -> {""},
+  Version      -> "2.0",
+  Date         -> "",
+  Institutions -> {""},
+  Emails       -> {""}
+};
+
+FeynmanGauge = False;
+
+(* ****************************************************************************** *)
+(*  FORM FACTOR FLAG -- set this BEFORE LoadModel["ChiPT.fr"].                     *)
+(*                                                                                *)
+(*    ChiPT$FormFactors = None        (default) point-like couplings, as before.   *)
+(*                      = "Nucleon"   nucleon electromagnetic form factors on the  *)
+(*                                    gamma-N-N vertex: Dirac F1 and Pauli F2 for  *)
+(*                                    BOTH nucleons.  This is also what restores   *)
+(*                                    the anomalous magnetic moment and gives the  *)
+(*                                    neutron a photon vertex at all.              *)
+(*                      = "ELA"       expose the Davidson-Workman cutoff LambdaFF  *)
+(*                                    as an external parameter (see below).        *)
+(*                      = "Delta"     form factors on the pi-N-Delta and the       *)
+(*                                    gamma-N-Delta vertices; see the block at     *)
+(*                                    LPiNDeltaGIFF for exactly what they are and  *)
+(*                                    what of the Fig. 33 prescription they can    *)
+(*                                    and cannot reproduce.                        *)
+(*                      = "All"       all three.                                   *)
+(*                                                                                 *)
+(*  M$FormFactors is read while the file is being loaded, which is why the flag     *)
+(*  has to be set first, e.g.                                                       *)
+(*                                                                                  *)
+(*      ChiPT$FormFactors = "Nucleon";                                              *)
+(*      LoadModel["ChiPT.fr"];                                                      *)
+(*      ChiPTClearCache[];                                                          *)
+(*      WriteUFO[LTotal, AddDecays -> False, FlavorExpand -> True];                 *)
+(*                                                                                  *)
+(*  WHY THE ELA/DAVIDSON-WORKMAN FORM FACTORS ARE *NOT* PUT ON VERTICES.            *)
+(*  Eq. (48) of nucl-th/0509020v2 is                                                *)
+(*      Fhat_B(s,u,t) = 1 - (1-F1(s))(1-F2(u))(1-F3(t))                             *)
+(*  a single factor on the WHOLE Born amplitude, mixing all three Mandelstams.  A   *)
+(*  UFO form factor is a function of one vertex's own momenta, so Fhat_B is simply  *)
+(*  not a vertex-level object; attaching F1/F2/F3 to individual vertices is the     *)
+(*  per-diagram scheme the paper explicitly rejects, and it breaks the Ward         *)
+(*  identity (measured at the 24-33% level in ELA-Pion-Photoproduction/Fig33v2.m).  *)
+(*  ELA.fr reaches the same conclusion -- its LambdaFF is documented there as       *)
+(*  "Not used inside the vertices; consumed by the FeynCalc script."                *)
+(*                                                                                  *)
+(*  So "ELA" only exports the cutoff; the generator applies, at amplitude level,    *)
+(*      F1(s) = 1/(1 + (s - M^2)^2 / LambdaFF^4)      Eq. (49)                      *)
+(*      F2(u) = 1/(1 + (u - M^2)^2 / LambdaFF^4)      Eq. (50)                      *)
+(*      F3(t) = 1/(1 + (t - mpi^2)^2 / LambdaFF^4)    Eq. (51)                      *)
+(*      Fhat_B = 1 - (1-F1)(1-F2)(1-F3)               Eq. (48)                      *)
+(*      Fhat_V(t) = F3(t) with mpi -> mV              (vector mesons)               *)
+(*  and sqrt(X_pi(s,u)) on the resonance-pion-nucleon vertex, Eqs. (44)-(47).       *)
+(* ****************************************************************************** *)
+
+If[!ValueQ[ChiPT$FormFactors], ChiPT$FormFactors = None];
+ChiPT$NucleonFF = MemberQ[{"Nucleon", "All"}, ChiPT$FormFactors];
+ChiPT$ELAFF     = MemberQ[{"ELA", "All"}, ChiPT$FormFactors];
+ChiPT$DeltaFF   = MemberQ[{"Delta", "All"}, ChiPT$FormFactors];
+
+
+(* ************************** *)
+(* *****  Change  log   ***** *)
+(* ************************** *)
+
+(* v0.1: Initialize model (as myPions.fr).                                   *)
+(* v2.0: Lagrangian moved into the model file; DelU convention, duplicate    *)
+(*       LMat/RMat, meson mass units and pion masses corrected.  See the     *)
+(*       header block above for what was checked and deliberately left       *)
+(*       unchanged.                                                          *)
+
+
+(* ************************** *)
+(* *****  Gauge groups  ***** *)
+(* ************************** *)
+M$GaugeGroups = {
+  U1Y  == {
+    Abelian          -> True,
+    CouplingConstant -> g1,
+    GaugeBoson       -> B,
+    Charge           -> Y
+  },
+  SU2L == {
+    Abelian           -> False,
+    CouplingConstant  -> g2,
+    GaugeBoson        -> Wi,
+    StructureConstant -> Eps,
+    Representations   -> {Ta,SU2D},
+    Definitions       -> {Ta[a_,b_,c_]->PauliSigma[a,b,c]/2, FSU2L[i_,j_,k_]:> I Eps[i,j,k]}
+  }
+};
+
+
+(* ************************** *)
+(* *****    Indices     ***** *)
+(* ************************** *)
+
+IndexRange[Index[SU2W      ]] = Unfold[Range[3]];
+IndexRange[Index[SU2D      ]] = Unfold[Range[2]];
+IndexRange[Index[Generation]] = Range[3];
+IndexRange[Index[IsoSpin   ]] = Unfold[Range[2]];
+IndexRange[Index[IsoVector ]] = Unfold[Range[3]];
+
+
+IndexStyle[SU2W,       j];
+IndexStyle[SU2D,       k];
+IndexStyle[Generation, f];
+IndexStyle[IsoSpin,    s];
+IndexStyle[IsoVector,  v];
+
+(* ************************** *)
+(* *** Interaction orders *** *)
+(* ***  (as used by mg5)  *** *)
+(* ************************** *)
+
+(* CHI counts inverse powers of fPi, i.e. the order in the chiral expansion.
+   It is carried by fPi itself with InteractionOrder -> {CHI, -1}, so a
+   coupling going as 1/fPi^k comes out at CHI = +k (same idiom as
+   aEWM1 -> {QED,-2} below).
+
+   This is not cosmetic.  Sherpa/Comix drops any current whose accumulated
+   coupling order is (0,0) and whose t-channel count is 0, because that is
+   indistinguishable from the freshly-allocated prototype current -- see
+   COMIX/Amplitude/Amplitude.C:431 and :545.  Without a nonzero order on the
+   purely hadronic vertices, every diagram in which a pion and a baryon fuse
+   into an intermediate baryon is silently discarded: gamma p -> pi0 p keeps
+   only its two u-channel graphs, loses both direct (s-channel) graphs
+   including the Delta+ resonance, and fails Comix's gauge test by ~45%. *)
+
+M$InteractionOrderHierarchy = {
+  {QED, 1},
+  {QCD, 1},
+  {CHI, 1}
+};
+
+M$InteractionOrderLimit = {
+  {QED, 99},
+  {QCD, 0},
+  {CHI, 99}
+};
+
+
+(* ************************** *)
+(* **** Particle classes **** *)
+(* ************************** *)
+M$ClassesDescription = {
+
+(* Gauge bosons: physical vector fields *)
+  V[1] == {
+    ClassName       -> A,
+    SelfConjugate   -> True,
+    Mass            -> 0,
+    Width           -> 0,
+    ParticleName    -> "A",
+    PDG             -> 22,
+    PropagatorLabel -> "a",
+    PropagatorType  -> W,
+    PropagatorArrow -> None,
+    FullName        -> "Photon"
+  },
+  V[2] == {
+    ClassName       -> Z,
+    SelfConjugate   -> True,
+    Mass            -> {MZ, 91.1876},
+    Width           -> {WZ, 2.4952},
+    ParticleName    -> "Z",
+    PDG             -> 23,
+    PropagatorLabel -> "Z",
+    PropagatorType  -> Sine,
+    PropagatorArrow -> None,
+    FullName        -> "Z"
+  },
+  V[3] == {
+    ClassName        -> W,
+    SelfConjugate    -> False,
+    Mass             -> {MW, Internal},
+    Width            -> {WW, 2.085},
+    ParticleName     -> "W+",
+    AntiParticleName -> "W-",
+    QuantumNumbers   -> {Q -> 1},
+    PDG              -> 24,
+    PropagatorLabel  -> "W",
+    PropagatorType   -> Sine,
+    PropagatorArrow  -> Forward,
+    FullName         -> "W"
+  },
+
+(* Ghosts: related to physical gauge bosons *)
+  U[1] == {
+    ClassName       -> ghA,
+    SelfConjugate   -> False,
+    Ghost           -> A,
+    QuantumNumbers  -> {GhostNumber -> 1},
+    Mass            -> 0,
+    Width	    -> 0,
+    PropagatorLabel -> "uA",
+    PropagatorType  -> GhostDash,
+    PropagatorArrow -> Forward
+  },
+  U[2] == {
+    ClassName       -> ghZ,
+    SelfConjugate   -> False,
+    Ghost           -> Z,
+    QuantumNumbers  -> {GhostNumber -> 1},
+    Mass            -> {MZ,91.1876},
+    Width	    -> {WZ, 2.4952},
+    PropagatorLabel -> "uZ",
+    PropagatorType  -> GhostDash,
+    PropagatorArrow -> Forward
+  },
+  U[31] == {
+    ClassName       -> ghWp,
+    SelfConjugate   -> False,
+    Ghost           -> W,
+    QuantumNumbers  -> {GhostNumber -> 1, Q -> 1},
+    Mass            -> {MW,Internal},
+    Width           -> {WW, 2.085},
+    PropagatorLabel -> "uWp",
+    PropagatorType  -> GhostDash,
+    PropagatorArrow -> Forward
+  },
+  U[32] == {
+    ClassName       -> ghWm,
+    SelfConjugate   -> False,
+    Ghost           -> Wbar,
+    QuantumNumbers  -> {GhostNumber -> 1, Q -> -1},
+    Mass            -> {MW,Internal},
+    Width           -> {WW, 2.085},
+    PropagatorLabel -> "uWm",
+    PropagatorType  -> GhostDash,
+    PropagatorArrow -> Forward
+  },
+
+(* Gauge bosons: unphysical vector fields *)
+  V[11] == {
+    ClassName     -> B,
+    Unphysical    -> True,
+    SelfConjugate -> True,
+    Definitions   -> { B[mu_] -> cw A[mu] - sw Z[mu]}
+  },
+  V[12] == {
+    ClassName     -> Wi,
+    Unphysical    -> True,
+    SelfConjugate -> True,
+    Indices       -> {Index[SU2W]},
+    FlavorIndex   -> SU2W,
+    Definitions   -> { Wi[mu_,1] -> (Wbar[mu]+W[mu])/Sqrt[2], Wi[mu_,2] -> (Wbar[mu]-W[mu])/(I*Sqrt[2]), Wi[mu_,3] -> cw Z[mu] + sw A[mu]}
+  },
+
+(* Ghosts: related to unphysical gauge bosons *)
+  U[11] == {
+    ClassName     -> ghB,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Ghost         -> B,
+    Definitions   -> { ghB -> -sw ghZ + cw ghA}
+  },
+  U[12] == {
+    ClassName     -> ghWi,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Ghost         -> Wi,
+    Indices       -> {Index[SU2W]},
+    FlavorIndex   -> SU2W,
+    Definitions   -> { ghWi[1] -> (ghWp+ghWm)/Sqrt[2], ghWi[2] -> (ghWm-ghWp)/(I*Sqrt[2]), ghWi[3] -> cw ghZ+sw ghA}
+  } ,
+
+(* Fermions: physical fields *)
+(* TODO: Add PMNS matrix *)
+  F[1] == {
+    ClassName        -> vl,
+    ClassMembers     -> {ve,vm,vt},
+    Indices          -> {Index[Generation]},
+    FlavorIndex      -> Generation,
+    SelfConjugate    -> False,
+    Mass             -> 0,
+    Width            -> 0,
+    QuantumNumbers   -> {LeptonNumber -> 1},
+    PropagatorLabel  -> {"\[Nu]", "Subscript[\[Nu], e]", "Subscript[\[Nu], \[Mu]]", "Subscript[\[Nu], \[Tau]]"} ,
+    PropagatorType   -> S,
+    PropagatorArrow  -> Forward,
+    PDG              -> {12,14,16},
+    ParticleName     -> {"ve","vm","vt"},
+    AntiParticleName -> {"ve~","vm~","vt~"},
+    FullName         -> {"Electron-neutrino", "Mu-neutrino", "Tau-neutrino"}
+  },
+  F[2] == {
+    ClassName        -> l,
+    ClassMembers     -> {e, mu, ta},
+    Indices          -> {Index[Generation]},
+    FlavorIndex      -> Generation,
+    SelfConjugate    -> False,
+    Mass             -> {Ml, {Me,5.11*^-4}, {MMU,0.10566}, {MTA,1.777}},
+    Width            -> 0,
+    QuantumNumbers   -> {Q -> -1, LeptonNumber -> 1},
+    PropagatorLabel  -> {"l", "e", "\[Mu]", "\[Tau]"},
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> {11, 13, 15},
+    ParticleName     -> {"e-", "mu-", "ta-"},
+    AntiParticleName -> {"e+", "mu+", "ta+"},
+    FullName         -> {"Electron", "Muon", "Tau"}
+  },
+(* TODO: Handle non-chiral limit for masses *)
+(* NOTE: Proton and Neutron carry Y -> 1 but are NOT declared in an SU2L
+   representation.  That is fine as long as their kinetic and current terms are
+   written by hand (as they are, via LNucleonKin / LNNVector below).  Do NOT
+   apply FeynRules' DC[] to them: it would couple both to B with the same
+   hypercharge and give the neutron an electric charge. *)
+  F[3] == {
+    ClassName        -> Proton,
+    SelfConjugate    -> False,
+    Mass             -> {MNucleon, 0.938272},
+    Width            -> 0,
+    QuantumNumbers   -> {BaryonNumber -> 1, Q -> 1, Y -> 1},
+    PropagatorLabel  -> {"p"},
+    PropagatorType   -> S,
+    PropagatorArrow  -> Forward,
+    PDG              -> 2212,
+    ParticleName     -> "p",
+    AntiParticleName -> "p~",
+    FullName         -> "Proton"
+  },
+  F[4] == {
+    ClassName        -> Neutron,
+    SelfConjugate    -> False,
+    Mass             -> {MNucleon, 0.938272},
+    Width            -> 0,
+    QuantumNumbers   -> {BaryonNumber -> 1, Q -> 0, Y -> 1},
+    PropagatorLabel  -> {"n"},
+    PropagatorType   -> S,
+    PropagatorArrow  -> Forward,
+    PDG              -> 2112,
+    ParticleName     -> "n",
+    AntiParticleName -> "n~",
+    FullName         -> "Neutron"
+  },
+  F[5] == {
+    ClassName        -> Nucleon,
+    Unphysical       -> True,
+    SelfConjugate    -> False,
+    Indices          -> {Index[IsoSpin]},
+    FlavorIndex      -> IsoSpin,
+    Definitions      -> { Nucleon[sp1_, 1] :> Proton[sp1], Nucleon[sp1_, 2] :> Neutron[sp1] }
+  },
+
+(* Fermions: unphysical fields *)
+  F[11] == {
+    ClassName      -> LL,
+    Unphysical     -> True,
+    Indices        -> {Index[SU2D], Index[Generation]},
+    FlavorIndex    -> SU2D,
+    SelfConjugate  -> False,
+    QuantumNumbers -> {Y -> -1/2},
+    Definitions    -> { LL[sp1_,1,ff_] :> Module[{sp2}, ProjM[sp1,sp2] vl[sp2,ff]], LL[sp1_,2,ff_] :> Module[{sp2}, ProjM[sp1,sp2] l[sp2,ff]] }
+  },
+  F[12] == {
+    ClassName      -> lR,
+    Unphysical     -> True,
+    Indices        -> {Index[Generation]},
+    FlavorIndex    -> Generation,
+    SelfConjugate  -> False,
+    QuantumNumbers -> {Y -> -1},
+    Definitions    -> { lR[sp1_,ff_] :> Module[{sp2}, ProjP[sp1,sp2] l[sp2,ff]] }
+  },
+
+(* Higgs: physical scalars  *)
+  S[1] == {
+    ClassName       -> H,
+    SelfConjugate   -> True,
+    Mass            -> {MH,125},
+    Width           -> {WH,0.00407},
+    PropagatorLabel -> "H",
+    PropagatorType  -> D,
+    PropagatorArrow -> None,
+    PDG             -> 25,
+    ParticleName    -> "H",
+    FullName        -> "H"
+  },
+
+(* Higgs: Goldstone bosons  *)
+  S[2] == {
+    ClassName       -> G0,
+    SelfConjugate   -> True,
+    Goldstone       -> Z,
+    Mass            -> {MZ, 91.1876},
+    Width           -> {WZ, 2.4952},
+    PropagatorLabel -> "Go",
+    PropagatorType  -> D,
+    PropagatorArrow -> None,
+    PDG             -> 250,
+    ParticleName    -> "G0",
+    FullName        -> "G0"
+  },
+  S[3] == {
+    ClassName        -> GP,
+    SelfConjugate    -> False,
+    Goldstone        -> W,
+    Mass             -> {MW, Internal},
+    QuantumNumbers   -> {Q -> 1},
+    Width            -> {WW, 2.085},
+    PropagatorLabel  -> "GP",
+    PropagatorType   -> D,
+    PropagatorArrow  -> None,
+    PDG              -> 251,
+    ParticleName     -> "G+",
+    AntiParticleName -> "G-",
+    FullName         -> "GP"
+  },
+
+(* Higgs: unphysical scalars  *)
+  S[11] == {
+    ClassName      -> Phi,
+    Unphysical     -> True,
+    Indices        -> {Index[SU2D]},
+    FlavorIndex    -> SU2D,
+    SelfConjugate  -> False,
+    QuantumNumbers -> {Y -> 1/2},
+    Definitions    -> { Phi[1] -> -I GP, Phi[2] -> (vev + H + I G0)/Sqrt[2]  }
+  },
+
+(* Pions.  MPi0 and MPiP are the physical masses; the chiral Lagrangian itself
+   is isospin symmetric and uses the single internal MPi (see header note 6). *)
+  S[4] == {
+    ClassName        -> Pi0,
+    SelfConjugate    -> True,
+    Mass             -> {MPi0, 0.1349768},
+    Width            -> 0.0,
+    PropagatorLabel  -> Superscript[\[Pi], "0"],
+    PropagatorType   -> D,
+    PropagatorArrow  -> None,
+    PDG              -> 111,
+    ParticleName     -> "Pi0",
+    FullName         -> "Pi0"
+  },
+  S[5] == {
+    ClassName        -> PiP,
+    SelfConjugate    -> False,
+    Mass             -> {MPiP, 0.1395704},
+    Width            -> 0.0,
+    QuantumNumbers   -> {Q -> 1},
+    PropagatorLabel  -> Superscript[\[Pi], "+"],
+    PropagatorType   -> D,
+    PropagatorArrow  -> None,
+    PDG              -> 211,
+    ParticleName     -> "Pi+",
+    AntiParticleName -> "Pi-",
+    FullName         -> "Pi+"
+  },
+  S[6] == {
+    ClassName        -> Pion,
+    Unphysical       -> True,
+    SelfConjugate    -> True,
+    Indices          -> {Index[SU2W]},
+    FlavorIndex      -> SU2W,
+    Definitions      -> { Pion[1] -> (PiP+PiPbar)/Sqrt[2], Pion[2] -> (PiPbar-PiP)/(I*Sqrt[2]), Pion[3] -> Pi0}
+  },
+  S[7] == {
+    ClassName        -> Eta,
+    SelfConjugate    -> True,
+    Mass             -> {MEta, 0.547862},
+    Width            -> {WEta, 0.0},
+    PropagatorLabel  -> "Eta",
+    PropagatorType   -> D,
+    PropagatorArrow  -> None,
+    PDG              -> 221,
+    ParticleName     -> "Eta",
+    FullName         -> "Eta"
+  },
+  S[8] == {
+    ClassName        -> K0,
+    SelfConjugate    -> False,
+    Mass             -> {MK0, 0.497611},
+    Width            -> {WK0, 0.0},
+    PropagatorLabel  -> "K0",
+    PropagatorType   -> D,
+    PropagatorArrow  -> None,
+    PDG              -> 311,
+    ParticleName     -> "K0",
+    AntiParticleName -> "K0~",
+    FullName         -> "K0"
+  },
+  S[9] == {
+    ClassName        -> Kp,
+    SelfConjugate    -> False,
+    Mass             -> {MKp, 0.493677},
+    Width            -> {WKp, 0.0},
+    QuantumNumbers   -> {Q -> 1},
+    PropagatorLabel  -> "Kp",
+    PropagatorType   -> D,
+    PropagatorArrow  -> None,
+    PDG              -> 321,
+    ParticleName     -> "K+",
+    AntiParticleName -> "K-",
+    FullName         -> "K+"
+  },
+
+  (* Delta Baryons.  The unphysical R[5] carries an isospinor index (IsoSpin)
+     and an isovector index (IsoVector); the embedding below satisfies the
+     spin-3/2 isospin constraint tau_i Delta_i = 0 and is canonically
+     normalised (sum of |coefficient|^2 = 1 for every charge state). *)
+  R[1] == {
+    ClassName        -> DeltaPP,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.209},
+    Width            -> {WDeltaPP, 0.102},
+    QuantumNumbers   -> {Q -> 2, BaryonNumber -> 1, Y -> 1},
+    PropagatorLabel  -> "D++",
+    PropagatorType   -> S,
+    PropagatorArrow  -> Forward,
+    PDG              -> 2224,
+    ParticleName     -> "Delta++",
+    AntiParticleName -> "Delta++~",
+    FullName         -> "Delta++"
+  },
+  R[2] == {
+    ClassName        -> DeltaP,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.209},
+    Width            -> {WDeltaP, 0.102},
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1, Y -> 1},
+    PropagatorLabel  -> "D+",
+    PropagatorType   -> S,
+    PropagatorArrow  -> Forward,
+    PDG              -> 2214,
+    ParticleName     -> "Delta+",
+    AntiParticleName -> "Delta+~",
+    FullName         -> "Delta+"
+  },
+  R[3] == {
+    ClassName        -> Delta0,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.209},
+    Width            -> {WDelta0, 0.102},
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1, Y -> 1},
+    PropagatorLabel  -> "D0",
+    PropagatorType   -> S,
+    PropagatorArrow  -> Forward,
+    PDG              -> 2114,
+    ParticleName     -> "Delta0",
+    AntiParticleName -> "Delta0~",
+    FullName         -> "Delta0"
+  },
+  R[4] == {
+    ClassName        -> DeltaM,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.209},
+    Width            -> {WDeltaM, 0.102},
+    QuantumNumbers   -> {Q -> -1, BaryonNumber -> 1, Y -> 1},
+    PropagatorLabel  -> "D-",
+    PropagatorType   -> S,
+    PropagatorArrow  -> Forward,
+    PDG              -> 1114,
+    ParticleName     -> "Delta-",
+    AntiParticleName -> "Delta-~",
+    FullName         -> "Delta-"
+  },
+  R[5] == {
+    ClassName        -> Delta,
+    Unphysical       -> True,
+    SelfConjugate    -> False,
+    Indices          -> {Index[IsoSpin], Index[IsoVector]},
+    FlavorIndex      -> IsoVector,
+    Definitions      -> { Delta[sp_, mu_, 1, 1] -> (1/Sqrt[2])*((1/Sqrt[3])*Delta0[sp, mu]-DeltaPP[sp, mu]),
+                          Delta[sp_, mu_, 2, 1] -> (1/Sqrt[2])*(-(1/Sqrt[3])*DeltaP[sp, mu] + DeltaM[sp, mu]),
+                          Delta[sp_, mu_, 1, 2] -> (-I/Sqrt[2])*((1/Sqrt[3])*Delta0[sp, mu] + DeltaPP[sp, mu]),
+                          Delta[sp_, mu_, 2, 2] -> (-I/Sqrt[2])*((1/Sqrt[3])*DeltaP[sp, mu] + DeltaM[sp, mu]),
+                          Delta[sp_, mu_, 1, 3] -> Sqrt[2/3]*DeltaP[sp, mu],
+                          Delta[sp_, mu_, 2, 3] -> Sqrt[2/3]*Delta0[sp, mu]}
+  }
+};
+
+(* *************************** *)
+(* *****   FormFactors   ***** *)
+(* *************************** *)
+
+(* Kept commented out, as in myPions.fr.  The export notebook's
+   PhotonFormFactorRules / WFormFactorRules / ZFormFactorRules substitute these
+   in by hand after the Lagrangian is built. *)
+
+M$FormFactors = Join[If[ChiPT$NucleonFF,
+  {
+    (* Nucleon electromagnetic form factors, as functions of Q^2 = -q^2 where q is
+       the photon momentum (external leg 3 of the gamma-N-N vertex).
+
+       All four are the FULL form factors.  LNNVector already generates the
+       POINT-LIKE proton coupling + ee A^mu pbar gamma_mu p (verified:
+       Vertex(p~ p A) = +I ee Ga[mu]), so LNNEMFF below carries the combination
+       (FF1PA - 1).  The -1 is an ordinary number, so FeynRules routes it to the
+       COUPLING, where it cancels the point-like contribution exactly, leaving a
+       single Lorentz structure F1p*Gamma rather than the unsimplifiable
+       Gamma + (F1p - 1)*Gamma.  (FeynRules cannot collapse the latter: the form
+       factor value is a raw Python string, so 1 + (F1p - 1) can never be
+       simplified symbolically -- it had to be hand-edited before.)
+       The neutron has no point-like coupling, so FF1NA is the full F1n.
+       The downstream generator must supply F1p, F1n, F2p, F2n. *)
+    FF1PA == {
+        Particles        -> {Protonbar, Proton, A},
+        ComplexParameter -> False,
+        Value            -> "F1p(-P(-1,3)**2)",
+        ParameterName    -> FF1PA
+    },
+    FF1NA == {
+        Particles        -> {Neutronbar, Neutron, A},
+        ComplexParameter -> False,
+        Value            -> "F1n(-P(-1,3)**2)",
+        ParameterName    -> FF1NA
+    },
+    FF2PA == {
+        Particles        -> {Protonbar, Proton, A},
+        ComplexParameter -> False,
+        Value            -> "F2p(-P(-1,3)**2)",
+        ParameterName    -> FF2PA
+    },
+    FF2NA == {
+        Particles        -> {Neutronbar, Neutron, A},
+        ComplexParameter -> False,
+        Value            -> "F2n(-P(-1,3)**2)",
+        ParameterName    -> FF2NA
+    }
+  }, {}],
+
+  (* ---------------------------- Delta(1232) form factors ------------------- *)
+  (*  Only included when ChiPT$FormFactors is "Delta" or "All".                 *)
+  (*                                                                            *)
+  (*  WHAT FIG. 33 ACTUALLY PUTS ON THE DELTA (Fig33v2.m, Eqs. (44)-(47)):      *)
+  (*    (a) ONE factor sqrt(X_pi(s,u)) per Delta diagram, X_pi(s,u) =           *)
+  (*        X(s) + X(u) - X(s)X(u),  X(l) = 2 r^3/(1+r^5),  r = k(l)/k(M_D^2),  *)
+  (*        k the pi-N cm momentum at invariant mass^2 = l, and X(l) = 0 below  *)
+  (*        the pi-N threshold.  It sits on the STRONG vertex.                  *)
+  (*    (b) an energy-dependent width Gamma(s,u) = Gamma_Delta X_pi(s,u) in     *)
+  (*        BOTH Delta propagators.                                             *)
+  (*    (c) NOTHING on the gamma-N-Delta vertex -- Fig. 33 is real-photon       *)
+  (*        photoproduction, so any Q^2 dependence there is invisible to it.    *)
+  (*                                                                            *)
+  (*  WHAT SURVIVES THE TRANSLATION TO A UFO FORM FACTOR.  A UFO form factor is *)
+  (*  a function of ONE vertex's own momenta, so X_pi(s,u) -- which mixes the   *)
+  (*  Mandelstams of two different diagrams -- is not a vertex-level object.    *)
+  (*  The vertex-level object is X_pi(p_Delta^2), the Delta leg's own invariant *)
+  (*  mass squared.  The two agree exactly on the s-channel diagram, because    *)
+  (*  X_pi(u) = 0 identically over the whole physical region of gamma N -> pi N *)
+  (*  (u <= (M_N - m_pi)^2 < (M_N + m_pi)^2, checked numerically on the Fig. 33 *)
+  (*  grid), so X_pi(s,u) = X_pi(s) there.  They differ on the u-channel Delta, *)
+  (*  which Fig. 33 damps by sqrt(X_pi(s)) but a vertex form factor kills       *)
+  (*  outright.  Measured on sigma_tot(Born+Delta), that costs                  *)
+  (*      pi0 p : +2% at the peak, +11% at 0.6 GeV, +1% at 1.0 GeV             *)
+  (*      pi+ n : +2%,  +17%,  +15%      pi- p : +1%,  +9%,  +12%              *)
+  (*  against the ~3.2x error at 1 GeV that comes from having no Delta form     *)
+  (*  factor at all.  Item (b), the running width, is NOT a form factor and     *)
+  (*  cannot be routed through this mechanism at all; on its own it is a ~3%    *)
+  (*  effect at the peak.  See the "scheme" scan in the session notes.          *)
+  (*                                                                            *)
+  (*  The generator supplies FpiNDelta(s) and the four FgNDelta*(Q^2).  To      *)
+  (*  match Fig. 33 set FpiNDelta(s) = sqrt(X_pi(s)) and leave every            *)
+  (*  FgNDelta* = 1: the gamma-N-Delta form factors are a genuinely new object  *)
+  (*  (the N -> Delta electromagnetic transition form factors) that real-photon *)
+  (*  photoproduction cannot see.  They are split G1/G2 and proton/neutron      *)
+  (*  because those are four independent functions -- G1 multiplies the         *)
+  (*  magnetic (dual field strength) term and G2 the electric one.              *)
+  (*                                                                            *)
+  (*  NB these MULTIPLY the fitted couplings G1 = 6.061 and G2 = 2.414, so a    *)
+  (*  form factor normalised to 1 at Q^2 = 0 leaves the Fig. 33 comparison      *)
+  (*  untouched.  Achilles (branch sherpa3-0, src/plugins/Sherpa/FormFactors.cc)*)
+  (*  already registers FDeltaPG1 = Gep + Gmp, FDeltaPG2 = 2 Gep (M+MD)/(M-MD), *)
+  (*  FDeltaNG1, FDeltaNG2 -- but those are REPLACEMENTS for the coupling, not  *)
+  (*  multipliers: FDeltaPG1(0) = 1 + mu_p = 3.79, not 1.  Wiring the names     *)
+  (*  here to those IDs would silently rescale the vertex by that factor, so    *)
+  (*  new IDs are used instead; if you do want the Sachs parameterisation,      *)
+  (*  rescale G1 and G2 in the param card to compensate.                        *)
+  (*                                                                            *)
+  (*  TWO SYMBOLS PER VERTEX TYPE, because the value is a raw Python string     *)
+  (*  that FeynRules splices into the Lorentz structure verbatim -- the leg     *)
+  (*  index in it is NEVER relabelled (RelabelFormFactorExt applies replacement *)
+  (*  rules, which do nothing to a String).  So the index has to be written for *)
+  (*  the ordering the UFO ends up with, and the UFO is all-OUTGOING, which     *)
+  (*  reverses the naive reading of the Lagrangian:                             *)
+  (*     Deltabar ... N  term  ->  vertices  N~ Delta X   : Delta at leg 2      *)
+  (*     its h.c.              ->  vertices  Delta~ N X   : Delta at leg 1      *)
+  (*  (structures FRS1/FRV1/FRVS1 and RFS1/RFV1/RFVS1 respectively).  Getting   *)
+  (*  this backwards is silent -- it evaluates the form factor on the NUCLEON   *)
+  (*  leg, whose p^2 is a fixed M_N^2 for an external nucleon.  The photon sits *)
+  (*  at leg 3 in both orderings, so FFGNDA and FFGNDB share one string.        *)
+  (*  Dummy index -9 keeps it clear of the -1..-4 already contracted inside the *)
+  (*  Lorentz structures.                                                       *)
+  If[ChiPT$DeltaFF,
+  {
+    FFPNDA == {
+        Particles        -> {DeltaPbar, Proton, Pi0},
+        ComplexParameter -> False,
+        Value            -> "FpiNDelta(P(-9,2)**2)",
+        ParameterName    -> FFPNDA
+    },
+    FFPNDB == {
+        Particles        -> {Protonbar, DeltaP, Pi0},
+        ComplexParameter -> False,
+        Value            -> "FpiNDelta(P(-9,1)**2)",
+        ParameterName    -> FFPNDB
+    },
+    FFDPG1A == {
+        Particles        -> {Protonbar, DeltaP, A},
+        ComplexParameter -> False,
+        Value            -> "FgNDeltaPG1(-P(-9,3)**2)",
+        ParameterName    -> FFDPG1A
+    },
+    FFDPG2A == {
+        Particles        -> {Protonbar, DeltaP, A},
+        ComplexParameter -> False,
+        Value            -> "FgNDeltaPG2(-P(-9,3)**2)",
+        ParameterName    -> FFDPG2A
+    },
+    FFDNG1A == {
+        Particles        -> {Neutronbar, Delta0, A},
+        ComplexParameter -> False,
+        Value            -> "FgNDeltaNG1(-P(-9,3)**2)",
+        ParameterName    -> FFDNG1A
+    },
+    FFDNG2A == {
+        Particles        -> {Neutronbar, Delta0, A},
+        ComplexParameter -> False,
+        Value            -> "FgNDeltaNG2(-P(-9,3)**2)",
+        ParameterName    -> FFDNG2A
+    },
+    FFDPG1B == {
+        Particles        -> {DeltaPbar, Proton, A},
+        ComplexParameter -> False,
+        Value            -> "FgNDeltaPG1(-P(-9,3)**2)",
+        ParameterName    -> FFDPG1B
+    },
+    FFDPG2B == {
+        Particles        -> {DeltaPbar, Proton, A},
+        ComplexParameter -> False,
+        Value            -> "FgNDeltaPG2(-P(-9,3)**2)",
+        ParameterName    -> FFDPG2B
+    },
+    FFDNG1B == {
+        Particles        -> {Delta0bar, Neutron, A},
+        ComplexParameter -> False,
+        Value            -> "FgNDeltaNG1(-P(-9,3)**2)",
+        ParameterName    -> FFDNG1B
+    },
+    FFDNG2B == {
+        Particles        -> {Delta0bar, Neutron, A},
+        ComplexParameter -> False,
+        Value            -> "FgNDeltaNG2(-P(-9,3)**2)",
+        ParameterName    -> FFDNG2B
+    }
+  }, {}]];
+
+
+(* ************************** *)
+(* *****     Gauge      ***** *)
+(* *****   Parameters   ***** *)
+(* *****   (FeynArts)   ***** *)
+(* ************************** *)
+
+GaugeXi[ V[1]  ] = GaugeXi[A];
+GaugeXi[ V[2]  ] = GaugeXi[Z];
+GaugeXi[ V[3]  ] = GaugeXi[W];
+GaugeXi[ S[1]  ] = 1;
+GaugeXi[ S[2]  ] = GaugeXi[Z];
+GaugeXi[ S[3]  ] = GaugeXi[W];
+GaugeXi[ U[1]  ] = GaugeXi[A];
+GaugeXi[ U[2]  ] = GaugeXi[Z];
+GaugeXi[ U[31] ] = GaugeXi[W];
+GaugeXi[ U[32] ] = GaugeXi[W];
+
+
+(* ************************** *)
+(* *****   Parameters   ***** *)
+(* ************************** *)
+M$Parameters = {
+
+  (* External parameters *)
+
+  fPi == {
+    ParameterType -> External,
+    BlockName     -> CHIPTPION,
+    OrderBlock    -> 1,
+    Value         -> 0.093,
+    InteractionOrder -> {CHI, -1},
+    Description   -> "Pion decay constant in GeV.  The {CHI,-1} order makes every
+                      chiral vertex carry CHI = (number of inverse powers of fPi);
+                      see the note at M$InteractionOrderHierarchy -- Sherpa needs
+                      this to be nonzero or it drops the hadronic currents."
+  },
+  ga == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTPION,
+    OrderBlock       -> 2,
+    Value            -> 1.271,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Nucleon axial coupling g_A"
+  },
+  AD == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTDELTA,
+    OrderBlock       -> 1,
+    Value            -> -1,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Must be set to -1 for consistency."
+  },
+  gD == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTDELTA,
+    OrderBlock       -> 2,
+    Value            -> 1,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Conventional (non gauge-invariant) piN-Delta coupling."
+  },
+  g1D == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTDELTA,
+    OrderBlock       -> 3,
+    Value            -> 1,
+    InteractionOrder -> {QED, 0},
+    Description      -> "pi-Delta-Delta coupling."
+  },
+  hD == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTDELTA,
+    OrderBlock       -> 4,
+    Value            -> 0.76,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
+  },
+  G1 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTDELTA,
+    OrderBlock       -> 5,
+    Value            -> 6.061,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Proton photo-excitation vertex, magnetic (dual field strength) term."
+  },
+  G2 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTDELTA,
+    OrderBlock       -> 6,
+    Value            -> 2.414,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Proton photo-excitation vertex, electric (field strength) term."
+  },
+  LambdaFF == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 1,
+    Value            -> 1.121,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Davidson-Workman cutoff Lambda (GeV), nucl-th/0509020v2 Eqs. (49)-(51), set #1.  NOT used inside any vertex -- it is consumed at amplitude level, see the header."
+  },
+  aEWM1 == {
+    ParameterType    -> External,
+    BlockName        -> SMINPUTS,
+    OrderBlock       -> 1,
+    Value            -> 137.035999,
+    InteractionOrder -> {QED,-2},
+    Description      -> "Inverse of the electromagnetic coupling.  1/alpha at Q^2 = 0, NOT the Z-pole value 127.9 -- photo- and electro-production at low Q^2 want the Thomson-limit alpha."
+  },
+  Gf == {
+    ParameterType    -> External,
+    BlockName        -> SMINPUTS,
+    OrderBlock       -> 2,
+    Value            -> 1.16637*^-5,
+    InteractionOrder -> {QED,2},
+    TeX              -> Subscript[G,f],
+    Description      -> "Fermi constant"
+  },
+  yme == {
+    ParameterType -> External,
+    BlockName     -> YUKAWA,
+    OrderBlock    -> 11,
+    Value         -> 5.11*^-4,
+    Description   -> "Electron Yukawa mass"
+  },
+  ymm == {
+    ParameterType -> External,
+    BlockName     -> YUKAWA,
+    OrderBlock    -> 13,
+    Value         -> 0.10566,
+    Description   -> "Muon Yukawa mass"
+  },
+  ymtau == {
+    ParameterType -> External,
+    BlockName     -> YUKAWA,
+    OrderBlock    -> 15,
+    Value         -> 1.777,
+    Description   -> "Tau Yukawa mass"
+  },
+  cabi == {
+    ParameterType -> External,
+    BlockName     -> CKMBLOCK,
+    OrderBlock    -> 1,
+    Value         -> 0.227736,
+    TeX           -> Subscript[\[Theta], c],
+    Description   -> "Cabibbo angle"
+  },
+
+  (* Internal Parameters *)
+
+  MPi == {
+    ParameterType    -> Internal,
+    Value            -> MPi0,
+    Description      -> "Isospin-symmetric pion mass used in the chiral mass matrix ChiMat.  The physical pi0 / pi+ propagator masses are MPi0 / MPiP.  Set this to MPiP for the more common chiral convention."
+  },
+  g2D == {
+    ParameterType    -> Internal,
+    Value            -> AD * g1D,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
+  },
+  g3D == {
+    ParameterType    -> Internal,
+    Value            -> -((1 + 2*AD + 3*AD^2)/2)*g1D,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
+  },
+  Kappa == {
+    ParameterType    -> Internal,
+    Value            -> 3*ee/(2*MNucleon*(MNucleon+MDelta)),
+    InteractionOrder -> {QED, 1},
+    Description      -> "Prefactor 3e/(2 M (M + M*)) of the gauge-invariant gamma-N-Delta coupling."
+  },
+    ztilde == {
+    ParameterType    -> Internal,
+    Value            -> (3*AD + 1)/2,
+    InteractionOrder -> {QED, 1},
+    Description      -> ""
+  },
+  aEW == {
+    ParameterType    -> Internal,
+    Value            -> 1/aEWM1,
+    InteractionOrder -> {QED,2},
+    TeX              -> Subscript[\[Alpha], EW],
+    Description      -> "Electroweak coupling contant"
+  },
+  MW == {
+    ParameterType -> Internal,
+    Value         -> Sqrt[MZ^2/2+Sqrt[MZ^4/4-Pi/Sqrt[2]*aEW/Gf*MZ^2]],
+    TeX           -> Subscript[M,W],
+    Description   -> "W mass"
+  },
+  sw2 == {
+    ParameterType -> Internal,
+    Value         -> 1-(MW/MZ)^2,
+    Description   -> "Squared Sin of the Weinberg angle"
+  },
+  ee == {
+    ParameterType    -> Internal,
+    Value            -> Sqrt[4 Pi aEW],
+    InteractionOrder -> {QED,1},
+    TeX              -> e,
+    Description      -> "Electric coupling constant"
+  },
+  cw == {
+    ParameterType -> Internal,
+    Value         -> Sqrt[1-sw2],
+    TeX           -> Subscript[c,w],
+    Description   -> "Cosine of the Weinberg angle"
+  },
+  sw == {
+    ParameterType -> Internal,
+    Value         -> Sqrt[sw2],
+    TeX           -> Subscript[s,w],
+    Description   -> "Sine of the Weinberg angle"
+  },
+  g2 == {
+    ParameterType    -> Internal,
+    Definitions      -> {g2->ee/sw},
+    InteractionOrder -> {QED,1},
+    TeX              -> Subscript[g,w],
+    Description      -> "Weak coupling constant at the Z pole"
+  },
+  g1 == {
+    ParameterType    -> Internal,
+    Definitions      -> {g1->ee/cw},
+    InteractionOrder -> {QED,1},
+    TeX              -> Subscript[g,1],
+    Description      -> "U(1)Y coupling constant at the Z pole"
+  },
+  vev == {
+    ParameterType    -> Internal,
+    Value            -> 2*MW*sw/ee,
+    InteractionOrder -> {QED,-1},
+    Description      -> "Higgs vacuum expectation value"
+  },
+  lam == {
+    ParameterType    -> Internal,
+    Value            -> MH^2/(2*vev^2),
+    InteractionOrder -> {QED, 2},
+    Description      -> "Higgs quartic coupling"
+  },
+  muH == {
+    ParameterType -> Internal,
+    Value         -> Sqrt[vev^2 lam],
+    TeX           -> \[Mu],
+    Description   -> "Coefficient of the quadratic piece of the Higgs potential"
+  },
+  yl == {
+    ParameterType    -> Internal,
+    Indices          -> {Index[Generation], Index[Generation]},
+    Definitions      -> {yl[i_?NumericQ, j_?NumericQ] :> 0  /; (i =!= j)},
+    Value            -> {yl[1,1] -> Sqrt[2] yme / vev, yl[2,2] -> Sqrt[2] ymm / vev, yl[3,3] -> Sqrt[2] ymtau / vev},
+    InteractionOrder -> {QED, 1},
+    ParameterName    -> {yl[1,1] -> ye, yl[2,2] -> ym, yl[3,3] -> ytau},
+    TeX              -> Superscript[y, l],
+    Description      -> "Lepton Yukawa couplings"
+  },
+(* N. B. : only Cabibbo mixing! *)
+  CKM == {
+    ParameterType -> Internal,
+    Indices       -> {Index[Generation], Index[Generation]},
+    Unitary       -> True,
+    Value         -> {CKM[1,1] -> Cos[cabi],  CKM[1,2] -> Sin[cabi], CKM[1,3] -> 0,
+                      CKM[2,1] -> -Sin[cabi], CKM[2,2] -> Cos[cabi], CKM[2,3] -> 0,
+                      CKM[3,1] -> 0,          CKM[3,2] -> 0,         CKM[3,3] -> 1},
+    TeX         -> Superscript[V,CKM],
+    Description -> "CKM-Matrix"
+  }
+};
+
+
+(* ****************************************************************************** *)
+(* *****            Chiral building blocks  (single convention)             ***** *)
+(* ****************************************************************************** *)
+(*                                                                                *)
+(*  Convention, used EVERYWHERE below:                                            *)
+(*        U -> R U L^+ ,      u = U^(1/2) -> R u h^+ = h u L^+                    *)
+(*        D_mu U   = d_mu U - i r_mu U + i U l_mu                                 *)
+(*        Gamma_mu = 1/2 [ u^+(d_mu - i r_mu) u + u (d_mu - i l_mu) u^+ ]         *)
+(*        u_mu     = i   [ u^+(d_mu - i r_mu) u - u (d_mu - i l_mu) u^+ ]         *)
+(*  with l_mu = LMat[mu], r_mu = RMat[mu].                                        *)
+(*                                                                                *)
+(*  See header note 3: the previous version mixed three different pairings of     *)
+(*  l and r, which agree only for purely electromagnetic sources.                 *)
+(* ****************************************************************************** *)
+
+(* Only include up to O(p^4) terms *)
+fPiOrder = 2;
+
+getRidOfhigherOrderTerm[expression_] := Normal[Series[expression, {fPi, Infinity, fPiOrder}]];
+
+UU := MatrixExp[ExpandIndices[Sum[I (PauliSigma[ii] Pion[ii])/fPi, {ii, 1, 3}]]];
+uu := MatrixPower[UU, 1/2];
+
+UMat := Simplify[Normal[Series[UU, {fPi, Infinity, fPiOrder}]]];
+umat := Simplify[Normal[Series[uu, {fPi, Infinity, fPiOrder}]]];
+
+(* External left/right sources.  l_mu = r_mu = e Q A_mu with Q = (1 + tau3)/2:
+   the isovector part gives the pion charges through the commutator, the full Q
+   gives the proton/neutron charges through Gamma_mu.  Defined ONCE (header
+   note 4). *)
+LMat[mu_] := Module[{ii}, g2/2 ExpandIndices[Sum[PauliMatrix[ii] Wi[mu, ii], {ii, 1, 3}]] + g1/2 ExpandIndices[B[mu] * IdentityMatrix[2]]];
+RMat[mu_] := Module[{ii}, g1/2 ExpandIndices[PauliMatrix[3]*B[mu]] + g1/2 ExpandIndices[IdentityMatrix[2] * B[mu]]];
+
+(* D_mu U = d_mu U - i r_mu U + i U l_mu.  This is the form consistent with
+   ChiConnect / ChiVielbein below; myPions.fr had the l <-> r swapped version
+   active and this one commented out. *)
+DelU[mu_] := ExpandIndices[del[UMat, mu] - I RMat[mu].UMat + I UMat.LMat[mu]];
+
+ChiMat := {{MPi^2, 0}, {0, MPi^2}};
+MassU := ExpandIndices[ChiMat.HC[UMat] + UMat.HC[ChiMat]];
+
+ChiCommutator[mat_, mu_, nu_] := Module[{}, ExpandIndices[mat[mu].mat[nu] - mat[nu].mat[mu]]];
+FSMat[mat_, mu_, nu_]      := Module[{}, ExpandIndices[del[mat[nu], mu] - del[mat[mu], nu] - I ChiCommutator[mat, mu, nu]]];
+
+(* Chiral connection Gamma_mu and vielbein u_mu, used by the Delta sector. *)
+(* NOTE: getRidOfhigherOrderTerm (= Series in 1/fPi) must NOT be applied to the
+   MATRIX here.  At that stage the expression still contains unevaluated HC and
+   del heads, and Series differentiates them as if they were ordinary functions
+   of fPi, leaving Derivative[1][HC][0] and Derivative[1,0][del][0,...] factors
+   all over the Delta sector -- they were present in every pi-N-Delta vertex of
+   the myPions UFO.  Expanding first and truncating only after the isospin trace
+   (in ChiConnectV / ChiVielbeinV / ChiVielbein2 below) is clean and gives the
+   expected leading term u_mu ~ -d_mu pi / fPi. *)
+ChiConnect[mu_]  := ChiConnect[mu] = ExpandIndices[(1/2)*(HC[umat] . (del[umat, mu] - I*RMat[mu] . umat) + umat . (del[HC[umat], mu] - I*LMat[mu] . HC[umat]))];
+ChiVielbein[mu_] := ChiVielbein[mu] = ExpandIndices[I*(HC[umat] . (del[umat, mu] - I*RMat[mu] . umat) - umat . (del[HC[umat], mu] - I*LMat[mu] . HC[umat]))];
+
+(* Building blocks for the nucleon currents.  These are kept SEPARATE from
+   ChiConnect / ChiVielbein on purpose -- see the note above LNNVector. *)
+aVec[mu_]      := aVec[mu] = (I/2)*(HC[umat] . del[umat, mu] - umat . del[HC[umat], mu]);
+vVec[mu_]      := vVec[mu] = (I/2)*(HC[umat] . del[umat, mu] + umat . del[HC[umat], mu]);
+LMatTilda[mu_] := LMatTilda[mu] = Expand[HC[umat] . LMat[mu] . umat];
+RMatTilda[mu_] := RMatTilda[mu] = Expand[umat . RMat[mu] . HC[umat]];
+
+ChiConnectV[mu_, l_]        := ChiConnectV[mu, l] = getRidOfhigherOrderTerm[(1/2)*Tr[ChiConnect[mu] . PauliMatrix[l]]];
+ChiVielbein2[mu_, r1_, r2_] := ChiVielbein2[mu, r1, r2] = getRidOfhigherOrderTerm[ChiVielbein[mu][[r1, r2]]];
+ChiVielbeinV[mu_, l_]       := ChiVielbeinV[mu, l] = getRidOfhigherOrderTerm[(1/2)*Tr[PauliSigma[l] . ChiVielbein[mu]]];
+
+(* ****************************************************************************** *)
+(*  CACHE CONTROL -- ChiPTClearCache[] MUST be called right after LoadModel.      *)
+(*                                                                                *)
+(*  The helper functions above are memoised (f[x_] := f[x] = body) because they    *)
+(*  are re-evaluated hundreds of times while the Lagrangian is built, and without  *)
+(*  caching a WriteUFO run takes tens of minutes.                                  *)
+(*                                                                                 *)
+(*  BUT: FeynRules' LoadModel evaluates some of them WHILE the model is still      *)
+(*  being set up, at a point where HC[umat] and del[umat,mu] cannot yet resolve.   *)
+(*  getRidOfhigherOrderTerm (= Series in 1/fPi) then differentiates the surviving  *)
+(*  HC and del heads as ordinary functions of fPi and produces Derivative[1][HC][0]*)
+(*  and Derivative[1,0][del][0,...] junk -- which the memoisation then freezes     *)
+(*  FOREVER.  Measured straight after LoadModel: ChiVielbein2 already held 12      *)
+(*  cached entries containing 834 such junk terms, and every pi-N-Delta vertex in  *)
+(*  the resulting UFO was contaminated.                                           *)
+(*                                                                                 *)
+(*  ChiPTClearCache[] drops the specific memo entries and keeps the generic        *)
+(*  pattern rules, so everything is recomputed correctly on first use after the    *)
+(*  model is fully loaded -- and cached correctly from then on.                    *)
+(*                                                                                 *)
+(*      LoadModel["ChiPT.fr"];                                                     *)
+(*      ChiPTClearCache[];              (* <-- do not skip *)                      *)
+(*      WriteUFO[LTotal, AddDecays -> False, FlavorExpand -> True];                *)
+(* ****************************************************************************** *)
+
+SetAttributes[ChiPTPurge, HoldAll];
+ChiPTPurge[s_Symbol] := DownValues[s] =
+   Select[DownValues[s], !FreeQ[First[#], Pattern] &];
+
+ChiPTClearCache[] := (
+  ChiPTPurge[ChiConnect];   ChiPTPurge[ChiVielbein];  ChiPTPurge[ChiVielbein2];
+  ChiPTPurge[ChiConnectV];  ChiPTPurge[ChiVielbeinV];
+  ChiPTPurge[aVec];         ChiPTPurge[vVec];
+  ChiPTPurge[LMatTilda];    ChiPTPurge[RMatTilda];
+  "ChiPT: load-time caches purged");
+
+(* Electromagnetic field strength.  F_{mu nu} = d_mu A_nu - d_nu A_mu.  In
+   FeynRules del[A[mu],nu] means d_nu A_mu, hence the index order below; this
+   agrees with FeynRules' own FS[A,mu,nu].
+
+   myPions.fr had the two terms the other way round, i.e. -F_{mu nu}.  That was
+   argued to compensate for this model's photon having the opposite sign to the
+   standard one (LNNVector gives Vertex(p~ p A) = +I ee Ga[mu], against the
+   standard -I ee Ga[mu]).  Comparing the exported UFO against ELA_UFO shows the
+   compensation does NOT happen: relative to ELA the gamma-p-p, gamma-pi-pi and
+   Kroll-Ruderman vertices all flip sign, while gamma-N-Delta does not.  The
+   Delta therefore interfered with the Born terms the wrong way round -- the
+   Born/Delta ratio-of-ratios came out -1.02, a genuine relative sign rather
+   than an overall phase.  With the standard F below it is +1.02, matching the
+   validated ELA model. *)
+EMStrengthTensor[mu_, nu_]     := del[A[nu], mu] - del[A[mu], nu];
+DualEMStrengthTensor[mu_, nu_] := Block[{ro, si}, (1/2)*Eps[mu, nu, ro, si]*EMStrengthTensor[ro, si]];
+
+(* Nucleon isodoublet as a plain list, and the covariant derivative acting on the
+   isospinor-isovector Delta field. *)
+Nucleons[s_]    := {Proton[s], Neutron[s]};
+Nucleonsbar[s_] := {Protonbar[s], Neutronbar[s]};
+
+Sigma[mu_, nu_, s1_, s2_] := Block[{s3}, (I/2)*(Ga[mu, s1, s3] . Ga[nu, s3, s2] - Ga[nu, s1, s3] . Ga[mu, s3, s2])];
+
+DeltaConnection[ro_, r1_, r2_, i1_, i2_] :=
+  Block[{k}, Sum[-2*I*Eps[i1, i2, k]*ChiConnectV[ro, k]*IndexDelta[r1, r2], {k, 1, 3}]
+             + IndexDelta[i1, i2]*ChiConnect[ro][[r1, r2]]];
+
+DeltaCovariantDerivative[ro_, r1_, r2_, i1_, i2_, psi_] :=
+  IndexDelta[i1, i2]*IndexDelta[r1, r2]*del[psi, ro] + DeltaConnection[ro, r1, r2, i1, i2]*psi;
+
+$Assumptions = {cw^2 + sw^2 == 1, gD > 0, g1D > 0};
+
+
+(* ****************************************************************************** *)
+(* *****                          Lagrangian                                ***** *)
+(* ****************************************************************************** *)
+
+(* ---------------------------------------------------------------- SM sector -- *)
+
+LGauge := Block[{mu,nu},
+  -1/(2 g2^2) Tr[FSMat[WMat, mu, nu].FSMat[WMat, mu, nu]]
+  -1/(2 g1^2) Tr[FSMat[BMat, mu, nu].FSMat[BMat, mu, nu]]];
+
+LFermions := Block[{mu},
+  ExpandIndices[I*(
+    LLbar.Ga[mu].DC[LL, mu] + lRbar.Ga[mu].DC[lR, mu]),
+  FlavorExpand->{SU2W,SU2D}]];
+
+LHiggs := Block[{ii,mu, feynmangaugerules},
+  feynmangaugerules = If[Not[FeynmanGauge], {G0|GP|GPbar ->0}, {}];
+
+  ExpandIndices[DC[Phibar[ii],mu] DC[Phi[ii],mu] + muH^2 Phibar[ii] Phi[ii] - lam Phibar[ii] Phi[ii] Phibar[jj] Phi[jj], FlavorExpand->{SU2D,SU2W}]/.feynmangaugerules
+ ];
+
+LYukawa := Block[{sp,ii,jj,cc,ff1,ff2,ff3,yuk,feynmangaugerules},
+  feynmangaugerules = If[Not[FeynmanGauge], {G0|GP|GPbar ->0}, {}];
+
+  yuk = ExpandIndices[
+    -yl[ff1, ff3] LLbar[sp, ii, ff1].lR [sp, ff3] Phi[ii], FlavorExpand -> SU2D];
+  yuk+HC[yuk]/.feynmangaugerules
+ ];
+
+LGhost := Block[{LGh1,LGhw,LGhs,LGhphi,mu, generators,gh,ghbar,Vectorize,phi1,phi2,togoldstones,doublet,doublet0},
+  (* Pure gauge piece *)
+  LGh1 = -ghBbar.del[DC[ghB,mu],mu];
+  LGhw = -ghWibar[ii].del[DC[ghWi[ii],mu],mu];
+
+  (* Scalar pieces: see Peskin pages 739-742 *)
+  gh    = {ghB, ghWi[1], ghWi[2], ghWi[3]};
+  ghbar = {ghBbar, ghWibar[1], ghWibar[2], ghWibar[3]};
+  generators = {-I/2 g1 IdentityMatrix[2], -I/2 g2 PauliSigma[1], -I/2 g2 PauliSigma[2], -I/2 g2 PauliSigma[3]};
+  doublet = Expand[{(-I phi1 - phi2)/Sqrt[2], Phi[2]} /. MR$Definitions /. vev -> 0];
+  doublet0 = {0, vev/Sqrt[2]};
+  Vectorize[{a_, b_}]:= Simplify[{Sqrt[2] Re[Expand[a]], Sqrt[2] Im[Expand[a]], Sqrt[2] Re[Expand[b]], Sqrt[2] Im[Expand[b]]}/.{Im[_]->0, Re[num_]->num}];
+  togoldstones := {phi1 -> (GP + GPbar)/Sqrt[2], phi2 -> (-GP + GPbar)/(I Sqrt[2])};
+  LGhphi=Plus@@Flatten[Table[-ghbar[[kkk]].gh[[lll]] Vectorize[generators[[kkk]].doublet0].Vectorize[generators[[lll]].(doublet+doublet0)],{kkk,4},{lll,4}]] /.togoldstones;
+
+ExpandIndices[ If[FeynmanGauge, LGh1 + LGhw + LGhphi,0], FlavorExpand->SU2W]];
+
+LSM := LGauge + LFermions + LHiggs + LYukawa + LGhost;
+
+
+(* ------------------------------------------------------------- pion sector -- *)
+(*  L = (fPi^2/4) Tr[ D_mu U (D^mu U)^+ + chi U^+ + U chi^+ ]                     *)
+
+LPionKin := Normal[Series[
+   Block[{mu}, ExpandIndices[(1/4)*fPi^2*Tr[DelU[mu] . HC[DelU[mu]] + MassU]]],
+   {fPi, Infinity, fPiOrder}]];
+
+
+(* ---------------------------------------------------------- nucleon sector -- *)
+(*  L = Nbar ( i gamma^mu d_mu - M ) N                           LNucleonKin     *)
+(*    + Nbar gamma^mu ( vVec + (L~ + R~)/2 ) N                   LNNVector       *)
+(*    - ga Nbar gamma^mu ( aVec + (L~ - R~)/2 ) gamma5 N         LNNAxial        *)
+(*                                                                               *)
+(*  DO NOT rewrite these in terms of ChiConnect / ChiVielbein.  Algebraically     *)
+(*      I ChiConnect[mu]     == vVec[mu] + (u^+ r u + u l u^+)/2                  *)
+(*      ChiVielbein[mu]/2    == aVec[mu] + (u^+ r u - u l u^+)/2                  *)
+(*  but ChiConnect / ChiVielbein are wrapped in getRidOfhigherOrderTerm, i.e.     *)
+(*  Series[..., {fPi, Infinity, 2}], and Series differentiates the still-         *)
+(*  unevaluated HC and del heads as if they were ordinary functions of fPi.       *)
+(*  The result is contaminated with Derivative[1][HC][0] and                      *)
+(*  Derivative[1,0][del][0,...] terms.  Substituting them here was checked        *)
+(*  against the forms below and gives pion-nucleon couplings a factor 2 too       *)
+(*  small (ga/(4 fPi) instead of ga/(2 fPi)) plus spurious parity-violating       *)
+(*  pi-N-N vertices with no gamma5.  aVec / vVec / LMatTilda / RMatTilda are      *)
+(*  plain (unSeries'd) definitions and do not suffer from this.                   *)
+(*                                                                                *)
+(*  OPEN ISSUE (deliberately NOT changed -- see header).  LMatTilda = u^+ l u and *)
+(*  RMatTilda = u r u^+ pair l with u^+ and r with u, whereas ChiConnect /        *)
+(*  ChiVielbein (and hence the whole Delta sector) use the opposite pairing.      *)
+(*  For electromagnetism l = r and the two agree exactly, so gamma p -> pi0 p is  *)
+(*  unaffected; they differ for W couplings, which live in LMat only.  Making     *)
+(*  them agree is the two-line change                                            *)
+(*      LMatTilda[mu_] = Expand[HC[umat] . RMat[mu] . umat];                      *)
+(*      RMatTilda[mu_] = Expand[umat . LMat[mu] . HC[umat]];                      *)
+(*  which flips the sign of the W and Z axial couplings.  Which sign is correct   *)
+(*  has not been established here, so the original pairing is retained.           *)
+
+LNucleonKin := I*Block[{mu, s1, s2},
+     Inner[Dot, Nucleonsbar[s1],
+       Inner[Dot, Ga[mu, s1, s2]*IdentityMatrix[2], del[Nucleons[s2], mu]]]]
+   - MNucleon*Block[{s1}, Inner[Dot, Nucleonsbar[s1], Nucleons[s1]]];
+
+LNNVector := Block[{mu, s1, s2}, Normal[Series[
+   Inner[Dot, Nucleonsbar[s1],
+     Inner[Dot, Ga[mu, s1, s2]*IdentityMatrix[2],
+       Inner[Dot, vVec[mu] + (1/2)*(LMatTilda[mu] + RMatTilda[mu]), Nucleons[s2]]]],
+   {fPi, Infinity, fPiOrder}]]];
+
+LNNAxial := Block[{mu, s1, s2, s3}, Normal[Series[
+   (-ga)*Inner[Dot, Nucleonsbar[s1],
+     Inner[Dot, Ga[mu, s1, s2]*IdentityMatrix[2],
+       Inner[Dot, aVec[mu] + (1/2)*(LMatTilda[mu] - RMatTilda[mu]),
+         Inner[Dot, Ga[5, s2, s3]*IdentityMatrix[2], Nucleons[s3]]]]],
+   {fPi, Infinity, fPiOrder}]]];
+
+
+(* ------------------------------ nucleon electromagnetic form factors --------- *)
+(*  Only included when ChiPT$FormFactors is "Nucleon" or "All".                   *)
+(*                                                                                *)
+(*  Dirac part: LNNVector already gives the point-like proton coupling            *)
+(*      + ee A^mu pbar gamma_mu p     ->   Vertex(p~ p A) = +I ee Ga[mu]          *)
+(*  so the proton term below carries (FF1PA - 1): the -1 cancels that point-like  *)
+(*  piece in the coupling, leaving the single structure F1p*Gamma in the UFO.     *)
+(*  The neutron has no point-like coupling, so FF1NA enters directly.             *)
+(*                                                                                *)
+(*  Pauli part.  Eq. (14) of nucl-th/0509020v2, -(I e/4M) F2 Nbar gamma_{mu nu} N *)
+(*  F^{mu nu}, gives the vertex  +I (e/4M) F2 (gamma^mu qslash - qslash gamma^mu) *)
+(*  -- which is what Fig33v2.m uses (c2p), and Fig33v2.m is validated against     *)
+(*  Appendix A to 1e-16.  This model's Dirac coupling is +I ee Ga[mu], i.e. minus *)
+(*  the paper's, so the Pauli term must be minus the paper's too, hence the       *)
+(*  leading - sign below.  Verified in the exported UFO: the gamma-N-N coupling    *)
+(*  comes out -(ee FF2PA)/(2 MNucleon) on P(-1,3)*Sigma(3,-1,2,1).                *)
+(*                                                                                *)
+(*  NB ELA_UFO's own Pauli coupling has the OPPOSITE sign to Fig33v2.m (-0.14433i *)
+(*  vs +0.14433i on the same structure) even though ELA.fr transcribes Eq. (14)   *)
+(*  faithfully.  That discrepancy is unresolved and is NOT reproduced here: this   *)
+(*  file follows the paper.                                                        *)
+LNNEMFF := Block[{mu, nu, s1, s2},
+    ee*((FF1PA - 1)*A[mu]*Protonbar[s1] . Ga[mu, s1, s2] . Proton[s2]
+      + FF1NA*A[mu]*Neutronbar[s1] . Ga[mu, s1, s2] . Neutron[s2])
+  + (ee/(4*MNucleon))*FS[A, mu, nu]*
+      (FF2PA*Protonbar[s1] . Sig[mu, nu, s1, s2] . Proton[s2]
+     + FF2NA*Neutronbar[s1] . Sig[mu, nu, s1, s2] . Neutron[s2])];
+
+
+(* ------------------------------------------------- Delta(1232) self sector -- *)
+(*  Rarita-Schwinger kinetic and mass terms with the off-shell parameter AD,     *)
+(*  chirally covariantised (DeltaCovariantDerivative), plus the three            *)
+(*  pi-Delta-Delta couplings g1D, g2D, g3D.                                      *)
+
+LDeltaKin1 := -Block[{mu1, mu2, s1, s2, i1, i2, ro},
+  Sum[(Deltabar[s1, mu1, r1, i1]*ME[mu1, mu2]*
+        (I*Ga[ro, s1, s2]*DeltaCovariantDerivative[ro, r1, r2, i1, i2, #1]
+         - IndexDelta[s1, s2]*IndexDelta[r1, r2]*IndexDelta[i1, i2]*MDelta*#1) &)[
+      Delta[s2, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
+
+LDeltaKin2 := -Block[{mu1, mu2, s1, s2, i1, i2, ro},
+  Sum[(Deltabar[s1, mu1, r1, i1]*I*AD*
+        (Ga[mu1, s1, s2]*DeltaCovariantDerivative[mu2, r1, r2, i1, i2, #1]
+         + Ga[mu2, s1, s2]*DeltaCovariantDerivative[mu1, r1, r2, i1, i2, #1]) &)[
+      Delta[s2, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
+
+LDeltaKin3 := -Block[{mu1, mu2, s1, s2, s3, s4, i1, i2, ro},
+  Sum[(Deltabar[s1, mu1, r1, i1]*(I/2)*(3*AD^2 + 2*AD + 1)*
+        (Ga[mu1, s1, s2]*Ga[ro, s2, s3]*Ga[mu2, s3, s4]*
+          DeltaCovariantDerivative[ro, r1, r2, i1, i2, #1]) &)[
+      Delta[s4, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
+
+LDeltaKin4 := -Block[{mu1, mu2, s1, s2, s3, i1, i2, ro},
+  Sum[(Deltabar[s1, mu1, r1, i1]*MDelta*(3*AD^2 + 3*AD + 1)*
+        (Ga[mu1, s1, s2]*Ga[mu2, s2, s3]*#1) &)[
+      Delta[s3, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
+
+LDeltaPi1 := (-(g1D/2))*Block[{mu1, mu2, s1, s2, s3, i1, i2, ro},
+  Sum[(Deltabar[s1, mu1, r1, i1]*
+        (Ga[ro, s1, s2]*IndexDelta[i1, i2]*ChiVielbein2[ro, r1, r2]*
+          Ga[5, s2, s3]*ME[mu1, mu2]*#1) &)[
+      Delta[s3, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
+
+LDeltaPi2 := (-(g2D/2))*Block[{mu1, mu2, s1, s2, s3, i1, i2, ro},
+  Sum[(Deltabar[s1, mu1, r1, i1]*
+        (Ga[mu1, s1, s2]*Ga[5, s2, s3]*IndexDelta[i1, i2]*ChiVielbein2[mu2, r1, r2]*#1
+         + Ga[mu2, s1, s2]*Ga[5, s2, s3]*IndexDelta[i1, i2]*ChiVielbein2[mu1, r1, r2]*#1) &)[
+      Delta[s3, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
+
+LDeltaPi3 := (-(g3D/2))*Block[{mu1, mu2, s1, s2, s3, s4, s5, i1, i2, ro},
+  Sum[(Deltabar[s1, mu1, r1, i1]*
+        (Ga[mu1, s1, s2]*Ga[ro, s2, s3]*Ga[5, s3, s4]*Ga[mu2, s4, s5]*
+          IndexDelta[i1, i2]*ChiVielbein2[ro, r1, r2]*#1) &)[
+      Delta[s5, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
+
+LDeltaSector := LDeltaKin1 + LDeltaKin2 + LDeltaKin3 + LDeltaKin4
+             + LDeltaPi1 + LDeltaPi2 + LDeltaPi3;
+
+
+(* ------------------------------------------- pi N Delta, conventional form -- *)
+
+LPiNDelta := gD*Block[{mu1, mu2, s1, s2, s3, i1, ro},
+  Sum[Deltabar[s1, mu1, r1, i1]*
+      (ME[mu1, mu2]*IndexDelta[s1, s3] + ztilde*Ga[mu1, s1, s2]*Ga[mu2, s2, s3])*
+      ChiVielbeinV[mu2, i1]*Nucleons[s3][[r1]], {r1, 1, 2}, {i1, 1, 3}]
+  + HC[Sum[Deltabar[s1, mu1, r1, i1]*
+      (ME[mu1, mu2]*IndexDelta[s1, s3] + ztilde*Ga[mu1, s1, s2]*Ga[mu2, s2, s3])*
+      ChiVielbeinV[mu2, i1]*Nucleons[s3][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
+
+
+(* ------------------------------ pi N Delta, gauge-invariant (Pascalutsa) ----- *)
+(*  Corresponds to the strong term of Fernandez-Ramirez et al. Eq. (36),         *)
+(*     -(h / (fPi Mstar)) Nbar eps_{mu nu lam beta} gamma^beta gamma5            *)
+(*                          (d^mu Delta^nu_j)(d^lam pi_j)                        *)
+(*  with ChiVielbeinV[lam, j] = -(1/fPi) d^lam pi_j at leading order.            *)
+(*  SIGN NOT YET CROSS-CHECKED against that paper -- see header.                 *)
+
+LPiNDeltaGI := (-(hD/MDelta))*Block[{mu, nu, lam, si, s1, s2, s3},
+  Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+      Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinV[lam, i1]*Nucleons[s3][[r1]],
+    {r1, 1, 2}, {i1, 1, 3}]
+  + HC[Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+      Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinV[lam, i1]*Nucleons[s3][[r1]],
+    {r1, 1, 2}, {i1, 1, 3}]]];
+
+
+(* ---------------------------------- gamma N Delta, gauge-invariant coupling -- *)
+(*  Kappa Nbar [ i G1 Ftilde_{mu nu} + G2 gamma5 F_{mu nu} ] d^mu Delta^nu_3     *)
+(*  + HC,  Kappa = 3e / (2 M (M + Mstar)) -- Eq. (36) of nucl-th/0509020v2.      *)
+(*  Delta[..., 3] carries the sqrt(2/3) isospin factor automatically through the *)
+(*  R[5] definitions, so no explicit Clebsch-Gordan factor belongs here.  (The   *)
+(*  hand-written notebook Delta-Analytic-Calculations/"gamma+p into pi0 p        *)
+(*  photoproduction.nb" DROPS that sqrt(2/3) on this vertex while keeping it on  *)
+(*  the strong one, which is why it overshoots by a factor 3/2 in the cross      *)
+(*  section.)                                                                    *)
+
+LGammaNDelta := Kappa*Block[{s1, s2, mu, nu},
+  Sum[Nucleonsbar[s1][[r1]]*
+      (I*G1*IndexDelta[s1, s2]*DualEMStrengthTensor[mu, nu]
+       + G2*Ga[5, s1, s2]*EMStrengthTensor[mu, nu])*del[Delta[s2, nu, r1, 3], mu],
+    {r1, 1, 2}]
+  + HC[Sum[Nucleonsbar[s1][[r1]]*
+      (I*HC[G1]*IndexDelta[s1, s2]*DualEMStrengthTensor[mu, nu]
+       + HC[G2]*Ga[5, s1, s2]*EMStrengthTensor[mu, nu])*del[Delta[s2, nu, r1, 3], mu],
+    {r1, 1, 2}]]];
+
+
+(* ------------------------------- Delta vertices with form factors ----------- *)
+(*  Same Lagrangians as LPiNDeltaGI / LGammaNDelta, with one form factor symbol *)
+(*  multiplying each of the two hermitian-conjugate halves.  They REPLACE the   *)
+(*  point-like versions in LChiPT when ChiPT$DeltaFF is True -- they are not    *)
+(*  additive corrections like LNNEMFF.                                          *)
+(*                                                                              *)
+(*  FFPNDA/FFPNDB land on every vertex the gauged strong term produces, i.e. on *)
+(*  the three-point pi-N-Delta vertices AND on the contact vertices that share  *)
+(*  its coupling: Delta~ N A pi (the Delta-sector Kroll-Ruderman term) and the  *)
+(*  W/Z ones, including the three-point weak N -> Delta transition currents     *)
+(*  that come from the gauge part of ChiVielbeinV.  That is deliberate: they    *)
+(*  all carry the same strong vertex and the same Delta leg, whose momentum     *)
+(*  squared is what FpiNDelta is a function of, and splitting the pion piece    *)
+(*  off the gauge pieces of the vielbein would break gauge invariance.  If the  *)
+(*  weak transition current is meant to carry its own (axial) form factor       *)
+(*  instead, it needs its own Lagrangian term, not this one.                    *)
+(*                                                                              *)
+(*  FeynRules will warn "Form factor FFPNDA appears in more than one vertex"    *)
+(*  and print the list.  That is expected and harmless HERE: the warning        *)
+(*  guards a momentum-relabelling step that only acts on symbolic values, and   *)
+(*  these values are strings, which the relabeller cannot touch.  What it does  *)
+(*  mean is that the leg index in the string has to be right in EVERY vertex    *)
+(*  the symbol reaches -- verified in the exported UFO, see the checks in       *)
+(*  export_ChiPT_UFO.m.                                                         *)
+
+LPiNDeltaGIFF := (-(hD/MDelta))*Block[{mu, nu, lam, si, s1, s2, s3},
+  FFPNDA*Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+      Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinV[lam, i1]*Nucleons[s3][[r1]],
+    {r1, 1, 2}, {i1, 1, 3}]
+  + FFPNDB*HC[Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+      Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinV[lam, i1]*Nucleons[s3][[r1]],
+    {r1, 1, 2}, {i1, 1, 3}]]];
+
+(*  The r1 sum runs over {Proton, Neutron}, so {FFDPxxA, FFDNxxA}[[r1]] hands   *)
+(*  each charge state its own symbol; G1 and G2 are separated the same way.     *)
+(*  The B symbols stay OUTSIDE HC[] so that no Conjugate[] can ever be wrapped  *)
+(*  round a form factor -- HC[G1]/HC[G2] inside are kept exactly as in          *)
+(*  LGammaNDelta so the two Lagrangians differ by nothing but the symbols.      *)
+LGammaNDeltaFF := Kappa*Block[{s1, s2, mu, nu},
+  Sum[{FFDPG1A, FFDNG1A}[[r1]]*Nucleonsbar[s1][[r1]]*
+      I*G1*IndexDelta[s1, s2]*DualEMStrengthTensor[mu, nu]*
+      del[Delta[s2, nu, r1, 3], mu], {r1, 1, 2}]
+  + Sum[{FFDPG2A, FFDNG2A}[[r1]]*Nucleonsbar[s1][[r1]]*
+      G2*Ga[5, s1, s2]*EMStrengthTensor[mu, nu]*
+      del[Delta[s2, nu, r1, 3], mu], {r1, 1, 2}]
+  + Sum[{FFDPG1B, FFDNG1B}[[r1]]*HC[Nucleonsbar[s1][[r1]]*
+      I*HC[G1]*IndexDelta[s1, s2]*DualEMStrengthTensor[mu, nu]*
+      del[Delta[s2, nu, r1, 3], mu]], {r1, 1, 2}]
+  + Sum[{FFDPG2B, FFDNG2B}[[r1]]*HC[Nucleonsbar[s1][[r1]]*
+      HC[G2]*Ga[5, s1, s2]*EMStrengthTensor[mu, nu]*
+      del[Delta[s2, nu, r1, 3], mu]], {r1, 1, 2}]];
+
+
+(* ------------------------------------------------------------ totals -------- *)
+
+(*  IMPORTANT -- each piece is forced to an explicit expression BEFORE summing.    *)
+(*  Writing this as the bare sum of the eight delayed symbols,                     *)
+(*      LChiPT := LPionKin + LNucleonKin + ... + LGammaNDelta;                     *)
+(*  silently destroys the whole Delta sector: FeynmanRules then returns 17         *)
+(*  vertices, NONE of them containing a Delta, where the sequential form below     *)
+(*  gives 58 vertices of which 41 contain a Delta.  Every partial sum (any pair,   *)
+(*  any subset tried) behaves correctly, so this only bites on the full sum.       *)
+(*  export_UFO_myPions.nb never hit it because it assigned each Lagrangian to a    *)
+(*  variable first and summed the variables -- which is what is reproduced here.   *)
+LChiPT := Module[{lpk, lnk, lnv, lna, lds, lpg, lgd, lff},
+  lpk = LPionKin;     lnk = LNucleonKin;  lnv = LNNVector;   lna = LNNAxial;
+  lds = LDeltaSector;
+  lpg = If[ChiPT$DeltaFF, LPiNDeltaGIFF,  LPiNDeltaGI];
+  lgd = If[ChiPT$DeltaFF, LGammaNDeltaFF, LGammaNDelta];
+  lff = If[ChiPT$NucleonFF, LNNEMFF, 0];
+  (* LPiNDelta (the conventional gD coupling) is deliberately EXCLUDED: it is
+     not gauge invariant, and the Pascalutsa coupling LPiNDeltaGI replaces it.
+     Its definition is kept above for reference only. *)
+  lpk + lnk + lnv + lna + lds + lpg + lgd + lff];
+
+LTotal := Module[{lchi, lsm}, lchi = LChiPT; lsm = LSM; lchi + lsm];
+
+(* Kept for backwards compatibility with export_UFO_myPions.nb *)
+LSMnu := LSM + LPionKin;
+
+Rarita\[CapitalDelta]\[Pi]     := LDeltaSector;
+Rarita\[Pi]N\[CapitalDelta]    := LPiNDelta;
+Rarita\[Pi]N\[CapitalDelta]GI  := LPiNDeltaGI;
+Rarita\[Gamma]N\[CapitalDelta] := LGammaNDelta;
+
+(* Export with:
+     LoadModel["ChiPT.fr"];
+     WriteUFO[LTotal, AddDecays -> False, FlavorExpand -> True];
+*)
