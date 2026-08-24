@@ -542,6 +542,27 @@ def read_pi0p_data(path, MN):
     return low, high
 
 
+VECMESON_CSV = 'fig33_vecmeson_scan_grid.csv'
+
+
+def read_vecmeson(path=VECMESON_CSV):
+    """{channel: (Eg, sigma_ub)} for Born + Delta + t-channel omega/rho.
+
+    Written by fig33_vecmeson.m on scan.py's photon grid, which is NOT the grid
+    this script uses -- the curves are simply drawn on their own abscissa.  The
+    vector mesons cannot come from the UFO: ChiPT.fr has none, so those couplings
+    are the ELA fit values of nucl-th/0509020v2 Eqs. (15)-(16).  Optional; the
+    figure just omits the curves if the file is absent.
+    """
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        names = [n.strip().strip('"') for n in f.readline().strip().split(',')]
+    d = np.loadtxt(path, delimiter=',', skiprows=1, ndmin=2)
+    return {n[:-4]: (d[:, 0], d[:, i]) for i, n in enumerate(names)
+            if n.endswith('_vec')}
+
+
 def make_plot(rows, ns, stem='fig33_from_ufo'):
     """Publication-quality 2x2 figure (PDF + PNG).
 
@@ -594,6 +615,7 @@ def make_plot(rows, ns, stem='fig33_from_ufo'):
     datafile = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..',
                             'ELA-Pion-Photoproduction', 'pi0p_data.m')
     low, high = read_pi0p_data(datafile, ns['MNucleon'])
+    vec = read_vecmeson()
 
     fig, axes = plt.subplots(2, 2, figsize=(7.0, 5.0), sharex=True, sharey=True)
     for n, (ax, ch) in enumerate(zip(axes.ravel(), chans)):
@@ -609,6 +631,9 @@ def make_plot(rows, ns, stem='fig33_from_ufo'):
             sel = sorted([(r[2], r[3]) for r in rows if r[0] == cv and r[1] == ch])
             ax.plot([x for x, _ in sel], [y for _, y in sel],
                     color=col, ls=ls, lw=1.3, zorder=3, solid_joinstyle='round')
+        # On its own (denser) grid -- see read_vecmeson.
+        if ch in vec:
+            ax.plot(*vec[ch], color=INK, ls=(0, (5.0, 2.0)), lw=1.1, zorder=4)
         ax.set_xlim(0.1, 1.0)
         ax.set_ylim(0, YMAX)
         ax.set_yticks(np.arange(0, YMAX + 1, YSTEP))
@@ -624,6 +649,9 @@ def make_plot(rows, ns, stem='fig33_from_ufo'):
                       label=r'$\Delta(1232)$ + Born'),
                Line2D([], [], color=C_D, ls=(0, (4.5, 2.2)), lw=1.3,
                       label=r'$\Delta(1232)$ only')]
+    if vec:
+        handles.append(Line2D([], [], color=INK, ls=(0, (5.0, 2.0)), lw=1.1,
+                              label=r'  $+\ \omega,\rho$ exchange'))
     axes[0, 0].legend(handles=handles, loc='upper right',
                       bbox_to_anchor=(0.99, 0.86))
     dh = [Line2D([], [], ls='none', marker='o', ms=2.8, mfc=INK, mec=INK,
