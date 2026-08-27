@@ -1,0 +1,353 @@
+curve,channel,Eg,sigma_ub
+Delta only,pi-p,0.14669,0.000016
+Delta only,pi-p,0.16000,0.009825
+Delta only,pi-p,0.18000,0.207557
+Delta only,pi-p,0.20000,1.356813
+Delta only,pi-p,0.22000,5.638711
+Delta only,pi-p,0.24000,17.656836
+Delta only,pi-p,0.26000,43.694949
+Delta only,pi-p,0.28000,86.635415
+Delta only,pi-p,0.30000,139.061319
+Delta only,pi-p,0.32000,184.042454
+Delta only,pi-p,0.34000,207.758465
+Delta only,pi-p,0.36000,209.716413
+Delta only,pi-p,0.38000,198.244042
+Delta only,pi-p,0.40000,181.560415
+Delta only,pi-p,0.42000,164.446802
+Delta only,pi-p,0.44000,148.918552
+Delta only,pi-p,0.46000,135.530797
+Delta only,pi-p,0.48000,124.222980
+Delta only,pi-p,0.50000,114.729100
+Delta only,pi-p,0.52000,106.748963
+Delta only,pi-p,0.54000,100.009935
+Delta only,pi-p,0.56000,94.283301
+Delta only,pi-p,0.58000,89.383533
+Delta only,pi-p,0.60000,85.162188
+Delta only,pi-p,0.62000,81.500939
+Delta only,pi-p,0.64000,78.305334
+Delta only,pi-p,0.66000,75.499652
+Delta only,pi-p,0.68000,73.022844
+Delta only,pi-p,0.70000,70.825364
+Delta only,pi-p,0.72000,68.866728
+Delta only,pi-p,0.74000,67.113627
+Delta only,pi-p,0.76000,65.538473
+Delta only,pi-p,0.78000,64.118263
+Delta only,pi-p,0.80000,62.833698
+Delta only,pi-p,0.82000,61.668487
+Delta only,pi-p,0.84000,60.608802
+Delta only,pi-p,0.86000,59.642837
+Delta only,pi-p,0.88000,58.760465
+Delta only,pi-p,0.90000,57.952954
+Delta only,pi-p,0.92000,57.212740
+Delta only,pi-p,0.94000,56.533240
+Delta only,pi-p,0.96000,55.908706
+Delta only,pi-p,0.98000,55.334093
+Delta only,pi-p,1.00000,54.804961
+Delta only,pi+n,0.14669,0.000016
+Delta only,pi+n,0.16000,0.009825
+Delta only,pi+n,0.18000,0.207557
+Delta only,pi+n,0.20000,1.356813
+Delta only,pi+n,0.22000,5.638711
+Delta only,pi+n,0.24000,17.656836
+Delta only,pi+n,0.26000,43.694949
+Delta only,pi+n,0.28000,86.635415
+Delta only,pi+n,0.30000,139.061319
+Delta only,pi+n,0.32000,184.042454
+Delta only,pi+n,0.34000,207.758465
+Delta only,pi+n,0.36000,209.716413
+Delta only,pi+n,0.38000,198.244042
+Delta only,pi+n,0.40000,181.560415
+Delta only,pi+n,0.42000,164.446802
+Delta only,pi+n,0.44000,148.918552
+Delta only,pi+n,0.46000,135.530797
+Delta only,pi+n,0.48000,124.222980
+Delta only,pi+n,0.50000,114.729100
+Delta only,pi+n,0.52000,106.748963
+Delta only,pi+n,0.54000,100.009935
+Delta only,pi+n,0.56000,94.283301
+Delta only,pi+n,0.58000,89.383533
+Delta only,pi+n,0.60000,85.162188
+Delta only,pi+n,0.62000,81.500939
+Delta only,pi+n,0.64000,78.305334
+Delta only,pi+n,0.66000,75.499652
+Delta only,pi+n,0.68000,73.022844
+Delta only,pi+n,0.70000,70.825364
+Delta only,pi+n,0.72000,68.866728
+Delta only,pi+n,0.74000,67.113627
+Delta only,pi+n,0.76000,65.538473
+Delta only,pi+n,0.78000,64.118263
+Delta only,pi+n,0.80000,62.833698
+Delta only,pi+n,0.82000,61.668487
+Delta only,pi+n,0.84000,60.608802
+Delta only,pi+n,0.86000,59.642837
+Delta only,pi+n,0.88000,58.760465
+Delta only,pi+n,0.90000,57.952954
+Delta only,pi+n,0.92000,57.212740
+Delta only,pi+n,0.94000,56.533240
+Delta only,pi+n,0.96000,55.908706
+Delta only,pi+n,0.98000,55.334093
+Delta only,pi+n,1.00000,54.804961
+Delta only,pi0p,0.14669,0.000041
+Delta only,pi0p,0.16000,0.025271
+Delta only,pi0p,0.18000,0.506798
+Delta only,pi0p,0.20000,3.166130
+Delta only,pi0p,0.22000,12.660469
+Delta only,pi0p,0.24000,38.382161
+Delta only,pi0p,0.26000,92.445094
+Delta only,pi0p,0.28000,179.174531
+Delta only,pi0p,0.30000,282.164671
+Delta only,pi0p,0.32000,367.554184
+Delta only,pi0p,0.34000,409.578640
+Delta only,pi0p,0.36000,409.223334
+Delta only,pi0p,0.38000,383.850566
+Delta only,pi0p,0.40000,349.630483
+Delta only,pi0p,0.42000,315.600112
+Delta only,pi0p,0.44000,285.357377
+Delta only,pi0p,0.46000,259.731455
+Delta only,pi0p,0.48000,238.436215
+Delta only,pi0p,0.50000,220.847581
+Delta only,pi0p,0.52000,206.315549
+Delta only,pi0p,0.54000,194.269132
+Delta only,pi0p,0.56000,184.238414
+Delta only,pi0p,0.58000,175.847110
+Delta only,pi0p,0.60000,168.796995
+Delta only,pi0p,0.62000,162.852117
+Delta only,pi0p,0.64000,157.825262
+Delta only,pi0p,0.66000,153.567107
+Delta only,pi0p,0.68000,149.957774
+Delta only,pi0p,0.70000,146.900333
+Delta only,pi0p,0.72000,144.315841
+Delta only,pi0p,0.74000,142.139532
+Delta only,pi0p,0.76000,140.317896
+Delta only,pi0p,0.78000,138.806419
+Delta only,pi0p,0.80000,137.567825
+Delta only,pi0p,0.82000,136.570708
+Delta only,pi0p,0.84000,135.788447
+Delta only,pi0p,0.86000,135.198351
+Delta only,pi0p,0.88000,134.780975
+Delta only,pi0p,0.90000,134.519573
+Delta only,pi0p,0.92000,134.399651
+Delta only,pi0p,0.94000,134.408611
+Delta only,pi0p,0.96000,134.535453
+Delta only,pi0p,0.98000,134.770534
+Delta only,pi0p,1.00000,135.105367
+Delta only,pi0n,0.14669,0.000041
+Delta only,pi0n,0.16000,0.025271
+Delta only,pi0n,0.18000,0.506798
+Delta only,pi0n,0.20000,3.166130
+Delta only,pi0n,0.22000,12.660469
+Delta only,pi0n,0.24000,38.382161
+Delta only,pi0n,0.26000,92.445094
+Delta only,pi0n,0.28000,179.174531
+Delta only,pi0n,0.30000,282.164671
+Delta only,pi0n,0.32000,367.554184
+Delta only,pi0n,0.34000,409.578640
+Delta only,pi0n,0.36000,409.223334
+Delta only,pi0n,0.38000,383.850566
+Delta only,pi0n,0.40000,349.630483
+Delta only,pi0n,0.42000,315.600112
+Delta only,pi0n,0.44000,285.357377
+Delta only,pi0n,0.46000,259.731455
+Delta only,pi0n,0.48000,238.436215
+Delta only,pi0n,0.50000,220.847581
+Delta only,pi0n,0.52000,206.315549
+Delta only,pi0n,0.54000,194.269132
+Delta only,pi0n,0.56000,184.238414
+Delta only,pi0n,0.58000,175.847110
+Delta only,pi0n,0.60000,168.796995
+Delta only,pi0n,0.62000,162.852117
+Delta only,pi0n,0.64000,157.825262
+Delta only,pi0n,0.66000,153.567107
+Delta only,pi0n,0.68000,149.957774
+Delta only,pi0n,0.70000,146.900333
+Delta only,pi0n,0.72000,144.315841
+Delta only,pi0n,0.74000,142.139532
+Delta only,pi0n,0.76000,140.317896
+Delta only,pi0n,0.78000,138.806419
+Delta only,pi0n,0.80000,137.567825
+Delta only,pi0n,0.82000,136.570708
+Delta only,pi0n,0.84000,135.788447
+Delta only,pi0n,0.86000,135.198351
+Delta only,pi0n,0.88000,134.780975
+Delta only,pi0n,0.90000,134.519573
+Delta only,pi0n,0.92000,134.399651
+Delta only,pi0n,0.94000,134.408611
+Delta only,pi0n,0.96000,134.535453
+Delta only,pi0n,0.98000,134.770534
+Delta only,pi0n,1.00000,135.105367
+Delta+Born,pi-p,0.14669,36.520127
+Delta+Born,pi-p,0.16000,89.550977
+Delta+Born,pi-p,0.18000,119.747764
+Delta+Born,pi-p,0.20000,140.613977
+Delta+Born,pi-p,0.22000,164.914734
+Delta+Born,pi-p,0.24000,199.258576
+Delta+Born,pi-p,0.26000,244.042729
+Delta+Born,pi-p,0.28000,288.961771
+Delta+Born,pi-p,0.30000,315.642889
+Delta+Born,pi-p,0.32000,311.164677
+Delta+Born,pi-p,0.34000,279.865206
+Delta+Born,pi-p,0.36000,237.725159
+Delta+Born,pi-p,0.38000,198.037792
+Delta+Born,pi-p,0.40000,166.133894
+Delta+Born,pi-p,0.42000,142.196109
+Delta+Born,pi-p,0.44000,124.638777
+Delta+Born,pi-p,0.46000,111.744584
+Delta+Born,pi-p,0.48000,102.146274
+Delta+Born,pi-p,0.50000,94.860673
+Delta+Born,pi-p,0.52000,89.206283
+Delta+Born,pi-p,0.54000,84.715041
+Delta+Born,pi-p,0.56000,81.064294
+Delta+Born,pi-p,0.58000,78.029433
+Delta+Born,pi-p,0.60000,75.452122
+Delta+Born,pi-p,0.62000,73.219220
+Delta+Born,pi-p,0.64000,71.248781
+Delta+Born,pi-p,0.66000,69.480680
+Delta+Born,pi-p,0.68000,67.870264
+Delta+Born,pi-p,0.70000,66.384010
+Delta+Born,pi-p,0.72000,64.996501
+Delta+Born,pi-p,0.74000,63.688309
+Delta+Born,pi-p,0.76000,62.444479
+Delta+Born,pi-p,0.78000,61.253439
+Delta+Born,pi-p,0.80000,60.106202
+Delta+Born,pi-p,0.82000,58.995773
+Delta+Born,pi-p,0.84000,57.916712
+Delta+Born,pi-p,0.86000,56.864798
+Delta+Born,pi-p,0.88000,55.836768
+Delta+Born,pi-p,0.90000,54.830128
+Delta+Born,pi-p,0.92000,53.842991
+Delta+Born,pi-p,0.94000,52.873958
+Delta+Born,pi-p,0.96000,51.922018
+Delta+Born,pi-p,0.98000,50.986476
+Delta+Born,pi-p,1.00000,50.066883
+Delta+Born,pi+n,0.14669,27.774133
+Delta+Born,pi+n,0.16000,66.934028
+Delta+Born,pi+n,0.18000,87.413480
+Delta+Born,pi+n,0.20000,101.096417
+Delta+Born,pi+n,0.22000,118.605327
+Delta+Born,pi+n,0.24000,146.071235
+Delta+Born,pi+n,0.26000,184.758690
+Delta+Born,pi+n,0.28000,226.520602
+Delta+Born,pi+n,0.30000,254.916779
+Delta+Born,pi+n,0.32000,256.534097
+Delta+Born,pi+n,0.34000,232.744834
+Delta+Born,pi+n,0.36000,196.680632
+Delta+Born,pi+n,0.38000,160.661860
+Delta+Born,pi+n,0.40000,130.406827
+Delta+Born,pi+n,0.42000,106.824914
+Delta+Born,pi+n,0.44000,88.918868
+Delta+Born,pi+n,0.46000,75.347937
+Delta+Born,pi+n,0.48000,64.962157
+Delta+Born,pi+n,0.50000,56.896646
+Delta+Born,pi+n,0.52000,50.531114
+Delta+Born,pi+n,0.54000,45.426856
+Delta+Born,pi+n,0.56000,41.273107
+Delta+Born,pi+n,0.58000,37.847705
+Delta+Born,pi+n,0.60000,34.989778
+Delta+Born,pi+n,0.62000,32.581129
+Delta+Born,pi+n,0.64000,30.533596
+Delta+Born,pi+n,0.66000,28.780419
+Delta+Born,pi+n,0.68000,27.270290
+Delta+Born,pi+n,0.70000,25.963217
+Delta+Born,pi+n,0.72000,24.827599
+Delta+Born,pi+n,0.74000,23.838144
+Delta+Born,pi+n,0.76000,22.974361
+Delta+Born,pi+n,0.78000,22.219462
+Delta+Born,pi+n,0.80000,21.559544
+Delta+Born,pi+n,0.82000,20.982984
+Delta+Born,pi+n,0.84000,20.479975
+Delta+Born,pi+n,0.86000,20.042177
+Delta+Born,pi+n,0.88000,19.662443
+Delta+Born,pi+n,0.90000,19.334608
+Delta+Born,pi+n,0.92000,19.053325
+Delta+Born,pi+n,0.94000,18.813927
+Delta+Born,pi+n,0.96000,18.612327
+Delta+Born,pi+n,0.98000,18.444928
+Delta+Born,pi+n,1.00000,18.308554
+Delta+Born,pi0p,0.14669,0.263840
+Delta+Born,pi0p,0.16000,1.562430
+Delta+Born,pi0p,0.18000,5.159969
+Delta+Born,pi0p,0.20000,13.082917
+Delta+Born,pi0p,0.22000,30.870468
+Delta+Born,pi0p,0.24000,67.709800
+Delta+Born,pi0p,0.26000,132.135580
+Delta+Born,pi0p,0.28000,220.920218
+Delta+Born,pi0p,0.30000,310.921202
+Delta+Born,pi0p,0.32000,369.661882
+Delta+Born,pi0p,0.34000,381.128930
+Delta+Born,pi0p,0.36000,355.784199
+Delta+Born,pi0p,0.38000,314.232521
+Delta+Born,pi0p,0.40000,271.317255
+Delta+Born,pi0p,0.42000,233.590370
+Delta+Born,pi0p,0.44000,202.618573
+Delta+Born,pi0p,0.46000,177.910225
+Delta+Born,pi0p,0.48000,158.397162
+Delta+Born,pi0p,0.50000,143.011235
+Delta+Born,pi0p,0.52000,130.855564
+Delta+Born,pi0p,0.54000,121.224178
+Delta+Born,pi0p,0.56000,113.575067
+Delta+Born,pi0p,0.58000,107.495095
+Delta+Born,pi0p,0.60000,102.668887
+Delta+Born,pi0p,0.62000,98.854273
+Delta+Born,pi0p,0.64000,95.863777
+Delta+Born,pi0p,0.66000,93.550944
+Delta+Born,pi0p,0.68000,91.800281
+Delta+Born,pi0p,0.70000,90.519865
+Delta+Born,pi0p,0.72000,89.635867
+Delta+Born,pi0p,0.74000,89.088484
+Delta+Born,pi0p,0.76000,88.828884
+Delta+Born,pi0p,0.78000,88.816887
+Delta+Born,pi0p,0.80000,89.019203
+Delta+Born,pi0p,0.82000,89.408069
+Delta+Born,pi0p,0.84000,89.960195
+Delta+Born,pi0p,0.86000,90.655931
+Delta+Born,pi0p,0.88000,91.478615
+Delta+Born,pi0p,0.90000,92.414054
+Delta+Born,pi0p,0.92000,93.450104
+Delta+Born,pi0p,0.94000,94.576335
+Delta+Born,pi0p,0.96000,95.783754
+Delta+Born,pi0p,0.98000,97.064584
+Delta+Born,pi0p,1.00000,98.412079
+Delta+Born,pi0n,0.14669,0.027836
+Delta+Born,pi0n,0.16000,0.562763
+Delta+Born,pi0n,0.18000,2.715489
+Delta+Born,pi0n,0.20000,8.519330
+Delta+Born,pi0n,0.22000,23.250112
+Delta+Born,pi0n,0.24000,56.172940
+Delta+Born,pi0n,0.26000,116.916848
+Delta+Born,pi0n,0.28000,204.528453
+Delta+Born,pi0n,0.30000,297.870042
+Delta+Born,pi0n,0.32000,364.025895
+Delta+Born,pi0n,0.34000,384.059102
+Delta+Born,pi0n,0.36000,365.617862
+Delta+Born,pi0n,0.38000,328.364287
+Delta+Born,pi0n,0.40000,287.555105
+Delta+Born,pi0n,0.42000,250.491203
+Delta+Born,pi0n,0.44000,219.346745
+Delta+Born,pi0n,0.46000,194.023040
+Delta+Born,pi0n,0.48000,173.683349
+Delta+Born,pi0n,0.50000,157.390043
+Delta+Born,pi0n,0.52000,144.318072
+Delta+Born,pi0n,0.54000,133.800096
+Delta+Born,pi0n,0.56000,125.314121
+Delta+Born,pi0n,0.58000,118.456631
+Delta+Born,pi0n,0.60000,112.916072
+Delta+Born,pi0n,0.62000,108.450879
+Delta+Born,pi0n,0.64000,104.872434
+Delta+Born,pi0n,0.66000,102.032217
+Delta+Born,pi0n,0.68000,99.812212
+Delta+Born,pi0n,0.70000,98.117782
+Delta+Born,pi0n,0.72000,96.872337
+Delta+Born,pi0n,0.74000,96.013343
+Delta+Born,pi0n,0.76000,95.489303
+Delta+Born,pi0n,0.78000,95.257463
+Delta+Born,pi0n,0.80000,95.282049
+Delta+Born,pi0n,0.82000,95.532907
+Delta+Born,pi0n,0.84000,95.984443
+Delta+Born,pi0n,0.86000,96.614792
+Delta+Born,pi0n,0.88000,97.405155
+Delta+Born,pi0n,0.90000,98.339280
+Delta+Born,pi0n,0.92000,99.403038
+Delta+Born,pi0n,0.94000,100.584085
+Delta+Born,pi0n,0.96000,101.871586
+Delta+Born,pi0n,0.98000,103.255989
+Delta+Born,pi0n,1.00000,104.728839

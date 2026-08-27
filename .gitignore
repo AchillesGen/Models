@@ -1,2 +1,4 @@
 /ChiralPT/myPions-Pion-Nucleon-Delta-GI-coupling/myPions-Pion-Nucleon-Delta-GI-coupling_UFO – kópia
 *.code-workspace
+*.sherpa*
+*__pycache__*

@@ -1,0 +1,179 @@
+# Everything drawn in cc1pi_sherpa_vs_data.pdf, in one long-format table.
+# Written by plot_w_vs_data.py from the same arrays the figure uses, so the two
+# cannot disagree.  One row per plotted point; `kind` says which layer it is.
+#
+#   kind=model   the Sherpa curve.  One row per scan energy, 32 per channel.
+#                E_lo/E_hi are empty -- it is a point evaluation, not a bin.
+#   kind=data    a measured point.  E_nu is the BIN CENTRE and E_lo/E_hi are the
+#                published bin edges; the quoted value is FLUX-AVERAGED over
+#                that bin, not evaluated at the centre.
+#
+# COLUMNS
+#   channel        ppip / ppi0 / npip, the same names used across this project
+#   process        PDG initial and final state, as given to Sherpa
+#   label_tex      ready-to-use LaTeX for a legend or direct label
+#   isospin        which isospin amplitudes contribute
+#   source         Sherpa, ANL or BNL
+#   correction     data only: `wilkinson` (PRD 90, 112017 re-analysis, what the
+#                  figure shows) or `published` (the original numbers).  The
+#                  re-analysis moves ANL UP ~16% and BNL DOWN ~29%, which is
+#                  what brings the two experiments into agreement.
+#   wcut_GeV       hadronic invariant-mass cut.  1.4 on BOTH sides -- the model
+#                  is integrated with the same cut the data carry, not rescaled.
+#   sigma_*        cross section and its error, given twice: in 1e-38 cm^2 (the
+#                  usual unit for these plots, and what the figure's y axis is)
+#                  and in ub.  1 ub = 1e-30 cm^2.  For kind=model the error is
+#                  the Monte-Carlo statistical error only.
+#
+# TWO THINGS TO KNOW BEFORE REPLOTTING
+#  1. The model is a curve through 32 computed energies per channel, spaced
+#     0.025 GeV below 0.65, 0.05 to 1.0 and 0.1 above -- chosen so a plain line
+#     through the points is smooth without interpolation doing the work.  Join
+#     them with a simple line; no spline is needed.
+#  2. The lowest data bin, 0.3-0.5 GeV, spans the muon-mass threshold turn-on,
+#     where sigma rises by three orders of magnitude.  Comparing a curve read at
+#     its centre against that bin understates the model by a factor ~5, so the
+#     figure does not draw any conclusion there.  Every bin above 0.5 GeV is
+#     safe: bin-averaging the model changes the comparison by at most 4%.
+#
+# Data beyond 1.6 GeV exists in anl_bnl_cc1pip.csv (ANL ppip to 4.75 GeV, BNL to
+# 3.1) but is omitted here because the model scan stops at 1.6.
+#
+# model ChiPT_UFO_V13, param param_ChiPT_UFO_V13.dat.  Generated 2026-08-27.
+kind,channel,process,label_tex,isospin,source,correction,wcut_GeV,E_nu_GeV,E_lo_GeV,E_hi_GeV,sigma_1e38cm2,sigma_err_1e38cm2,sigma_ub,sigma_err_ub
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3000,,,2.00782e-05,3.82e-08,2.00782e-13,3.82e-16
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3250,,,0.00016631,2.8e-07,1.6631e-12,2.8e-15
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3500,,,0.00066856,1.48e-06,6.6856e-12,1.48e-14
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3750,,,0.00202797,5.03e-06,2.02797e-11,5.03e-14
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4000,,,0.005272425,1.1835e-05,5.272425e-11,1.1835e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4250,,,0.01224115,2.305e-05,1.224115e-10,2.305e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4500,,,0.02537945,4.105e-05,2.537945e-10,4.105e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4750,,,0.04629895,5.405e-05,4.629895e-10,5.405e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5000,,,0.07440675,5.595e-05,7.440675e-10,5.595e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5250,,,0.1078045,4.95e-05,1.078045e-09,4.95e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5500,,,0.144673,3.3e-05,1.44673e-09,3.3e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5750,,,0.183721,6e-06,1.83721e-09,6e-14
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6000,,,0.223932,5.2e-05,2.23932e-09,5.2e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6250,,,0.2645705,8.75e-05,2.645705e-09,8.75e-13
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6500,,,0.3050765,0.0001455,3.050765e-09,1.455e-12
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.7000,,,0.3840845,0.0003215,3.840845e-09,3.215e-12
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.7500,,,0.458269,0.000429,4.58269e-09,4.29e-12
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8000,,,0.524002,0.000693,5.24002e-09,6.93e-12
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8500,,,0.5812195,0.0009235,5.812195e-09,9.235e-12
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8750,,,0.6077105,0.0012505,6.077105e-09,1.2505e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.9000,,,0.6319845,0.0008575,6.319845e-09,8.575e-12
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.9500,,,0.675444,0.000907,6.75444e-09,9.07e-12
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.0000,,,0.713341,0.001044,7.13341e-09,1.044e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.1000,,,0.7737805,0.0021755,7.737805e-09,2.1755e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.1250,,,0.7860325,0.0016905,7.860325e-09,1.6905e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.2000,,,0.816492,0.002365,8.16492e-09,2.365e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.2500,,,0.8339005,0.0024475,8.339005e-09,2.4475e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.3000,,,0.849123,0.003424,8.49123e-09,3.424e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.3750,,,0.868261,0.00495,8.68261e-09,4.95e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.4000,,,0.8733265,0.0045345,8.733265e-09,4.5345e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.5000,,,0.8915945,0.0053805,8.915945e-09,5.3805e-11
+model,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.6000,,,0.9043775,0.0060465,9.043775e-09,6.0465e-11
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,0.4000,0.3000,0.5000,0.019,0.006,1.9e-10,6e-11
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,0.6250,0.5000,0.7500,0.155,0.017,1.55e-09,1.7e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,0.8750,0.7500,1.0000,0.332,0.03,3.32e-09,3e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,1.1250,1.0000,1.2500,0.427,0.041,4.27e-09,4.1e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,1.3750,1.2500,1.5000,0.455,0.053,4.55e-09,5.3e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,0.6500,0.5000,0.8000,0.227,0.047,2.27e-09,4.7e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,0.9000,0.8000,1.0000,0.484,0.033,4.84e-09,3.3e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,1.1000,1.0000,1.2000,0.605,0.039,6.05e-09,3.9e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,1.3000,1.2000,1.4000,0.64,0.04,6.4e-09,4e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,1.5000,1.4000,1.6000,0.691,0.0521,6.91e-09,5.21e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,0.4000,0.3000,0.5000,0.0219558,0.00693341,2.19558e-10,6.93341e-11
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,0.6250,0.5000,0.7500,0.179113,0.0196447,1.79113e-09,1.96447e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,0.8750,0.7500,1.0000,0.383648,0.034667,3.83648e-09,3.4667e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,1.1250,1.0000,1.2500,0.479536,0.0460444,4.79536e-09,4.60444e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,1.3750,1.2500,1.5000,0.495234,0.0576866,4.95234e-09,5.76866e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,0.6500,0.5000,0.8000,0.161311,0.0403278,1.61311e-09,4.03278e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,0.9000,0.8000,1.0000,0.387146,0.07259,3.87146e-09,7.259e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,1.1000,1.0000,1.2000,0.479467,0.0799112,4.79467e-09,7.99112e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,1.3000,1.2000,1.4000,0.508099,0.0793904,5.08099e-09,7.93904e-10
+data,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,1.5000,1.4000,1.6000,0.547304,0.0793194,5.47304e-09,7.93194e-10
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3000,,,5.17141e-05,1.62e-08,5.17141e-13,1.62e-16
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3250,,,0.000229792,5.8e-08,2.29792e-12,5.8e-16
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3500,,,0.0006264645,2.085e-07,6.264645e-12,2.085e-15
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3750,,,0.001401735,1.355e-06,1.401735e-11,1.355e-14
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4000,,,0.00283927,3.23e-06,2.83927e-11,3.23e-14
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4250,,,0.005388815,6.765e-06,5.388815e-11,6.765e-14
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4500,,,0.009570015,1.3105e-05,9.570015e-11,1.3105e-13
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4750,,,0.0156169,2.27e-05,1.56169e-10,2.27e-13
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5000,,,0.02324105,2.065e-05,2.324105e-10,2.065e-13
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5250,,,0.03191365,1.835e-05,3.191365e-10,1.835e-13
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5500,,,0.0412141,3.5e-06,4.12141e-10,3.5e-14
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5750,,,0.05085635,1.725e-05,5.085635e-10,1.725e-13
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6000,,,0.06063705,2.505e-05,6.063705e-10,2.505e-13
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6250,,,0.07034725,4.065e-05,7.034725e-10,4.065e-13
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6500,,,0.0800143,8.6e-05,8.00143e-10,8.6e-13
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.7000,,,0.09863255,0.00019235,9.863255e-10,1.9235e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.7500,,,0.1160575,0.0003375,1.160575e-09,3.375e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8000,,,0.1315475,0.0003505,1.315475e-09,3.505e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8500,,,0.145044,0.000311,1.45044e-09,3.11e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8750,,,0.151259,0.000345,1.51259e-09,3.45e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.9000,,,0.1570985,0.0004365,1.570985e-09,4.365e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.9500,,,0.167892,0.000462,1.67892e-09,4.62e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.0000,,,0.177427,0.000457,1.77427e-09,4.57e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.1000,,,0.193358,0.000422,1.93358e-09,4.22e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.1250,,,0.19641,0.000345,1.9641e-09,3.45e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.2000,,,0.2050025,0.0005725,2.050025e-09,5.725e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.2500,,,0.210247,0.001006,2.10247e-09,1.006e-11
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.3000,,,0.2146385,0.0009655,2.146385e-09,9.655e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.3750,,,0.220714,0.000872,2.20714e-09,8.72e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.4000,,,0.222483,0.000589,2.22483e-09,5.89e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.5000,,,0.2282955,0.0003765,2.282955e-09,3.765e-12
+model,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.6000,,,0.2333165,0.0004115,2.333165e-09,4.115e-12
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,0.4000,0.3000,0.5000,0.006,0.004,6e-11,4e-11
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,0.6250,0.5000,0.7500,0.052,0.012,5.2e-10,1.2e-10
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,0.8750,0.7500,1.0000,0.143,0.025,1.43e-09,2.5e-10
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,1.1250,1.0000,1.2500,0.097,0.023,9.7e-10,2.3e-10
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,1.3750,1.2500,1.5000,0.13,0.034,1.3e-09,3.4e-10
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.4000,0.3000,0.5000,0.00693341,0.00462227,6.93341e-11,4.62227e-11
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.6250,0.5000,0.7500,0.0600895,0.0138668,6.00895e-10,1.38668e-10
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.8750,0.7500,1.0000,0.165246,0.0288892,1.65246e-09,2.88892e-10
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,1.1250,1.0000,1.2500,0.108934,0.0258298,1.08934e-09,2.58298e-10
+data,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,1.3750,1.2500,1.5000,0.141495,0.0370065,1.41495e-09,3.70065e-10
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3000,,,2.06788e-05,5.55e-08,2.06788e-13,5.55e-16
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3250,,,0.0001145015,3.155e-07,1.145015e-12,3.155e-15
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3500,,,0.0003205595,9.315e-07,3.205595e-12,9.315e-15
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3750,,,0.000692391,2.038e-06,6.92391e-12,2.038e-14
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4000,,,0.001331085,3.865e-06,1.331085e-11,3.865e-14
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4250,,,0.00243685,7.74e-06,2.43685e-11,7.74e-14
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4500,,,0.004331245,1.4025e-05,4.331245e-11,1.4025e-13
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4750,,,0.007325185,2.3205e-05,7.325185e-11,2.3205e-13
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5000,,,0.01148785,3.465e-05,1.148785e-10,3.465e-13
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5250,,,0.0166815,5.27e-05,1.66815e-10,5.27e-13
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5500,,,0.0227184,7.77e-05,2.27184e-10,7.77e-13
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5750,,,0.0294362,0.000105,2.94362e-10,1.05e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6000,,,0.03668345,0.00013265,3.668345e-10,1.3265e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6250,,,0.0443443,0.0001454,4.43443e-10,1.454e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6500,,,0.0523357,0.0001589,5.23357e-10,1.589e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.7000,,,0.06900005,0.00023595,6.900005e-10,2.3595e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.7500,,,0.0860176,0.0003073,8.60176e-10,3.073e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8000,,,0.101003,0.000396,1.01003e-09,3.96e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8500,,,0.114725,0.000182,1.14725e-09,1.82e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8750,,,0.121068,0.000109,1.21068e-09,1.09e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.9000,,,0.126822,4.7e-05,1.26822e-09,4.7e-13
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.9500,,,0.1375795,0.0001795,1.375795e-09,1.795e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.0000,,,0.147055,0.000691,1.47055e-09,6.91e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.1000,,,0.1630445,0.0007065,1.630445e-09,7.065e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.1250,,,0.1664105,0.0006815,1.664105e-09,6.815e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.2000,,,0.1748695,0.0007985,1.748695e-09,7.985e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.2500,,,0.1797965,0.0006545,1.797965e-09,6.545e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.3000,,,0.184095,0.000547,1.84095e-09,5.47e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.3750,,,0.188928,0.00097,1.88928e-09,9.7e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.4000,,,0.1909275,0.0009235,1.909275e-09,9.235e-12
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.5000,,,0.197117,0.001548,1.97117e-09,1.548e-11
+model,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.6000,,,0.201234,0.000708,2.01234e-09,7.08e-12
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,0.4000,0.3000,0.5000,0.009,0.005,9e-11,5e-11
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,0.6250,0.5000,0.7500,0.061,0.012,6.1e-10,1.2e-10
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,0.8750,0.7500,1.0000,0.105,0.019,1.05e-09,1.9e-10
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,1.1250,1.0000,1.2500,0.098,0.021,9.8e-10,2.1e-10
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,1.3750,1.2500,1.5000,0.112,0.03,1.12e-09,3e-10
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.4000,0.3000,0.5000,0.0104001,0.00577784,1.04001e-10,5.77784e-11
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.6250,0.5000,0.7500,0.0704896,0.0138668,7.04896e-10,1.38668e-10
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.8750,0.7500,1.0000,0.121335,0.0219558,1.21335e-09,2.19558e-10
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,1.1250,1.0000,1.2500,0.110057,0.0235837,1.10057e-09,2.35837e-10
+data,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,1.3750,1.2500,1.5000,0.121904,0.0326528,1.21904e-09,3.26528e-10

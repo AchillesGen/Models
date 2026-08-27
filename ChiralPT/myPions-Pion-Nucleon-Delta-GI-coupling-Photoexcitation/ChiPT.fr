@@ -1217,21 +1217,57 @@ M$Parameters = {
   (*  a real result of this reparameterisation, not a defect of it: the model's    *)
   (*  low Delta mass was what made the widths and the photoproduction fit          *)
   (*  incompatible.                                                                *)
+  (*                                                                              *)
+  (* ---------------- POLE PARAMETRISATION THROUGHOUT (2026-08-27) -------------- *)
+  (*  These two widths used to be the BREIT-WIGNER numbers, Gamma(N pi) = 117 MeV  *)
+  (*  and Gamma(N gamma) = 0.66 MeV, both quoted at the BREIT-WIGNER mass 1.232,   *)
+  (*  while MDelta and the propagator width WDelta* were the POLE values 1.209 and *)
+  (*  0.102 (PDG pole position 1210 - 50i MeV).  One resonance was therefore being *)
+  (*  described by two parametrisations at once, and since V10 makes Gamma(N pi)   *)
+  (*  DEFINE hD, the headline "C5A predicted from the measured width" inherited    *)
+  (*  the mismatch: it read 1.365 only because a 1.232-GeV width was being used at *)
+  (*  a 1.209-GeV mass.                                                            *)
+  (*                                                                              *)
+  (*  Both are now POLE values, obtained by scaling the Breit-Wigner partial       *)
+  (*  widths to the pole total width at FIXED BRANCHING RATIO:                     *)
+  (*                                                                              *)
+  (*      f = 0.102 / (0.117 + 0.00066) = 0.86690464                               *)
+  (*      Gamma(N pi)   = 0.117   * f = 0.1014278                                  *)
+  (*      Gamma(N gam)  = 0.00066 * f = 0.0005722                                  *)
+  (*      sum           = 0.102          = WDelta*, exactly                        *)
+  (*                                                                              *)
+  (*  The branching ratio BR(N gamma) = 0.560938% is preserved to all digits; it   *)
+  (*  is the better-measured quantity of the two, so it is what is held fixed.     *)
+  (*                                                                              *)
+  (*  TWO THINGS THIS FIXES BEYOND THE CONVENTION.  First, the sum of the partial  *)
+  (*  widths now EQUALS the propagator width, so the resonance's elasticity is 1   *)
+  (*  by construction rather than by accident -- before, the vertex delivered      *)
+  (*  117.66 MeV through a propagator built for 102, a 15% mismatch.  Second, the  *)
+  (*  UFO's WDelta* external and the DECAY block that make_param_cards.py writes   *)
+  (*  now carry the SAME number, so wprod_from_ufo.py (which reads WDeltaP) and    *)
+  (*  Sherpa (which reads the DECAY block) no longer disagree by 17%.              *)
+  (*                                                                              *)
+  (*  hD and G1,G2 all scale as sqrt(f) = 0.931077, so                             *)
+  (*      hD     1.672161 -> 1.556911                                              *)
+  (*      C5A(0) 1.365    -> 1.271   (= sqrt(2/3) hD)                              *)
+  (*  and the photoproduction product g*h is UNCHANGED to the extent that both     *)
+  (*  scale together -- g*h moves by sqrt(f)^2 = f, which is the honest price of   *)
+  (*  the convention and is quantified in the Fig. 33 rerun.                       *)
   GamNPi == {
     ParameterType    -> External,
     BlockName        -> CHIPTDELTA,
     OrderBlock       -> 4,
-    Value            -> 0.117,
+    Value            -> 0.1014278,
     InteractionOrder -> {QED, 0},
-    Description      -> "Gamma(Delta -> N pi) in GeV, PDG.  DEFINES hD -- see the note above.  The channel is Delta++ -> p pi+, which is the total width since the branching ratio is 1."
+    Description      -> "Gamma(Delta -> N pi) in GeV at the POLE (PDG pole width 102 MeV, branching ratio preserved).  DEFINES hD -- see the note above.  The channel is Delta++ -> p pi+."
   },
   GamNGam == {
     ParameterType    -> External,
     BlockName        -> CHIPTDELTA,
     OrderBlock       -> 5,
-    Value            -> 0.00066,
+    Value            -> 0.0005722,
     InteractionOrder -> {QED, 0},
-    Description      -> "Gamma(Delta -> N gamma) in GeV, PDG.  DEFINES the overall scale of G1 and G2 -- see the note above."
+    Description      -> "Gamma(Delta -> N gamma) in GeV at the POLE (Breit-Wigner 0.66 MeV scaled to the pole total width at fixed branching ratio).  DEFINES the overall scale of G1 and G2 -- see the note above."
   },
   G2overG1 == {
     ParameterType    -> External,
@@ -2265,10 +2301,20 @@ LNNAxial := Block[{mu, s1, s2, s3}, Normal[Series[
 (*  Pauli part.  Eq. (14) of nucl-th/0509020v2, -(I e/4M) F2 Nbar gamma_{mu nu} N *)
 (*  F^{mu nu}, gives the vertex  +I (e/4M) F2 (gamma^mu qslash - qslash gamma^mu) *)
 (*  -- which is what Fig33v2.m uses (c2p), and Fig33v2.m is validated against     *)
-(*  Appendix A to 1e-16.  This model's Dirac coupling is +I ee Ga[mu], i.e. minus *)
-(*  the paper's, so the Pauli term must be minus the paper's too, hence the       *)
-(*  leading - sign below.  Verified in the exported UFO: the gamma-N-N coupling    *)
-(*  comes out -(ee FF2PA)/(2 MNucleon) on P(-1,3)*Sigma(3,-1,2,1).                *)
+(*  Appendix A to 1e-16.                                                          *)
+(*                                                                                *)
+(*  SIGN, corrected 2026-08-27.  This block used to argue that because the model's *)
+(*  Dirac coupling is +I ee Ga[mu], i.e. minus the paper's, the Pauli term had to  *)
+(*  be minus the paper's too, and it claimed the exported coupling came out        *)
+(*  -(ee FF2PA)/(2 MNucleon).  Both halves of that were stale: the term below      *)
+(*  carries a PLUS, and the exported coupling is                                   *)
+(*      +ee/(2 MNucleon)  on  P(-1,3)*Sigma(3,-1,2,1)                              *)
+(*  with the F2p form factor, on p~ p A and n~ n A alike (V12, FFV19/FFV18).       *)
+(*  The plus is the physically correct one: by the Gordon decomposition the        *)
+(*  anomalous moment must ADD to the Dirac moment, so with a +I ee Ga[mu] Dirac    *)
+(*  coupling the Pauli term takes the same relative sign, not the opposite one.    *)
+(*  The two signs do not have to be tied together the way the old note assumed --  *)
+(*  what is fixed is their RATIO, and mu_p = 1 + kappa_p requires it to be +.      *)
 (*                                                                                *)
 (*  NB ELA_UFO's own Pauli coupling has the OPPOSITE sign to Fig33v2.m (-0.14433i *)
 (*  vs +0.14433i on the same structure) even though ELA.fr transcribes Eq. (14)   *)

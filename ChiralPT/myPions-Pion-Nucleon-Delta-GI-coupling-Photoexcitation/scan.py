@@ -120,6 +120,27 @@ MODELS = [
      "vertexfix", "#eb6834", (0, (5.5, 1.8, 1.0, 1.8)), "s"),
 ]
 
+# CHIPT_SCAN_MODELS overrides the table above, as
+#     CHIPT_SCAN_MODELS="ChiPT_UFO_V13:param_ChiPT_UFO_V13.dat:V13 (pole)"
+# with entries separated by commas.  The scheme is always `vertexfix` -- every
+# build from V10 on carries the Delta form factor -- and the style slots cycle
+# through the same validated palette.  It exists so a new UFO can be scanned
+# without editing this file, which is what the two historical rows are for.
+_ENV_MODELS = os.environ.get("CHIPT_SCAN_MODELS", "").strip()
+if _ENV_MODELS:
+    _STYLES = [("#2a78d6", (0, (4.5, 2.2)), "o"),
+               ("#eb6834", (0, (5.5, 1.8, 1.0, 1.8)), "s"),
+               ("#117733", (0, (1.6, 1.6)), "^")]
+    MODELS = []
+    for _i, _spec in enumerate(_ENV_MODELS.split(",")):
+        _f = _spec.split(":")
+        _model = _f[0].strip()
+        _card = _f[1].strip() if len(_f) > 1 and _f[1].strip() else \
+            "param_%s.dat" % _model
+        _label = _f[2].strip() if len(_f) > 2 and _f[2].strip() else _model
+        _c, _ls, _mk = _STYLES[_i % len(_STYLES)]
+        MODELS.append((_model, _card, _label, "vertexfix", _c, _ls, _mk))
+
 # Semi-analytic curves, computed on the scan grid with the Fig33v2.m machinery
 # (validated against nucl-th/0509020v2 Appendix A) through fig33_from_ufo.py.
 # `reference` is the Fig. 33 prescription itself and is the ratio denominator.
