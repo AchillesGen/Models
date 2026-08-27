@@ -1,11 +1,14 @@
 """Shared helper for the verification scripts: evaluate a chosen subset of a
 UFO vertex's Lorentz structures.
 
-Selecting structures BY NAME matters.  wprod_from_ufo.build_split separates
-vector from axial by testing for Gamma5 in the structure string, which is right
-for the four-point contact term but wrong for the N -> Delta vertex, where the
-C5A structure carries an explicit Gamma5 while one of the two vector (G1/G2)
-structures does too.  These scripts therefore name the structures explicitly.
+Selecting structures BY NAME matters, and selecting them by testing for Gamma5
+is wrong twice over.  On the N -> Delta vertex the C5A structure carries an
+explicit Gamma5 and so does one of the two vector (G1/G2) structures.  On the
+four-point contact term the correspondence is actually INVERTED: the gamma^mu
+half multiplies the axial source and belongs to <pi N|A^mu|N>, while the
+gamma^mu gamma5 (Kroll-Ruderman) half belongs to <pi N|V^mu|N> and is the one
+CVC constrains.  These scripts therefore select by the FORM FACTOR a structure
+carries, which is a property of the physics -- see with_ff below.
 """
 import os
 import re

@@ -5,11 +5,22 @@ The isovector source in ChiPT.fr is normalised so its third component carries
 the photon with coefficient exactly 1.  CVC therefore fixes the W vector
 N -> Delta transition to be
 
-    V_ud sqrt(3) / (2 sw sqrt(2))
+    -V_ud sqrt(3) / (2 sw sqrt(2))
 
 times the model's own photon N -> Delta transition, the sqrt(3) being the
 p -> Delta++ isospin Clebsch.  The test is internal: it compares the model
 against itself, so it needs no external input and no reference calculation.
+
+THE MINUS IS PART OF THE PREDICTION, not a fudge (fixed 2026-08-27).  The
+Clebsch sign is not universal: it belongs to the Delta phase convention, and
+ChiPT.fr's R[5] Definitions put Delta++ in with a minus.  The model states its
+own convention through the strong vertex,
+
+    (p~ Delta++ Pi-)/(p~ Delta+ Pi0) = -1.224745 = -sqrt(3/2)
+
+and the axial vertex agrees, so the vector has to as well.  Taking the textbook
++sqrt(3/2) here instead is what put a spurious minus on IsoVecSource[mu,1..2]
+between 2026-08-15 and 2026-08-27.
 
 A sign error here is invisible in photoproduction (which lives at Q^2 = 0, where
 the transition form factor is 1) but makes the weak vector piece interfere
@@ -48,7 +59,7 @@ def main():
     got = (a[m] * np.conj(b[m])).sum() / (np.abs(b[m]) ** 2).sum()
     resid = np.abs(a[m] - got * b[m]).max() / np.abs(a).max()
     real = lambda x: x.real if isinstance(x, complex) else float(x)
-    want = real(ns['Vud']) * np.sqrt(3.0) / (2 * real(ns['sw']) * np.sqrt(2))
+    want = -real(ns['Vud']) * np.sqrt(3.0) / (2 * real(ns['sw']) * np.sqrt(2))
 
     print("W / photon  measured = %+.8f      residual %.2e" % (got.real, resid))
     print("CVC expects          = %+.8f" % want)

@@ -55,9 +55,11 @@ def main():
                                for a in range(4)))
         return np.array(out)
 
-    card = float(ns['C6AN'])
-    print("The C6A structure already carries the card's C6AN, so a correctly")
-    print("calibrated model gives multiplier = 1 and residue = the PCAC value.\n")
+    card = float(np.real(ns['C6AN']))
+    print("The C6A structure already carries the model's C6AN, so a correctly")
+    print("calibrated model gives multiplier = 1 and residue = the PCAC value.")
+    print("From V10 on C6AN is an INTERNAL parameter equal to hD, so it tracks")
+    print("Gamma(Delta -> N pi) on its own and this is a check, not a knob.\n")
     print("%8s %14s %12s %11s %12s"
           % ("Q^2", "||q.J|| axial", "residue", "multiplier", "PCAC pred"))
     fits = []
@@ -80,7 +82,7 @@ def main():
           % (np.mean(fits), np.std(fits), card))
     print("It equals hD = %.4f, and not by accident: C5A carries hD through the\n"
           "gauged coupling while the C6A operator does not.  Re-run this if hD moves."
-          % float(ns['hD']))
+          % float(np.real(ns['hD'])))
 
 
 if __name__ == '__main__':

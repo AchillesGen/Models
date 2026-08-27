@@ -149,7 +149,12 @@ FeynmanGauge = False;
 (*                                    LPiNDeltaGIFF for exactly what they are and  *)
 (*                                    what of the Fig. 33 prescription they can    *)
 (*                                    and cannot reproduce.                        *)
-(*                      = "All"       all three.                                   *)
+(*                      = "Weak"      form factors on the WEAK vertices: F1V/F2V/FA  *)
+(*                                    on the W-N-N current (CVC + axial), the         *)
+(*                                    neutral-current F1^Z/F2^Z/FA^Z on the Z-N-N     *)
+(*                                    current, and a C5A(Q^2) dipole on the W/Z-N-    *)
+(*                                    Delta transition.  See LNNWeakCCFF below.       *)
+(*                      = "All"       all four.                                       *)
 (*                                                                                 *)
 (*  M$FormFactors is read while the file is being loaded, which is why the flag     *)
 (*  has to be set first, e.g.                                                       *)
@@ -183,6 +188,7 @@ If[!ValueQ[ChiPT$FormFactors], ChiPT$FormFactors = None];
 ChiPT$NucleonFF = MemberQ[{"Nucleon", "All"}, ChiPT$FormFactors];
 ChiPT$ELAFF     = MemberQ[{"ELA", "All"}, ChiPT$FormFactors];
 ChiPT$DeltaFF   = MemberQ[{"Delta", "All"}, ChiPT$FormFactors];
+ChiPT$WeakFF    = MemberQ[{"Weak",  "All"}, ChiPT$FormFactors];
 
 
 (* ************************** *)
@@ -767,7 +773,7 @@ M$FormFactors = Join[If[ChiPT$NucleonFF,
   (*  X_pi(u) = 0 identically over the whole physical region of gamma N -> pi N *)
   (*  (u <= (M_N - m_pi)^2 < (M_N + m_pi)^2, checked numerically on the Fig. 33 *)
   (*  grid), so X_pi(s,u) = X_pi(s) there.  They differ on the u-channel Delta, *)
-  (*  which Fig. 33 damps by sqrt(X_pi(s)) but a vertex form factor kills       *)
+  (*  which Fig. 33 damps by sqrt(X_pi(s)) but a vertex form factor removes       *)
   (*  outright.  Measured on sigma_tot(Born+Delta), that costs                  *)
   (*      pi0 p : +2% at the peak, +11% at 0.6 GeV, +1% at 1.0 GeV             *)
   (*      pi+ n : +2%,  +17%,  +15%      pi- p : +1%,  +9%,  +12%              *)
@@ -870,6 +876,246 @@ M$FormFactors = Join[If[ChiPT$NucleonFF,
         Value            -> "FgNDeltaNG2(-P(-9,3)**2)",
         ParameterName    -> FFDNG2B
     }
+  }, {}],
+
+  (* ----------------------------- weak-sector form factors ------------------ *)
+  (*  Only included when ChiPT$FormFactors is "Weak" or "All".                  *)
+  (*                                                                            *)
+  (*  All of these are functions of Q^2 = -q^2 with q the GAUGE BOSON momentum,  *)
+  (*  and in every vertex they reach the boson is leg 3 -- the two hermitian     *)
+  (*  conjugate halves put the nucleon and the Delta at legs 1 and 2 in either   *)
+  (*  order but never displace the boson -- so the A and B symbols share one     *)
+  (*  string, exactly as FFDPG1A/FFDPG1B do.  Dummy index -9 again keeps clear   *)
+  (*  of the -1..-4 contracted inside the Lorentz structures.                    *)
+  (*                                                                            *)
+  (*  WHICH ARE RATIOS AND WHICH ARE NOT.  FW1, FWA, FZ1n and FZA are 1 at       *)
+  (*  Q^2 = 0 and multiply a coupling the model already has, so they change      *)
+  (*  nothing at the photon point.  FZ1p is NOT 1 there: it also carries the     *)
+  (*  shift of sin^2(theta_W) from the model's tree-level on-shell value to the  *)
+  (*  Q -> 0 one, a factor 0.30, because the proton's weak vector charge         *)
+  (*  1/2 - 2 sw^2 sits near a zero.  FW2, FZ2p and FZ2n are absolute: the model *)
+  (*  has no point-like weak magnetism at all, so those operators are new and    *)
+  (*  carry their own normalisation, which CVC fixes from the electromagnetic    *)
+  (*  F2's.  See formfactors.py, which defines all of them.                      *)
+  If[ChiPT$WeakFF,
+  {
+    FFW1A == {
+        Particles        -> {Protonbar, Neutron, W},
+        ComplexParameter -> False,
+        Value            -> "FW1(-P(-9,3)**2)",
+        ParameterName    -> FFW1A
+    },
+    FFW1B == {
+        Particles        -> {Neutronbar, Proton, Wbar},
+        ComplexParameter -> False,
+        Value            -> "FW1(-P(-9,3)**2)",
+        ParameterName    -> FFW1B
+    },
+    FFWAA == {
+        Particles        -> {Protonbar, Neutron, W},
+        ComplexParameter -> False,
+        Value            -> "FWA(-P(-9,3)**2)",
+        ParameterName    -> FFWAA
+    },
+    FFWAB == {
+        Particles        -> {Neutronbar, Proton, Wbar},
+        ComplexParameter -> False,
+        Value            -> "FWA(-P(-9,3)**2)",
+        ParameterName    -> FFWAB
+    },
+    FFW2A == {
+        Particles        -> {Protonbar, Neutron, W},
+        ComplexParameter -> False,
+        Value            -> "FW2(-P(-9,3)**2)",
+        ParameterName    -> FFW2A
+    },
+    FFW2B == {
+        Particles        -> {Neutronbar, Proton, Wbar},
+        ComplexParameter -> False,
+        Value            -> "FW2(-P(-9,3)**2)",
+        ParameterName    -> FFW2B
+    },
+    (* Induced pseudoscalar.  A NEW operator -- the model has no point-like
+       q^mu gamma5 piece at all -- so this is a bare form factor, exactly like
+       FFW2A/B, not an (FF - 1) correction to something already there. *)
+    FFPPA == {
+        Particles        -> {Protonbar, Neutron, W},
+        ComplexParameter -> False,
+        Value            -> "FPP(-P(-9,3)**2)",
+        ParameterName    -> FFPPA
+    },
+    FFPPB == {
+        Particles        -> {Neutronbar, Proton, Wbar},
+        ComplexParameter -> False,
+        Value            -> "FPP(-P(-9,3)**2)",
+        ParameterName    -> FFPPB
+    },
+    (* C6A, the Delta's induced pseudoscalar.  Dimension 1/mass^2, since the
+       operator carries two derivatives of the source -- that is the 1/MN^2 of
+       the standard C6A parameterisation. *)
+    FFC6AA == {
+        Particles        -> {Neutronbar, DeltaP, W},
+        ComplexParameter -> False,
+        Value            -> "FC6A(-P(-9,3)**2)",
+        ParameterName    -> FFC6AA
+    },
+    FFC6AB == {
+        Particles        -> {DeltaPbar, Neutron, Wbar},
+        ComplexParameter -> False,
+        Value            -> "FC6A(-P(-9,3)**2)",
+        ParameterName    -> FFC6AB
+    },
+    FFPPZP == {
+        Particles        -> {Protonbar, Proton, Z},
+        ComplexParameter -> False,
+        Value            -> "FPPZ(-P(-9,3)**2)",
+        ParameterName    -> FFPPZP
+    },
+    FFPPZN == {
+        Particles        -> {Neutronbar, Neutron, Z},
+        ComplexParameter -> False,
+        Value            -> "FPPZ(-P(-9,3)**2)",
+        ParameterName    -> FFPPZN
+    },
+    FFZ1P == {
+        Particles        -> {Protonbar, Proton, Z},
+        ComplexParameter -> False,
+        Value            -> "FZ1p(-P(-9,3)**2)",
+        ParameterName    -> FFZ1P
+    },
+    FFZ1N == {
+        Particles        -> {Neutronbar, Neutron, Z},
+        ComplexParameter -> False,
+        Value            -> "FZ1n(-P(-9,3)**2)",
+        ParameterName    -> FFZ1N
+    },
+    FFZAP == {
+        Particles        -> {Protonbar, Proton, Z},
+        ComplexParameter -> False,
+        Value            -> "FZA(-P(-9,3)**2)",
+        ParameterName    -> FFZAP
+    },
+    FFZAN == {
+        Particles        -> {Neutronbar, Neutron, Z},
+        ComplexParameter -> False,
+        Value            -> "FZA(-P(-9,3)**2)",
+        ParameterName    -> FFZAN
+    },
+    FFZ2P == {
+        Particles        -> {Protonbar, Proton, Z},
+        ComplexParameter -> False,
+        Value            -> "FZ2p(-P(-9,3)**2)",
+        ParameterName    -> FFZ2P
+    },
+    FFZ2N == {
+        Particles        -> {Neutronbar, Neutron, Z},
+        ComplexParameter -> False,
+        Value            -> "FZ2n(-P(-9,3)**2)",
+        ParameterName    -> FFZ2N
+    },
+    FFCA5A == {
+        Particles        -> {Neutronbar, DeltaP, W},
+        ComplexParameter -> False,
+        Value            -> "FCA5(-P(-9,3)**2)",
+        ParameterName    -> FFCA5A
+    },
+    FFCA5B == {
+        Particles        -> {DeltaPbar, Neutron, Wbar},
+        ComplexParameter -> False,
+        Value            -> "FCA5(-P(-9,3)**2)",
+        ParameterName    -> FFCA5B
+    },
+    (* The CVC vector N->Delta dipole.  LWeakNDeltaV covariantises the PHOTON
+       vertex, whose FgNDelta* form factors are identically 1, so the vector
+       transition had no Q^2 damping at all and the Delta term ran away above
+       ~1 GeV.  These sit on the G1/G2 structures; FFCA5A/B stay on the axial
+       C5A and C4A ones, one form factor per Lorentz structure as required. *)
+    FFVNDA == {
+        Particles        -> {Neutronbar, DeltaP, W},
+        ComplexParameter -> False,
+        Value            -> "FVND(-P(-9,3)**2)",
+        ParameterName    -> FFVNDA
+    },
+    FFVNDB == {
+        Particles        -> {DeltaPbar, Neutron, Wbar},
+        ComplexParameter -> False,
+        Value            -> "FVND(-P(-9,3)**2)",
+        ParameterName    -> FFVNDB
+    },
+    (* CVC on the background.  Each of these reaches MANY vertices -- the
+       contact term now covers gamma, Z and W in every charge state, and the
+       pion-in-flight covers boson-pi-pi and boson-3pi -- so `Particles' names
+       only one representative.  That is harmless: FeynRules uses the list to
+       relabel leg indices inside `Value', and `Value' here is a raw Python
+       STRING, which no relabelling can touch.  What matters instead is that
+       the named leg is the gauge boson in EVERY vertex the symbol reaches:
+       leg 3 for the four-point contact (f f V S) and leg 1 for the
+       pion-in-flight (V S S, V S S S).  export_ChiPT_UFO.m checks that for
+       every form factor in the build, not just the Delta ones -- a wrong leg
+       is otherwise completely silent.
+
+       FFW1CT sits on the Kroll-Ruderman (gamma^mu gamma5) half and FFRHOCT on
+       the Weinberg-Tomozawa (gamma^mu) half, NOT the other way round; see the
+       note at LNNCTFF. *)
+    FFW1CT == {
+        Particles        -> {Neutronbar, Proton, W, Pi0},
+        ComplexParameter -> False,
+        Value            -> "FW1(-P(-9,3)**2)",
+        ParameterName    -> FFW1CT
+    },
+    FFRHOCT == {
+        Particles        -> {Neutronbar, Proton, W, Pi0},
+        ComplexParameter -> False,
+        Value            -> "FrhoCT(-P(-9,3)**2)",
+        ParameterName    -> FFRHOCT
+    },
+    FFW1PF == {
+        Particles        -> {W, Pi0, PiP},
+        ComplexParameter -> False,
+        Value            -> "FW1(-P(-9,1)**2)",
+        ParameterName    -> FFW1PF
+    },
+    (* The Z's own versions of the two above.  FZ1pi = F1V (1-2 Sw2FF) /
+       (1-2 sw^2_model); see the note at ChiPTZOnly.  Same legs: 3 for the
+       contact, 1 for the pion-in-flight. *)
+    FFZ1CT == {
+        Particles        -> {Protonbar, Neutron, Z, PiP},
+        ComplexParameter -> False,
+        Value            -> "FZ1pi(-P(-9,3)**2)",
+        ParameterName    -> FFZ1CT
+    },
+    FFZ1PF == {
+        Particles        -> {Z, PiP, PiPbar},
+        ComplexParameter -> False,
+        Value            -> "FZ1pi(-P(-9,1)**2)",
+        ParameterName    -> FFZ1PF
+    },
+    (* The pion pole, LPPoleFF.  Boson on leg 3, pion on leg 4, the same order
+       as the contact term above -- because these vertices ARE the contact
+       term's: same four particles, so FeynRules merges the new structures into
+       the existing V_13 etc. and the whole operator adds no new vertex at all.
+       Do not read the leg number off the operator in isolation: run alone,
+       LPPoleFF produces (Nbar, N, pi, V) and leg 4 is the boson; merged into
+       the full Lagrangian the order is the contact term's and leg 4 is the
+       PION.  Using it would evaluate the propagator at the pion's momentum --
+       a perfectly finite wrong answer, which is why export_ChiPT_UFO.m checks
+       the spin of every form factor's leg and why it caught this one.
+       These two carry the pion PROPAGATOR rather than a ratio: dimension
+       1/mass^2, with the compensating mass^2 in the operator's own
+       derivatives.  Charged and neutral are separate entries because the pole
+       masses differ. *)
+    FFPPPIW == {
+        Particles        -> {Protonbar, Neutron, W, Pi0},
+        ComplexParameter -> False,
+        Value            -> "FPPpi(-P(-9,3)**2)",
+        ParameterName    -> FFPPPIW
+    },
+    FFPPPIZ == {
+        Particles        -> {Protonbar, Neutron, Z, PiP},
+        ComplexParameter -> False,
+        Value            -> "FPPZpi(-P(-9,3)**2)",
+        ParameterName    -> FFPPPIZ
+    }
   }, {}]];
 
 
@@ -941,29 +1187,59 @@ M$Parameters = {
     InteractionOrder -> {QED, 0},
     Description      -> "pi-Delta-Delta coupling."
   },
-  hD == {
+  (* ------------- THE DELTA COUPLINGS ARE DEFINED BY THE MEASURED WIDTHS ------ *)
+  (*  V10.  hD, G1 and G2 are no longer inputs -- the two DECAY WIDTHS are, and   *)
+  (*  the couplings are derived from them.  The point is that the calibration     *)
+  (*  then follows M_Delta automatically: change MDelta in the param card and the *)
+  (*  couplings re-derive themselves instead of silently going stale.  In V9 they *)
+  (*  were hand-set numbers calibrated at M_Delta = 1.209, and moving to the PDG  *)
+  (*  1.232 quietly left Gamma(N pi) at 128 MeV against the measured 117.         *)
+  (*                                                                              *)
+  (*  BOTH INVERSIONS ARE EXACT, not fits.  Verified against the generated vertex *)
+  (*  to 6-8 digits over M_Delta = 1.05 ... 1.50 (see the derivation in the        *)
+  (*  session notes; the checks are tools/adler_ndelta.py's companion width code): *)
+  (*                                                                              *)
+  (*      Gamma(Delta -> N pi)  = hD^2 k^3 (E_N + M_N) / (12 pi fPi^2 M_Delta)     *)
+  (*                                                                              *)
+  (*      Gamma(Delta -> N gam) = ee^2 kg^3 / (8 pi M_N^2)                         *)
+  (*                              x (G1^2 + x G1 G2 + x^2 G2^2),                   *)
+  (*                              x = kg / (E_N + M_N)                             *)
+  (*                                                                              *)
+  (*  One width cannot fix two photon couplings, so the E2/M1 ratio G2/G1 is the   *)
+  (*  third input.  Its default is V9's value, which is not arbitrary: it gives    *)
+  (*  E2/M1 = -2.45% against the measured EMR of about -2.5%, and reproduces the   *)
+  (*  helicity ratio |A_3/2|/|A_1/2| = 1.9152.                                     *)
+  (*                                                                              *)
+  (*  WHAT THIS COSTS.  The Fig. 33 photoproduction fit constrains the PRODUCT     *)
+  (*  g*h, and the two widths constrain g and h separately.  They do not agree at  *)
+  (*  M_Delta = 1.209 -- g*h moves by 1.198, i.e. photoproduction by ~43% -- but   *)
+  (*  they very nearly do at the PDG mass, where g*h moves by only 0.931.  That is *)
+  (*  a real result of this reparameterisation, not a defect of it: the model's    *)
+  (*  low Delta mass was what made the widths and the photoproduction fit          *)
+  (*  incompatible.                                                                *)
+  GamNPi == {
     ParameterType    -> External,
     BlockName        -> CHIPTDELTA,
     OrderBlock       -> 4,
-    Value            -> 0.76,
+    Value            -> 0.117,
     InteractionOrder -> {QED, 0},
-    Description      -> "Gauge-invariant coupling describing Pion-Nucleon-Delta interaction. It also gives rise to other (4-point) vertices."
+    Description      -> "Gamma(Delta -> N pi) in GeV, PDG.  DEFINES hD -- see the note above.  The channel is Delta++ -> p pi+, which is the total width since the branching ratio is 1."
   },
-  G1 == {
+  GamNGam == {
     ParameterType    -> External,
     BlockName        -> CHIPTDELTA,
     OrderBlock       -> 5,
-    Value            -> 6.061,
+    Value            -> 0.00066,
     InteractionOrder -> {QED, 0},
-    Description      -> "Proton photo-excitation vertex, magnetic (dual field strength) term."
+    Description      -> "Gamma(Delta -> N gamma) in GeV, PDG.  DEFINES the overall scale of G1 and G2 -- see the note above."
   },
-  G2 == {
+  G2overG1 == {
     ParameterType    -> External,
     BlockName        -> CHIPTDELTA,
     OrderBlock       -> 6,
-    Value            -> 2.414,
+    Value            -> 0.3982841,
     InteractionOrder -> {QED, 0},
-    Description      -> "Proton photo-excitation vertex, electric (field strength) term."
+    Description      -> "G2/G1, the E2/M1 admixture of the gamma-N-Delta vertex.  One radiative width cannot fix two couplings, so this is the third input.  The default is V9's ratio, which gives E2/M1 = -2.45% against the measured EMR of about -2.5%."
   },
   LambdaFF == {
     ParameterType    -> External,
@@ -972,6 +1248,299 @@ M$Parameters = {
     Value            -> 1.121,
     InteractionOrder -> {QED, 0},
     Description      -> "Davidson-Workman cutoff Lambda (GeV), nucl-th/0509020v2 Eqs. (49)-(51), set #1.  NOT used inside any vertex -- it is consumed at amplitude level, see the header."
+  },
+
+(*  Form-factor parameters, block CHIPTFF, order 2 onwards.  Like LambdaFF above
+    NONE of these appears inside a vertex: they are consumed by the generator's
+    form factor plugin (FormFactors.C for Sherpa) and by the analytic
+    cross-check (formfactors.py), both of which read them from the param card so
+    that a fit can be varied without recompiling anything.  The block is emitted
+    by `python3 formfactors.py --feynrules`, which is also where the defaults and
+    their provenance (Achilles/main data/default/FormFactors.yml) are recorded --
+    do not hand-edit, regenerate.
+
+    MuP and MuN default to the kappa_p + 1 and kappa_n that FormFactors.C
+    currently hard-codes, NOT to Achilles' values, so that every Q^2 = 0 number
+    and hence every Fig. 33 result is unchanged to the last digit.  *)
+  MuP == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 2,
+    Value            -> 2.792847,
+    InteractionOrder -> {QED, 0},
+    Description      -> "proton magnetic moment (plugin kappa_p + 1).  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  MuN == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 3,
+    Value            -> -1.913043,
+    InteractionOrder -> {QED, 0},
+    Description      -> "neutron magnetic moment (plugin kappa_n).  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KLamSq == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 4,
+    Value            -> 0.7174,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly lambda^2 in Gen, GeV^2.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KEp1 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 5,
+    Value            -> -0.24,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gep numerator a1.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KEp2 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 6,
+    Value            -> 10.98,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gep denominator b1.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KEp3 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 7,
+    Value            -> 12.82,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gep denominator b2.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KEp4 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 8,
+    Value            -> 21.97,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gep denominator b3.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KEn1 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 9,
+    Value            -> 1.7,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gen A.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KEn2 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 10,
+    Value            -> 3.3,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gen B.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KMp1 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 11,
+    Value            -> 0.12,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gmp numerator a1.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KMp2 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 12,
+    Value            -> 10.97,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gmp denominator b1.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KMp3 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 13,
+    Value            -> 18.86,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gmp denominator b2.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KMp4 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 14,
+    Value            -> 6.55,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gmp denominator b3.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KMn1 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 15,
+    Value            -> 2.33,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gmn numerator a1.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KMn2 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 16,
+    Value            -> 14.72,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gmn denominator b1.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KMn3 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 17,
+    Value            -> 24.2,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gmn denominator b2.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  KMn4 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 18,
+    Value            -> 84.1,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Kelly Gmn denominator b3.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxTcut == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 19,
+    Value            -> 0.1753180641,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion t_cut = 9 m_pi^2, GeV^2.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxT0 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 20,
+    Value            -> -0.28,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion t_0, GeV^2.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA0 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 21,
+    Value            -> -0.759,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_0.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA1 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 22,
+    Value            -> 2.3,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_1.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA2 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 23,
+    Value            -> -0.6,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_2.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA3 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 24,
+    Value            -> -3.8,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_3.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA4 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 25,
+    Value            -> 2.3,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_4.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA5 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 26,
+    Value            -> 2.16,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_5.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA6 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 27,
+    Value            -> -0.896,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_6.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA7 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 28,
+    Value            -> -1.58,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_7.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  AxA8 == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 29,
+    Value            -> 0.823,
+    InteractionOrder -> {QED, 0},
+    Description      -> "axial z-expansion a_8.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  MADeltaSq == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 30,
+    Value            -> 1.1025,
+    InteractionOrder -> {QED, 0},
+    Description      -> "N->Delta axial mass squared, GeV^2.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  CA5Norm == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 31,
+    Value            -> 0.0,
+    InteractionOrder -> {QED, 0},
+    Description      -> "C5A(0), the axial N->Delta normalisation, in physical units.  ZERO MEANS 'the model's own', which is the default: C5A(0) = Sqrt[2/3] hD, and since V10 derives hD from Gamma(Delta -> N pi) there is no number that could be written here without going stale the moment the width changes.  Set it to a value only to OVERRIDE the prediction -- 0.867 is the Hernandez-Nieves-Valverde fit, which also wants MADeltaSq = 0.970225.  Consumed by the generator's form factor plugin (and by formfactors.py, which applies the identical scale), not by any vertex.  It shipped as 1.2 through V9, where the plugin silently rescaled C5A by 1.2/1.2411 while formfactors.py ignored the parameter entirely -- the two engines disagreed by 3% on every default-card run."
+  },
+  Sw2FF == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 32,
+    Value            -> 0.23863,
+    InteractionOrder -> {QED, 0},
+    Description      -> "sin^2(theta_W) in the Q->0 limit, for the neutral-current charge combinations.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  C4AHat == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 33,
+    Value            -> 0.28397656,
+    InteractionOrder -> {QED, 0},
+    Description      -> "C4AN/hD, the portable form of the Adler C4A calibration.  C4AN itself is Internal and is C4AHat hD; see the note there for why it cannot be a bare number in a model whose hD is derived from a width."
+  },
+  MRhoCT == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 34,
+    Value            -> 0.7758,
+    InteractionOrder -> {QED, 0},
+    Description      -> "rho mass in the PCAC form factor carried by the axial half of the contact term, GeV.  Consumed by the generator's form factor plugin, not by any vertex."
+  },
+  PPNorm == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 37,
+    Value            -> 1.0,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Switch and normalisation for the pion-pole operator LPPoleFF.  1 is the chiral value and is not a fit; 0 removes the diagram, which is what the model looked like through V10 and is how the before/after is produced.  IT ALSO HAS A MECHANICAL JOB: without a coupling constant of its own the pion-pole terms come out numerically proportional to the contact term's, FeynRules groups the two into ONE Lorentz structure, and the UFO ends up with a single structure carrying two different form factors -- the failure mode documented at LNNPPFF, where a 2 MNucleon does the same work."
+  },
+  MV2ND == {
+    ParameterType    -> External,
+    BlockName        -> CHIPTFF,
+    OrderBlock       -> 35,
+    Value            -> 0.71,
+    InteractionOrder -> {QED, 0},
+    Description      -> "vector mass squared in the CVC N->Delta dipole, GeV^2.  Consumed by the generator's form factor plugin, not by any vertex."
   },
   aEWM1 == {
     ParameterType    -> External,
@@ -1038,6 +1607,78 @@ M$Parameters = {
     Value            -> -((1 + 2*AD + 3*AD^2)/2)*g1D,
     InteractionOrder -> {QED, 1},
     Description      -> ""
+  },
+  (* --------- Delta couplings derived from the widths, V10.  See the note ----- *)
+  (* --------- at GamNPi.  InteractionOrder is left at {QED, 0} for all three:   *)
+  (* --------- the photon order of the gamma-N-Delta vertex is carried by        *)
+  (* --------- Kappa, exactly as it was when G1 and G2 were external, so the     *)
+  (* --------- coupling-order bookkeeping is unchanged.  G1 does contain a 1/ee  *)
+  (* --------- which cancels against Kappa's ee in the exported coupling value.  *)
+  kPiDelta == {
+    ParameterType    -> Internal,
+    Value            -> Sqrt[(MDelta^2 - MNucleon^2 - MPiP^2)^2
+                             - 4*MPiP^2*MNucleon^2]/(2*MDelta),
+    InteractionOrder -> {QED, 0},
+    Description      -> "pi-N centre-of-mass momentum at the Delta pole."
+  },
+  kGamDelta == {
+    ParameterType    -> Internal,
+    Value            -> (MDelta^2 - MNucleon^2)/(2*MDelta),
+    InteractionOrder -> {QED, 0},
+    Description      -> "real-photon momentum in the Delta rest frame."
+  },
+  xEMDelta == {
+    ParameterType    -> Internal,
+    Value            -> kGamDelta/((MDelta^2 + MNucleon^2)/(2*MDelta) + MNucleon),
+    InteractionOrder -> {QED, 0},
+    Description      -> "kg/(E_N + M_N), the ratio that weights G2 against G1 in the radiative width."
+  },
+  hD == {
+    ParameterType    -> Internal,
+    Value            -> Sqrt[12*Pi*fPi^2*MDelta*GamNPi
+                             /(kPiDelta^3*(Sqrt[kPiDelta^2 + MNucleon^2] + MNucleon))],
+    InteractionOrder -> {QED, 0},
+    Description      -> "Gauge-invariant pi-N-Delta coupling, DERIVED from GamNPi.  Was an external 1.52 in V9."
+  },
+  G1 == {
+    ParameterType    -> Internal,
+    Value            -> Sqrt[8*Pi*MNucleon^2*GamNGam
+                             /(ee^2*kGamDelta^3
+                               *(1 + xEMDelta*G2overG1 + xEMDelta^2*G2overG1^2))],
+    InteractionOrder -> {QED, 0},
+    Description      -> "Proton photo-excitation vertex, magnetic (dual field strength) term.  DERIVED from GamNGam and G2overG1.  Was an external 3.0305 in V9."
+  },
+  G2 == {
+    ParameterType    -> Internal,
+    Value            -> G2overG1*G1,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Proton photo-excitation vertex, electric (field strength) term.  DERIVED as G2overG1 x G1.  Was an external 1.207 in V9."
+  },
+  (* ------------------- the two Adler normalisations, TIED TO hD ------------- *)
+  (*  Both of these were External numbers through V9, and both were WRONG the    *)
+  (*  moment hD moved.  C5A and C3V come from the gauged Pascalutsa coupling and *)
+  (*  so carry hD; the C4A and C6A operators have their own constants and do     *)
+  (*  not.  So the RATIOS the Adler basis is supposed to satisfy drift with hD,  *)
+  (*  and in V10 hD is derived from Gamma(Delta -> N pi), i.e. it moves whenever  *)
+  (*  the width or the Delta mass is touched.  Tying them to hD is what makes    *)
+  (*  the card's Gamma_NPi a genuinely free input instead of one that silently   *)
+  (*  breaks the axial current.                                                  *)
+  (*                                                                             *)
+  (*  Both constants of proportionality are pure numbers, measured to be         *)
+  (*  independent of MDelta over 1.15-1.30 (tools/adler_ndelta.py reports        *)
+  (*  C5A(0)/hD = -0.81649658 = -Sqrt[2/3] and C4A(0)/C4AN = +0.71880631 at every *)
+  (*  mass tested, to eight digits).                                             *)
+  C4AN == {
+    ParameterType    -> Internal,
+    Value            -> C4AHat*hD,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Overall normalisation of the Adler C4A = -C5A/4 term, LC4ANDelta.  Unlike the rest of CHIPTFF it IS used inside a vertex.  V7-V9 shipped a bare External 0.215822 which delivered C4A/C5A = -1/8; the ratio is fixed by C4AHat = C4AN/hD instead, so it stays at -1/4 when the width moves hD.  tools/adler_ndelta.py measures it."
+  },
+  C6AN == {
+    ParameterType    -> Internal,
+    Value            -> hD,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Overall normalisation of the Adler C6A term, fixed by demanding that q_mu <Delta|A^mu|N> come out suppressed like mpi^2/(Q^2+mpi^2).  It is EQUAL to hD, and not by accident: C5A carries hD through the gauged coupling while the C6A operator does not.  V7-V9 froze it at the External 1.52 that hD then happened to have.  tools/pcac_delta.py reports the implied value; it agrees with hD to 5e-16."
   },
   Kappa == {
     ParameterType    -> Internal,
@@ -1130,6 +1771,19 @@ M$Parameters = {
     TeX              -> Superscript[y, l],
     Description      -> "Lepton Yukawa couplings"
   },
+  Vud == {
+    ParameterType -> Internal,
+    Value         -> Cos[cabi],
+    TeX           -> Subscript[V, ud],
+    Description   -> "CKM element V_ud = CKM[1,1], pulled out as its own symbol so
+                      that LMat can put it on the CHARGED external source only.
+                      Every Delta-S = 0 charged hadronic current carries it: the
+                      W-N-N vertices, the W-N-N-pi contact terms, the W-N-Delta
+                      transition, the W-Delta-Delta couplings and the W-pi-pi
+                      vertex all descend from LMat, so one factor here reaches
+                      all of them.  It costs |V_ud|^2 = 0.949 on every
+                      charged-current RATE, i.e. -5.1%."
+  },
 (* N. B. : only Cabibbo mixing! *)
   CKM == {
     ParameterType -> Internal,
@@ -1174,7 +1828,15 @@ umat := Simplify[Normal[Series[uu, {fPi, Infinity, fPiOrder}]]];
    the isovector part gives the pion charges through the commutator, the full Q
    gives the proton/neutron charges through Gamma_mu.  Defined ONCE (header
    note 4). *)
-LMat[mu_] := Module[{ii}, g2/2 ExpandIndices[Sum[PauliMatrix[ii] Wi[mu, ii], {ii, 1, 3}]] + g1/2 ExpandIndices[B[mu] * IdentityMatrix[2]]];
+(*  CKM MIXING ON THE CHARGED SOURCE ONLY.  Wi[mu,1] and Wi[mu,2] are the two
+    components that carry the physical W: their combination is
+        tau^1 Wi_1 + tau^2 Wi_2 = Sqrt[2] ( W tau^+ + Wbar tau^- ),
+    the charge-raising and -lowering current, which for Delta-S = 0 comes with
+    V_ud.  Wi[mu,3] = cw Z + sw A is the NEUTRAL member of the triplet and must
+    NOT be touched -- putting V_ud on the whole sum would rescale every Z and
+    photon coupling in the model and break the photoproduction results.  So the
+    sum is split at ii = 2.  RMat has no W in it at all and is left alone.  *)
+LMat[mu_] := Module[{ii}, g2/2 ExpandIndices[Vud*Sum[PauliMatrix[ii] Wi[mu, ii], {ii, 1, 2}] + PauliMatrix[3] Wi[mu, 3]] + g1/2 ExpandIndices[B[mu] * IdentityMatrix[2]]];
 RMat[mu_] := Module[{ii}, g1/2 ExpandIndices[PauliMatrix[3]*B[mu]] + g1/2 ExpandIndices[IdentityMatrix[2] * B[mu]]];
 
 (* D_mu U = d_mu U - i r_mu U + i U l_mu.  This is the form consistent with
@@ -1205,11 +1867,161 @@ ChiVielbein[mu_] := ChiVielbein[mu] = ExpandIndices[I*(HC[umat] . (del[umat, mu]
 aVec[mu_]      := aVec[mu] = (I/2)*(HC[umat] . del[umat, mu] - umat . del[HC[umat], mu]);
 vVec[mu_]      := vVec[mu] = (I/2)*(HC[umat] . del[umat, mu] + umat . del[HC[umat], mu]);
 LMatTilda[mu_] := LMatTilda[mu] = Expand[HC[umat] . LMat[mu] . umat];
+
 RMatTilda[mu_] := RMatTilda[mu] = Expand[umat . RMat[mu] . HC[umat]];
+
+(* -------- the rotated sources split into VECTOR and AXIAL, and their --------- *)
+(* -------- one-pion pieces, which are what the background CVC terms use ------- *)
+(*  CVC does not stop at the nucleon poles.  Gonzalez-Jimenez et al.,            *)
+(*  arXiv:1612.05511 Eq. (18): once the isovector nucleon form factors are put   *)
+(*  on the NP and CNP diagrams, conservation of the VECTOR CURRENT requires the  *)
+(*  same F1V on the pion-in-flight and on the contact term's contribution to     *)
+(*  that current,                                                                *)
+(*      F_PF(Q^2) = F_CT(Q^2) = F1V(Q^2) = F1p(Q^2) - F1n(Q^2) ,                 *)
+(*  while the contact term's contribution to the AXIAL current pairs with the    *)
+(*  pion pole and takes rho dominance.  Leaving them point-like breaks the Ward  *)
+(*  identity in the background, i.e. exactly the property this model exists to   *)
+(*  preserve.                                                                    *)
+(*                                                                               *)
+(*  WHICH DIRAC STRUCTURE BELONGS TO WHICH CURRENT.  This is the one thing that  *)
+(*  is easy to get backwards, and V8 did.  Expanding u = exp(i Phi), Phi =       *)
+(*  pi.tau/(2 fPi),                                                              *)
+(*      (L~ + R~)/2 = v - i [Phi, a] + O(1/fPi^2)                                *)
+(*      (L~ - R~)/2 = a - i [Phi, v] + O(1/fPi^2)                                *)
+(*  so the ONE-PION piece of each carries the OTHER source.  Therefore           *)
+(*                                                                               *)
+(*    LNNVector -> Nbar gamma^mu N pi   (no gamma5, Weinberg-Tomozawa)           *)
+(*        multiplies the AXIAL source a, so it is part of <pi N| A^mu |N>;       *)
+(*        it pairs with the pion pole and takes F_rho.                           *)
+(*                                                                               *)
+(*    LNNAxial  -> Nbar gamma^mu gamma5 N pi  (Kroll-Ruderman)                   *)
+(*        multiplies the VECTOR source v, so it is part of <pi N| V^mu |N>;      *)
+(*        CVC applies to it and it takes F1V.                                    *)
+(*                                                                               *)
+(*  The photon settles it independently and with no reference to any paper: for  *)
+(*  the photon l = r, hence a = 0, hence there is NO Nbar gamma^mu N pi contact  *)
+(*  at all -- and indeed the UFO has none.  The photon's only contact term is    *)
+(*  the Kroll-Ruderman gamma^mu gamma5 one, which is exactly the term the        *)
+(*  low-energy theorem for charged-pion photoproduction needs in order to close  *)
+(*  the electromagnetic Ward identity.  It cannot be anything but vector-current *)
+(*  and cannot carry F_rho.                                                      *)
+(*                                                                               *)
+(*  ALL THREE BOSONS, NOT JUST THE W.  V8 built these from the charged source    *)
+(*  alone, so the gamma-pi-pi, Z-pi-pi and the photon and Z contact terms were   *)
+(*  left point-like.  For the photon that is exact at Q^2 = 0 and wrong for      *)
+(*  electroproduction; for the Z it is wrong everywhere, because the Z-N-N poles *)
+(*  already carry FZ1p/FZ1n.  Using the full LMat/RMat here dresses gamma, Z and *)
+(*  W in one operator, and the isospin weights come out of the model rather than *)
+(*  being written by hand.                                                       *)
+(*                                                                               *)
+(*  WHY Coefficient AND NOT Series.  Mathematica's Series[expr, {fPi, Infinity,  *)
+(*  n}] keeps n+1 terms COUNTING FROM THE LEADING POWER, not powers down to      *)
+(*  fPi^-n:                                                                      *)
+(*      Series[a/fPi + b/fPi^2, {fPi, Infinity, 0}]  ->  a/fPi   (not 0)         *)
+(*  These matrices are split element by element, and the entries that hold the   *)
+(*  charged-pion contact term have NO fPi^0 term at all -- their leading power   *)
+(*  is 1/fPi.  An order-0 truncation therefore returned the contact term itself, *)
+(*  and subtracting it left zero: in V8 the whole tau^3 (charged-pion) half of   *)
+(*  the contact counterterm was silently deleted, so W pi+- / Z pi+- / gamma pi- *)
+(*  contacts were exported bare while the pi0 ones were dressed.  Extracting the *)
+(*  1/fPi coefficient explicitly cannot fail that way.                           *)
+LMatTildaV[mu_] := LMatTildaV[mu] = Expand[(1/2)*(LMatTilda[mu] + RMatTilda[mu])];
+LMatTildaA[mu_] := LMatTildaA[mu] = Expand[(1/2)*(LMatTilda[mu] - RMatTilda[mu])];
+ChiPTOnePion[m_]  := Map[Coefficient[Expand[#], fPi, -1]/fPi &, m, {2}];
+
+(*  ...and split off the Z, which needs a form factor of its own on the pion    *)
+(*  side of the background.  WHY.  FZ1p and FZ1n do two jobs at once: they      *)
+(*  supply the Q^2 dependence AND they move the nucleon's neutral-current       *)
+(*  vector charge from the model's tree-level sin^2(theta_W) (= 1 - MW^2/MZ^2)  *)
+(*  to the low-Q value Sw2FF, because 1/2 - 2 sw^2 sits near a zero and is      *)
+(*  hypersensitive to it.  The Ward identity for Z N -> pi N' needs the         *)
+(*  ISOVECTOR piece of the nucleon current to match the pion side exactly,      *)
+(*      g_p FZ1p - g_n FZ1n = F1V (1 - 2 Sw2FF)                                 *)
+(*  whereas the model's own Z-pi-pi coupling carries (1 - 2 sw^2_model).  Left  *)
+(*  alone the two differ by a CONSTANT 0.908 and the NC background stops        *)
+(*  cancelling -- 2-3% of the current, which tools/ward_background.py sees at   *)
+(*  once.  FZ1pi = F1V (1 - 2 Sw2FF)/(1 - 2 sw^2_model) is the same kind of     *)
+(*  object as FZ1p: the physical combination over the model's own point-like    *)
+(*  coupling.  The photon needs no such factor (its charges are 1 and 0 with no *)
+(*  mixing angle in them) and neither does the W, which is why only the Z is    *)
+(*  split out here.                                                             *)
+(*                                                                              *)
+(*  Only the VECTOR-current halves take it: the Z-pi-pi vertex, which is pure   *)
+(*  vector current, and the Kroll-Ruderman half of the Z contact term.  The     *)
+(*  Weinberg-Tomozawa half belongs to the axial current, and the NC axial       *)
+(*  current is pure isovector with no sin^2(theta_W) in it at all (FZA = FWA).  *)
+ChiPTZOnly[m_, mu_] := Map[Coefficient[Expand[#], Z[Index[Lorentz, mu]]]*
+                             Z[Index[Lorentz, mu]] &, m, {2}];
+ChiPTNoZ[m_, mu_]   := Map[Expand[#] - Coefficient[Expand[#], Z[Index[Lorentz, mu]]]*
+                             Z[Index[Lorentz, mu]] &, m, {2}];
+SrcTildaV1[mu_]   := SrcTildaV1[mu] = ChiPTOnePion[LMatTildaV[mu]];
+SrcTildaA1[mu_]   := SrcTildaA1[mu] = ChiPTOnePion[LMatTildaA[mu]];
+
+(*  The SOURCE part of the pion covariant derivative, for the pion-in-flight     *)
+(*  vertex.  DelU = del U - i r U + i U l, so the source piece is the last two   *)
+(*  terms, and Tr[DelU DelU^+] contains the boson-pi-pi vertex through the cross *)
+(*  term with del U.  DelUSrc is that piece alone -- for gamma, Z and W, which   *)
+(*  is what makes V_5 (gamma pi pi) and V_91 (Z pi pi) pick up FW1 as well.      *)
+(*  The source-SQUARED terms (the two-boson seagulls V V pi pi) are deliberately *)
+(*  not included: they do not enter single-pion production with one current.     *)
+DelUSrc[mu_] := ExpandIndices[-I*RMat[mu] . UMat + I*UMat . LMat[mu]];
 
 ChiConnectV[mu_, l_]        := ChiConnectV[mu, l] = getRidOfhigherOrderTerm[(1/2)*Tr[ChiConnect[mu] . PauliMatrix[l]]];
 ChiVielbein2[mu_, r1_, r2_] := ChiVielbein2[mu, r1, r2] = getRidOfhigherOrderTerm[ChiVielbein[mu][[r1, r2]]];
 ChiVielbeinV[mu_, l_]       := ChiVielbeinV[mu, l] = getRidOfhigherOrderTerm[(1/2)*Tr[PauliSigma[l] . ChiVielbein[mu]]];
+
+(*  The vielbein split into its pion part and its EXTERNAL-SOURCE part, needed so
+    that the weak N -> Delta transition can be given its own C5A(Q^2) while the
+    strong pi-N-Delta vertex is left alone.
+
+    ChiVielbeinVWeak is the pion-INDEPENDENT piece, obtained by truncating the
+    1/fPi series at order 0 instead of fPiOrder -- the same Series that
+    getRidOfhigherOrderTerm applies, and applied at the same place (after the
+    isospin trace), so the warning above about differentiating unevaluated HC
+    and del heads is respected.
+
+    At u = 1 the vielbein is l_mu - r_mu, and that combination is PURELY WEAK:
+        l - r = g2/2 Vud (tau^1 Wi_1 + tau^2 Wi_2)
+                + tau^3 [ (g2 cw + g1 sw)/2 Z + (g2 sw - g1 cw)/2 A ]
+    and g2 sw - g1 cw = ee - ee = 0, so the PHOTON CANCELS IDENTICALLY and only
+    W (with its V_ud) and Z survive.  That is what makes this the right object to
+    hang C5A on: the form factor reaches both weak transition currents and cannot
+    touch gamma N -> Delta, so the Fig. 33 photoproduction results are untouched
+    by construction rather than by inspection.  *)
+ChiVielbeinVWeak[mu_, l_]   := ChiVielbeinVWeak[mu, l] = Normal[Series[(1/2)*Tr[PauliSigma[l] . ChiVielbein[mu]], {fPi, Infinity, 0}]];
+ChiVielbeinVPion[mu_, l_]   := ChiVielbeinVPion[mu, l] = ChiVielbeinV[mu, l] - ChiVielbeinVWeak[mu, l];
+
+(*  SIGN OF THE WEAK SOURCE IN THE DELTA SECTOR (fixed 2026-08-27).
+    ChiVielbein pairs l with u and r with u^+; LNNAxial uses the OPPOSITE
+    pairing, aVec + (u^+ l u - u r u^+)/2.  The two agree on the pion half
+    (both are aVec) and differ by a sign on the external-source half, because
+    the W lives in l alone.  That is a genuine inconsistency, not a convention:
+    the ratio (weak axial source)/(pion) inside ONE sector is free of the pion,
+    W and Delta phases, and the exported UFO gives
+
+        nucleon  (p~ n W+ FFV13)/(p~ n Pi+ FFS1)     = +I g fPi Vud/2
+        Delta    (p~ D++ W- FRV1)/(p~ D++ Pi- FRS1)  = -I g fPi Vud/2
+
+    The NUCLEON is the one to keep.  Its W-axial source is -ga l_W/2, which is
+    the SM's own gA a_mu for a purely left-handed W; and the pion convention is
+    shared between the two sectors (both pion halves are -(positive)*aVec), so
+    it is anchored by the Fig. 33 Born/Delta interference.  Under that shared
+    convention the Delta's source has to be +2 hD a/MDelta, not -2 hD a/MDelta.
+
+    Only the pion-INDEPENDENT half flips.  Swapping l <-> r sends the W part of
+    the gauge half from -u l u^+ to +u^+ l u, and
+
+        u^+ l u  = l - [I Phi/(2 fPi), l] + O(Phi^2)
+       -u l u^+  = -l - [I Phi/(2 fPi), l] + O(Phi^2)
+
+    -- same O(Phi) commutator, opposite O(Phi^0) term.  So the N-Delta-W-pi
+    contact vertices, which live in ChiVielbeinVPion, are ALREADY right and must
+    be left alone; negating ChiVielbeinVWeak reproduces the l <-> r swap exactly
+    through this order.
+
+    See also the OPEN ISSUE note above LNNAxial, which is this same bug seen
+    from the nucleon side.                                                     *)
+ChiVielbeinVWeakSrc[mu_, l_] := -ChiVielbeinVWeak[mu, l];
 
 (* ****************************************************************************** *)
 (*  CACHE CONTROL -- ChiPTClearCache[] MUST be called right after LoadModel.      *)
@@ -1243,8 +2055,12 @@ ChiPTPurge[s_Symbol] := DownValues[s] =
 ChiPTClearCache[] := (
   ChiPTPurge[ChiConnect];   ChiPTPurge[ChiVielbein];  ChiPTPurge[ChiVielbein2];
   ChiPTPurge[ChiConnectV];  ChiPTPurge[ChiVielbeinV];
+  ChiPTPurge[ChiVielbeinVWeak]; ChiPTPurge[ChiVielbeinVPion];
   ChiPTPurge[aVec];         ChiPTPurge[vVec];
   ChiPTPurge[LMatTilda];    ChiPTPurge[RMatTilda];
+  ChiPTPurge[LMatTildaV];   ChiPTPurge[LMatTildaA];
+  ChiPTPurge[SrcTildaV1];   ChiPTPurge[SrcTildaA1];
+  ChiPTPurge[PiPoleSrc];    ChiPTPurge[PiPole];
   "ChiPT: load-time caches purged");
 
 (* Electromagnetic field strength.  F_{mu nu} = d_mu A_nu - d_nu A_mu.  In
@@ -1263,6 +2079,57 @@ ChiPTClearCache[] := (
    validated ELA model. *)
 EMStrengthTensor[mu_, nu_]     := del[A[nu], mu] - del[A[mu], nu];
 DualEMStrengthTensor[mu_, nu_] := Block[{ro, si}, (1/2)*Eps[mu, nu, ro, si]*EMStrengthTensor[ro, si]];
+
+(* ---------------- the ISOVECTOR external vector source and its field strength -
+   The N -> Delta transition is pure isovector (I = 1/2 -> 3/2 forces Delta I = 1),
+   so CVC ties the WEAK vector transition to the electromagnetic one the model
+   already fits to photoproduction.  LGammaNDelta as originally written could not
+   express that: it used the PHOTON field strength and pinned the Delta isospin
+   index to 3, so gauging never handed the W or the Z any vector transition at all
+   and their N -> Delta vertices came out purely axial.
+
+   IsoVecSource is the isovector part of v_mu = (l_mu + r_mu)/2, normalised so
+   that its third component contains the photon with coefficient exactly 1 --
+   which is what makes the substitution below leave gamma N -> Delta, and hence
+   Fig. 33, untouched.  With l = LMat and r = RMat,
+       v^1 = g2/4 Vud Wi^1 ,  v^2 = g2/4 Vud Wi^2 ,  v^3 = g2/4 Wi^3 + g1/4 B
+   and (2/ee) v^3 = (1/(2 sw)) Wi^3 + (1/(2 cw)) B, whose photon part is
+       (1/(2 sw)) sw A + (1/(2 cw)) cw A = A .                                  *)
+(*  SIGN (settled 2026-08-27; the charged components carried an explicit minus
+    from 2026-08-15 to 2026-08-27 and no longer do).  This IS the SM's own
+    isovector v_mu = (l + r)/2, rescaled by 2/ee so component 3 carries the
+    photon with coefficient 1, and nothing may be put on it by hand:
+
+        v^1 = g2/4 Vud Wi^1   ->   (2/ee) v^1 = +(Vud/(2 sw)) Wi^1
+
+    and LNNVector, which uses (LMatTilda + RMatTilda)/2 = (l + r)/2 at u = 1,
+    gives the nucleon the SAME +(g2/4) Vud.  A minus here made the one isovector
+    source appear with opposite W^1 coefficients in the two sectors.
+
+    The minus was added because tools/cvc_ndelta.py measured
+    (p~ Delta++ W-)/(p~ Delta+ A) = -1.29517792 where it expected
+    +Vud sqrt3/(2 sw sqrt2).  The measurement was right and the EXPECTATION was
+    wrong: that Clebsch sign comes from a Delta phase convention this file does
+    not use.  The Delta embedding in the R[5] Definitions gives charged/neutral
+    = -sqrt(3/2), and the model's own strong vertex says so outright,
+
+        (p~ Delta++ Pi-)/(p~ Delta+ Pi0) = -1.224745 = -sqrt(3/2)
+
+    so -1.29517792 was the value CVC actually demands here.  The real error the
+    minus was papering over is the axial one -- see ChiVielbeinVWeakSrc.  Both
+    show up in the CC Delta together and cancel there (the Delta-only ppip cross
+    section is bit-identical with both signs), which is why the reference run
+    that motivated the minus could not tell them apart; what they do break is
+    the CC Delta/Born interference and, for the axial alone, the NC.
+
+    Component 3 is untouched either way, so the photon and Z vector transitions,
+    and Fig. 33 with them, never depended on this. *)
+IsoVecSource[mu_, 1] := (Vud/(2*sw))*Wi[mu, 1];
+IsoVecSource[mu_, 2] := (Vud/(2*sw))*Wi[mu, 2];
+IsoVecSource[mu_, 3] := (1/(2*sw))*Wi[mu, 3] + (1/(2*cw))*B[mu];
+
+IsoStrengthTensor[mu_, nu_, i_]     := del[IsoVecSource[nu, i], mu] - del[IsoVecSource[mu, i], nu];
+DualIsoStrengthTensor[mu_, nu_, i_] := Block[{ro, si}, (1/2)*Eps[mu, nu, ro, si]*IsoStrengthTensor[ro, si, i]];
 
 (* Nucleon isodoublet as a plain list, and the covariant derivative acting on the
    isospinor-isovector Delta field. *)
@@ -1415,6 +2282,387 @@ LNNEMFF := Block[{mu, nu, s1, s2},
      + FF2NA*Neutronbar[s1] . Sig[mu, nu, s1, s2] . Neutron[s2])];
 
 
+(* ------------------------------- weak-sector nucleon form factors ------------ *)
+(*  Only included when ChiPT$FormFactors is "Weak" or "All".  ADDITIVE           *)
+(*  corrections in the LNNEMFF style, never replacements: each Dirac and axial   *)
+(*  term carries (FF - 1), so the -1 goes to the coupling and cancels the        *)
+(*  point-like piece the gauging already produced, leaving one Lorentz structure *)
+(*  multiplied by the full form factor.  The Pauli terms carry no -1 because     *)
+(*  there is nothing to cancel: neither the W nor the Z has any point-like weak  *)
+(*  magnetism in this model, so those two operators are genuinely new.           *)
+(*                                                                               *)
+(*  THE COUPLINGS ARE NOT INVENTED, they are the model's own, read back out of   *)
+(*  the exported UFO so that (FF - 1) cancels EXACTLY:                           *)
+(*     W:  Vertex(n~ p W-) = i ee Vud/(2 sw Sqrt[2]) Ga[mu]                      *)
+(*                         - i ee ga Vud/(2 sw Sqrt[2]) Ga[mu].Ga[5]             *)
+(*     Z:  Vertex(p~ p Z)  = i ee (cw/(4 sw) - 3 sw/(4 cw)) Ga[mu] + axial       *)
+(*         Vertex(n~ n Z)  = -i ee (cw/(4 sw) + sw/(4 cw)) Ga[mu] + axial        *)
+(*  which are (g/2c_w)(T3 - 2 Q sw^2) and the pure isovector +-ga/2 as they      *)
+(*  should be.  The Pauli normalisation follows the Dirac one: the photon's is   *)
+(*  ee for Dirac and ee/(4 M) for Pauli, so the W's is g_cc/(4 M) with           *)
+(*  g_cc = ee Vud/(2 sw Sqrt[2]), and the Z's is (ee/(2 sw cw))/(4 M).           *)
+(*                                                                               *)
+(*  V_ud rides along on the CC terms because it is already in the coupling that  *)
+(*  the (FF - 1) has to cancel; the NC terms carry none, correctly.              *)
+LNNWeakCCFF := Block[{mu, nu, s1, s2, s3},
+    (ee*Vud/(2*sw*Sqrt[2]))*(
+        (FFW1A - 1)*W[mu]*Protonbar[s1] . Ga[mu, s1, s2] . Neutron[s2]
+      - ga*(FFWAA - 1)*W[mu]*Protonbar[s1] . Ga[mu, s1, s2] . Ga[5, s2, s3] . Neutron[s3]
+      + (FFW2A/(4*MNucleon))*(del[W[nu], mu] - del[W[mu], nu])*
+          Protonbar[s1] . Sig[mu, nu, s1, s2] . Neutron[s2])
+  + (ee*Vud/(2*sw*Sqrt[2]))*(
+        (FFW1B - 1)*HC[W[mu]*Protonbar[s1] . Ga[mu, s1, s2] . Neutron[s2]]
+      - ga*(FFWAB - 1)*HC[W[mu]*Protonbar[s1] . Ga[mu, s1, s2] . Ga[5, s2, s3] . Neutron[s3]]
+      + (FFW2B/(4*MNucleon))*HC[(del[W[nu], mu] - del[W[mu], nu])*
+          Protonbar[s1] . Sig[mu, nu, s1, s2] . Neutron[s2]])];
+
+(*  The Z is self-conjugate, so each term below is hermitian on its own and there
+    is no h.c. half -- one symbol per nucleon per structure, not two.  *)
+LNNWeakNCFF := Block[{mu, nu, s1, s2, s3},
+    Z[mu]*(
+        ee*(cw/(4*sw) - 3*sw/(4*cw))*(FFZ1P - 1)*
+            Protonbar[s1] . Ga[mu, s1, s2] . Proton[s2]
+      - ee*(cw/(4*sw) + sw/(4*cw))*(FFZ1N - 1)*
+            Neutronbar[s1] . Ga[mu, s1, s2] . Neutron[s2]
+      - ee*ga*(cw/(4*sw) + sw/(4*cw))*(FFZAP - 1)*
+            Protonbar[s1] . Ga[mu, s1, s2] . Ga[5, s2, s3] . Proton[s3]
+      + ee*ga*(cw/(4*sw) + sw/(4*cw))*(FFZAN - 1)*
+            Neutronbar[s1] . Ga[mu, s1, s2] . Ga[5, s2, s3] . Neutron[s3])
+  + (ee/(2*sw*cw))*(1/(4*MNucleon))*(del[Z[nu], mu] - del[Z[mu], nu])*
+      (FFZ2P*Protonbar[s1] . Sig[mu, nu, s1, s2] . Proton[s2]
+     + FFZ2N*Neutronbar[s1] . Sig[mu, nu, s1, s2] . Neutron[s2])];
+
+(* ------------------------ Adler's C4A = -C5A/4 ------------------------------ *)
+(*  The standard decomposition of the axial N -> Delta current is               *)
+(*      ubar_a [ (C3A/M)(g^{am} qslash - q^a gamma^m)                           *)
+(*             + (C4A/M^2)(g^{am} q.p_D - q^a p_D^m)                            *)
+(*             + C5A g^{am} + (C6A/M^2) q^m q^a ] u                             *)
+(*  and this model supplies C5A ALONE: delta_couplings.py shows its weak        *)
+(*  N -> Delta vertex is exactly proportional to g^{am} x Identity, component   *)
+(*  by component.  So C3A = 0 already agrees with Adler [13,14]; C4A = -C5A/4   *)
+(*  does not, and is the term below.                                            *)
+(*                                                                              *)
+(*  It is built from ChiVielbeinVWeak, the SAME object the C5A piece uses, so   *)
+(*  the charged/neutral coupling, V_ud and every isospin Clebsch come along      *)
+(*  automatically -- nothing is normalised by hand except the single overall     *)
+(*  constant C4AN, which lives in the param card precisely so it can be          *)
+(*  calibrated against the measured C5A without regenerating the UFO.           *)
+(*  FFCA5 rides along too, so C4A keeps exactly C5A's Q^2 dependence, which is   *)
+(*  what C4A = -C5A/4 requires.                                                  *)
+(*                                                                              *)
+(*  Index bookkeeping: al is the Delta's Lorentz index, lam the source's.        *)
+(*      T1 = g^{al lam} (p_Delta . q)   from contracting the two derivatives     *)
+(*      T2 = q^al p_Delta^lam           from crossing them                       *)
+(*  The Dirac structure is the plain Identity (Deltabar and N share s1), which   *)
+(*  is the structure the standard parameterisation is written in.                *)
+LC4ANDelta := C4AN*Block[{al, lam, nu, s1},
+   FFCA5A*Sum[(ME[al, lam]*del[Deltabar[s1, al, r1, i1], nu]*del[ChiVielbeinVWeakSrc[lam, i1], nu]
+             - del[Deltabar[s1, al, r1, i1], lam]*del[ChiVielbeinVWeakSrc[lam, i1], al])*
+      Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]
+ + FFCA5B*HC[Sum[(ME[al, lam]*del[Deltabar[s1, al, r1, i1], nu]*del[ChiVielbeinVWeakSrc[lam, i1], nu]
+             - del[Deltabar[s1, al, r1, i1], lam]*del[ChiVielbeinVWeakSrc[lam, i1], al])*
+      Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
+
+
+(* ---------------------------- induced pseudoscalar --------------------------- *)
+(*  The pion pole in the nucleon axial current: the fourth Lorentz structure of  *)
+(*  the N-N-W vertex, q^mu gamma5, which the model had no point-like piece of.   *)
+(*                                                                               *)
+(*  q^mu is the W's own momentum, so in position space the operator is the       *)
+(*  DIVERGENCE of the W field, del[W[mu], mu], contracted with the nucleon       *)
+(*  pseudoscalar density.  Written with the same prefactor and the same (-ga)    *)
+(*  as the axial term in LNNWeakCCFF, so every coupling, V_ud and isospin factor *)
+(*  comes along automatically and FPP carries ONLY the ratio to the axial one:   *)
+(*                                                                               *)
+(*      F_P(Q^2) / F_A(Q^2)  =  2 MN / (Q^2 + mpi^2)                             *)
+(*  with the 2 MN carried by the coupling below and 1/(Q^2+mpi^2) by FPP.        *)
+(*                                                                               *)
+(*  which is Goldberger-Treiman / PCAC with no free parameter.  The charged pion *)
+(*  mass is the right one here -- this is the charged current.                   *)
+(*                                                                               *)
+(*  NOTE this is an EFFECTIVE operator: the pion pole is put in by hand through  *)
+(*  the form factor rather than emerging from the two-point W-pi mixing, which   *)
+(*  FeynRules cannot export (the UFO has no two-point vertices at all).  So PCAC *)
+(*  is imposed here, not derived, which is a weaker statement than the CVC       *)
+(*  story where gauging produced the relation on its own.                        *)
+(*                                                                               *)
+(*  It contributes to the rate only through the lepton mass -- q^mu contracted   *)
+(*  with the lepton tensor is proportional to m_lepton^2 -- so it is identically *)
+(*  invisible for a massless muon.                                               *)
+(*  The explicit I is required by hermiticity, and it is what puts this term at *)
+(*  the same phase as the axial one it partners:  (psibar gamma^mu gamma5 psi)   *)
+(*  is hermitian but (psibar gamma5 psi) is ANTI-hermitian, so only I times the  *)
+(*  pseudoscalar density can appear with a real coefficient.  It is the same I   *)
+(*  that shows up in del_mu (psibar gamma^mu gamma5 psi) = 2 I m psibar gamma5   *)
+(*  psi.  The generated F_P/F_A ratio is checked numerically after export.       *)
+(*  The 2*MNucleon lives HERE, in the coupling, and not inside FPP.  That is    *)
+(*  not cosmetic.  FeynRules groups terms sharing a coupling constant into ONE   *)
+(*  Lorentz structure, so with the identical prefactor the pseudoscalar was      *)
+(*  merged into the axial structure and the pair came out as                     *)
+(*      (FPP(...))*P(3,3)*Gamma5(2,1) - (FWA(...))*Gamma5(-1,1)*Gamma(3,2,-1)    *)
+(*  -- one structure carrying TWO form factors, which is precisely the sympy Mul *)
+(*  that Sherpa-generate-model rejects.  Its own 2*MNucleon factor makes *)
+(*  the coupling distinct and splits the structures, one form factor each.  It   *)
+(*  is the same trick FFW2A/B get for free from their 1/(4*MNucleon).            *)
+(*  OVERALL SIGN.  Fixed by measurement, not by choice.  PCAC requires          *)
+(*      q_mu <N'|A^mu|N> = 2 MN F_A mpi^2/(Q^2+mpi^2) ubar gamma5 u             *)
+(*  i.e. the contracted axial current must be SUPPRESSED, vanishing in the      *)
+(*  chiral limit.  With the opposite sign the same contraction comes out        *)
+(*  ENHANCED by 1 + Q^2/(Q^2+mpi^2), measured as 1.720, 1.911, 1.963, 1.981 at  *)
+(*  Q^2 = 0.05, 0.2, 0.5, 1.0 against the required 0.280, 0.089, 0.038, 0.019.  *)
+(*                                                                              *)
+(*  V7-V9 CARRIED A LEADING MINUS HERE AND IT WAS WRONG.  q is the OUTGOING W   *)
+(*  momentum, so with the UFO's all-outgoing legs ('p~' at -p1, 'n' at p2)      *)
+(*  momentum conservation forces q = p1 - p2.  tools/pcac_nucleon.py handed     *)
+(*  the W leg p2 - p1 instead, which does not conserve momentum and reverses    *)
+(*  the q^mu gamma5 term relative to gamma^mu gamma5; the test then reported    *)
+(*  the suppressed sequence for the enhanced model.  With the assignment fixed  *)
+(*  the minus sign gives 1.720/1.911/1.963/1.981 -- the wrong-sign signature    *)
+(*  its own docstring names -- and removing it gives 0.280/0.089/0.038/0.019.   *)
+(*  Two independent checks agree: tools/nucleon_ff.py solves for F_P directly   *)
+(*  without contracting anything (exact, residual 1e-16), and tools/ccqe_ls.py  *)
+(*  moves from 4.2% off Llewellyn Smith at threshold to a flat 0.07%, which is  *)
+(*  the W width and nothing else.  The sign is now plain, as written.           *)
+(* ----------------------------- C6A on the Delta ------------------------------ *)
+(*  The Delta's induced pseudoscalar, the q^alpha q^mu structure of the         *)
+(*  N -> Delta axial current, tied to C5A by PCAC:                              *)
+(*                                                                              *)
+(*      C6A(Q^2) = C5A(Q^2) MN^2 / (Q^2 + mpi^2)                                *)
+(*                                                                              *)
+(*  so (C6A/MN^2) q^a q^mu = C5A/(Q^2+mpi^2) q^a q^mu, which is why FC6A is      *)
+(*  FCA5/(Q^2+mpi^2) and carries dimension 1/mass^2.                            *)
+(*                                                                              *)
+(*  Built from ChiVielbeinVWeak like LC4ANDelta, so V_ud, the isospin Clebsches  *)
+(*  and the Z come along on their own.  Two derivatives of the source give the   *)
+(*  two powers of q; the Dirac structure is the plain Identity, matching the C4A *)
+(*  term (in this model's Rarita-Schwinger convention the C5A structure is the   *)
+(*  one that carries the explicit Gamma5, not these).                           *)
+(*                                                                              *)
+(*  C6AN is calibrated, NOT assumed: the model's C5A comes from the gauged       *)
+(*  Pascalutsa coupling rather than a plain g^{a mu} structure, so the relative  *)
+(*  normalisation is not 1 by inspection.  It is fixed by demanding that         *)
+(*  q_mu <Delta|A^mu|N> come out suppressed like mpi^2/(Q^2+mpi^2), the same     *)
+(*  test that fixed the sign of LNNPPFF.  Keeping it an external parameter means *)
+(*  the calibration needs no regeneration -- see the note at C4AN.              *)
+(*                                                                              *)
+(*  Its own coupling constant also keeps FeynRules from merging this into the    *)
+(*  C4A structure, which shares the Identity Dirac structure.                    *)
+LC6ANDelta := C6AN*Block[{al, lam, s1},
+   FFC6AA*Sum[del[del[ChiVielbeinVWeakSrc[lam, i1], lam], al]*
+       Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]
+ + FFC6AB*HC[Sum[del[del[ChiVielbeinVWeakSrc[lam, i1], lam], al]*
+       Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
+
+
+LNNPPFF := Block[{mu, s1, s2},
+    I*(ee*Vud/(2*sw*Sqrt[2]))*(-ga)*(2*MNucleon)*FFPPA*
+        del[W[mu], mu]*Protonbar[s1] . Ga[5, s1, s2] . Neutron[s2]
+  + HC[I*(ee*Vud/(2*sw*Sqrt[2]))*(-ga)*(2*MNucleon)*FFPPB*
+        del[W[mu], mu]*Protonbar[s1] . Ga[5, s1, s2] . Neutron[s2]]
+  (* --- neutral current.  The NC axial is pure isovector, so it carries the  *)
+  (* --- SAME pole; the mass is the neutral pion's, hence FPPZ not FPP.       *)
+  + I*(-ee*ga*(cw/(4*sw) + sw/(4*cw)))*(2*MNucleon)*FFPPZP*
+        del[Z[mu], mu]*Protonbar[s1] . Ga[5, s1, s2] . Proton[s2]
+  + I*(ee*ga*(cw/(4*sw) + sw/(4*cw)))*(2*MNucleon)*FFPPZN*
+        del[Z[mu], mu]*Neutronbar[s1] . Ga[5, s1, s2] . Neutron[s2]];
+
+
+(* ------------------- CVC / PCAC on the background diagrams ------------------- *)
+(*  The contact term, built by restricting LNNVector / LNNAxial to the           *)
+(*  one-pion piece of their own source combination.  Written exactly as those    *)
+(*  two terms are -- LNNVector uses vVec + (L~+R~)/2 = vVec + LMatTildaV, so its *)
+(*  one-pion piece is SrcTildaV1 with no extra factor, and likewise for the      *)
+(*  axial -- so the two halves inherit the model's own relative factor of -ga    *)
+(*  and nothing is normalised by hand.                                          *)
+(*                                                                              *)
+(*  THE FORM FACTORS ARE NOT ASSIGNED BY DIRAC STRUCTURE.  See the long note at  *)
+(*  SrcTildaV1 above.  The gamma^mu (Weinberg-Tomozawa) half comes from          *)
+(*  LNNVector but multiplies the AXIAL source, so it belongs to <pi N|A^mu|N>    *)
+(*  and takes F_rho; the gamma^mu gamma5 (Kroll-Ruderman) half comes from        *)
+(*  LNNAxial but multiplies the VECTOR source, so CVC applies to it and it takes *)
+(*  F1V.  V8 had these two the other way round.                                 *)
+(*                                                                              *)
+(*  The (FF - 1) sends the -1 to the coupling, where it cancels the point-like  *)
+(*  contact exactly and leaves one structure carrying the full form factor.     *)
+(*  Same assign-then-sum precaution as LPFFF below; see the note there. *)
+LNNCTFF := Module[{wt, krA, krZ},
+  wt = Block[{mu, s1, s2}, Inner[Dot, Nucleonsbar[s1],
+     Inner[Dot, Ga[mu, s1, s2]*IdentityMatrix[2],
+       Inner[Dot, SrcTildaV1[mu], Nucleons[s2]]]]];
+  krA = Block[{mu, s1, s2, s3}, Inner[Dot, Nucleonsbar[s1],
+     Inner[Dot, Ga[mu, s1, s2]*IdentityMatrix[2],
+       Inner[Dot, ChiPTNoZ[SrcTildaA1[mu], mu],
+         Inner[Dot, Ga[5, s2, s3]*IdentityMatrix[2], Nucleons[s3]]]]]];
+  krZ = Block[{mu, s1, s2, s3}, Inner[Dot, Nucleonsbar[s1],
+     Inner[Dot, Ga[mu, s1, s2]*IdentityMatrix[2],
+       Inner[Dot, ChiPTZOnly[SrcTildaA1[mu], mu],
+         Inner[Dot, Ga[5, s2, s3]*IdentityMatrix[2], Nucleons[s3]]]]]];
+  (FFRHOCT - 1)*wt - ga*(FFW1CT - 1)*krA - ga*(FFZ1CT - 1)*krZ];
+
+(*  The pion-in-flight term, from the same cross term of the pion kinetic       *)
+(*  Lagrangian that produces the point-like boson-pi-pi vertex.  DelUSrc is the *)
+(*  FULL source piece of D_mu U, so this reaches gamma-pi-pi and Z-pi-pi as     *)
+(*  well as W-pi-pi -- V8 used the charged source alone and left the first two  *)
+(*  point-like.  Both orderings of the cross term are kept, which is what makes *)
+(*  the result hermitian.                                                       *)
+(*                                                                              *)
+(*  ONE form factor for all three bosons is not an approximation here.  The     *)
+(*  boson-pi-pi vertex is pure isovector whatever the boson (the pion has no    *)
+(*  isoscalar coupling), so the same F1V that CVC puts on the W pion-in-flight  *)
+(*  is what the electromagnetic and neutral-current Ward identities want too;   *)
+(*  the different weights (e, (1-2 sw^2)/(2 sw cw), V_ud/(2 sw sqrt2)) are      *)
+(*  already in the model's own couplings and are not touched.                   *)
+ChiPTPFCross[src_] := Normal[Series[
+   Block[{mu}, ExpandIndices[(1/4)*fPi^2*
+      Tr[src[mu] . HC[del[UMat, mu]] + del[UMat, mu] . HC[src[mu]]]]],
+   {fPi, Infinity, fPiOrder}]];
+
+DelUSrcNoZ[mu_] := ChiPTNoZ[DelUSrc[mu], mu];
+DelUSrcZ[mu_]   := ChiPTZOnly[DelUSrc[mu], mu];
+
+(*  ASSIGN THE TWO CROSS TERMS TO VARIABLES BEFORE SUMMING THEM.  This is the  *)
+(*  same FeynRules pathology documented at LChiPT below, and it bites here for  *)
+(*  a two-term sum: written inline as                                           *)
+(*      (FFW1PF-1)*ChiPTPFCross[DelUSrcNoZ] + (FFZ1PF-1)*ChiPTPFCross[DelUSrcZ] *)
+(*  FeynmanRules returns 7 vertices -- the photon and W ones only, with the      *)
+(*  entire Z half silently gone.  Evaluated into a and b first and then summed,  *)
+(*  the identical expression gives all 10.  Do not "simplify" this back.         *)
+LPFFF := Module[{a, b},
+  a = ChiPTPFCross[DelUSrcNoZ];
+  b = ChiPTPFCross[DelUSrcZ];
+  (FFW1PF - 1)*a + (FFZ1PF - 1)*b];
+
+
+(* ------------------------------- the pion pole ------------------------------ *)
+(*  The PP topology, the one Born diagram this model has never had:              *)
+(*                                                                               *)
+(*      W(q)  --[ f_pi q^mu two-point mixing ]--  pi*(q)  --[ propagator ]--     *)
+(*            --[ Weinberg-Tomozawa pi-pi-N-N ]--  pi(k) N'                      *)
+(*                                                                               *)
+(*  It is missing because the UFO format has no two-point vertices, so FeynRules *)
+(*  simply drops the W-pi mixing that (fPi^2/4) Tr[D_mu U (D^mu U)^+] contains at *)
+(*  O(pi).  tools/pcac_1pi.py measures the consequence: on the Delta peak the     *)
+(*  model supplies 0.32 of the axial divergence PCAC requires at Q^2 -> 0, and    *)
+(*  the shortfall IS this diagram.                                               *)
+(*                                                                               *)
+(*  HOW IT IS PUT BACK.  The same device the kinetic-mixing model uses for the    *)
+(*  photon-Zd mixing: do not export the two-point vertex, absorb it into the      *)
+(*  fields it mixes.  There the mixing is a constant rotation and can go in a     *)
+(*  Definitions -> rule; here it is momentum dependent AND carries a propagator,  *)
+(*  so it cannot.  What makes it work anyway is that the virtual pion carries     *)
+(*  EXACTLY the boson's momentum, so mixing and propagator are together a         *)
+(*  function of q^2 alone -- i.e. a form factor -- and the whole topology         *)
+(*  collapses onto one effective four-point operator.  That is the same trick     *)
+(*  LNNPPFF uses for the nucleon's own induced pseudoscalar, and the same one     *)
+(*  FrhoCT uses on the contact term.                                             *)
+(*                                                                               *)
+(*  THE INDUCED PION.  From the O(pi) cross term of the pion kinetic Lagrangian,  *)
+(*      L_mix = (fPi/2) Tr[sigma^a (l - r)^mu] d_mu pi^a                          *)
+(*  and the free pion equation of motion, the field the source induces is         *)
+(*      Dpi^a = (fPi/2) d_mu Tr[sigma^a (l-r)^mu] / (q^2 - mpi^2)                 *)
+(*            = -(fPi/2) FFPPPI d_mu Tr[sigma^a (l-r)^mu],   FFPPPI = 1/(Q^2+mpi^2)*)
+(*                                                                               *)
+(*  ISOSPIN SEPARATES THE CHANNELS BY ITSELF, which is why there is no field      *)
+(*  selection here of the kind ChiPTNoZ / ChiPTZOnly do elsewhere:                *)
+(*      Tr[sigma^1 (l-r)] = g2 Vud W^1,   Tr[sigma^2 (l-r)] = g2 Vud W^2          *)
+(*      Tr[sigma^3 (l-r)] = ee (cw/sw + sw/cw) Z                                  *)
+(*  -- the photon cancels EXACTLY in the third one (l = r for electromagnetism),  *)
+(*  as it must: there is no pion pole in a vector current.  So a = 1,2 is the     *)
+(*  charged current and a = 3 is the neutral one, and they can carry the charged  *)
+(*  and neutral pion masses separately without touching the fields.               *)
+(*                                                                               *)
+(*  WHAT ABSORBS IT is the Weinberg-Tomozawa pi-pi-N-N vertex, i.e. the O(pi^2)   *)
+(*  piece of vVec, which is  vVec[mu] = I [Phi, d_mu Phi]/(8 fPi^2)  with         *)
+(*  Phi = sigma^a pi^a.  Shifting pi -> pi + Dpi and keeping the linear part      *)
+(*  gives the operator below; the coefficient is vVec's own and is not chosen     *)
+(*  here.  (Cross-check: that vVec gives Vertex(p~ p Pi- Pi+) = I/(4 fPi^2),      *)
+(*  which is what the UFO carries.)                                              *)
+(*                                                                               *)
+(*  DO NOT also shift the pion in LNNAxial or in the Delta sector.  Those shifts  *)
+(*  are real, but they are the nucleon induced pseudoscalar and C6A, which are    *)
+(*  ALREADY in the model as LNNPPFF and LC6ANDelta; adding them here would        *)
+(*  double count.  Restricting the shift to vVec is what makes this the one       *)
+(*  genuinely new topology.                                                      *)
+(*                                                                               *)
+(*  OVERALL SIGN.  Fixed by measurement, exactly as LNNPPFF's was: PCAC on the    *)
+(*  full W+ N -> pi N' current, tools/pcac_1pi.py, has to go from 0.32 to 1.      *)
+(*  The wrong sign takes it further from 1, not closer.                          *)
+
+PiPoleSrc[a_] := PiPoleSrc[a] = Block[{nu},
+   ExpandIndices[Tr[PauliMatrix[a] . del[LMat[nu] - RMat[nu], nu]]]];
+
+PiPole[a_] := PiPole[a] =
+   -(fPi/2)*If[a === 3, FFPPPIZ, FFPPPIW]*PiPoleSrc[a];
+
+(*  NOT memoised with the := X = X idiom the rest of the file uses.  That makes  *)
+(*  an OwnValue, and ChiPTClearCache only purges DownValues -- so a memoised     *)
+(*  PionMat would survive the purge that exists precisely to throw away          *)
+(*  load-time junk.  Both are two-by-two sums and cost nothing to rebuild.       *)
+PionMat    := ExpandIndices[Sum[PauliMatrix[a]*Pion[a], {a, 1, 3}]];
+PiPoleMat  := ExpandIndices[Sum[PauliMatrix[a]*PiPole[a], {a, 1, 3}]];
+
+(*  Assign the two commutators before summing them -- the same FeynRules         *)
+(*  pathology documented at LPFFF and LChiPT.                                    *)
+LPPoleFF := Module[{c1, c2},
+  c1 = Block[{mu}, ExpandIndices[
+        PiPoleMat . del[PionMat, mu] - del[PionMat, mu] . PiPoleMat]];
+  c2 = Block[{mu}, ExpandIndices[
+        PionMat . del[PiPoleMat, mu] - del[PiPoleMat, mu] . PionMat]];
+  Block[{mu, s1, s2}, Inner[Dot, Nucleonsbar[s1],
+     Inner[Dot, Ga[mu, s1, s2]*PPNorm*(I/(8*fPi^2))*(c1 + c2),
+       Nucleons[s2]]]]];
+
+
+(* ------------------------- weak N -> Delta transition with C5A(Q^2) ---------- *)
+(*  This one REPLACES LPiNDeltaGI / LPiNDeltaGIFF rather than adding to it.      *)
+(*                                                                               *)
+(*  The note at LPiNDeltaGIFF is the reason: the weak transition current is not  *)
+(*  a separate term, it comes from the gauge part of ChiVielbeinV, so it cannot  *)
+(*  be given its own form factor by adding something -- "it needs its own        *)
+(*  Lagrangian term".  Splitting the vielbein is that term.  ChiVielbeinVPion    *)
+(*  and ChiVielbeinVWeak sum back to ChiVielbeinV exactly, so with FCA5 = 1 this *)
+(*  is identical to what it replaces, term by term; all it does is let the       *)
+(*  external-source half carry a form factor the pion half does not.             *)
+(*                                                                               *)
+(*  That deliberately breaks the gauge-invariance link between the strong vertex *)
+(*  and the transition current, which is what ANY Q^2-dependent transition form  *)
+(*  factor does -- it is why C5A is put in by hand in every model that has one.  *)
+(*                                                                               *)
+(*  FFPNDA/FFPNDB multiply the PION half only; the external-source half carries  *)
+(*  FFCA5 alone.  Right for two independent reasons.                             *)
+(*                                                                               *)
+(*  PHYSICS.  Fig. 33 puts ONE sqrt(X_pi) on each Delta DIAGRAM.  A Delta        *)
+(*  diagram has two vertices, so if both carried FpiNDelta the amplitude would   *)
+(*  pick up X_pi rather than sqrt(X_pi) -- one factor too many.  Photoproduction *)
+(*  never hit this because the gamma-N-Delta vertex carries FgNDelta*, not       *)
+(*  FpiNDelta; the WEAK transition comes from the same gauged term as the strong *)
+(*  vertex and so inherited FFPNDA and double-counted.                           *)
+(*                                                                               *)
+(*  FRAMEWORK.  Sherpa's UFO reader supports at most ONE form factor per Lorentz *)
+(*  structure: ufo_interface/lorentz_algebra.py accumulates them multiplicatively*)
+(*  (self.form_factor *= sympy.Function(...)) while lorentz_printer.py's         *)
+(*  set_form_factor reads .name off what it assumes is a single sympy Function.  *)
+(*  A product gives a sympy Mul and Sherpa-generate-model fails with              *)
+(*      AttributeError: 'Mul' object has no attribute 'name'                     *)
+(*  so FpiNDelta * FCA5 on one structure is not expressible at all.  That is a   *)
+(*  real limit of the automated chain, not a modelling choice.  Symbols stay     *)
+(*  outside HC[].                                                                *)
+LPiNDeltaGIWeakFF := (-(hD/MDelta))*Block[{mu, nu, lam, si, s1, s2, s3, fa, fb},
+  fa = If[ChiPT$DeltaFF, FFPNDA, 1];  fb = If[ChiPT$DeltaFF, FFPNDB, 1];
+  fa*Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+      Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinVPion[lam, i1]*Nucleons[s3][[r1]],
+    {r1, 1, 2}, {i1, 1, 3}]
+  + FFCA5A*Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+      Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinVWeakSrc[lam, i1]*Nucleons[s3][[r1]],
+    {r1, 1, 2}, {i1, 1, 3}]
+  + fb*HC[Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+      Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinVPion[lam, i1]*Nucleons[s3][[r1]],
+    {r1, 1, 2}, {i1, 1, 3}]]
+  + FFCA5B*HC[Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+      Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinVWeakSrc[lam, i1]*Nucleons[s3][[r1]],
+    {r1, 1, 2}, {i1, 1, 3}]]];
+
+
 (* ------------------------------------------------- Delta(1232) self sector -- *)
 (*  Rarita-Schwinger kinetic and mass terms with the off-shell parameter AD,     *)
 (*  chirally covariantised (DeltaCovariantDerivative), plus the three            *)
@@ -1512,6 +2760,26 @@ LGammaNDelta := Kappa*Block[{s1, s2, mu, nu},
        + HC[G2]*Ga[5, s1, s2]*EMStrengthTensor[mu, nu])*del[Delta[s2, nu, r1, 3], mu],
     {r1, 1, 2}]]];
 
+(* ---------------------- the same term, made ISOVECTOR (CVC) ----------------- *)
+(*  Identical to LGammaNDelta except that the photon field strength and the      *)
+(*  hard-coded Delta isospin index 3 are replaced by the isovector source and a  *)
+(*  sum over i -- see the note at IsoVecSource.  Because IsoVecSource[mu,3]      *)
+(*  contains the photon with coefficient exactly 1, the i = 3 photon piece is    *)
+(*  bit-for-bit the old term: gamma N -> Delta, and therefore the Fig. 33        *)
+(*  photoproduction fit, is untouched.  What is NEW is everything else in the    *)
+(*  triplet -- the W and Z vector N -> Delta transitions that gauging alone      *)
+(*  never produced, with their strengths fixed by CVC from the SAME g1, g2 that  *)
+(*  photoproduction already determined.  No new parameters.                      *)
+LWeakNDeltaV := Kappa*Block[{s1, s2, mu, nu},
+  FFVNDA*Sum[Nucleonsbar[s1][[r1]]*
+      (I*G1*IndexDelta[s1, s2]*DualIsoStrengthTensor[mu, nu, i1]
+       + G2*Ga[5, s1, s2]*IsoStrengthTensor[mu, nu, i1])*del[Delta[s2, nu, r1, i1], mu],
+    {r1, 1, 2}, {i1, 1, 3}]
+  + FFVNDB*HC[Sum[Nucleonsbar[s1][[r1]]*
+      (I*HC[G1]*IndexDelta[s1, s2]*DualIsoStrengthTensor[mu, nu, i1]
+       + HC[G2]*Ga[5, s1, s2]*IsoStrengthTensor[mu, nu, i1])*del[Delta[s2, nu, r1, i1], mu],
+    {r1, 1, 2}, {i1, 1, 3}]]];
+
 
 (* ------------------------------- Delta vertices with form factors ----------- *)
 (*  Same Lagrangians as LPiNDeltaGI / LGammaNDelta, with one form factor symbol *)
@@ -1577,16 +2845,20 @@ LGammaNDeltaFF := Kappa*Block[{s1, s2, mu, nu},
 (*  any subset tried) behaves correctly, so this only bites on the full sum.       *)
 (*  export_UFO_myPions.nb never hit it because it assigned each Lagrangian to a    *)
 (*  variable first and summed the variables -- which is what is reproduced here.   *)
-LChiPT := Module[{lpk, lnk, lnv, lna, lds, lpg, lgd, lff},
+LChiPT := Module[{lpk, lnk, lnv, lna, lds, lpg, lgd, lff, lwf},
   lpk = LPionKin;     lnk = LNucleonKin;  lnv = LNNVector;   lna = LNNAxial;
   lds = LDeltaSector;
-  lpg = If[ChiPT$DeltaFF, LPiNDeltaGIFF,  LPiNDeltaGI];
-  lgd = If[ChiPT$DeltaFF, LGammaNDeltaFF, LGammaNDelta];
+  lpg = If[ChiPT$WeakFF, LPiNDeltaGIWeakFF,
+        If[ChiPT$DeltaFF, LPiNDeltaGIFF,  LPiNDeltaGI]];
+  lgd = If[ChiPT$WeakFF, LWeakNDeltaV,
+        If[ChiPT$DeltaFF, LGammaNDeltaFF, LGammaNDelta]];
   lff = If[ChiPT$NucleonFF, LNNEMFF, 0];
+  lwf = If[ChiPT$WeakFF, LNNWeakCCFF + LNNWeakNCFF + LNNCTFF + LPFFF
+                       + LC4ANDelta + LNNPPFF + LC6ANDelta + LPPoleFF, 0];
   (* LPiNDelta (the conventional gD coupling) is deliberately EXCLUDED: it is
      not gauge invariant, and the Pascalutsa coupling LPiNDeltaGI replaces it.
      Its definition is kept above for reference only. *)
-  lpk + lnk + lnv + lna + lds + lpg + lgd + lff];
+  lpk + lnk + lnv + lna + lds + lpg + lgd + lff + lwf];
 
 LTotal := Module[{lchi, lsm}, lchi = LChiPT; lsm = LSM; lchi + lsm];
 

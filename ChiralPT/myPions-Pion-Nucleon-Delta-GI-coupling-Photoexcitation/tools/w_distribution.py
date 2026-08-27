@@ -31,7 +31,7 @@ def main():
     P, V = w.load_ufo(MODEL)
     ns = w.parameter_namespace(P)
     ff = w.form_factors(ns, True)
-    opt = dict(born=True, delta=True, dwidth=True, wwidth=True, cvc=False,
+    opt = dict(born=True, delta=True, dwidth=True, wwidth=True,
                wmax=wmax, mmu=float(ns['MMU']))
     print("%-5s %.4f %.3f %.6g"
           % (ch, enu, wmax, w.sigma(ch, enu, V, ns, ff, opt, (20, 12, 12, 8))),

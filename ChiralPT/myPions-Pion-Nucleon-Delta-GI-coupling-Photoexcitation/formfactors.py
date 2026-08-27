@@ -112,12 +112,16 @@ PARAMS = [
     ("AxA7",     -1.58,     28,  "axial z-expansion a_7"),
     ("AxA8",      0.823,    29,  "axial z-expansion a_8"),
     ("MADeltaSq", 1.1025,   30,  "N->Delta axial mass squared, GeV^2"),
-    ("CA5Norm",   1.2,      31,  "C5A(0); cancels in the ratio, kept for the record"),
+    ("CA5Norm",   0.0,      31,  "C5A(0) in physical units; 0 means 'the model's own', sqrt(2/3) hD"),
     ("Sw2FF",     0.23863,  32,  "sin^2(theta_W) in the Q->0 limit, for the neutral-current charge combinations"),
-    ("C4AN",      0.215822, 33,  "overall normalisation of the Adler C4A = -C5A/4 term; calibrated so the extracted C4A/C5A is -1/4"),
+    ("C4AHat",    0.28397656, 33, "C4AN/hD, the portable form of the Adler C4A calibration; C4AN itself is Internal and equals C4AHat*hD"),
     ("MRhoCT",    0.7758,   34,  "rho mass in the PCAC form factor on the axial contact term, GeV"),
     ("MV2ND",     0.71,     35,  "vector mass squared in the CVC N->Delta dipole, GeV^2"),
-    ("C6AN",      1.0,      36,  "overall normalisation of the Adler C6A term; calibrated against the PCAC contraction"),
+    ("PPNorm",    1.0,      37,  "pion-pole (PP) operator: 1 is the chiral value, 0 removes the diagram"),
+    # Slot 36 held C6AN, which is now an Internal parameter equal to hD -- see
+    # the note in ChiPT.fr.  Neither it nor C4AN belongs in the card any more:
+    # both are tied to hD, and hD is derived from Gamma(Delta -> N pi), so a
+    # card entry could only ever disagree with the model it came from.
 ]
 
 DEFAULTS = {name: value for name, value, _, _ in PARAMS}
@@ -176,7 +180,12 @@ class FormFactors:
                 "Regenerate with CHIPT_FF=Weak (or All), or pass "
                 "allow_defaults=True to fall back to the FeynRules defaults."
                 % (len(missing), ", ".join(missing[:4])))
-        self.p = {n: float(ns.get(n, DEFAULTS[n])) for n, _, _, _ in PARAMS}
+        # Internal UFO parameters come through complex even when they are real
+        # (anything built with Sqrt does), so take the real part rather than
+        # letting float() raise on a number that is real to machine precision.
+        def _re(x):
+            return float(x.real) if isinstance(x, complex) else float(x)
+        self.p = {n: _re(ns.get(n, DEFAULTS[n])) for n, _, _, _ in PARAMS}
         self.used_defaults = bool(missing)
         MN = ns.get("MNucleon", 0.938272)
         self.MP2 = float(MN) ** 2
@@ -241,9 +250,48 @@ class FormFactors:
     def FA_ratio(self, Q2):
         return self.FA_raw(Q2) / self.FA0
 
+    def C5A_model(self):
+        """The model's own C5A(0), from the card, not compiled in.
+
+        From V10 the pi-N-Delta coupling is DERIVED from Gamma(Delta -> N pi),
+            hD = sqrt( 12 pi fPi^2 MD Gam / ( k^3 (E_N + MN) ) ),
+        and the Adler decomposition gives C5A(0) = sqrt(2/3) hD exactly --
+        measured to eight digits and independent of MDelta by
+        tools/adler_ndelta.py.  Computing it here rather than storing 1.2411
+        keeps this in step with FormFactors.C, which does the same arithmetic,
+        and stops a change of width from silently rescaling C5A.
+        """
+        import math
+
+        def g(name, dflt):
+            v = self.ns.get(name, dflt)
+            return float(v.real if isinstance(v, complex) else v)
+
+        hd = g("hD", 0.0)
+        if hd > 0.0:                      # External through V9, Internal in V10
+            return math.sqrt(2.0 / 3.0) * hd
+        mn, md = g("MNucleon", 0.938272), g("MDelta", 1.209)
+        mpi = g("MPiP", 0.1395704)
+        fpi, gam = g("fPi", 0.093), g("GamNPi", 0.117)
+        a = md * md - mn * mn - mpi * mpi
+        k = math.sqrt(a * a - 4.0 * mpi * mpi * mn * mn) / (2.0 * md)
+        en = math.sqrt(k * k + mn * mn)
+        hD = math.sqrt(12.0 * math.pi * fpi * fpi * md * gam
+                       / (k ** 3 * (en + mn)))
+        return math.sqrt(2.0 / 3.0) * hD
+
     def C5A_ratio(self, Q2):
+        """C5A(Q^2)/C5A_model(0) -- so the vertex keeps its own normalisation
+        unless CA5Norm asks for a different C5A(0).
+
+        THE SCALE IS NOT 1.  Through V9 this returned the bare dipole and
+        CA5Norm was dead here while FormFactors.C applied it, so the analytic
+        engine and Sherpa quietly disagreed for any card that used the knob.
+        """
         M2 = self.p["MADeltaSq"]
-        return 1.0 / (1 + Q2 / M2) ** 2 / (1 + Q2 / 3 / M2)
+        norm = self.p["CA5Norm"]
+        scale = norm / self.C5A_model() if norm > 0.0 else 1.0
+        return scale / (1 + Q2 / M2) ** 2 / (1 + Q2 / 3 / M2)
 
     def FC6A(self, Q2):
         """The Delta's induced pseudoscalar, C6A, as it enters the vertex.
@@ -372,6 +420,60 @@ class FormFactors:
     def FZA(self, Q2):
         """The NC axial current is pure isovector, so the CC ratio serves it."""
         return self.FA_ratio(Q2)
+
+    def FZ1pi(self, Q2):
+        """The pion side of the neutral-current background.
+
+        Goes on the Z-pi-pi vertex and on the Kroll-Ruderman half of the Z
+        contact term.  Same construction as FZ1p -- the physical isovector
+        combination over the model's own point-like coupling -- and it exists
+        for the same reason.  Conservation of the NC vector current in
+        Z N -> pi N' needs the nucleon's isovector piece and the pion side to
+        carry the SAME function, and
+
+            g_p FZ1p - g_n FZ1n = F1V (1 - 2 Sw2FF)
+
+        while the model's Z-pi-pi coupling was built with sw2_model.  The ratio
+        below is that constant, 0.908 at the defaults; without it the neutral
+        current background misses by 2-3% of the current at every Q^2, which is
+        what tools/ward_background.py reports.
+
+        The photon needs no analogue (its charges carry no mixing angle) and
+        neither does the W, so FW1 stays on those.
+        """
+        return (self.FW1(Q2) * (1.0 - 2.0 * self.sw2)
+                / (1.0 - 2.0 * self.sw2_model))
+
+    def FPPpi(self, Q2):
+        """The pion pole on the boson leg of the four-point W-N-N-pi vertex.
+
+        This is the PP topology: the charged current converts to a virtual pion
+        through the f_pi q^mu two-point mixing, the pion propagates, and it is
+        absorbed on the nucleon line by the Weinberg-Tomozawa pi-pi-N-N vertex.
+        The UFO has no two-point vertices, so the mixing and the propagator are
+        folded into this form factor and the whole topology is carried by one
+        effective four-point operator (LPPoleFF in ChiPT.fr) -- the same device
+        LNNPPFF uses for the nucleon's own induced pseudoscalar.
+
+        Dimension is 1/mass^2, which is the propagator; everything else in the
+        normalisation lives in the coupling.  FW1 rides along because the vertex
+        that absorbs the pion is the isovector VECTOR coupling of the nucleon,
+        the same one the pion-in-flight term is dressed with -- and because it
+        is 1 at Q^2 = 0 it cannot disturb the PCAC statement, which is a
+        statement about the pole.
+        """
+        mpi = float(self.ns.get("MPiP", 0.1395704))
+        return self.FW1(Q2) / (Q2 + mpi ** 2)
+
+    def FPPZpi(self, Q2):
+        """The neutral-current pion pole; the pi0 mass and the Z's isovector.
+
+        The nucleon NC axial current is pure isovector here, so the same pole
+        with the neutral pion in it, dressed with FZ1pi for the reason given
+        there.
+        """
+        mpi = float(self.ns.get("MPi0", 0.1349768))
+        return self.FZ1pi(Q2) / (Q2 + mpi ** 2)
 
 
 def param_card_block():
