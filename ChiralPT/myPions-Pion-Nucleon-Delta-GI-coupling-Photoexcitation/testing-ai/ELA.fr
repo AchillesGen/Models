@@ -1,0 +1,1192 @@
+(* ****************************************************************************** *)
+(* ***                                                                        *** *)
+(* ***   FeynRules implementation of the Effective Lagrangian Approach (ELA)   ** *)
+(* ***   to pion photoproduction from the nucleon                             *** *)
+(* ***                                                                        *** *)
+(* ***   C. Fernandez-Ramirez, E. Moya de Guerra, J.M. Udias,                 *** *)
+(* ***   "Effective Lagrangian Approach to pion photoproduction from the       ** *)
+(* ***    nucleon", nucl-th/0509020v2 (Annals Phys. 321 (2006) 1408)          *** *)
+(* ***                                                                        *** *)
+(* ***   Equation numbers in the comments below refer to that paper.          *** *)
+(* ***                                                                        *** *)
+(* ****************************************************************************** *)
+
+(* ------------------------------------------------------------------------------ *)
+(*  Contents                                                                       *)
+(*                                                                                 *)
+(*    * Born terms                          Eq. (14)  -> LBorn                     *)
+(*    * omega and rho exchange              Eq. (15), (16) -> LOmega, LRho         *)
+(*    * N(1440)  P11  (spin 1/2, iso 1/2)   Eq. (22)  -> LP11                      *)
+(*    * N(1535)  S11  (spin 1/2, iso 1/2)   Eq. (17)  -> LS11a                     *)
+(*    * N(1650)  S11  (spin 1/2, iso 1/2)   Eq. (17)  -> LS11b                     *)
+(*    * Delta(1620) S31 (spin 1/2, iso 3/2) Eq. (21)  -> LS31                      *)
+(*    * Delta(1232) P33 (spin 3/2, iso 3/2) Eq. (36)  -> LP33                      *)
+(*    * N(1520)  D13  (spin 3/2, iso 1/2)   Eq. (41)  -> LD13                      *)
+(*    * Delta(1700) D33 (spin 3/2, iso 3/2) Eq. (40)  -> LD33                      *)
+(*                                                                                 *)
+(*  The full interaction Lagrangian is  LELA.                                      *)
+(*  The Delta(1232)-only piece (Born-free) is  LDelta, used by the FeynCalc        *)
+(*  cross-section script.                                                          *)
+(* ------------------------------------------------------------------------------ *)
+
+(* ------------------------------------------------------------------------------ *)
+(*  Deliberate omissions (they are *not* vertices and cannot live in a UFO/        *)
+(*  FeynArts model file):                                                          *)
+(*                                                                                 *)
+(*   - the energy-dependent resonance width Gamma(s,u) of Eqs. (44)-(47).  Only    *)
+(*     the on-shell Gamma_0 enters here, as the constant Width of each resonance.  *)
+(*   - the Davidson-Workman form factors Fhat_B(s,u,t), Fhat_V(t) of Eqs. (48)-    *)
+(*     (51) and the sqrt(X_pi(s,u)) vertex form factor.                            *)
+(*                                                                                 *)
+(*  Both are Mandelstam-dependent and are implemented in the accompanying          *)
+(*  FeynCalc script GammaN_to_PiN_Delta.m.                                         *)
+(* ------------------------------------------------------------------------------ *)
+
+
+(* ************************** *)
+(* *****  Information   ***** *)
+(* ************************** *)
+
+M$ModelName = "ELA_PionPhotoproduction";
+
+M$Information = {
+  Authors      -> {"Generated for the AchillesModels/ChiralPT project"},
+  Version      -> "1.0",
+  Date         -> "2026-07-27",
+  Institutions -> {""},
+  Emails       -> {""},
+  References   -> {"C. Fernandez-Ramirez, E. Moya de Guerra, J.M. Udias, nucl-th/0509020v2"}
+};
+
+FeynmanGauge = False;
+
+
+(* ************************** *)
+(* *****    Indices     ***** *)
+(* ************************** *)
+
+(* IsoSpin   : nucleon / resonance iso-doublet index r = 1 (p-like), 2 (n-like) *)
+(* IsoVector : Cartesian iso-vector index j = 1,2,3                              *)
+
+IndexRange[Index[IsoSpin  ]] = Unfold[Range[2]];
+IndexRange[Index[IsoVector]] = Unfold[Range[3]];
+
+IndexStyle[IsoSpin,   r];
+IndexStyle[IsoVector, j];
+
+
+(* ************************** *)
+(* *** Interaction orders *** *)
+(* ************************** *)
+
+M$InteractionOrderHierarchy = { {QED, 1}, {STR, 1} };
+M$InteractionOrderLimit     = { {QED, 99}, {STR, 99} };
+
+
+(* ****************************************************************************** *)
+(* *****                       Particle classes                            ***** *)
+(* ****************************************************************************** *)
+
+M$ClassesDescription = {
+
+(* ---------------------------------- photon ---------------------------------- *)
+
+  V[1] == {
+    ClassName       -> A,
+    SelfConjugate   -> True,
+    Mass            -> 0,
+    Width           -> 0,
+    ParticleName    -> "A",
+    PDG             -> 22,
+    PropagatorLabel -> "a",
+    PropagatorType  -> W,
+    PropagatorArrow -> None,
+    FullName        -> "Photon"
+  },
+
+(* ------------------------------ vector mesons -------------------------------- *)
+
+  V[2] == {
+    ClassName       -> Om,
+    SelfConjugate   -> True,
+    Mass            -> {MOm, 0.78257},
+    Width           -> {WOm, 0.00849},
+    ParticleName    -> "omega",
+    PDG             -> 223,
+    PropagatorLabel -> "w",
+    PropagatorType  -> Sine,
+    PropagatorArrow -> None,
+    FullName        -> "omega(782)"
+  },
+  V[3] == {
+    ClassName       -> Rho0,
+    SelfConjugate   -> True,
+    Mass            -> {MRho0, 0.7685},
+    Width           -> {WRho0, 0.1502},
+    ParticleName    -> "rho0",
+    PDG             -> 113,
+    PropagatorLabel -> "r0",
+    PropagatorType  -> Sine,
+    PropagatorArrow -> None,
+    FullName        -> "rho(770)0"
+  },
+  V[4] == {
+    ClassName        -> RhoP,
+    SelfConjugate    -> False,
+    Mass             -> {MRhoP, 0.7665},
+    Width            -> {WRhoP, 0.1492},
+    QuantumNumbers   -> {Q -> 1},
+    ParticleName     -> "rho+",
+    AntiParticleName -> "rho-",
+    PDG              -> 213,
+    PropagatorLabel  -> "rp",
+    PropagatorType   -> Sine,
+    PropagatorArrow  -> Forward,
+    FullName         -> "rho(770)+"
+  },
+  (* Cartesian iso-vector rho field rho_j, Eq. (16) *)
+  V[11] == {
+    ClassName     -> RhoV,
+    Unphysical    -> True,
+    SelfConjugate -> True,
+    Indices       -> {Index[IsoVector]},
+    FlavorIndex   -> IsoVector,
+    Definitions   -> { RhoV[mu_, 1] -> (RhoP[mu] + RhoPbar[mu])/Sqrt[2],
+                       RhoV[mu_, 2] -> I (RhoP[mu] - RhoPbar[mu])/Sqrt[2],
+                       RhoV[mu_, 3] -> Rho0[mu] }
+  },
+
+(* ---------------------------------- pions ------------------------------------ *)
+
+  S[1] == {
+    ClassName       -> Pi0,
+    SelfConjugate   -> True,
+    Mass            -> {MPi0, 0.1349766},
+    Width           -> 0,
+    PropagatorLabel -> "pi0",
+    PropagatorType  -> D,
+    PropagatorArrow -> None,
+    PDG             -> 111,
+    ParticleName    -> "pi0",
+    FullName        -> "pi0"
+  },
+  S[2] == {
+    ClassName        -> PiP,
+    SelfConjugate    -> False,
+    Mass             -> {MPiC, 0.1395673},
+    Width            -> 0,
+    QuantumNumbers   -> {Q -> 1},
+    PropagatorLabel  -> "pi+",
+    PropagatorType   -> D,
+    PropagatorArrow  -> None,
+    PDG              -> 211,
+    ParticleName     -> "pi+",
+    AntiParticleName -> "pi-",
+    FullName         -> "pi+"
+  },
+  (* Cartesian iso-vector pion field pi_j.  pi+- = (pi_1 -+ i pi_2)/Sqrt[2] *)
+  S[11] == {
+    ClassName     -> Pion,
+    Unphysical    -> True,
+    SelfConjugate -> True,
+    Indices       -> {Index[IsoVector]},
+    FlavorIndex   -> IsoVector,
+    Definitions   -> { Pion[1] -> (PiP + PiPbar)/Sqrt[2],
+                       Pion[2] -> I (PiP - PiPbar)/Sqrt[2],
+                       Pion[3] -> Pi0 }
+  },
+
+(* --------------------------------- nucleons ---------------------------------- *)
+
+  F[1] == {
+    ClassName        -> Proton,
+    SelfConjugate    -> False,
+    Mass             -> {MN, 0.9389175},
+    Width            -> 0,
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1},
+    PropagatorLabel  -> "p",
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> 2212,
+    ParticleName     -> "p",
+    AntiParticleName -> "p~",
+    FullName         -> "Proton"
+  },
+  F[2] == {
+    ClassName        -> Neutron,
+    SelfConjugate    -> False,
+    Mass             -> {MN, 0.9389175},
+    Width            -> 0,
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1},
+    PropagatorLabel  -> "n",
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> 2112,
+    ParticleName     -> "n",
+    AntiParticleName -> "n~",
+    FullName         -> "Neutron"
+  },
+  F[11] == {
+    ClassName     -> Nucleon,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Indices       -> {Index[IsoSpin]},
+    FlavorIndex   -> IsoSpin,
+    Definitions   -> { Nucleon[s_, 1] :> Proton[s], Nucleon[s_, 2] :> Neutron[s] }
+  },
+
+(* --------------------------- N(1440)  P11  (spin 1/2) ------------------------ *)
+
+  F[3] == {
+    ClassName        -> N1440p,
+    SelfConjugate    -> False,
+    Mass             -> {MN1440, 1.385},
+    Width            -> {WN1440p, 0.160},
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1},
+    PropagatorLabel  -> "N1440p",
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> 12212,
+    ParticleName     -> "N1440+",
+    AntiParticleName -> "N1440+~",
+    FullName         -> "N(1440) P11 +"
+  },
+  F[4] == {
+    ClassName        -> N1440n,
+    SelfConjugate    -> False,
+    Mass             -> {MN1440, 1.385},
+    Width            -> {WN1440n, 0.160},
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1},
+    PropagatorLabel  -> "N1440n",
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> 12112,
+    ParticleName     -> "N14400",
+    AntiParticleName -> "N14400~",
+    FullName         -> "N(1440) P11 0"
+  },
+  F[12] == {
+    ClassName     -> N1440,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Indices       -> {Index[IsoSpin]},
+    FlavorIndex   -> IsoSpin,
+    Definitions   -> { N1440[s_, 1] :> N1440p[s], N1440[s_, 2] :> N1440n[s] }
+  },
+
+(* --------------------------- N(1535)  S11  (spin 1/2) ------------------------ *)
+
+  F[5] == {
+    ClassName        -> N1535p,
+    SelfConjugate    -> False,
+    Mass             -> {MN1535, 1.495},
+    Width            -> {WN1535p, 0.250},
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1},
+    PropagatorLabel  -> "N1535p",
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> 22212,
+    ParticleName     -> "N1535+",
+    AntiParticleName -> "N1535+~",
+    FullName         -> "N(1535) S11 +"
+  },
+  F[6] == {
+    ClassName        -> N1535n,
+    SelfConjugate    -> False,
+    Mass             -> {MN1535, 1.495},
+    Width            -> {WN1535n, 0.250},
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1},
+    PropagatorLabel  -> "N1535n",
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> 22112,
+    ParticleName     -> "N15350",
+    AntiParticleName -> "N15350~",
+    FullName         -> "N(1535) S11 0"
+  },
+  F[13] == {
+    ClassName     -> N1535,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Indices       -> {Index[IsoSpin]},
+    FlavorIndex   -> IsoSpin,
+    Definitions   -> { N1535[s_, 1] :> N1535p[s], N1535[s_, 2] :> N1535n[s] }
+  },
+
+(* --------------------------- N(1650)  S11  (spin 1/2) ------------------------ *)
+
+  F[7] == {
+    ClassName        -> N1650p,
+    SelfConjugate    -> False,
+    Mass             -> {MN1650, 1.680},
+    Width            -> {WN1650p, 0.150},
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1},
+    PropagatorLabel  -> "N1650p",
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> 32212,
+    ParticleName     -> "N1650+",
+    AntiParticleName -> "N1650+~",
+    FullName         -> "N(1650) S11 +"
+  },
+  F[8] == {
+    ClassName        -> N1650n,
+    SelfConjugate    -> False,
+    Mass             -> {MN1650, 1.680},
+    Width            -> {WN1650n, 0.150},
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1},
+    PropagatorLabel  -> "N1650n",
+    PropagatorType   -> Straight,
+    PropagatorArrow  -> Forward,
+    PDG              -> 32112,
+    ParticleName     -> "N16500",
+    AntiParticleName -> "N16500~",
+    FullName         -> "N(1650) S11 0"
+  },
+  F[14] == {
+    ClassName     -> N1650,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Indices       -> {Index[IsoSpin]},
+    FlavorIndex   -> IsoSpin,
+    Definitions   -> { N1650[s_, 1] :> N1650p[s], N1650[s_, 2] :> N1650n[s] }
+  },
+
+(* ----------------------- Delta(1620)  S31  (spin 1/2) ------------------------ *)
+
+  F[9]  == {
+    ClassName        -> D1620PP,
+    SelfConjugate    -> False,
+    Mass             -> {MD1620, 1.590},
+    Width            -> {WD1620PP, 0.100},
+    QuantumNumbers   -> {Q -> 2, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 2222,
+    ParticleName     -> "Delta1620++", AntiParticleName -> "Delta1620++~",
+    FullName         -> "Delta(1620) S31 ++"
+  },
+  F[10] == {
+    ClassName        -> D1620P,
+    SelfConjugate    -> False,
+    Mass             -> {MD1620, 1.590},
+    Width            -> {WD1620P, 0.100},
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 2122,
+    ParticleName     -> "Delta1620+", AntiParticleName -> "Delta1620+~",
+    FullName         -> "Delta(1620) S31 +"
+  },
+  F[15] == {
+    ClassName        -> D1620Z,
+    SelfConjugate    -> False,
+    Mass             -> {MD1620, 1.590},
+    Width            -> {WD1620Z, 0.100},
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 1212,
+    ParticleName     -> "Delta16200", AntiParticleName -> "Delta16200~",
+    FullName         -> "Delta(1620) S31 0"
+  },
+  F[16] == {
+    ClassName        -> D1620M,
+    SelfConjugate    -> False,
+    Mass             -> {MD1620, 1.590},
+    Width            -> {WD1620M, 0.100},
+    QuantumNumbers   -> {Q -> -1, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 1112,
+    ParticleName     -> "Delta1620-", AntiParticleName -> "Delta1620-~",
+    FullName         -> "Delta(1620) S31 -"
+  },
+  (* iso-vector iso-spinor field N*_j, Eqs. (18)-(20) *)
+  F[17] == {
+    ClassName     -> D1620,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Indices       -> {Index[IsoSpin], Index[IsoVector]},
+    FlavorIndex   -> IsoVector,
+    Definitions   -> {
+      D1620[s_, 1, 1] :> Sqrt[1/2] (D1620PP[s] - Sqrt[1/3] D1620Z[s]),
+      D1620[s_, 2, 1] :> Sqrt[1/2] (Sqrt[1/3] D1620P[s] - D1620M[s]),
+      D1620[s_, 1, 2] :> I Sqrt[1/2] (D1620PP[s] + Sqrt[1/3] D1620Z[s]),
+      D1620[s_, 2, 2] :> I Sqrt[1/2] (Sqrt[1/3] D1620P[s] + D1620M[s]),
+      D1620[s_, 1, 3] :> -Sqrt[2/3] D1620P[s],
+      D1620[s_, 2, 3] :> -Sqrt[2/3] D1620Z[s] }
+  },
+
+(* ----------------------- Delta(1232)  P33  (spin 3/2) ------------------------ *)
+
+  R[1] == {
+    ClassName        -> DeltaPP,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.209},
+    Width            -> {WDeltaPP, 0.102},
+    QuantumNumbers   -> {Q -> 2, BaryonNumber -> 1},
+    PropagatorLabel  -> "D++", PropagatorType -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 2224,
+    ParticleName     -> "Delta++", AntiParticleName -> "Delta++~",
+    FullName         -> "Delta(1232)++"
+  },
+  R[2] == {
+    ClassName        -> DeltaP,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.209},
+    Width            -> {WDeltaP, 0.102},
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1},
+    PropagatorLabel  -> "D+", PropagatorType -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 2214,
+    ParticleName     -> "Delta+", AntiParticleName -> "Delta+~",
+    FullName         -> "Delta(1232)+"
+  },
+  R[3] == {
+    ClassName        -> DeltaZ,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.209},
+    Width            -> {WDeltaZ, 0.102},
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1},
+    PropagatorLabel  -> "D0", PropagatorType -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 2114,
+    ParticleName     -> "Delta0", AntiParticleName -> "Delta0~",
+    FullName         -> "Delta(1232)0"
+  },
+  R[4] == {
+    ClassName        -> DeltaM,
+    SelfConjugate    -> False,
+    Mass             -> {MDelta, 1.209},
+    Width            -> {WDeltaM, 0.102},
+    QuantumNumbers   -> {Q -> -1, BaryonNumber -> 1},
+    PropagatorLabel  -> "D-", PropagatorType -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 1114,
+    ParticleName     -> "Delta-", AntiParticleName -> "Delta-~",
+    FullName         -> "Delta(1232)-"
+  },
+  R[11] == {
+    ClassName     -> Delta,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Indices       -> {Index[IsoSpin], Index[IsoVector]},
+    FlavorIndex   -> IsoVector,
+    Definitions   -> {
+      Delta[s_, mu_, 1, 1] :> Sqrt[1/2] (DeltaPP[s, mu] - Sqrt[1/3] DeltaZ[s, mu]),
+      Delta[s_, mu_, 2, 1] :> Sqrt[1/2] (Sqrt[1/3] DeltaP[s, mu] - DeltaM[s, mu]),
+      Delta[s_, mu_, 1, 2] :> I Sqrt[1/2] (DeltaPP[s, mu] + Sqrt[1/3] DeltaZ[s, mu]),
+      Delta[s_, mu_, 2, 2] :> I Sqrt[1/2] (Sqrt[1/3] DeltaP[s, mu] + DeltaM[s, mu]),
+      Delta[s_, mu_, 1, 3] :> -Sqrt[2/3] DeltaP[s, mu],
+      Delta[s_, mu_, 2, 3] :> -Sqrt[2/3] DeltaZ[s, mu] }
+  },
+
+(* ----------------------- N(1520)  D13  (spin 3/2) ---------------------------- *)
+
+  R[5] == {
+    ClassName        -> N1520p,
+    SelfConjugate    -> False,
+    Mass             -> {MN1520, 1.505},
+    Width            -> {WN1520p, 0.110},
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 2124,
+    ParticleName     -> "N1520+", AntiParticleName -> "N1520+~",
+    FullName         -> "N(1520) D13 +"
+  },
+  R[6] == {
+    ClassName        -> N1520n,
+    SelfConjugate    -> False,
+    Mass             -> {MN1520, 1.505},
+    Width            -> {WN1520n, 0.110},
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 1214,
+    ParticleName     -> "N15200", AntiParticleName -> "N15200~",
+    FullName         -> "N(1520) D13 0"
+  },
+  R[12] == {
+    ClassName     -> N1520,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Indices       -> {Index[IsoSpin]},
+    FlavorIndex   -> IsoSpin,
+    Definitions   -> { N1520[s_, mu_, 1] :> N1520p[s, mu], N1520[s_, mu_, 2] :> N1520n[s, mu] }
+  },
+
+(* ----------------------- Delta(1700)  D33  (spin 3/2) ------------------------ *)
+
+  R[7] == {
+    ClassName        -> D1700PP,
+    SelfConjugate    -> False,
+    Mass             -> {MD1700, 1.620},
+    Width            -> {WD1700PP, 0.250},
+    QuantumNumbers   -> {Q -> 2, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 12224,
+    ParticleName     -> "Delta1700++", AntiParticleName -> "Delta1700++~",
+    FullName         -> "Delta(1700) D33 ++"
+  },
+  R[8] == {
+    ClassName        -> D1700P,
+    SelfConjugate    -> False,
+    Mass             -> {MD1700, 1.620},
+    Width            -> {WD1700P, 0.250},
+    QuantumNumbers   -> {Q -> 1, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 12214,
+    ParticleName     -> "Delta1700+", AntiParticleName -> "Delta1700+~",
+    FullName         -> "Delta(1700) D33 +"
+  },
+  R[9] == {
+    ClassName        -> D1700Z,
+    SelfConjugate    -> False,
+    Mass             -> {MD1700, 1.620},
+    Width            -> {WD1700Z, 0.250},
+    QuantumNumbers   -> {Q -> 0, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 12114,
+    ParticleName     -> "Delta17000", AntiParticleName -> "Delta17000~",
+    FullName         -> "Delta(1700) D33 0"
+  },
+  R[10] == {
+    ClassName        -> D1700M,
+    SelfConjugate    -> False,
+    Mass             -> {MD1700, 1.620},
+    Width            -> {WD1700M, 0.250},
+    QuantumNumbers   -> {Q -> -1, BaryonNumber -> 1},
+    PropagatorType   -> Straight, PropagatorArrow -> Forward,
+    PDG              -> 11114,
+    ParticleName     -> "Delta1700-", AntiParticleName -> "Delta1700-~",
+    FullName         -> "Delta(1700) D33 -"
+  },
+  R[13] == {
+    ClassName     -> D1700,
+    Unphysical    -> True,
+    SelfConjugate -> False,
+    Indices       -> {Index[IsoSpin], Index[IsoVector]},
+    FlavorIndex   -> IsoVector,
+    Definitions   -> {
+      D1700[s_, mu_, 1, 1] :> Sqrt[1/2] (D1700PP[s, mu] - Sqrt[1/3] D1700Z[s, mu]),
+      D1700[s_, mu_, 2, 1] :> Sqrt[1/2] (Sqrt[1/3] D1700P[s, mu] - D1700M[s, mu]),
+      D1700[s_, mu_, 1, 2] :> I Sqrt[1/2] (D1700PP[s, mu] + Sqrt[1/3] D1700Z[s, mu]),
+      D1700[s_, mu_, 2, 2] :> I Sqrt[1/2] (Sqrt[1/3] D1700P[s, mu] + D1700M[s, mu]),
+      D1700[s_, mu_, 1, 3] :> -Sqrt[2/3] D1700P[s, mu],
+      D1700[s_, mu_, 2, 3] :> -Sqrt[2/3] D1700Z[s, mu] }
+  }
+};
+
+
+(* ****************************************************************************** *)
+(* *****                          Parameters                              ****** *)
+(* ****************************************************************************** *)
+
+(* Default numerical values correspond to SET #1 of Tables 2 and 3 (PDG masses   *)
+(* and widths, FSI phases included, chi^2/chi^2_PDG = 1).                        *)
+(*                                                                                *)
+(* The other five sets of the paper are collected at the end of this file for     *)
+(* convenience -- see "Alternative parameter sets".                               *)
+
+M$Parameters = {
+
+(* ----------------------------- electromagnetic ------------------------------- *)
+
+  aEWM1 == {
+    ParameterType    -> External,
+    BlockName        -> SMINPUTS,
+    OrderBlock       -> 1,
+    Value            -> 137.035999,
+    InteractionOrder -> {QED, -2},
+    Description      -> "Inverse of the fine structure constant at q^2 = 0"
+  },
+  aEW == {
+    ParameterType    -> Internal,
+    Value            -> 1/aEWM1,
+    InteractionOrder -> {QED, 2},
+    Description      -> "Fine structure constant"
+  },
+  ee == {
+    ParameterType    -> Internal,
+    Value            -> Sqrt[4 Pi aEW],
+    InteractionOrder -> {QED, 1},
+    TeX              -> e,
+    Description      -> "Electric coupling constant (absolute value of e)"
+  },
+
+(* --------------------------- masses used as scales --------------------------- *)
+
+  mpiScale == {
+    ParameterType -> External,
+    BlockName     -> ELAMASS,
+    OrderBlock    -> 1,
+    Value         -> 0.1395673,
+    Description   -> "Pion mass appearing as a scale in f_piN/m_pi, Eq. (12)"
+  },
+  fpi == {
+    ParameterType -> External,
+    BlockName     -> ELAMASS,
+    OrderBlock    -> 2,
+    Value         -> 0.0923,
+    TeX           -> Subscript[f, \[Pi]],
+    Description   -> "Pion leptonic decay constant f_pi = 92.3 MeV"
+  },
+  fpiN == {
+    ParameterType -> External,
+    BlockName     -> ELABORN,
+    OrderBlock    -> 1,
+    Value         -> 0.9701623,
+    TeX           -> Subscript[f, \[Pi]N],
+    Description   -> "pi-N pseudovector coupling, f_piN^2/4pi = 0.0749"
+  },
+
+(* ---------------------- nucleon electromagnetic form factors ------------------ *)
+
+  F1V == {
+    ParameterType -> External, BlockName -> ELABORN, OrderBlock -> 2,
+    Value         -> 1.0,
+    Description   -> "Isovector Dirac form factor at q^2=0, F1V = F1p - F1n"
+  },
+  F1SV == {
+    ParameterType -> External, BlockName -> ELABORN, OrderBlock -> 3,
+    Value         -> 1.0,
+    Description   -> "F1^{S/V} = F1S/F1V at q^2=0"
+  },
+  F2V == {
+    ParameterType -> External, BlockName -> ELABORN, OrderBlock -> 4,
+    Value         -> 3.70,
+    Description   -> "Isovector Pauli form factor at q^2=0, F2V = kappa_p - kappa_n"
+  },
+  F2SV == {
+    ParameterType -> External, BlockName -> ELABORN, OrderBlock -> 5,
+    Value         -> -0.0324324,
+    Description   -> "F2^{S/V} = F2S/F2V = (kappa_p+kappa_n)/(kappa_p-kappa_n) = -0.12/3.70"
+  },
+
+(* ------------------------------ vector mesons -------------------------------- *)
+
+  FRhoNN == {
+    ParameterType -> External, BlockName -> ELAVMESON, OrderBlock -> 1,
+    Value         -> 2.6,   Description -> "rho-N-N vector coupling, Eq. (16)"
+  },
+  KRho == {
+    ParameterType -> External, BlockName -> ELAVMESON, OrderBlock -> 2,
+    Value         -> 6.30,  Description -> "rho-N-N tensor/vector ratio, Eq. (16)"
+  },
+  FOmNN == {
+    ParameterType -> External, BlockName -> ELAVMESON, OrderBlock -> 3,
+    Value         -> 21.11, Description -> "omega-N-N vector coupling, Eq. (15)"
+  },
+  KOm == {
+    ParameterType -> External, BlockName -> ELAVMESON, OrderBlock -> 4,
+    Value         -> -0.17, Description -> "omega-N-N tensor/vector ratio, Eq. (15)"
+  },
+  GRho0PiGam == {
+    ParameterType -> External, BlockName -> ELAVMESON, OrderBlock -> 5,
+    Value         -> 0.1161, Description -> "rho0 -> pi0 gamma coupling, Eq. (52)"
+  },
+  GRhoCPiGam == {
+    ParameterType -> External, BlockName -> ELAVMESON, OrderBlock -> 6,
+    Value         -> 0.0906, Description -> "rho+- -> pi+- gamma coupling, Eq. (52)"
+  },
+  GOmPiGam == {
+    ParameterType -> External, BlockName -> ELAVMESON, OrderBlock -> 7,
+    Value         -> 0.2804, Description -> "omega -> pi0 gamma coupling, Eq. (52)"
+  },
+
+(* --------------------------- Delta(1232)  P33 -------------------------------- *)
+
+  hDelta == {
+    ParameterType -> External, BlockName -> ELAP33, OrderBlock -> 1,
+    Value -> 0.764, Description -> "Delta(1232) piN coupling h, Table 3"
+  },
+  g1Delta == {
+    ParameterType -> External, BlockName -> ELAP33, OrderBlock -> 2,
+    Value -> 6.061, Description -> "Delta(1232) gamma-N coupling g1, Table 3"
+  },
+  g2Delta == {
+    ParameterType -> External, BlockName -> ELAP33, OrderBlock -> 3,
+    Value -> 2.414, Description -> "Delta(1232) gamma-N coupling g2, Table 3"
+  },
+  GEDelta == {
+    ParameterType -> Internal,
+    Value -> -(1/2) ((MDelta - MN)/(MDelta + MN)) g2Delta,
+    Description -> "Delta(1232) electric coupling G_E, Eq. (34)"
+  },
+  GMDelta == {
+    ParameterType -> Internal,
+    Value -> g1Delta + (1/2) ((MDelta - MN)/(MDelta + MN)) g2Delta,
+    Description -> "Delta(1232) magnetic coupling G_M, Eq. (35)"
+  },
+
+(* --------------------------- N(1440)  P11 ------------------------------------ *)
+
+  hN1440 == {
+    ParameterType -> External, BlockName -> ELAP11, OrderBlock -> 1,
+    Value -> 0.213, Description -> "N(1440) piN coupling h"
+  },
+  gpN1440 == {
+    ParameterType -> External, BlockName -> ELAP11, OrderBlock -> 2,
+    Value -> 0.255, Description -> "N(1440) proton EM coupling g_p"
+  },
+  gnN1440 == {
+    ParameterType -> External, BlockName -> ELAP11, OrderBlock -> 3,
+    Value -> -0.125, Description -> "N(1440) neutron EM coupling g_n"
+  },
+  gSN1440 == { ParameterType -> Internal, Value -> gpN1440 + gnN1440, Description -> "g_S = g_p + g_n" },
+  gVN1440 == { ParameterType -> Internal, Value -> gpN1440 - gnN1440, Description -> "g_V = g_p - g_n" },
+
+(* --------------------------- N(1535)  S11 ------------------------------------ *)
+
+  hN1535 == {
+    ParameterType -> External, BlockName -> ELAS11A, OrderBlock -> 1,
+    Value -> 0.132, Description -> "N(1535) piN coupling h"
+  },
+  gpN1535 == {
+    ParameterType -> External, BlockName -> ELAS11A, OrderBlock -> 2,
+    Value -> 0.219, Description -> "N(1535) proton EM coupling g_p"
+  },
+  gnN1535 == {
+    ParameterType -> External, BlockName -> ELAS11A, OrderBlock -> 3,
+    Value -> -0.102, Description -> "N(1535) neutron EM coupling g_n"
+  },
+  gSN1535 == { ParameterType -> Internal, Value -> gpN1535 + gnN1535, Description -> "g_S = g_p + g_n" },
+  gVN1535 == { ParameterType -> Internal, Value -> gpN1535 - gnN1535, Description -> "g_V = g_p - g_n" },
+
+(* --------------------------- N(1650)  S11 ------------------------------------ *)
+
+  hN1650 == {
+    ParameterType -> External, BlockName -> ELAS11B, OrderBlock -> 1,
+    Value -> 0.102, Description -> "N(1650) piN coupling h"
+  },
+  gpN1650 == {
+    ParameterType -> External, BlockName -> ELAS11B, OrderBlock -> 2,
+    Value -> 0.113, Description -> "N(1650) proton EM coupling g_p"
+  },
+  gnN1650 == {
+    ParameterType -> External, BlockName -> ELAS11B, OrderBlock -> 3,
+    Value -> 0.018, Description -> "N(1650) neutron EM coupling g_n"
+  },
+  gSN1650 == { ParameterType -> Internal, Value -> gpN1650 + gnN1650, Description -> "g_S = g_p + g_n" },
+  gVN1650 == { ParameterType -> Internal, Value -> gpN1650 - gnN1650, Description -> "g_V = g_p - g_n" },
+
+(* --------------------------- Delta(1620)  S31 -------------------------------- *)
+
+  hD1620 == {
+    ParameterType -> External, BlockName -> ELAS31, OrderBlock -> 1,
+    Value -> 0.133, Description -> "Delta(1620) piN coupling h"
+  },
+  gD1620 == {
+    ParameterType -> External, BlockName -> ELAS31, OrderBlock -> 2,
+    Value -> -0.154, Description -> "Delta(1620) EM coupling g"
+  },
+
+(* --------------------------- N(1520)  D13 ------------------------------------ *)
+
+  hN1520 == {
+    ParameterType -> External, BlockName -> ELAD13, OrderBlock -> 1,
+    Value -> 0.560, Description -> "N(1520) piN coupling h"
+  },
+  g1pN1520 == { ParameterType -> External, BlockName -> ELAD13, OrderBlock -> 2, Value -> -5.753, Description -> "N(1520) g1p" },
+  g1nN1520 == { ParameterType -> External, BlockName -> ELAD13, OrderBlock -> 3, Value ->  1.217, Description -> "N(1520) g1n" },
+  g2pN1520 == { ParameterType -> External, BlockName -> ELAD13, OrderBlock -> 4, Value -> -0.861, Description -> "N(1520) g2p" },
+  g2nN1520 == { ParameterType -> External, BlockName -> ELAD13, OrderBlock -> 5, Value ->  1.462, Description -> "N(1520) g2n" },
+  g1SN1520 == { ParameterType -> Internal, Value -> g1pN1520 + g1nN1520, Description -> "N(1520) g1S" },
+  g1VN1520 == { ParameterType -> Internal, Value -> g1pN1520 - g1nN1520, Description -> "N(1520) g1V" },
+  g2SN1520 == { ParameterType -> Internal, Value -> g2pN1520 + g2nN1520, Description -> "N(1520) g2S" },
+  g2VN1520 == { ParameterType -> Internal, Value -> g2pN1520 - g2nN1520, Description -> "N(1520) g2V" },
+
+(* --------------------------- Delta(1700)  D33 -------------------------------- *)
+
+  hD1700 == {
+    ParameterType -> External, BlockName -> ELAD33, OrderBlock -> 1,
+    Value -> 0.285, Description -> "Delta(1700) piN coupling h"
+  },
+  g1D1700 == { ParameterType -> External, BlockName -> ELAD33, OrderBlock -> 2, Value -> -3.513, Description -> "Delta(1700) g1" },
+  g2D1700 == { ParameterType -> External, BlockName -> ELAD33, OrderBlock -> 3, Value ->  1.871, Description -> "Delta(1700) g2" },
+
+(* ----------------------------- form-factor cutoff ---------------------------- *)
+
+  LambdaFF == {
+    ParameterType -> External, BlockName -> ELAFF, OrderBlock -> 1,
+    Value -> 1.121,
+    Description -> "Davidson-Workman cutoff Lambda (GeV), Eqs. (49)-(51). Not used inside the vertices; consumed by the FeynCalc script."
+  }
+};
+
+
+(* ****************************************************************************** *)
+(* *****             Conventions and short-hand structures                ****** *)
+(* ****************************************************************************** *)
+
+(* Metric  g^{mu nu} = diag(1,-1,-1,-1);  gamma5 = i g0 g1 g2 g3.                 *)
+(*                                                                                *)
+(* Levi-Civita: the paper uses eps^{0123} = +1.  Should your FeynRules build use   *)
+(* the opposite sign convention for Eps[], flip epsSign below; every Levi-Civita   *)
+(* structure in the model goes through LC4.  (This is a plain Mathematica number,  *)
+(* not a model parameter, so it leaves no trace in the UFO output.)               *)
+
+epsSign = 1;
+
+LC4[a_, b_, c_, d_] := epsSign Eps[a, b, c, d];
+
+(* gamma^{alpha beta} = (1/2)[gamma^alpha, gamma^beta] *)
+GaAB[al_, be_, s1_, s2_] := Module[{sx},
+  (1/2) (Ga[al, s1, sx] Ga[be, sx, s2] - Ga[be, s1, sx] Ga[al, sx, s2])];
+
+(* F^{mu nu} and its dual  Ftilde^{mu nu} = (1/2) eps^{mu nu al be} F_{al be} *)
+FA[mu_, nu_]      := FS[A, mu, nu];
+FAdual[mu_, nu_]  := Module[{al, be}, (1/2) LC4[mu, nu, al, be] FS[A, al, be]];
+
+(* Add the hermitian conjugate of an interaction term.
+
+   NB: the indices MUST be expanded before HC is applied.  FeynRules' HC assigns
+   a fresh dummy spinor index to every term it conjugates, so the individual
+   iso-vector components of  Nbar N*_j pi_j  can no longer cancel against each
+   other and spurious (charge-violating) vertices survive.  Expanding onto the
+   physical charge basis first makes each term a plain product of physical
+   fields, which HC handles correctly.  Verified: with the expansion,
+   FeynmanRules[HC[...]] returns exactly the six charge-conserving conjugates of
+   the direct pi-N-Delta vertices; without it, ten vertices come out, four of
+   which violate charge conservation. *)
+
+addHC[L_] := Module[{Lx}, Lx = Expand[ExpandIndices[L]]; Lx + HC[Lx]];
+
+(* isospin helpers -- explicit numerical matrices, summed explicitly below *)
+tau[j_Integer, r1_Integer, r2_Integer]  := PauliMatrix[j][[r1, r2]];
+idIso[r1_Integer, r2_Integer]           := KroneckerDelta[r1, r2];
+commTau[j_Integer, k_Integer, r1_Integer, r2_Integer] :=
+  (PauliMatrix[j] . PauliMatrix[k] - PauliMatrix[k] . PauliMatrix[j])[[r1, r2]];
+eps3[a_Integer, b_Integer, c_Integer]   := Signature[{a, b, c}];
+
+
+(* ****************************************************************************** *)
+(* *****                          Lagrangians                             ****** *)
+(* ****************************************************************************** *)
+
+(* ------------------------------------------------------------------------------ *)
+(*  Born terms, Eq. (14)                                                           *)
+(*                                                                                 *)
+(*  L_Born = - i e F_pi Ahat^al eps_{jk3} pi_j (d_al pi_k)                          *)
+(*           - e Ahat^al F1V Nbar ga_al (1/2)(F1^{S/V} + tau3) N                    *)
+(*           - i e F1V (f_piN/m_pi) Ahat^al Nbar ga_al ga5 (1/2)[tau_j,tau3] pi_j N *)
+(*           - (i e/4M) F2V Nbar (1/2)(F2^{S/V} + tau3) ga_{al be} N F^{al be}      *)
+(*           + (f_piN/m_pi) Nbar ga_al ga5 tau_j N (d^al pi_j)                      *)
+(* ------------------------------------------------------------------------------ *)
+
+(* (a) gamma pi pi  (scalar QED piece; F_pi = F1V ensures gauge invariance) *)
+(*                                                                                  *)
+(*  NOTE: the factor of I that appears in Eq. (14) as printed has been REMOVED.     *)
+(*  Minimal coupling gives a real coefficient: with                                  *)
+(*      D_mu pi_b = d_mu pi_b + i e A_mu (T3)_bc pi_c,   (T3)_bc = -i eps_{3bc}      *)
+(*  the kinetic term (1/2)(D_mu pi_b)^2 yields                                       *)
+(*      L_int = -e A^al eps_{jk3} pi_j d_al pi_k     [no I].                         *)
+(*  With the I present, FeynRules returns a REAL gamma-pi-pi vertex while the        *)
+(*  gamma-N-N vertex is imaginary; scalar and spinor QED require both imaginary,     *)
+(*  and the charged-pion Born amplitude then violates gauge invariance by 24-30%.    *)
+(*  Dropping the I multiplies this vertex by -i and makes the Ward identity exact    *)
+(*  (residual 3.6e-17 / 5.1e-17), with the Kroll-Ruderman coupling landing on the    *)
+(*  required value with no adjustment.  See VALIDATION.md.                           *)
+LBornApipi := Block[{al},
+  -ee F1V A[al] Sum[eps3[iv, kv, 3] Pion[iv] del[Pion[kv], al], {iv, 3}, {kv, 3}]];
+
+(* (b) gamma N N, Dirac part *)
+LBornANNv := Block[{al, s1, s2},
+  -ee F1V A[al] Sum[
+      Nucleonbar[s1, ia] Ga[al, s1, s2] (1/2) (F1SV idIso[ia, ib] + tau[3, ia, ib]) Nucleon[s2, ib],
+      {ia, 2}, {ib, 2}]];
+
+(* (c) Kroll-Ruderman contact term *)
+LBornKR := Block[{al, s1, s2, s3},
+  -I ee F1V (fpiN/mpiScale) A[al] Sum[
+      Nucleonbar[s1, ia] Ga[al, s1, s2] Ga[5, s2, s3] (1/2) commTau[iv, 3, ia, ib] Pion[iv] Nucleon[s3, ib],
+      {ia, 2}, {ib, 2}, {iv, 3}]];
+
+(* (d) gamma N N, anomalous magnetic moment, Eq. (13) *)
+LBornANNt := Block[{al, be, s1, s2},
+  -(I ee/(4 MN)) F2V Sum[
+      Nucleonbar[s1, ia] (1/2) (F2SV idIso[ia, ib] + tau[3, ia, ib]) GaAB[al, be, s1, s2] Nucleon[s2, ib],
+      {ia, 2}, {ib, 2}] FA[al, be]];
+
+(* (e) pi N N pseudovector coupling, Eq. (12) *)
+LBornPiNN := Block[{al, s1, s2, s3},
+  (fpiN/mpiScale) Sum[
+      Nucleonbar[s1, ia] Ga[al, s1, s2] Ga[5, s2, s3] tau[iv, ia, ib] Nucleon[s3, ib] del[Pion[iv], al],
+      {ia, 2}, {ib, 2}, {iv, 3}]];
+
+LBorn := LBornApipi + LBornANNv + LBornKR + LBornANNt + LBornPiNN;
+
+
+(* ------------------------------------------------------------------------------ *)
+(*  omega exchange, Eq. (15)                                                       *)
+(*    L_omega = - F_omNN Nbar [ ga_al - i (K_om/2M) ga_{al be} d^be ] om^al N       *)
+(*              + (e G_ompigam/m_pi) Ftilde_{mu nu} (d^mu pi_j) delta_{j3} om^nu    *)
+(* ------------------------------------------------------------------------------ *)
+
+LOmegaNN := Block[{al, be, s1, s2},
+  -FOmNN Sum[
+      Nucleonbar[s1, ia] idIso[ia, ib] (
+          Ga[al, s1, s2] Om[al]
+        - I (KOm/(2 MN)) GaAB[al, be, s1, s2] del[Om[al], be]
+      ) Nucleon[s2, ib],
+      {ia, 2}, {ib, 2}]];
+
+LOmegaPiGam := Block[{mu, nu},
+  (ee GOmPiGam/mpiScale) FAdual[mu, nu] del[Pi0, mu] Om[nu]];
+
+LOmega := LOmegaNN + LOmegaPiGam;
+
+
+(* ------------------------------------------------------------------------------ *)
+(*  rho exchange, Eq. (16)                                                         *)
+(*    L_rho = - F_rhoNN Nbar [ ga_al - i (K_rho/2M) ga_{al be} d^be ] tau_j rho^al_j N *)
+(*            + (e G_rhopigam/m_pi) Ftilde_{mu nu} (d^mu pi_j) rho^nu_j             *)
+(*                                                                                 *)
+(*  G_rho0pigam and G_rho+-pigam differ, so the pi-gamma-rho term is written out    *)
+(*  in the charge basis.                                                           *)
+(* ------------------------------------------------------------------------------ *)
+
+LRhoNN := Block[{al, be, s1, s2},
+  -FRhoNN Sum[
+      Nucleonbar[s1, ia] tau[iv, ia, ib] (
+          Ga[al, s1, s2] RhoV[al, iv]
+        - I (KRho/(2 MN)) GaAB[al, be, s1, s2] del[RhoV[al, iv], be]
+      ) Nucleon[s2, ib],
+      {ia, 2}, {ib, 2}, {iv, 3}]];
+
+LRhoPiGam := Block[{mu, nu},
+  (ee/mpiScale) FAdual[mu, nu] (
+      GRho0PiGam del[Pi0, mu] Rho0[nu]
+    + GRhoCPiGam (del[PiP, mu] RhoPbar[nu] + del[PiPbar, mu] RhoP[nu]) )];
+
+LRho := LRhoNN + LRhoPiGam;
+
+LVectorMesons := LOmega + LRho;
+
+
+(* ------------------------------------------------------------------------------ *)
+(*  Spin-1/2, isospin-1/2 resonances                                               *)
+(*                                                                                 *)
+(*  S11, Eq. (17):                                                                 *)
+(*    L = - (h/f_pi) Nbar ga_al tau_j N* d^al pi_j                                  *)
+(*        - (i e/4M) Nbar ga_{al be} ga5 (gS + gV tau3) N* F^{al be} + HC           *)
+(*                                                                                 *)
+(*  P11, Eq. (22):                                                                 *)
+(*    L = - (h/f_pi) Nbar ga_al ga5 tau_j N* d^al pi_j                              *)
+(*        + (i e/4M) Nbar ga_{al be} (gS + gV tau3) N* F^{al be} + HC               *)
+(* ------------------------------------------------------------------------------ *)
+
+LS11gen[Res_, h_, gS_, gV_] := Module[{tPi, tEM},
+  tPi = Block[{al, s1, s2},
+    -(h/fpi) Sum[
+        Nucleonbar[s1, ia] Ga[al, s1, s2] tau[iv, ia, ib] Res[s2, ib] del[Pion[iv], al],
+        {ia, 2}, {ib, 2}, {iv, 3}]];
+  tEM = Block[{al, be, s1, s2, s3},
+    -(I ee/(4 MN)) Sum[
+        Nucleonbar[s1, ia] GaAB[al, be, s1, s2] Ga[5, s2, s3]
+          (gS idIso[ia, ib] + gV tau[3, ia, ib]) Res[s3, ib],
+        {ia, 2}, {ib, 2}] FA[al, be]];
+  addHC[tPi + tEM]];
+
+LP11gen[Res_, h_, gS_, gV_] := Module[{tPi, tEM},
+  tPi = Block[{al, s1, s2, s3},
+    -(h/fpi) Sum[
+        Nucleonbar[s1, ia] Ga[al, s1, s2] Ga[5, s2, s3] tau[iv, ia, ib] Res[s3, ib] del[Pion[iv], al],
+        {ia, 2}, {ib, 2}, {iv, 3}]];
+  tEM = Block[{al, be, s1, s2},
+    (I ee/(4 MN)) Sum[
+        Nucleonbar[s1, ia] GaAB[al, be, s1, s2]
+          (gS idIso[ia, ib] + gV tau[3, ia, ib]) Res[s2, ib],
+        {ia, 2}, {ib, 2}] FA[al, be]];
+  addHC[tPi + tEM]];
+
+LS11a := LS11gen[N1535, hN1535, gSN1535, gVN1535];   (* N(1535) *)
+LS11b := LS11gen[N1650, hN1650, gSN1650, gVN1650];   (* N(1650) *)
+LP11  := LP11gen[N1440, hN1440, gSN1440, gVN1440];   (* N(1440) *)
+
+
+(* ------------------------------------------------------------------------------ *)
+(*  Spin-1/2, isospin-3/2 resonance -- Delta(1620) S31, Eq. (21)                    *)
+(*    L = - (h/f_pi) Nbar ga_al N*_j d^al pi_j                                      *)
+(*        - (i e g/2M) Nbar ga_{al be} ga5 N*_3 F^{al be} + HC                      *)
+(* ------------------------------------------------------------------------------ *)
+
+LS31gen[Res_, h_, g_] := Module[{tPi, tEM},
+  tPi = Block[{al, s1, s2},
+    -(h/fpi) Sum[
+        Nucleonbar[s1, ia] Ga[al, s1, s2] Res[s2, ia, iv] del[Pion[iv], al],
+        {ia, 2}, {iv, 3}]];
+  tEM = Block[{al, be, s1, s2, s3},
+    -(I ee g/(2 MN)) Sum[
+        Nucleonbar[s1, ia] GaAB[al, be, s1, s2] Ga[5, s2, s3] Res[s3, ia, 3],
+        {ia, 2}] FA[al, be]];
+  addHC[tPi + tEM]];
+
+LS31 := LS31gen[D1620, hD1620, gD1620];
+
+
+(* ------------------------------------------------------------------------------ *)
+(*  Spin-3/2, isospin-3/2 resonances (gauge-invariant Pascalutsa couplings)         *)
+(*                                                                                 *)
+(*  P33, Eq. (36):                                                                 *)
+(*    L = - (h/(f_pi MR)) Nbar eps_{mu nu la be} ga^be ga5 (d^mu N*^nu_j)(d^la pi_j) *)
+(*        + (3e/(2M(M+MR))) Nbar [ i g1 Ftilde_{mu nu} + g2 ga5 F_{mu nu} ] (d^mu N*^nu_3) *)
+(*        + HC                                                                      *)
+(*                                                                                  *)
+(*  D33, Eq. (40): same with the overall ga5 moved (parity flip)                     *)
+(*    L = - (h/(f_pi MR)) Nbar eps_{mu nu la be} ga^be (d^mu N*^nu_j)(d^la pi_j)     *)
+(*        + (3e/(2M(M+MR))) Nbar [ i g1 Ftilde_{mu nu} ga5 + g2 F_{mu nu} ] (d^mu N*^nu_3) *)
+(*        + HC                                                                      *)
+(* ------------------------------------------------------------------------------ *)
+
+LP33gen[Res_, MRes_, h_, g1_, g2_] := Module[{tPi, tEM},
+  tPi = Block[{mu, nu, la, be, s1, s2, s3},
+    -(h/(fpi MRes)) Sum[
+        Nucleonbar[s1, ia] LC4[mu, nu, la, be] Ga[be, s1, s2] Ga[5, s2, s3]
+          del[Res[s3, nu, ia, iv], mu] del[Pion[iv], la],
+        {ia, 2}, {iv, 3}]];
+  tEM = Block[{mu, nu, s1, s2},
+    (3 ee/(2 MN (MN + MRes))) Sum[
+        Nucleonbar[s1, ia] (
+            I g1 FAdual[mu, nu] IndexDelta[s1, s2]
+          + g2 Ga[5, s1, s2] FA[mu, nu]
+        ) del[Res[s2, nu, ia, 3], mu],
+        {ia, 2}]];
+  addHC[tPi + tEM]];
+
+LD33gen[Res_, MRes_, h_, g1_, g2_] := Module[{tPi, tEM},
+  tPi = Block[{mu, nu, la, be, s1, s2},
+    -(h/(fpi MRes)) Sum[
+        Nucleonbar[s1, ia] LC4[mu, nu, la, be] Ga[be, s1, s2]
+          del[Res[s2, nu, ia, iv], mu] del[Pion[iv], la],
+        {ia, 2}, {iv, 3}]];
+  tEM = Block[{mu, nu, s1, s2},
+    (3 ee/(2 MN (MN + MRes))) Sum[
+        Nucleonbar[s1, ia] (
+            I g1 Ga[5, s1, s2] FAdual[mu, nu]
+          + g2 IndexDelta[s1, s2] FA[mu, nu]
+        ) del[Res[s2, nu, ia, 3], mu],
+        {ia, 2}]];
+  addHC[tPi + tEM]];
+
+LP33 := LP33gen[Delta, MDelta, hDelta, g1Delta, g2Delta];   (* Delta(1232) *)
+LD33 := LD33gen[D1700, MD1700, hD1700, g1D1700, g2D1700];   (* Delta(1700) *)
+
+
+(* ------------------------------------------------------------------------------ *)
+(*  Spin-3/2, isospin-1/2 resonance -- N(1520) D13, Eq. (41)                        *)
+(*    L = - (h/(f_pi MR)) Nbar eps_{mu nu la be} ga^be tau_j (d^mu N*^nu)(d^la pi_j) *)
+(*        + (3e/(4M(M+MR))) Nbar [ i (g1S+g1V tau3) Ftilde_{mu nu} ga5               *)
+(*                                 + (g2S+g2V tau3) F_{mu nu} ] (d^mu N*^nu) + HC    *)
+(* ------------------------------------------------------------------------------ *)
+
+LD13gen[Res_, MRes_, h_, g1S_, g1V_, g2S_, g2V_] := Module[{tPi, tEM},
+  tPi = Block[{mu, nu, la, be, s1, s2},
+    -(h/(fpi MRes)) Sum[
+        Nucleonbar[s1, ia] LC4[mu, nu, la, be] Ga[be, s1, s2] tau[iv, ia, ib]
+          del[Res[s2, nu, ib], mu] del[Pion[iv], la],
+        {ia, 2}, {ib, 2}, {iv, 3}]];
+  tEM = Block[{mu, nu, s1, s2},
+    (3 ee/(4 MN (MN + MRes))) Sum[
+        Nucleonbar[s1, ia] (
+            I (g1S idIso[ia, ib] + g1V tau[3, ia, ib]) Ga[5, s1, s2] FAdual[mu, nu]
+          + (g2S idIso[ia, ib] + g2V tau[3, ia, ib]) IndexDelta[s1, s2] FA[mu, nu]
+        ) del[Res[s2, nu, ib], mu],
+        {ia, 2}, {ib, 2}]];
+  addHC[tPi + tEM]];
+
+LD13 := LD13gen[N1520, MN1520, hN1520, g1SN1520, g1VN1520, g2SN1520, g2VN1520];
+
+
+(* ------------------------------------------------------------------------------ *)
+(*  Assembled Lagrangians                                                          *)
+(* ------------------------------------------------------------------------------ *)
+
+LResonances := LP11 + LS11a + LS11b + LS31 + LP33 + LD13 + LD33;
+
+(* full interaction Lagrangian of the model *)
+LELA := LBorn + LVectorMesons + LResonances;
+
+(* Delta(1232)-only piece: what the FeynCalc cross-section script needs *)
+LDelta := LP33;
+
+
+(* ****************************************************************************** *)
+(* *****                  Alternative parameter sets                      ****** *)
+(* ****************************************************************************** *)
+
+(*
+  Tables 2 and 3 of nucl-th/0509020v2.  Apply e.g.
+
+      ELASet[2];
+
+  after LoadModel[] to switch the numerical values (this only updates the
+  FeynRules parameter values; re-export the UFO afterwards).
+
+  Set:                #1      #2      #3      #4      #5      #6
+  Masses & widths:    PDG    Vrana     SP     PDG    Vrana     SP
+  FSI phases:         yes     yes     yes      no      no      no
+  chi^2/chi^2_PDG:      1    0.53    0.60    9.30    5.57    4.56
+*)
+
+ELA$Sets = <|
+  "Lambda"     -> {1.121, 1.050, 1.040, 1.494, 0.951, 0.962},
+  "KRho"       -> {6.30,  6.30,  6.30,  6.30,  5.90,  5.90},
+  "FOmNN"      -> {21.11, 21.11, 21.11, 20.61, 21.11, 21.11},
+  "KOm"        -> {-0.17, -0.17, -0.17, -0.15, -0.17, -0.17},
+  "MDelta"     -> {1.209, 1.215, 1.209, 1.210, 1.215, 1.209},
+  "WDelta"     -> {0.102, 0.098, 0.100, 0.102, 0.094, 0.099},
+  "hDelta"     -> {0.764, 0.721, 0.757, 0.759, 0.706, 0.753},
+  "g1Delta"    -> {6.061, 5.574, 5.630, 6.254, 5.382, 4.984},
+  "g2Delta"    -> {2.414, 1.187, 1.123, 4.032, 7.253, 7.696},
+  "MN1440"     -> {1.385, 1.381, 1.370, 1.385, 1.381, 1.370},
+  "WN1440"     -> {0.160, 0.318, 0.292, 0.260, 0.314, 0.288},
+  "hN1440"     -> {0.213, 0.304, 0.303, 0.272, 0.302, 0.300},
+  "gpN1440"    -> {0.255, -0.269, -0.247, 0.255, -0.164, 0.017},
+  "gnN1440"    -> {-0.125, 0.273, 0.234, -0.125, 0.096, -0.128},
+  "MN1520"     -> {1.505, 1.502, 1.514, 1.505, 1.502, 1.514},
+  "WN1520"     -> {0.110, 0.110, 0.050, 0.110, 0.110, 0.050},
+  "hN1520"     -> {0.560, 0.567, 0.366, 0.560, 0.567, 0.360},
+  "g1pN1520"   -> {-5.753, -4.848, -5.607, -5.498, -0.580, -2.348},
+  "g1nN1520"   -> {1.217, 2.829, 1.982, 0.301, -1.503, 0.105},
+  "g2pN1520"   -> {-0.861, -0.645, -0.520, -0.920, -0.986, -0.691},
+  "g2nN1520"   -> {1.462, 0.960, 0.979, 1.674, 2.731, 2.174},
+  "MN1535"     -> {1.495, 1.527, 1.542, 1.495, 1.523, 1.538},
+  "WN1535"     -> {0.250, 0.104, 0.109, 0.099, 0.100, 0.109},
+  "hN1535"     -> {0.132, 0.079, 0.078, 0.083, 0.078, 0.079},
+  "gpN1535"    -> {0.219, 0.078, 0.028, 0.435, 0.230, 0.084},
+  "gnN1535"    -> {-0.102, -0.127, -0.080, -0.164, -0.195, -0.129},
+  "MD1620"     -> {1.590, 1.605, 1.606, 1.620, 1.605, 1.606},
+  "WD1620"     -> {0.100, 0.150, 0.143, 0.100, 0.150, 0.143},
+  "hD1620"     -> {0.133, 0.159, 0.155, 0.126, 0.159, 0.155},
+  "gD1620"     -> {-0.154, -0.324, -0.308, -0.063, 0.008, 0.044},
+  "MN1650"     -> {1.680, 1.665, 1.666, 1.640, 1.665, 1.666},
+  "WN1650"     -> {0.150, 0.238, 0.157, 0.150, 0.242, 0.157},
+  "hN1650"     -> {0.102, 0.132, 0.107, 0.110, 0.134, 0.107},
+  "gpN1650"    -> {0.113, -0.167, 0.025, 0.117, 0.074, 0.127},
+  "gnN1650"    -> {0.018, 0.411, 0.324, 0.019, 0.281, 0.056},
+  "MD1700"     -> {1.620, 1.728, 1.639, 1.620, 1.728, 1.639},
+  "WD1700"     -> {0.250, 0.120, 0.957, 0.250, 0.120, 0.957},
+  "hD1700"     -> {0.285, 0.149, 0.528, 0.285, 0.149, 0.528},
+  "g1D1700"    -> {-3.513, 0.663, -11.875, -3.996, -19.642, -26.531},
+  "g2D1700"    -> {1.871, 0.548, -2.392, 2.000, 3.701, 7.293}
+|>;
+
+(* mapping from the table keys onto the FeynRules parameter / mass / width symbols *)
+ELA$SetTargets = {
+  "Lambda" -> {LambdaFF}, "KRho" -> {KRho}, "FOmNN" -> {FOmNN}, "KOm" -> {KOm},
+  "MDelta" -> {MDelta}, "WDelta" -> {WDeltaPP, WDeltaP, WDeltaZ, WDeltaM},
+  "hDelta" -> {hDelta}, "g1Delta" -> {g1Delta}, "g2Delta" -> {g2Delta},
+  "MN1440" -> {MN1440}, "WN1440" -> {WN1440p, WN1440n},
+  "hN1440" -> {hN1440}, "gpN1440" -> {gpN1440}, "gnN1440" -> {gnN1440},
+  "MN1520" -> {MN1520}, "WN1520" -> {WN1520p, WN1520n},
+  "hN1520" -> {hN1520}, "g1pN1520" -> {g1pN1520}, "g1nN1520" -> {g1nN1520},
+  "g2pN1520" -> {g2pN1520}, "g2nN1520" -> {g2nN1520},
+  "MN1535" -> {MN1535}, "WN1535" -> {WN1535p, WN1535n},
+  "hN1535" -> {hN1535}, "gpN1535" -> {gpN1535}, "gnN1535" -> {gnN1535},
+  "MD1620" -> {MD1620}, "WD1620" -> {WD1620PP, WD1620P, WD1620Z, WD1620M},
+  "hD1620" -> {hD1620}, "gD1620" -> {gD1620},
+  "MN1650" -> {MN1650}, "WN1650" -> {WN1650p, WN1650n},
+  "hN1650" -> {hN1650}, "gpN1650" -> {gpN1650}, "gnN1650" -> {gnN1650},
+  "MD1700" -> {MD1700}, "WD1700" -> {WD1700PP, WD1700P, WD1700Z, WD1700M},
+  "hD1700" -> {hD1700}, "g1D1700" -> {g1D1700}, "g2D1700" -> {g2D1700}
+};
+
+ELASet[n_Integer /; 1 <= n <= 6] := Module[{},
+  Do[ With[{val = ELA$Sets[key][[n]]},
+        Do[ NumericalValue[sym] = val; UpdateParameters[sym -> val], {sym, key /. ELA$SetTargets}]
+      ], {key, Keys[ELA$Sets]}];
+  Print["ELA parameter set #", n, " loaded."];];

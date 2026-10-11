@@ -18,45 +18,29 @@
 (*     last line referred to LPionKin, which it never defined.  All of it is now   *)
 (*     in this file, in the "Lagrangian" section below.                            *)
 (*                                                                                 *)
-(*  2. DelU CONVENTION.  myPions.fr had two versions of DelU, the second          *)
-(*     overwriting the first:                                                      *)
-(*         d U - i l U + i U r     (active,   convention U -> L U R^+)             *)
-(*         d U - i r U + i U l     (commented out, convention U -> R U L^+)        *)
-(*     The second is the one that matches ChiConnect / ChiVielbein, which use      *)
-(*     u^+(d - i r)u and u(d - i l)u^+, so the active one is now the second.       *)
-(*     l = r for electromagnetism, so this is invisible in gamma p -> pi0 p; it    *)
-(*     matters only for W couplings, which live in LMat alone.                     *)
-(*                                                                                 *)
-(*  3. ONE CHIRAL CONVENTION, ONE CONNECTION (v2.1, v2.2).                         *)
-(*     Everything is U -> R U L^+, U = u^2, and both baryon sectors are built     *)
-(*     from the same two objects:                                                  *)
-(*         ChiConnect  = Gamma_mu = (i/2)[u^+(d - i r)u + u(d - i l)u^+]           *)
-(*                     = v_mu + (l~ + r~)/2 ,         HERMITIAN                    *)
-(*         ChiVielbein = u_mu     =  i  [u^+(d - i r)u - u(d - i l)u^+]           *)
-(*                     = 2 a_mu + r~ - l~                                          *)
-(*     with l~ = u l u^+, r~ = u^+ r u, and every covariant derivative written    *)
-(*     D_mu = d_mu - i Gamma_mu.  The nucleon Lagrangian is                        *)
-(*         Nbar ( i gamma^mu D_mu - M + ga/2 gamma^mu gamma5 u_mu ) N .            *)
-(*                                                                                 *)
-(*     v2.2: Gamma_mu is the HERMITIAN connection, i times the primer's            *)
-(*     anti-hermitian one, so D_mu = d_mu - i Gamma_mu is the same operator as     *)
-(*     the primer's d_mu + Gamma_mu.  Only DeltaConnection had to change (its     *)
-(*     v2.0 bracket is now multiplied by -i); every vertex is unchanged.          *)
-(*                                                                                 *)
-(*     v2.1: through v2.0 the nucleon sector used l~ = u^+ l u, r~ = u r u^+ and   *)
-(*     -ga.  Together that is exactly the correct nucleon Lagrangian with           *)
-(*     pi -> -pi, i.e. the U -> L U R^+ theory the nucleon sector was first        *)
-(*     written in, while the pion and Delta sectors were R U L^+.  Each sector was *)
-(*     self-consistent, so no Ward identity or gauge test could see it; what it    *)
-(*     broke was every relative sign BETWEEN sectors.  Two patches had absorbed   *)
-(*     it and are removed:                                                         *)
-(*       * ChiVielbeinVWeakSrc negated the Delta's weak axial source to match the  *)
-(*         nucleon.  The Delta was the correct one; the patch went into the wrong  *)
-(*         sector.  The Delta now uses ChiVielbeinVWeak as is.                     *)
-(*       * The EMStrengthTensor sign was flipped back and forth to fix the         *)
-(*         Born/Delta interference.  F_{mu nu} is standard and stays standard.     *)
-(*         The sign being chased there is sign(hD G1), which chiral symmetry does  *)
-(*         not fix; it is now the explicit parameter etaND (see the note at G1).   *)
+(*  2. ONE CHIRAL CONVENTION, U -> R U L^+ (Gasser-Leutwyler), as of V2.1.     *)
+(*     Through V2.0 the pion sector (DelU) used R U L^+ while the nucleon       *)
+(*     pairing (u^+ l u, u r u^+) belonged to L U R^+; the Delta used R U L^+   *)
+(*     in V0 and L U R^+ in V1.  Relative to the pions the baryons were in the  *)
+(*     Phi -> -Phi convention.  Invisible for photons (l = r), but it put the   *)
+(*     pion sector's odd-pion couplings (W-pi mixing, A-pi-W, W/Z-3pi, the      *)
+(*     pion pole) at the wrong sign against the baryons'.  Diagnosed through    *)
+(*     Goldberger-Treiman: LNNPPFF (sign fixed by nucleon_ff.py and CCQE vs     *)
+(*     Llewellyn Smith) needs a W-pi mixing of opposite sign to DelU's.         *)
+(*                                                                              *)
+(*     V2.1 keeps the pion sector and writes BOTH baryon sectors in GL form:    *)
+(*        Gamma_mu = 1/2 [u^+(d - i r)u + u(d - i l)u^+]                        *)
+(*        u_mu     = i   [u^+(d - i r)u - u(d - i l)u^+]                        *)
+(*        L_N      = Nbar (i Dslash - M + (ga/2) uslash gamma5) N               *)
+(*     Equivalent to Phi -> -Phi in the baryon sector alone: every baryon       *)
+(*     vertex with an odd number of pions flips, nothing else changes, and in   *)
+(*     particular no W/Z/gamma coupling without pions moves.  Single-pion       *)
+(*     amplitudes flip as a whole (unobservable) except the hand-built pion     *)
+(*     pole LPPoleFF -- see the note there.                                     *)
+(*                                                                              *)
+(*     Still true: LNNVector / LNNAxial must use aVec / vVec / LMatTilda /      *)
+(*     RMatTilda, not ChiConnect / ChiVielbein (Series contamination; see the   *)
+(*     note above LNucleonKin).  EMStrengthTensor is the standard F_{mu nu}.    *)
 (*                                                                                 *)
 (*  4. LMat / RMat DEFINED ONCE.  myPions.fr defined each of them three times      *)
 (*     (lines 909-911 and 913-915); only the last survived.  The two dead ones     *)
@@ -113,38 +97,10 @@
 (*   file and is completely free of this junk.  The bug is specific to moving the   *)
 (*   Lagrangian into the .fr, i.e. it was introduced by THIS file.                  *)
 (*                                                                                 *)
-(* ------------------------------------------------------------------------------ *)
-(*  VERIFY AFTER v2.2                                                              *)
-(* ------------------------------------------------------------------------------ *)
-(*   - The nucleon sector now uses ChiConnect / ChiVielbein directly.  v2.0        *)
-(*     warned that this gave pi-N-N a factor 2 too small plus parity-violating     *)
-(*     pi-N-N vertices; at the time those objects were Series-wrapped and the      *)
-(*     load-time cache contamination had not been found.  Check, after             *)
-(*     ChiPTClearCache[]:                                                          *)
-(*       Block[{mu}, Expand[ChiPTOnePion[ChiConnect[mu]] - SrcTildaV1[mu]]]        *)
-(*     is the zero matrix, and the pi-N-N vertex is ga/(2 fPi) gamma^mu gamma5     *)
-(*     with NO pi-N-N vertex lacking gamma5.                                       *)
-(*   - Vertex diff against the v2.1 UFO: the connection change is a pure           *)
-(*     rewriting, so every vertex, Delta sector included, should be identical.     *)
-(*   - Fig. 33 (gamma N -> pi N): cross sections should be bit-identical to v2.0.  *)
-(*     Every photoproduction diagram changed by the same overall sign in v2.1 --  *)
-(*     the Born terms through pi-N-N, the Delta terms through etaND on G1.  The    *)
-(*     ELA ratio-of-ratios should stay +1.02; if it reads -1.02, flip etaND and    *)
-(*     nothing else.                                                               *)
-(*   - (p~ n W+)/(p~ n Pi+) should equal (p~ D++ W-)/(p~ D++ Pi-), both            *)
-(*     -I g fPi Vud/2.  W/Z/gamma-N-N at u = 1, LNNWeakCCFF/NCFF, LNNPPFF, CCQE,   *)
-(*     the Delta widths, C4A/C5A = -1/4 and the C6A suppression are unchanged      *)
-(*     from v2.0; tools/adler_ndelta.py now reports C5A(0)/hD = +Sqrt[2/3].        *)
-(*   - Weak single pion: relative to v2.0 every diagram changes by one overall     *)
-(*     sign EXCEPT LPPoleFF, so the pion-pole diagram's relative sign flips.  Its  *)
-(*     sign is the one derived from the pion sector, so PCAC should hold; rerun    *)
-(*     tools/pcac_1pi.py.  If it fails, audit how the test builds its target       *)
-(*     before touching the model -- the v2.0 pass predates the nucleon fix.        *)
-(*   - Delta charges: checked by hand.  DeltaConnection gives the charge operator  *)
-(*     (1+tau3)/2 + t3 with (t3)_ij = -I eps_3ij, and every R[5] component is an   *)
-(*     eigenstate with Q = 2, 1, 0, -1, as declared.                               *)
-(*   - LGauge refers to WMat and BMat, which are not defined anywhere in this      *)
-(*     file, so the gauge-boson self-couplings it produces are not meaningful.     *)
+(*  VERIFIED (formerly "still to verify")                                       *)
+(*   - Born/Delta relative sign in gamma p -> pi0 p: ratio-of-ratios +1.02      *)
+(*     against ELA_UFO (see EMStrengthTensor).                                  *)
+(*   - Delta charges from DeltaConnection match the declared Q of R[1]-R[4].    *)
 (*                                                                                 *)
 (* ****************************************************************************** *)
 
@@ -155,12 +111,14 @@ M$ModelName = "ChiPT";
 
 M$Information = {
   Authors      -> {""},
-  Version      -> "2.2",
+  Version      -> "2.1",
   Date         -> "",
   Institutions -> {""},
   Emails       -> {""}
 };
-
+(* v2.1: One chiral convention, U -> R U L^+, throughout.  Baryon sector     *)
+(*       converted (header note 2); interaction orders of g2D/g3D/ztilde;    *)
+(*       U expanded to O(Phi^4) for the 4-pion sector.                       *)
 FeynmanGauge = False;
 
 (* ****************************************************************************** *)
@@ -230,12 +188,6 @@ ChiPT$WeakFF    = MemberQ[{"Weak",  "All"}, ChiPT$FormFactors];
 (*       LMat/RMat, meson mass units and pion masses corrected.  See the     *)
 (*       header block above for what was checked and deliberately left       *)
 (*       unchanged.                                                          *)
-(* v2.1: Single U -> R U L^+ convention throughout: nucleon dressed sources  *)
-(*       and axial sign fixed, ChiVielbeinVWeakSrc removed, sign(hD G1)      *)
-(*       made the explicit parameter etaND.  See header note 3.              *)
-(* v2.2: Hermitian chiral connection, D_mu = d_mu - i Gamma_mu.  Nucleon     *)
-(*       sector built directly from ChiConnect / ChiVielbein; aVec, vVec and *)
-(*       the intermediate source combinations removed.  See header note 3.   *)
 
 
 (* ************************** *)
@@ -1246,9 +1198,6 @@ M$Parameters = {
   (*  E2/M1 = -2.45% against the measured EMR of about -2.5%, and reproduces the   *)
   (*  helicity ratio |A_3/2|/|A_1/2| = 1.9152.                                     *)
   (*                                                                              *)
-  (*  The widths fix MAGNITUDES only.  The one sign they cannot fix, sign(hD G1),  *)
-  (*  is the parameter etaND; see the note there.                                 *)
-  (*                                                                              *)
   (*  WHAT THIS COSTS.  The Fig. 33 photoproduction fit constrains the PRODUCT     *)
   (*  g*h, and the two widths constrain g and h separately.  They do not agree at  *)
   (*  M_Delta = 1.209 -- g*h moves by 1.198, i.e. photoproduction by ~43% -- but   *)
@@ -1674,36 +1623,14 @@ M$Parameters = {
   g2D == {
     ParameterType    -> Internal,
     Value            -> AD * g1D,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
+    InteractionOrder -> {QED, 0},
+    Description      -> "pi-Delta-Delta off-shell coupling, AD g1D.  Strong: no QED order."
   },
   g3D == {
     ParameterType    -> Internal,
     Value            -> -((1 + 2*AD + 3*AD^2)/2)*g1D,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
-  },
-  (* ---------------------- SIGN OF THE N -> DELTA TRANSITION (v2.1) ---------- *)
-  (*  Chiral symmetry ties pi-N-Delta to the W/Z AXIAL N-Delta current (both     *)
-  (*  come from u_mu), and CVC ties gamma-N-Delta to the W/Z VECTOR N-Delta      *)
-  (*  current (IsoVecSource).  Nothing ties the two families to each other: the  *)
-  (*  widths fix |hD|, |G1| and |G2| only, and the field redefinition            *)
-  (*  Delta -> -Delta flips both families at once.  The one physical sign is     *)
-  (*  therefore sign(hD G1), and it is fixed by data -- the Born/Delta           *)
-  (*  interference in gamma p -> pi0 p, validated against ELA_UFO / Fig33v2.m.   *)
-  (*                                                                             *)
-  (*  It sits on G1 (and through G2overG1 on G2) rather than on hD so that       *)
-  (*  hD > 0 stays true: C5A(0) = Sqrt[2/3] hD as used by formfactors.py and the *)
-  (*  plugin, and the C4AN / C6AN calibrations, are untouched.                   *)
-  (*                                                                             *)
-  (*  Through v2.0 this sign was not a parameter.  It was hidden in the flipped  *)
-  (*  pi-N-N coupling of the nucleon sector (header note 3), which the           *)
-  (*  EMStrengthTensor sign was being flipped back and forth to compensate.      *)
-  etaND == {
-    ParameterType    -> Internal,
-    Value            -> -1,
     InteractionOrder -> {QED, 0},
-    Description      -> "sign(hD G1), the relative phase of the gamma-N-Delta and pi-N-Delta couplings.  Fixed by data, not a tuning knob; see the note above."
+    Description      -> "pi-Delta-Delta off-shell coupling, -(1+2AD+3AD^2)/2 g1D.  Strong: no QED order."
   },
   (* --------- Delta couplings derived from the widths, V10.  See the note ----- *)
   (* --------- at GamNPi.  InteractionOrder is left at {QED, 0} for all three:   *)
@@ -1735,15 +1662,15 @@ M$Parameters = {
     Value            -> Sqrt[12*Pi*fPi^2*MDelta*GamNPi
                              /(kPiDelta^3*(Sqrt[kPiDelta^2 + MNucleon^2] + MNucleon))],
     InteractionOrder -> {QED, 0},
-    Description      -> "Gauge-invariant pi-N-Delta coupling, DERIVED from GamNPi.  Positive by convention; the relative sign to G1 is etaND.  Was an external 1.52 in V9."
+    Description      -> "Gauge-invariant pi-N-Delta coupling, DERIVED from GamNPi.  Was an external 1.52 in V9."
   },
   G1 == {
     ParameterType    -> Internal,
-    Value            -> etaND*Sqrt[8*Pi*MNucleon^2*GamNGam
+    Value            -> Sqrt[8*Pi*MNucleon^2*GamNGam
                              /(ee^2*kGamDelta^3
                                *(1 + xEMDelta*G2overG1 + xEMDelta^2*G2overG1^2))],
     InteractionOrder -> {QED, 0},
-    Description      -> "Proton photo-excitation vertex, magnetic (dual field strength) term.  |G1| DERIVED from GamNGam and G2overG1; sign etaND.  Was an external 3.0305 in V9."
+    Description      -> "Proton photo-excitation vertex, magnetic (dual field strength) term.  DERIVED from GamNGam and G2overG1.  Was an external 3.0305 in V9."
   },
   G2 == {
     ParameterType    -> Internal,
@@ -1765,9 +1692,6 @@ M$Parameters = {
   (*  independent of MDelta over 1.15-1.30 (tools/adler_ndelta.py reports        *)
   (*  C5A(0)/hD = -0.81649658 = -Sqrt[2/3] and C4A(0)/C4AN = +0.71880631 at every *)
   (*  mass tested, to eight digits).                                             *)
-  (*  v2.1: those are v2.0 numbers.  The weak N-Delta source is now the chiral    *)
-  (*  one (ChiVielbeinVWeak, no extra minus), so both ratios change sign while   *)
-  (*  C4A/C5A = -1/4 and the C6A suppression are unchanged.                      *)
   C4AN == {
     ParameterType    -> Internal,
     Value            -> C4AHat*hD,
@@ -1789,8 +1713,8 @@ M$Parameters = {
     ztilde == {
     ParameterType    -> Internal,
     Value            -> (3*AD + 1)/2,
-    InteractionOrder -> {QED, 1},
-    Description      -> ""
+    InteractionOrder -> {QED, 0},
+    Description      -> "Off-shell parameter of the conventional gD coupling (LPiNDelta, unused)."
   },
   aEW == {
     ParameterType    -> Internal,
@@ -1899,22 +1823,19 @@ M$Parameters = {
 
 
 (* ****************************************************************************** *)
-(* *****            Chiral building blocks  (single convention)             ***** *)
+(* *****    Chiral building blocks  (Gasser-Leutwyler convention, V2.1)     ***** *)
 (* ****************************************************************************** *)
-(*                                                                                *)
-(*  Convention, used EVERYWHERE below:                                            *)
+(*  ONE convention for pions, nucleons and Delta:                                 *)
 (*        U -> R U L^+ ,      u = U^(1/2) -> R u h^+ = h u L^+                    *)
 (*        D_mu U   = d_mu U - i r_mu U + i U l_mu                                 *)
-(*        Gamma_mu = (i/2) [ u^+(d_mu - i r_mu) u + u (d_mu - i l_mu) u^+ ]       *)
-(*                   HERMITIAN;  baryons:  D_mu = d_mu - i Gamma_mu               *)
-(*        u_mu     =  i    [ u^+(d_mu - i r_mu) u - u (d_mu - i l_mu) u^+ ]       *)
-(*  with l_mu = LMat[mu], r_mu = RMat[mu].                                        *)
-(*                                                                                *)
-(*  See header note 3: the previous version mixed three different pairings of     *)
-(*  l and r, which agree only for purely electromagnetic sources.                 *)
+(*        Gamma_mu = 1/2 [ u^+(d_mu - i r_mu) u + u (d_mu - i l_mu) u^+ ]         *)
+(*        u_mu     = i   [ u^+(d_mu - i r_mu) u - u (d_mu - i l_mu) u^+ ]         *)
+(*  l_mu = LMat[mu], r_mu = RMat[mu]; covariant sources u l u^+ (LMatTilda) and   *)
+(*  u^+ r u (RMatTilda).  See header note 2.                                      *)
 (* ****************************************************************************** *)
 
-(* Only include up to O(p^4) terms *)
+(* fPiOrder counts inverse powers of fPi kept in the LAGRANGIAN (2 = up to
+   4-pion and boson-3-pion vertices), not the chiral order. *)
 fPiOrder = 2;
 
 getRidOfhigherOrderTerm[expression_] := Normal[Series[expression, {fPi, Infinity, fPiOrder}]];
@@ -1922,7 +1843,20 @@ getRidOfhigherOrderTerm[expression_] := Normal[Series[expression, {fPi, Infinity
 UU := MatrixExp[ExpandIndices[Sum[I (PauliSigma[ii] Pion[ii])/fPi, {ii, 1, 3}]]];
 uu := MatrixPower[UU, 1/2];
 
-UMat := Simplify[Normal[Series[UU, {fPi, Infinity, fPiOrder}]]];
+(*  U itself must be expanded TWO orders beyond the Lagrangian truncation.
+    The 1/fPi^2 terms of (fPi^2/4) Tr[D U (D U)^+ + chi U^+ + U chi^+] need U
+    through Phi^4/fPi^4: the cross term dPhi . dPhi^3 for the kinetic part and
+    the Phi^4 term for the mass part.  Truncating U at Phi^2 (as before) gave a
+    spurious 4-pi0 vertex -2i Sum p_i.p_j/fPi^2 in place of i MPi^2/fPi^2, and
+    spurious Z-pi0-pi0-pi0 / W-pi0-pi0-pi+- vertices.
+
+    Written as the explicit Taylor series of exp(i Phi/fPi): identical to the
+    old Series[MatrixExp[...]] at equal order, but needs no MatrixExp/Simplify.
+    UMat is used by LPionKin, DelU, MassU, DelUSrc and ChiPTPFCross, so the
+    Weak build's pion-in-flight counterterm (LPFFF) stays consistent with
+    LPionKin automatically.  umat (= u) is untouched.  *)
+UMat := Expand[IdentityMatrix[2] +
+   Sum[(I/fPi)^n/n! * MatrixPower[PionMat, n], {n, 1, fPiOrder + 2}]];
 umat := Simplify[Normal[Series[uu, {fPi, Infinity, fPiOrder}]]];
 
 (* External left/right sources.  l_mu = r_mu = e Q A_mu with Q = (1 + tau3)/2:
@@ -1951,37 +1885,28 @@ MassU := ExpandIndices[ChiMat.HC[UMat] + UMat.HC[ChiMat]];
 ChiCommutator[mat_, mu_, nu_] := Module[{}, ExpandIndices[mat[mu].mat[nu] - mat[nu].mat[mu]]];
 FSMat[mat_, mu_, nu_]      := Module[{}, ExpandIndices[del[mat[nu], mu] - del[mat[mu], nu] - I ChiCommutator[mat, mu, nu]]];
 
-(* Chiral connection and vielbein, shared by the nucleon and Delta sectors.
-   Convention U -> R U L^+, U = u^2.  Derivation: notes.tex.
-       ChiConnect  = Gamma_mu = (i/2)[ u^+(d - i r)u + u(d - i l)u^+ ]
-                             = v_mu + (l~ + r~)/2 ,     HERMITIAN,
-                   used in every baryon covariant derivative as
-                       D_mu = d_mu - i Gamma_mu ;
-       ChiVielbein = u_mu     =  i  [ u^+(d - i r)u - u(d - i l)u^+ ]
-                             = 2 a_mu + r~ - l~ ,
-   with l~ = u l u^+, r~ = u^+ r u, v_mu = (i/2)(u^+ d u + u d u^+),
-   a_mu = (i/2)(u^+ d u - u d u^+).
-
-   NOTE: getRidOfhigherOrderTerm (= Series in 1/fPi) must NOT be applied to
-   these MATRICES.  At that stage the expression still contains unevaluated HC
-   and del heads, and Series differentiates them as if they were ordinary
-   functions of fPi, leaving Derivative[1][HC][0] and Derivative[1,0][del][0,...]
-   factors all over the Delta sector -- they were present in every pi-N-Delta
-   vertex of the myPions UFO.  Expanding first and truncating only after the
-   isospin trace (ChiConnectV / ChiVielbeinV / ChiVielbein2 below) or after the
-   Lagrangian is formed (LNNVector / LNNAxial) is clean and gives the expected
-   leading term u_mu ~ -d_mu pi / fPi. *)
-ChiConnect[mu_]  := ChiConnect[mu]  = ExpandIndices[(I/2)*(HC[umat] . (del[umat, mu] - I*RMat[mu] . umat) + umat . (del[HC[umat], mu] - I*LMat[mu] . HC[umat]))];
+(*  Chiral connection Gamma_mu and vielbein u_mu, GL form.  They equal the
+    nucleon's own combinations exactly, to all orders in Phi:
+        I ChiConnect[mu]    == vVec[mu] + (LMatTilda[mu] + RMatTilda[mu])/2
+        ChiVielbein[mu] / 2 == aVec[mu] + (RMatTilda[mu] - LMatTilda[mu])/2
+    At leading order ChiVielbein -> (r - l) - d_mu Phi/fPi.  With the GL sign on
+    every baryon coupling (+ga/2, +hD/MDelta, +g1D/2) the W axial couplings
+    come out with the SM sign.
+    getRidOfhigherOrderTerm must NOT be applied to these matrices -- see the
+    note at LNNVector; it is applied after the isospin trace below. *)
+ChiConnect[mu_]  := ChiConnect[mu] = ExpandIndices[(1/2)*(HC[umat] . (del[umat, mu] - I*RMat[mu] . umat) + umat . (del[HC[umat], mu] - I*LMat[mu] . HC[umat]))];
 ChiVielbein[mu_] := ChiVielbein[mu] = ExpandIndices[I*(HC[umat] . (del[umat, mu] - I*RMat[mu] . umat) - umat . (del[HC[umat], mu] - I*LMat[mu] . HC[umat]))];
 
-(* The dressed sources l~ = u l u^+ and r~ = u^+ r u on their own.  Used ONLY
-   to isolate the one-pion contact term for the background form factors
-   (SrcTildaV1 / SrcTildaA1, LNNCTFF): (l~ + r~)/2 is the source part of
-   ChiConnect, and (r~ - l~)/2 the source part of ChiVielbein/2. *)
+(* Building blocks for the nucleon currents, kept SEPARATE from ChiConnect /
+   ChiVielbein on purpose -- see the note above LNNVector.  GL pairing:
+   L~ = u l u^+, R~ = u^+ r u.  Through V2.0 these were u^+ l u and u r u^+,
+   the L U R^+ pairing. *)
+aVec[mu_]      := aVec[mu] = (I/2)*(HC[umat] . del[umat, mu] - umat . del[HC[umat], mu]);
+vVec[mu_]      := vVec[mu] = (I/2)*(HC[umat] . del[umat, mu] + umat . del[HC[umat], mu]);
 LMatTilda[mu_] := LMatTilda[mu] = Expand[umat . LMat[mu] . HC[umat]];
 RMatTilda[mu_] := RMatTilda[mu] = Expand[HC[umat] . RMat[mu] . umat];
 
-(* -------- the dressed sources split into VECTOR and AXIAL, and their --------- *)
+(* -------- the rotated sources split into VECTOR and AXIAL, and their --------- *)
 (* -------- one-pion pieces, which are what the background CVC terms use ------- *)
 (*  CVC does not stop at the nucleon poles.  Gonzalez-Jimenez et al.,            *)
 (*  arXiv:1612.05511 Eq. (18): once the isovector nucleon form factors are put   *)
@@ -1996,11 +1921,10 @@ RMatTilda[mu_] := RMatTilda[mu] = Expand[HC[umat] . RMat[mu] . umat];
 (*                                                                               *)
 (*  WHICH DIRAC STRUCTURE BELONGS TO WHICH CURRENT.  This is the one thing that  *)
 (*  is easy to get backwards, and V8 did.  Expanding u = exp(i Phi), Phi =       *)
-(*  pi.tau/(2 fPi), with the external sources written as r = v + a, l = v - a,   *)
-(*      (l~ + r~)/2 = v - i [Phi, a] + O(1/fPi^2)   (source part of ChiConnect)  *)
-(*      (r~ - l~)/2 = a - i [Phi, v] + O(1/fPi^2)   (source part of             *)
-(*                                                   ChiVielbein/2)              *)
-(*  so the ONE-PION piece of each carries the OTHER source.  Therefore           *)
+(*  pi.tau/(2 fPi),                                                              *)
+(*      (L~ + R~)/2 = v - i [Phi, a] + O(1/fPi^2)                                *)
+(*      (R~ - L~)/2 = a - i [Phi, v] + O(1/fPi^2)                                *)
+(*  with v = (r + l)/2 and a = (r - l)/2 the GL vector and axial sources.        *)
 (*                                                                               *)
 (*    LNNVector -> Nbar gamma^mu N pi   (no gamma5, Weinberg-Tomozawa)           *)
 (*        multiplies the AXIAL source a, so it is part of <pi N| A^mu |N>;       *)
@@ -2037,6 +1961,8 @@ RMatTilda[mu_] := RMatTilda[mu] = Expand[HC[umat] . RMat[mu] . umat];
 (*  the contact counterterm was silently deleted, so W pi+- / Z pi+- / gamma pi- *)
 (*  contacts were exported bare while the pi0 ones were dressed.  Extracting the *)
 (*  1/fPi coefficient explicitly cannot fail that way.                           *)
+LMatTildaV[mu_] := LMatTildaV[mu] = Expand[(1/2)*(LMatTilda[mu] + RMatTilda[mu])];
+LMatTildaA[mu_] := LMatTildaA[mu] = Expand[(1/2)*(RMatTilda[mu] - LMatTilda[mu])];
 ChiPTOnePion[m_]  := Map[Coefficient[Expand[#], fPi, -1]/fPi &, m, {2}];
 
 (*  ...and split off the Z, which needs a form factor of its own on the pion    *)
@@ -2064,13 +1990,8 @@ ChiPTZOnly[m_, mu_] := Map[Coefficient[Expand[#], Z[Index[Lorentz, mu]]]*
                              Z[Index[Lorentz, mu]] &, m, {2}];
 ChiPTNoZ[m_, mu_]   := Map[Expand[#] - Coefficient[Expand[#], Z[Index[Lorentz, mu]]]*
                              Z[Index[Lorentz, mu]] &, m, {2}];
-
-(*  One-pion source pieces.  SrcTildaV1 is also exactly ChiPTOnePion[ChiConnect]: *)
-(*  the pure-pion part v_mu of the connection is even in the pion field and has  *)
-(*  no 1/fPi term.  (The same is NOT true of ChiVielbein, whose pure-pion part   *)
-(*  starts at -d_mu pi/fPi, which is why the tilded sources are kept.)           *)
-SrcTildaV1[mu_]   := SrcTildaV1[mu] = ChiPTOnePion[(1/2)*(LMatTilda[mu] + RMatTilda[mu])];
-SrcTildaA1[mu_]   := SrcTildaA1[mu] = ChiPTOnePion[(1/2)*(RMatTilda[mu] - LMatTilda[mu])];
+SrcTildaV1[mu_]   := SrcTildaV1[mu] = ChiPTOnePion[LMatTildaV[mu]];
+SrcTildaA1[mu_]   := SrcTildaA1[mu] = ChiPTOnePion[LMatTildaA[mu]];
 
 (*  The SOURCE part of the pion covariant derivative, for the pion-in-flight     *)
 (*  vertex.  DelU = del U - i r U + i U l, so the source piece is the last two   *)
@@ -2095,19 +2016,13 @@ ChiVielbeinV[mu_, l_]       := ChiVielbeinV[mu, l] = getRidOfhigherOrderTerm[(1/
     isospin trace), so the warning above about differentiating unevaluated HC
     and del heads is respected.
 
-    At u = 1 the vielbein is r_mu - l_mu, and that combination is PURELY WEAK:
-        r - l = -g2/2 Vud (tau^1 Wi_1 + tau^2 Wi_2)
-                - tau^3 [ (g2 cw + g1 sw)/2 Z + (g2 sw - g1 cw)/2 A ]
+    At u = 1 the vielbein is r_mu − l_mu, and that combination is PURELY WEAK:
+    r − l = −(g2/2) Vud (τ¹Wi₁ + τ²Wi₂) − τ³[ (g2 cw + g1 sw)/2 Z + (g2 sw - g1 cw)/2 A ]
     and g2 sw - g1 cw = ee - ee = 0, so the PHOTON CANCELS IDENTICALLY and only
     W (with its V_ud) and Z survive.  That is what makes this the right object to
     hang C5A on: the form factor reaches both weak transition currents and cannot
     touch gamma N -> Delta, so the Fig. 33 photoproduction results are untouched
-    by construction rather than by inspection.
-
-    It is used AS IS by every weak N -> Delta operator (LPiNDeltaGIWeakFF,
-    LC4ANDelta, LC6ANDelta).  The v2.0 ChiVielbeinVWeakSrc = -ChiVielbeinVWeak
-    is gone: it matched the Delta to a nucleon sector that was itself in the
-    wrong convention (header note 3).  *)
+    by construction rather than by inspection.  *)
 ChiVielbeinVWeak[mu_, l_]   := ChiVielbeinVWeak[mu, l] = Normal[Series[(1/2)*Tr[PauliSigma[l] . ChiVielbein[mu]], {fPi, Infinity, 0}]];
 ChiVielbeinVPion[mu_, l_]   := ChiVielbeinVPion[mu, l] = ChiVielbeinV[mu, l] - ChiVielbeinVWeak[mu, l];
 
@@ -2144,16 +2059,27 @@ ChiPTClearCache[] := (
   ChiPTPurge[ChiConnect];   ChiPTPurge[ChiVielbein];  ChiPTPurge[ChiVielbein2];
   ChiPTPurge[ChiConnectV];  ChiPTPurge[ChiVielbeinV];
   ChiPTPurge[ChiVielbeinVWeak]; ChiPTPurge[ChiVielbeinVPion];
+  ChiPTPurge[aVec];         ChiPTPurge[vVec];
   ChiPTPurge[LMatTilda];    ChiPTPurge[RMatTilda];
+  ChiPTPurge[LMatTildaV];   ChiPTPurge[LMatTildaA];
   ChiPTPurge[SrcTildaV1];   ChiPTPurge[SrcTildaA1];
   ChiPTPurge[PiPoleSrc];    ChiPTPurge[PiPole];
   "ChiPT: load-time caches purged");
 
-(* Electromagnetic field strength, the standard F_{mu nu} = d_mu A_nu - d_nu A_mu.
-   In FeynRules del[A[nu],mu] means d_mu A_nu, hence the index order below; this
-   agrees with FeynRules' own FS[A,mu,nu].  It is a definition, not a
-   convention, and carries no sign.  The Born/Delta sign that myPions.fr and
-   v2.0 tried to fix here by flipping F is sign(hD G1); see etaND. *)
+(* Electromagnetic field strength.  F_{mu nu} = d_mu A_nu - d_nu A_mu.  In
+   FeynRules del[A[mu],nu] means d_nu A_mu, hence the index order below; this
+   agrees with FeynRules' own FS[A,mu,nu].
+
+   myPions.fr had the two terms the other way round, i.e. -F_{mu nu}.  That was
+   argued to compensate for this model's photon having the opposite sign to the
+   standard one (LNNVector gives Vertex(p~ p A) = +I ee Ga[mu], against the
+   standard -I ee Ga[mu]).  Comparing the exported UFO against ELA_UFO shows the
+   compensation does NOT happen: relative to ELA the gamma-p-p, gamma-pi-pi and
+   Kroll-Ruderman vertices all flip sign, while gamma-N-Delta does not.  The
+   Delta therefore interfered with the Born terms the wrong way round -- the
+   Born/Delta ratio-of-ratios came out -1.02, a genuine relative sign rather
+   than an overall phase.  With the standard F below it is +1.02, matching the
+   validated ELA model. *)
 EMStrengthTensor[mu_, nu_]     := del[A[nu], mu] - del[A[mu], nu];
 DualEMStrengthTensor[mu_, nu_] := Block[{ro, si}, (1/2)*Eps[mu, nu, ro, si]*EMStrengthTensor[ro, si]];
 
@@ -2179,9 +2105,9 @@ DualEMStrengthTensor[mu_, nu_] := Block[{ro, si}, (1/2)*Eps[mu, nu, ro, si]*EMSt
 
         v^1 = g2/4 Vud Wi^1   ->   (2/ee) v^1 = +(Vud/(2 sw)) Wi^1
 
-    and LNNVector, whose ChiConnect is (l + r)/2 at u = 1, gives the nucleon
-    the SAME +(g2/4) Vud.  A minus here made the one isovector source appear
-    with opposite W^1 coefficients in the two sectors.
+    and LNNVector, which uses (LMatTilda + RMatTilda)/2 = (l + r)/2 at u = 1,
+    gives the nucleon the SAME +(g2/4) Vud.  A minus here made the one isovector
+    source appear with opposite W^1 coefficients in the two sectors.
 
     The minus was added because tools/cvc_ndelta.py measured
     (p~ Delta++ W-)/(p~ Delta+ A) = -1.29517792 where it expected
@@ -2193,8 +2119,7 @@ DualEMStrengthTensor[mu_, nu_] := Block[{ro, si}, (1/2)*Eps[mu, nu, ro, si]*EMSt
         (p~ Delta++ Pi-)/(p~ Delta+ Pi0) = -1.224745 = -sqrt(3/2)
 
     so -1.29517792 was the value CVC actually demands here.  The real error the
-    minus was papering over is the axial one, itself a symptom of the
-    nucleon-sector convention error fixed in v2.1 (header note 3).  Both
+    minus was papering over is the axial one -- see header note 2.  Both
     show up in the CC Delta together and cancel there (the Delta-only ppip cross
     section is bit-identical with both signs), which is why the reference run
     that motivated the minus could not tell them apart; what they do break is
@@ -2216,16 +2141,9 @@ Nucleonsbar[s_] := {Protonbar[s], Neutronbar[s]};
 
 Sigma[mu_, nu_, s1_, s2_] := Block[{s3}, (I/2)*(Ga[mu, s1, s3] . Ga[nu, s3, s2] - Ga[nu, s1, s3] . Ga[mu, s3, s2])];
 
-(* Delta covariant derivative, D_mu = d_mu - i Gamma_mu on the
-   isospinor-isovector field:
-       (D_mu Delta)_i = d_mu Delta_i - i [ Gamma_mu delta_ij - 2 i eps_ijk Gamma_mu,k ] Delta_j ,
-   Gamma_mu,k = Tr[tau_k Gamma_mu]/2 = ChiConnectV.  Gamma_mu acts on the
-   isospinor index, -2 i eps_ijk Gamma_k = 2 Gamma_k (t^k)_ij on the isovector
-   one; both are hermitian.  Photon: Gamma = e Q A gives the charge operator
-   (1 + tau3)/2 + t3, i.e. Q = 2, 1, 0, -1 on the R[5] states. *)
 DeltaConnection[ro_, r1_, r2_, i1_, i2_] :=
-  -I*Block[{k}, Sum[-2*I*Eps[i1, i2, k]*ChiConnectV[ro, k]*IndexDelta[r1, r2], {k, 1, 3}]
-               + IndexDelta[i1, i2]*ChiConnect[ro][[r1, r2]]];
+  Block[{k}, Sum[-2*I*Eps[i1, i2, k]*ChiConnectV[ro, k]*IndexDelta[r1, r2], {k, 1, 3}]
+             + IndexDelta[i1, i2]*ChiConnect[ro][[r1, r2]]];
 
 DeltaCovariantDerivative[ro_, r1_, r2_, i1_, i2_, psi_] :=
   IndexDelta[i1, i2]*IndexDelta[r1, r2]*del[psi, ro] + DeltaConnection[ro, r1, r2, i1, i2]*psi;
@@ -2290,17 +2208,21 @@ LPionKin := Normal[Series[
    {fPi, Infinity, fPiOrder}]];
 
 
-(* ---------------------------------------------------------- nucleon sector -- *)
-(*  L = Nbar ( i gamma^mu D_mu - M + ga/2 gamma^mu gamma5 u_mu ) N ,            *)
-(*      D_mu = d_mu - i Gamma_mu,  Gamma_mu = ChiConnect,  u_mu = ChiVielbein.   *)
-(*  i Nbar gamma^mu D_mu N = i Nbar dslash N + Nbar gamma^mu Gamma_mu N, so      *)
-(*    LNucleonKin = Nbar (i dslash - M) N                                       *)
-(*    LNNVector   = Nbar gamma^mu ChiConnect_mu N                               *)
-(*    LNNAxial    = ga/2 Nbar gamma^mu gamma5 ChiVielbein_mu N                  *)
-(*  Leading terms:                                                              *)
-(*    pi-N-N:  -ga/(2 fPi) Nbar gamma^mu gamma5 tau^a N d_mu pi^a               *)
-(*    W:        Nbar gamma^mu l_mu (1 - ga gamma5)/2 N   at u = 1               *)
-(*  Code ordering gamma^mu . X . gamma5 = gamma^mu gamma5 X (X acts on isospin). *)
+(*  L = Nbar ( i gamma^mu d_mu - M ) N                           LNucleonKin     *)
+(*    + Nbar gamma^mu ( vVec + (L~ + R~)/2 ) N                   LNNVector       *)
+(*    + ga Nbar gamma^mu ( aVec + (R~ - L~)/2 ) gamma5 N         LNNAxial        *)
+(*  i.e. Nbar (i Dslash - M + (ga/2) uslash gamma5) N in GL form, with           *)
+(*  L~ = u l u^+ and R~ = u^+ r u.  At u = 1 the axial source is (r - l)/2, the  *)
+(*  W sits in l only, and the W vertex comes out (1 - ga gamma5).  The pi-N-N    *)
+(*  coupling is the standard -(ga/(2 fPi)) Nbar gamma^mu gamma5 tau.d_mu pi N.   *)
+(*                                                                               *)
+(*  DO NOT rewrite these in terms of ChiConnect / ChiVielbein.  Algebraically    *)
+(*      I ChiConnect[mu]  == vVec[mu] + (L~ + R~)/2                              *)
+(*      ChiVielbein[mu]/2 == aVec[mu] + (R~ - L~)/2                              *)
+(*  but those two are fed through getRidOfhigherOrderTerm downstream, and        *)
+(*  Series differentiates still-unevaluated HC and del heads as functions of    *)
+(*  fPi.  Substituting them here was checked and gives pion-nucleon couplings a  *)
+(*  factor 2 too small plus spurious parity-violating pi-N-N vertices.           *)
 
 LNucleonKin := I*Block[{mu, s1, s2},
      Inner[Dot, Nucleonsbar[s1],
@@ -2310,13 +2232,13 @@ LNucleonKin := I*Block[{mu, s1, s2},
 LNNVector := Block[{mu, s1, s2}, Normal[Series[
    Inner[Dot, Nucleonsbar[s1],
      Inner[Dot, Ga[mu, s1, s2]*IdentityMatrix[2],
-       Inner[Dot, ChiConnect[mu], Nucleons[s2]]]],
+       Inner[Dot, vVec[mu] + (1/2)*(LMatTilda[mu] + RMatTilda[mu]), Nucleons[s2]]]],
    {fPi, Infinity, fPiOrder}]]];
 
 LNNAxial := Block[{mu, s1, s2, s3}, Normal[Series[
-   (ga/2)*Inner[Dot, Nucleonsbar[s1],
+   ga*Inner[Dot, Nucleonsbar[s1],
      Inner[Dot, Ga[mu, s1, s2]*IdentityMatrix[2],
-       Inner[Dot, ChiVielbein[mu],
+       Inner[Dot, aVec[mu] + (1/2)*(RMatTilda[mu] - LMatTilda[mu]),
          Inner[Dot, Ga[5, s2, s3]*IdentityMatrix[2], Nucleons[s3]]]]],
    {fPi, Infinity, fPiOrder}]]];
 
@@ -2433,13 +2355,24 @@ LNNWeakNCFF := Block[{mu, nu, s1, s2, s3},
 (*      T2 = q^al p_Delta^lam           from crossing them                       *)
 (*  The Dirac structure is the plain Identity (Deltabar and N share s1), which   *)
 (*  is the structure the standard parameterisation is written in.                *)
-LC4ANDelta := C4AN*Block[{al, lam, nu, s1},
+
+(*  Leading minus: C4A must keep its sign relative to C5A.  C5A comes from the  *)
+(*  +(hD/MDelta) u_mu term, whose source part is ChiVielbeinVWeak = (r - l);    *)
+(*  through V2.0 this operator multiplied (l - r).  Net vertex unchanged.       *)
+LC4ANDelta := -C4AN*Block[{al, lam, nu, s1},
    FFCA5A*Sum[(ME[al, lam]*del[Deltabar[s1, al, r1, i1], nu]*del[ChiVielbeinVWeak[lam, i1], nu]
              - del[Deltabar[s1, al, r1, i1], lam]*del[ChiVielbeinVWeak[lam, i1], al])*
       Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]
  + FFCA5B*HC[Sum[(ME[al, lam]*del[Deltabar[s1, al, r1, i1], nu]*del[ChiVielbeinVWeak[lam, i1], nu]
              - del[Deltabar[s1, al, r1, i1], lam]*del[ChiVielbeinVWeak[lam, i1], al])*
       Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
+
+(*  Leading minus for the same reason as LC4ANDelta. *)
+LC6ANDelta := -C6AN*Block[{al, lam, s1},
+   FFC6AA*Sum[del[del[ChiVielbeinVWeak[lam, i1], lam], al]*
+       Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]
+ + FFC6AB*HC[Sum[del[del[ChiVielbeinVWeak[lam, i1], lam], al]*
+       Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
 
 
 (* ---------------------------- induced pseudoscalar --------------------------- *)
@@ -2463,10 +2396,6 @@ LC4ANDelta := C4AN*Block[{al, lam, nu, s1},
 (*  FeynRules cannot export (the UFO has no two-point vertices at all).  So PCAC *)
 (*  is imposed here, not derived, which is a weaker statement than the CVC       *)
 (*  story where gauging produced the relation on its own.                        *)
-(*  v2.1: it is nevertheless exactly the pion pole of the chiral Lagrangian.     *)
-(*  Integrating the pion out of the pion sector's W-pi mixing                    *)
-(*  (fPi/2) Tr[sigma^a (l-r)^mu] d_mu pi^a together with the pi-N-N coupling of  *)
-(*  LNNAxial gives this operator term for term, including the I and the 2 MN.    *)
 (*                                                                               *)
 (*  It contributes to the rate only through the lepton mass -- q^mu contracted   *)
 (*  with the lepton tensor is proportional to m_lepton^2 -- so it is identically *)
@@ -2530,9 +2459,9 @@ LC4ANDelta := C4AN*Block[{al, lam, nu, s1},
 (*  Its own coupling constant also keeps FeynRules from merging this into the    *)
 (*  C4A structure, which shares the Identity Dirac structure.                    *)
 LC6ANDelta := C6AN*Block[{al, lam, s1},
-   FFC6AA*Sum[del[del[ChiVielbeinVWeak[lam, i1], lam], al]*
+   FFC6AA*Sum[del[del[ChiVielbeinVWeakSrc[lam, i1], lam], al]*
        Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]
- + FFC6AB*HC[Sum[del[del[ChiVielbeinVWeak[lam, i1], lam], al]*
+ + FFC6AB*HC[Sum[del[del[ChiVielbeinVWeakSrc[lam, i1], lam], al]*
        Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
 
 
@@ -2551,13 +2480,11 @@ LNNPPFF := Block[{mu, s1, s2},
 
 (* ------------------- CVC / PCAC on the background diagrams ------------------- *)
 (*  The contact term, built by restricting LNNVector / LNNAxial to the           *)
-(*  one-pion piece of their own SOURCE part.  LNNVector uses ChiConnect, whose   *)
-(*  one-pion piece is pure source (the pure-pion part v_mu starts at O(pi^2)),   *)
-(*  i.e. SrcTildaV1 with no extra factor.  LNNAxial uses (ga/2) ChiVielbein,     *)
-(*  whose one-pion SOURCE piece is ga SrcTildaA1 (its pure-pion one-pion piece  *)
-(*  is the pi-N-N vertex itself, which stays point-like).  So the two halves     *)
-(*  inherit the model's own relative factor of +ga and nothing is normalised by  *)
-(*  hand.                                                                        *)
+(*  one-pion piece of their own source combination.  Written exactly as those    *)
+(*  two terms are -- LNNVector uses vVec + (L~+R~)/2 = vVec + LMatTildaV, so its *)
+(*  one-pion piece is SrcTildaV1 with no extra factor, and likewise for the      *)
+(*  axial -- so the two halves inherit the model's own relative factor of -ga    *)
+(*  and nothing is normalised by hand.                                          *)
 (*                                                                              *)
 (*  THE FORM FACTORS ARE NOT ASSIGNED BY DIRAC STRUCTURE.  See the long note at  *)
 (*  SrcTildaV1 above.  The gamma^mu (Weinberg-Tomozawa) half comes from          *)
@@ -2656,24 +2583,27 @@ LPFFF := Module[{a, b},
 (*  and neutral pion masses separately without touching the fields.               *)
 (*                                                                               *)
 (*  WHAT ABSORBS IT is the Weinberg-Tomozawa pi-pi-N-N vertex, i.e. the O(pi^2)   *)
-(*  pure-pion piece of ChiConnect, which is  I [Phi, d_mu Phi]/(8 fPi^2)  with    *)
+(*  piece of vVec, which is  vVec[mu] = I [Phi, d_mu Phi]/(8 fPi^2)  with         *)
 (*  Phi = sigma^a pi^a.  Shifting pi -> pi + Dpi and keeping the linear part      *)
-(*  gives the operator below; the coefficient is the connection's own and is not  *)
-(*  chosen here.  (Cross-check: it gives Vertex(p~ p Pi- Pi+) = I/(4 fPi^2),      *)
+(*  gives the operator below; the coefficient is vVec's own and is not chosen     *)
+(*  here.  (Cross-check: that vVec gives Vertex(p~ p Pi- Pi+) = I/(4 fPi^2),      *)
 (*  which is what the UFO carries.)                                              *)
 (*                                                                               *)
 (*  DO NOT also shift the pion in LNNAxial or in the Delta sector.  Those shifts  *)
 (*  are real, but they are the nucleon induced pseudoscalar and C6A, which are    *)
 (*  ALREADY in the model as LNNPPFF and LC6ANDelta; adding them here would        *)
-(*  double count.  Restricting the shift to the Weinberg-Tomozawa piece is what   *)
-(*  makes this the one genuinely new topology.                                   *)
+(*  double count.  Restricting the shift to vVec is what makes this the one       *)
+(*  genuinely new topology.                                                      *)
 (*                                                                               *)
-(*  OVERALL SIGN.  Derived, not chosen: PiPole is the pion sector's own W-pi      *)
-(*  mixing above, solved with the pion equation of motion.  The same mixing,      *)
-(*  combined with the v2.1 pi-N-N coupling, reproduces LNNPPFF term for term,     *)
-(*  which is the cross-check.  The v2.0 statement that this sign was fixed by     *)
-(*  tools/pcac_1pi.py predates the nucleon-sector fix (header note 3), under      *)
-(*  which every other weak single-pion diagram changed sign; rerun it.           *)
+(*  OVERALL SIGN.  As derived above, with no hand choice: in V2.1 the pion and   *)
+(*  baryon sectors share one convention, and the mixing from DelU,               *)
+(*  m = +e fPi Vud/(2 sw), times the GL pi-N-N coupling -ga/(Sqrt[2] fPi),       *)
+(*  reproduces LNNPPFF's Goldberger-Treiman relation.  Through V2.0 this sign    *)
+(*  was reported as "fixed by measurement" (tools/pcac_1pi.py), but that         *)
+(*  measurement was made in the mixed convention, where it should have chosen    *)
+(*  the OPPOSITE sign to this derivation.  It did not -- so either pcac_1pi.py   *)
+(*  has a momentum-assignment error of the kind pcac_nucleon.py had in V7-V9,    *)
+(*  or the consistency argument is wrong somewhere.  RE-MEASURE before trusting. *)
 
 PiPoleSrc[a_] := PiPoleSrc[a] = Block[{nu},
    ExpandIndices[Tr[PauliMatrix[a] . del[LMat[nu] - RMat[nu], nu]]]];
@@ -2734,7 +2664,7 @@ LPPoleFF := Module[{c1, c2},
 (*  so FpiNDelta * FCA5 on one structure is not expressible at all.  That is a   *)
 (*  real limit of the automated chain, not a modelling choice.  Symbols stay     *)
 (*  outside HC[].                                                                *)
-LPiNDeltaGIWeakFF := (-(hD/MDelta))*Block[{mu, nu, lam, si, s1, s2, s3, fa, fb},
+LPiNDeltaGIWeakFF := (hD/MDelta)*Block[{mu, nu, lam, si, s1, s2, s3, fa, fb},
   fa = If[ChiPT$DeltaFF, FFPNDA, 1];  fb = If[ChiPT$DeltaFF, FFPNDB, 1];
   fa*Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
       Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinVPion[lam, i1]*Nucleons[s3][[r1]],
@@ -2752,8 +2682,8 @@ LPiNDeltaGIWeakFF := (-(hD/MDelta))*Block[{mu, nu, lam, si, s1, s2, s3, fa, fb},
 
 (* ------------------------------------------------- Delta(1232) self sector -- *)
 (*  Rarita-Schwinger kinetic and mass terms with the off-shell parameter AD,     *)
-(*  chirally covariantised (DeltaCovariantDerivative, D = d - i Gamma), plus     *)
-(*  the three pi-Delta-Delta couplings g1D, g2D, g3D.                            *)
+(*  chirally covariantised (DeltaCovariantDerivative), plus the three            *)
+(*  pi-Delta-Delta couplings g1D, g2D, g3D.                                      *)
 
 LDeltaKin1 := -Block[{mu1, mu2, s1, s2, i1, i2, ro},
   Sum[(Deltabar[s1, mu1, r1, i1]*ME[mu1, mu2]*
@@ -2778,31 +2708,37 @@ LDeltaKin4 := -Block[{mu1, mu2, s1, s2, s3, i1, i2, ro},
         (Ga[mu1, s1, s2]*Ga[mu2, s2, s3]*#1) &)[
       Delta[s3, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
 
-LDeltaPi1 := (-(g1D/2))*Block[{mu1, mu2, s1, s2, s3, i1, i2, ro},
+LDeltaPi1 := (g1D/2)*Block[{mu1, mu2, s1, s2, s3, i1, i2, ro},
   Sum[(Deltabar[s1, mu1, r1, i1]*
         (Ga[ro, s1, s2]*IndexDelta[i1, i2]*ChiVielbein2[ro, r1, r2]*
           Ga[5, s2, s3]*ME[mu1, mu2]*#1) &)[
       Delta[s3, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
 
-LDeltaPi2 := (-(g2D/2))*Block[{mu1, mu2, s1, s2, s3, i1, i2, ro},
+LDeltaPi2 := (g2D/2)*Block[{mu1, mu2, s1, s2, s3, i1, i2, ro},
   Sum[(Deltabar[s1, mu1, r1, i1]*
         (Ga[mu1, s1, s2]*Ga[5, s2, s3]*IndexDelta[i1, i2]*ChiVielbein2[mu2, r1, r2]*#1
          + Ga[mu2, s1, s2]*Ga[5, s2, s3]*IndexDelta[i1, i2]*ChiVielbein2[mu1, r1, r2]*#1) &)[
       Delta[s3, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
 
-LDeltaPi3 := (-(g3D/2))*Block[{mu1, mu2, s1, s2, s3, s4, s5, i1, i2, ro},
+LDeltaPi3 := (g3D/2)*Block[{mu1, mu2, s1, s2, s3, s4, s5, i1, i2, ro},
   Sum[(Deltabar[s1, mu1, r1, i1]*
         (Ga[mu1, s1, s2]*Ga[ro, s2, s3]*Ga[5, s3, s4]*Ga[mu2, s4, s5]*
           IndexDelta[i1, i2]*ChiVielbein2[ro, r1, r2]*#1) &)[
       Delta[s5, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
 
-LDeltaSector := LDeltaKin1 + LDeltaKin2 + LDeltaKin3 + LDeltaKin4
-             + LDeltaPi1 + LDeltaPi2 + LDeltaPi3;
+(*  Assign each piece before summing -- the same FeynRules pathology documented
+    at LChiPT.  As a bare sum of the seven delayed symbols, the g1D/g2D/g3D
+    terms (LDeltaPi1-3) were silently lost from the full Lagrangian even though
+    FeynmanRules[LDeltaPi1] alone returns them correctly. *)
+LDeltaSector := Module[{k1, k2, k3, k4, p1, p2, p3},
+  k1 = LDeltaKin1; k2 = LDeltaKin2; k3 = LDeltaKin3; k4 = LDeltaKin4;
+  p1 = LDeltaPi1;  p2 = LDeltaPi2;  p3 = LDeltaPi3;
+  k1 + k2 + k3 + k4 + p1 + p2 + p3];
 
 
 (* ------------------------------------------- pi N Delta, conventional form -- *)
 
-LPiNDelta := gD*Block[{mu1, mu2, s1, s2, s3, i1, ro},
+LPiNDelta := -gD*Block[{mu1, mu2, s1, s2, s3, i1, ro},
   Sum[Deltabar[s1, mu1, r1, i1]*
       (ME[mu1, mu2]*IndexDelta[s1, s3] + ztilde*Ga[mu1, s1, s2]*Ga[mu2, s2, s3])*
       ChiVielbeinV[mu2, i1]*Nucleons[s3][[r1]], {r1, 1, 2}, {i1, 1, 3}]
@@ -2811,15 +2747,15 @@ LPiNDelta := gD*Block[{mu1, mu2, s1, s2, s3, i1, ro},
       ChiVielbeinV[mu2, i1]*Nucleons[s3][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
 
 
-(* ------------------------------ pi N Delta, gauge-invariant (Pascalutsa) ----- *)
-(*  The strong term of Fernandez-Ramirez et al. Eq. (36), built from the same    *)
-(*  u_mu as the nucleon sector (ChiVielbeinV), so its W/Z axial partner comes    *)
-(*  with it.  With ChiVielbeinV[lam, j] = -(1/fPi) d^lam pi_j + ..., this is     *)
-(*     +(hD/(fPi MDelta)) eps_{mu nu lam si} (d^mu Deltabar^nu_j)                *)
-(*                        gamma^si gamma5 (d^lam pi_j) N  + h.c.,  hD > 0.       *)
-(*  Its sign relative to the gamma-N-Delta coupling is etaND (see G1).           *)
+(*  Strong term of Fernandez-Ramirez et al. Eq. (36),                            *)
+(*     -(h / (fPi Mstar)) Nbar eps_{mu nu lam beta} gamma^beta gamma5            *)
+(*                          (d^mu Delta^nu_j)(d^lam pi_j)                        *)
+(*  With ChiVielbeinV[lam, j] = -(1/fPi) d^lam pi_j at leading order and the GL  *)
+(*  prefactor +hD/MDelta, this has the sign as written in the paper.  Whether    *)
+(*  the paper's eps and gamma5 conventions match FeynRules' is not checked; the  *)
+(*  Born/Delta relative sign is what Fig. 33 tests, and it is unaffected.        *)
 
-LPiNDeltaGI := (-(hD/MDelta))*Block[{mu, nu, lam, si, s1, s2, s3},
+LPiNDeltaGI := (hD/MDelta)*Block[{mu, nu, lam, si, s1, s2, s3},
   Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
       Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinV[lam, i1]*Nucleons[s3][[r1]],
     {r1, 1, 2}, {i1, 1, 3}]
@@ -2894,7 +2830,7 @@ LWeakNDeltaV := Kappa*Block[{s1, s2, mu, nu},
 (*  the symbol reaches -- verified in the exported UFO, see the checks in       *)
 (*  export_ChiPT_UFO.m.                                                         *)
 
-LPiNDeltaGIFF := (-(hD/MDelta))*Block[{mu, nu, lam, si, s1, s2, s3},
+LPiNDeltaGIFF := (hD/MDelta)*Block[{mu, nu, lam, si, s1, s2, s3},
   FFPNDA*Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
       Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinV[lam, i1]*Nucleons[s3][[r1]],
     {r1, 1, 2}, {i1, 1, 3}]
@@ -2933,9 +2869,11 @@ LGammaNDeltaFF := Kappa*Block[{s1, s2, mu, nu},
 (*  any subset tried) behaves correctly, so this only bites on the full sum.       *)
 (*  export_UFO_myPions.nb never hit it because it assigned each Lagrangian to a    *)
 (*  variable first and summed the variables -- which is what is reproduced here.   *)
-LChiPT := Module[{lpk, lnk, lnv, lna, lds, lpg, lgd, lff, lwf},
+LChiPT := Module[{lpk, lnk, lnv, lna, ldk1, ldk2, ldk3, ldk4, ldp1, ldp2, ldp3,
+                  lpg, lgd, lff, lwf},
   lpk = LPionKin;     lnk = LNucleonKin;  lnv = LNNVector;   lna = LNNAxial;
-  lds = LDeltaSector;
+  ldk1 = LDeltaKin1;  ldk2 = LDeltaKin2;  ldk3 = LDeltaKin3; ldk4 = LDeltaKin4;
+  ldp1 = LDeltaPi1;   ldp2 = LDeltaPi2;   ldp3 = LDeltaPi3;
   lpg = If[ChiPT$WeakFF, LPiNDeltaGIWeakFF,
         If[ChiPT$DeltaFF, LPiNDeltaGIFF,  LPiNDeltaGI]];
   lgd = If[ChiPT$WeakFF, LWeakNDeltaV,
@@ -2946,7 +2884,8 @@ LChiPT := Module[{lpk, lnk, lnv, lna, lds, lpg, lgd, lff, lwf},
   (* LPiNDelta (the conventional gD coupling) is deliberately EXCLUDED: it is
      not gauge invariant, and the Pascalutsa coupling LPiNDeltaGI replaces it.
      Its definition is kept above for reference only. *)
-  lpk + lnk + lnv + lna + lds + lpg + lgd + lff + lwf];
+  lpk + lnk + lnv + lna + ldk1 + ldk2 + ldk3 + ldk4 + ldp1 + ldp2 + ldp3
+      + lpg + lgd + lff + lwf];
 
 LTotal := Module[{lchi, lsm}, lchi = LChiPT; lsm = LSM; lchi + lsm];
 
@@ -2960,6 +2899,5 @@ Rarita\[Gamma]N\[CapitalDelta] := LGammaNDelta;
 
 (* Export with:
      LoadModel["ChiPT.fr"];
-     ChiPTClearCache[];
      WriteUFO[LTotal, AddDecays -> False, FlavorExpand -> True];
 *)

@@ -1900,17 +1900,24 @@ MassU := ExpandIndices[ChiMat.HC[UMat] + UMat.HC[ChiMat]];
 ChiCommutator[mat_, mu_, nu_] := Module[{}, ExpandIndices[mat[mu].mat[nu] - mat[nu].mat[mu]]];
 FSMat[mat_, mu_, nu_]      := Module[{}, ExpandIndices[del[mat[nu], mu] - del[mat[mu], nu] - I ChiCommutator[mat, mu, nu]]];
 
-(* Chiral connection Gamma_mu and vielbein u_mu, used by the Delta sector. *)
-(* NOTE: getRidOfhigherOrderTerm (= Series in 1/fPi) must NOT be applied to the
-   MATRIX here.  At that stage the expression still contains unevaluated HC and
-   del heads, and Series differentiates them as if they were ordinary functions
-   of fPi, leaving Derivative[1][HC][0] and Derivative[1,0][del][0,...] factors
-   all over the Delta sector -- they were present in every pi-N-Delta vertex of
-   the myPions UFO.  Expanding first and truncating only after the isospin trace
-   (in ChiConnectV / ChiVielbeinV / ChiVielbein2 below) is clean and gives the
-   expected leading term u_mu ~ -d_mu pi / fPi. *)
-ChiConnect[mu_]  := ChiConnect[mu] = ExpandIndices[(1/2)*(HC[umat] . (del[umat, mu] - I*RMat[mu] . umat) + umat . (del[HC[umat], mu] - I*LMat[mu] . HC[umat]))];
-ChiVielbein[mu_] := ChiVielbein[mu] = ExpandIndices[I*(HC[umat] . (del[umat, mu] - I*RMat[mu] . umat) - umat . (del[HC[umat], mu] - I*LMat[mu] . HC[umat]))];
+(*  Chiral connection Gamma_mu and vielbein u_mu for the Delta sector.
+    The source pairing (l with u^+ ... u, r with u ... u^+) is the NUCLEON's:
+        I ChiConnect[mu]     == vVec[mu] + (LMatTilda[mu] + RMatTilda[mu])/2
+        ChiVielbein[mu] / 2  == aVec[mu] + (LMatTilda[mu] - RMatTilda[mu])/2
+    exactly, to all orders in Phi.  Through V0 these had l and r the other way
+    round, which left the pion halves identical but flipped every term odd in
+    the AXIAL source (l - r) relative to the nucleon: the W/Z N-Delta axial
+    transition, the g1D W/Z-Delta-Delta axial couplings and the Delta-Delta-W/Z-pi
+    contacts from the connection.  The photon never noticed: it enters only
+    through l + r, which the swap leaves alone, so gamma N -> Delta, the Delta
+    charges and Fig. 33 are unchanged.
+
+    The nucleon is the reference because it is tied to the pion sector by PCAC:
+    the induced pseudoscalar LNNPPFF (sign independently confirmed) implies a
+    W-pi mixing m = -e fPi Vud/(2 sw), and the exported A-pi-W contact -- the
+    gauge completion of that mixing -- gives the same m.  *)
+ChiConnect[mu_]  := ChiConnect[mu] = ExpandIndices[(1/2)*(HC[umat] . (del[umat, mu] - I*LMat[mu] . umat) + umat . (del[HC[umat], mu] - I*RMat[mu] . HC[umat]))];
+ChiVielbein[mu_] := ChiVielbein[mu] = ExpandIndices[I*(HC[umat] . (del[umat, mu] - I*LMat[mu] . umat) - umat . (del[HC[umat], mu] - I*RMat[mu] . HC[umat]))];
 
 (* Building blocks for the nucleon currents.  These are kept SEPARATE from
    ChiConnect / ChiVielbein on purpose -- see the note above LNNVector. *)
@@ -2071,7 +2078,11 @@ ChiVielbeinVPion[mu_, l_]   := ChiVielbeinVPion[mu, l] = ChiVielbeinV[mu, l] - C
 
     See also the OPEN ISSUE note above LNNAxial, which is this same bug seen
     from the nucleon side.                                                     *)
-ChiVielbeinVWeakSrc[mu_, l_] := -ChiVielbeinVWeak[mu, l];
+(*  Kept as an alias so LPiNDeltaGIWeakFF, LC4ANDelta and LC6ANDelta need no
+    edits.  It used to be -ChiVielbeinVWeak, which compensated for the old
+    pairing in ChiVielbein; with the pairing fixed at the source no
+    compensation is needed.  The value is identical to before.  *)
+ChiVielbeinVWeakSrc[mu_, l_] := ChiVielbeinVWeak[mu, l];
 
 (* ****************************************************************************** *)
 (*  CACHE CONTROL -- ChiPTClearCache[] MUST be called right after LoadModel.      *)
