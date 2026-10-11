@@ -116,9 +116,7 @@ M$Information = {
   Institutions -> {""},
   Emails       -> {""}
 };
-(* v2.1: One chiral convention, U -> R U L^+, throughout.  Baryon sector     *)
-(*       converted (header note 2); interaction orders of g2D/g3D/ztilde;    *)
-(*       U expanded to O(Phi^4) for the 4-pion sector.                       *)
+
 FeynmanGauge = False;
 
 (* ****************************************************************************** *)
@@ -188,7 +186,9 @@ ChiPT$WeakFF    = MemberQ[{"Weak",  "All"}, ChiPT$FormFactors];
 (*       LMat/RMat, meson mass units and pion masses corrected.  See the     *)
 (*       header block above for what was checked and deliberately left       *)
 (*       unchanged.                                                          *)
-
+(* v2.1: One chiral convention, U -> R U L^+, throughout.  Baryon sector     *)
+(*       converted (header note 2); interaction orders of g2D/g3D/ztilde;    *)
+(*       U expanded to O(Phi^4) for the 4-pion sector.                       *)
 
 (* ************************** *)
 (* *****  Gauge groups  ***** *)
@@ -2016,8 +2016,8 @@ ChiVielbeinV[mu_, l_]       := ChiVielbeinV[mu, l] = getRidOfhigherOrderTerm[(1/
     isospin trace), so the warning above about differentiating unevaluated HC
     and del heads is respected.
 
-    At u = 1 the vielbein is r_mu − l_mu, and that combination is PURELY WEAK:
-    r − l = −(g2/2) Vud (τ¹Wi₁ + τ²Wi₂) − τ³[ (g2 cw + g1 sw)/2 Z + (g2 sw - g1 cw)/2 A ]
+    At u = 1 the vielbein is r_mu - l_mu, and that combination is PURELY WEAK:
+    r - l = -(g2/2) Vud (tau^1 Wi_1 + tau^2 Wi_2) - tau^3 [ (g2 cw + g1 sw)/2 Z + (g2 sw - g1 cw)/2 A ]
     and g2 sw - g1 cw = ee - ee = 0, so the PHOTON CANCELS IDENTICALLY and only
     W (with its V_ud) and Z survive.  That is what makes this the right object to
     hang C5A on: the form factor reaches both weak transition currents and cannot
@@ -2207,7 +2207,7 @@ LPionKin := Normal[Series[
    Block[{mu}, ExpandIndices[(1/4)*fPi^2*Tr[DelU[mu] . HC[DelU[mu]] + MassU]]],
    {fPi, Infinity, fPiOrder}]];
 
-
+(* ----------------------------------------------------------- nucleon sector -- *)
 (*  L = Nbar ( i gamma^mu d_mu - M ) N                           LNucleonKin     *)
 (*    + Nbar gamma^mu ( vVec + (L~ + R~)/2 ) N                   LNNVector       *)
 (*    + ga Nbar gamma^mu ( aVec + (R~ - L~)/2 ) gamma5 N         LNNAxial        *)
@@ -2367,13 +2367,6 @@ LC4ANDelta := -C4AN*Block[{al, lam, nu, s1},
              - del[Deltabar[s1, al, r1, i1], lam]*del[ChiVielbeinVWeak[lam, i1], al])*
       Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
 
-(*  Leading minus for the same reason as LC4ANDelta. *)
-LC6ANDelta := -C6AN*Block[{al, lam, s1},
-   FFC6AA*Sum[del[del[ChiVielbeinVWeak[lam, i1], lam], al]*
-       Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]
- + FFC6AB*HC[Sum[del[del[ChiVielbeinVWeak[lam, i1], lam], al]*
-       Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
-
 
 (* ---------------------------- induced pseudoscalar --------------------------- *)
 (*  The pion pole in the nucleon axial current: the fourth Lorentz structure of  *)
@@ -2458,10 +2451,11 @@ LC6ANDelta := -C6AN*Block[{al, lam, s1},
 (*                                                                              *)
 (*  Its own coupling constant also keeps FeynRules from merging this into the    *)
 (*  C4A structure, which shares the Identity Dirac structure.                    *)
-LC6ANDelta := C6AN*Block[{al, lam, s1},
-   FFC6AA*Sum[del[del[ChiVielbeinVWeakSrc[lam, i1], lam], al]*
+(*  Leading minus for the same reason as LC4ANDelta. *)
+LC6ANDelta := -C6AN*Block[{al, lam, s1},
+   FFC6AA*Sum[del[del[ChiVielbeinVWeak[lam, i1], lam], al]*
        Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]
- + FFC6AB*HC[Sum[del[del[ChiVielbeinVWeakSrc[lam, i1], lam], al]*
+ + FFC6AB*HC[Sum[del[del[ChiVielbeinVWeak[lam, i1], lam], al]*
        Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
 
 
@@ -2483,7 +2477,7 @@ LNNPPFF := Block[{mu, s1, s2},
 (*  one-pion piece of their own source combination.  Written exactly as those    *)
 (*  two terms are -- LNNVector uses vVec + (L~+R~)/2 = vVec + LMatTildaV, so its *)
 (*  one-pion piece is SrcTildaV1 with no extra factor, and likewise for the      *)
-(*  axial -- so the two halves inherit the model's own relative factor of -ga    *)
+(*  axial -- so the two halves inherit the model's own relative factor of +ga    *)
 (*  and nothing is normalised by hand.                                          *)
 (*                                                                              *)
 (*  THE FORM FACTORS ARE NOT ASSIGNED BY DIRAC STRUCTURE.  See the long note at  *)
@@ -2746,7 +2740,7 @@ LPiNDelta := -gD*Block[{mu1, mu2, s1, s2, s3, i1, ro},
       (ME[mu1, mu2]*IndexDelta[s1, s3] + ztilde*Ga[mu1, s1, s2]*Ga[mu2, s2, s3])*
       ChiVielbeinV[mu2, i1]*Nucleons[s3][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
 
-
+(* -------------------------------- pi N Delta, gauge-invariant (Pascalutsa) --- *)
 (*  Strong term of Fernandez-Ramirez et al. Eq. (36),                            *)
 (*     -(h / (fPi Mstar)) Nbar eps_{mu nu lam beta} gamma^beta gamma5            *)
 (*                          (d^mu Delta^nu_j)(d^lam pi_j)                        *)
