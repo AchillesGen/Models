@@ -1857,7 +1857,20 @@ getRidOfhigherOrderTerm[expression_] := Normal[Series[expression, {fPi, Infinity
 UU := MatrixExp[ExpandIndices[Sum[I (PauliSigma[ii] Pion[ii])/fPi, {ii, 1, 3}]]];
 uu := MatrixPower[UU, 1/2];
 
-UMat := Simplify[Normal[Series[UU, {fPi, Infinity, fPiOrder}]]];
+(*  U itself must be expanded TWO orders beyond the Lagrangian truncation.
+    The 1/fPi^2 terms of (fPi^2/4) Tr[D U (D U)^+ + chi U^+ + U chi^+] need U
+    through Phi^4/fPi^4: the cross term dPhi . dPhi^3 for the kinetic part and
+    the Phi^4 term for the mass part.  Truncating U at Phi^2 (as before) gave a
+    spurious 4-pi0 vertex -2i Sum p_i.p_j/fPi^2 in place of i MPi^2/fPi^2, and
+    spurious Z-pi0-pi0-pi0 / W-pi0-pi0-pi+- vertices.
+
+    Written as the explicit Taylor series of exp(i Phi/fPi): identical to the
+    old Series[MatrixExp[...]] at equal order, but needs no MatrixExp/Simplify.
+    UMat is used by LPionKin, DelU, MassU, DelUSrc and ChiPTPFCross, so the
+    Weak build's pion-in-flight counterterm (LPFFF) stays consistent with
+    LPionKin automatically.  umat (= u) is untouched.  *)
+UMat := Expand[IdentityMatrix[2] +
+   Sum[(I/fPi)^n/n! * MatrixPower[PionMat, n], {n, 1, fPiOrder + 2}]];
 umat := Simplify[Normal[Series[uu, {fPi, Infinity, fPiOrder}]]];
 
 (* External left/right sources.  l_mu = r_mu = e Q A_mu with Q = (1 + tau3)/2:
