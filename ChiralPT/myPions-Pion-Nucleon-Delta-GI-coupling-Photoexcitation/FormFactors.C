@@ -175,11 +175,9 @@ namespace {
   // ---- N -> Delta axial, C5A(Q^2)/C5A(0) ------------------------------------
   // Achilles MECAxialFormFactor's shape; ca5norm and its sqrt(3/2) cancel in the
   // ratio, so the model's own gauged N -> Delta coupling is left alone.
-  // rho-dominance factor on the axial half of the contact term.  The
-  // references pair it with the pion-pole (PP) diagram so that PCAC survives;
-  // this model has NO PP term -- it would come from the two-point W-pi mixing,
-  // which FeynRules does not export to a UFO -- so PCAC is NOT restored the way
-  // CVC now is.  Left as a documented limitation, not a claim.
+  // rho-dominance factor on the axial half of the contact term, and (V14) on
+  // its pion-pole partner FPPpi/FPPZpi below: PCAC needs the two to carry the
+  // same function.  The PP operator exists since V11 (LPPoleFF).
   double FrhoCT(double Q2) {
     static const double mrho = Params::Get("MRhoCT"), m2 = mrho * mrho;
     return m2 / (m2 + Q2);          // t = -Q^2 for the spacelike exchange
@@ -276,22 +274,21 @@ namespace {
   // two-point vertices, so mixing and propagator are folded in here and the
   // topology rides on one effective four-point operator (LPPoleFF).  Dimension
   // 1/mass^2 -- this IS the propagator; the rest of the normalisation is in
-  // the coupling.  FW1/FZ1pi because the absorbing vertex is the nucleon's
-  // isovector VECTOR coupling, the same dressing the pion-in-flight term
-  // carries; being 1 at Q^2 = 0 it cannot disturb PCAC, which is about the pole.
+  // the coupling.  F_rho, the SAME function as the gamma^mu half of the
+  // contact term: the two come from one chiral operator,
+  //     gamma^mu + q^mu (qslash + kslash) / (2 (Q^2 + mpi^2)),
+  // which is transverse in the chiral limit only if both halves carry the same
+  // dressing (ChiPT-3 Eq. C31).  Through V13 this was F1V, which broke that at
+  // every Q^2 > 0.  Both halves multiply the AXIAL source, so there is no CVC
+  // reason for F1V, and the NC version carries no (1 - 2 sw^2): the operator
+  // is built from Tr[sigma^3 (l - r)], which has no vector piece.
   double FPPpi(double Q2) {
     constexpr double MPiC = 0.1395704;
-    double F1p, F1n, F2p, F2n;
-    DiracPauli(Q2, F1p, F1n, F2p, F2n);
-    return (F1p - F1n) / (Q2 + MPiC * MPiC);
+    return FrhoCT(Q2) / (Q2 + MPiC * MPiC);
   }
 
   double FPPZpi(double Q2) {
-    double F1p, F1n, F2p, F2n;
-    DiracPauli(Q2, F1p, F1n, F2p, F2n);
-    return (F1p - F1n) * (1.0 - 2.0 * Params::Get("Sw2FF"))
-                       / (1.0 - 2.0 * Params::Sw2Model())
-                       / (Q2 + MPi * MPi);
+    return FrhoCT(Q2) / (Q2 + MPi * MPi);
   }
 
   // The Delta's induced pseudoscalar.  PCAC ties C6A to C5A by

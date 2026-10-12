@@ -444,6 +444,11 @@ class FormFactors:
         return (self.FW1(Q2) * (1.0 - 2.0 * self.sw2)
                 / (1.0 - 2.0 * self.sw2_model))
 
+    def FrhoCT(self, Q2):
+        """rho dominance on the axial (gamma^mu) half of the contact term."""
+        m2 = float(self.ns.get("MRhoCT", 0.7758)) ** 2
+        return m2 / (m2 + Q2)
+
     def FPPpi(self, Q2):
         """The pion pole on the boson leg of the four-point W-N-N-pi vertex.
 
@@ -452,28 +457,30 @@ class FormFactors:
         absorbed on the nucleon line by the Weinberg-Tomozawa pi-pi-N-N vertex.
         The UFO has no two-point vertices, so the mixing and the propagator are
         folded into this form factor and the whole topology is carried by one
-        effective four-point operator (LPPoleFF in ChiPT.fr) -- the same device
-        LNNPPFF uses for the nucleon's own induced pseudoscalar.
+        effective four-point operator (LPPoleFF in ChiPT.fr).
 
         Dimension is 1/mass^2, which is the propagator; everything else in the
-        normalisation lives in the coupling.  FW1 rides along because the vertex
-        that absorbs the pion is the isovector VECTOR coupling of the nucleon,
-        the same one the pion-in-flight term is dressed with -- and because it
-        is 1 at Q^2 = 0 it cannot disturb the PCAC statement, which is a
-        statement about the pole.
+        normalisation lives in the coupling.  The dressing is F_rho, the SAME
+        function as the gamma^mu half of the contact term (V14; F1V through
+        V13).  The two halves are one chiral operator,
+            gamma^mu + q^mu (qslash + kslash) / (2 (Q^2 + mpi^2)),
+        transverse in the chiral limit only if both carry the same function
+        (ChiPT-3 Eq. C31).  Both multiply the axial source, so CVC says nothing
+        about them.
         """
         mpi = float(self.ns.get("MPiP", 0.1395704))
-        return self.FW1(Q2) / (Q2 + mpi ** 2)
+        return self.FrhoCT(Q2) / (Q2 + mpi ** 2)
 
     def FPPZpi(self, Q2):
-        """The neutral-current pion pole; the pi0 mass and the Z's isovector.
+        """The neutral-current pion pole; the pi0 mass, and NO (1 - 2 sw^2).
 
-        The nucleon NC axial current is pure isovector here, so the same pole
-        with the neutral pion in it, dressed with FZ1pi for the reason given
-        there.
+        The operator is built from Tr[sigma^3 (l - r)], the pure axial
+        isovector, so the vector-current correction FZ1pi carries does not
+        belong here.  The NC final lepton is a neutrino, so this term (which is
+        proportional to q^mu) does not reach any NC cross section anyway.
         """
         mpi = float(self.ns.get("MPi0", 0.1349768))
-        return self.FZ1pi(Q2) / (Q2 + mpi ** 2)
+        return self.FrhoCT(Q2) / (Q2 + mpi ** 2)
 
 
 def param_card_block():

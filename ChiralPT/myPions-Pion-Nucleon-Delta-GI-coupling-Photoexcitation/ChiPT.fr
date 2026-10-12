@@ -1239,6 +1239,16 @@ M$Parameters = {
   (*  The branching ratio BR(N gamma) = 0.560938% is preserved to all digits; it   *)
   (*  is the better-measured quantity of the two, so it is what is held fixed.     *)
   (*                                                                              *)
+  (*  WHERE THE TWO BREIT-WIGNER NUMBERS COME FROM.  Both are PDG, Review of       *)
+  (*  Particle Physics, Delta(1232) 3/2+ listings, 2024 edition:                   *)
+  (*      pdg.lbl.gov/2024/listings/rpp2024-list-Delta-1232.pdf                    *)
+  (*  Gamma(N pi) = 117 MeV is the Breit-Wigner width, B(N pi) = 99.4%.            *)
+  (*  Gamma(N gamma) is NOT tabulated as a width at all -- the PDG quotes          *)
+  (*  B(N gamma) = 0.55-0.65%, and 0.66 MeV is that branching ratio times the      *)
+  (*  117 MeV width.  Which is the reason the rescaling above holds the BRANCHING  *)
+  (*  RATIO fixed rather than the partial width: the ratio is the measured         *)
+  (*  quantity, and the width is a number derived from it.                         *)
+  (*                                                                              *)
   (*  TWO THINGS THIS FIXES BEYOND THE CONVENTION.  First, the sum of the partial  *)
   (*  widths now EQUALS the propagator width, so the resonance's elasticity is 1   *)
   (*  by construction rather than by accident -- before, the vertex delivered      *)
@@ -1267,7 +1277,7 @@ M$Parameters = {
     OrderBlock       -> 5,
     Value            -> 0.0005722,
     InteractionOrder -> {QED, 0},
-    Description      -> "Gamma(Delta -> N gamma) in GeV at the POLE (Breit-Wigner 0.66 MeV scaled to the pole total width at fixed branching ratio).  DEFINES the overall scale of G1 and G2 -- see the note above."
+    Description      -> "Gamma(Delta -> N gamma) in GeV at the POLE (Breit-Wigner 0.66 MeV scaled to the pole total width at fixed branching ratio).  SOURCE: PDG, Review of Particle Physics, Delta(1232) 3/2+ listings, 2024 edition -- B(N gamma) = 0.55-0.65% of the 117 MeV Breit-Wigner width, i.e. 0.66 MeV; the PDG tabulates the BRANCHING RATIO, not the partial width.  DEFINES the overall scale of G1 and G2 -- see the note above."
   },
   G2overG1 == {
     ParameterType    -> External,
@@ -1569,6 +1579,12 @@ M$Parameters = {
     Value            -> 1.0,
     InteractionOrder -> {QED, 0},
     Description      -> "Switch and normalisation for the pion-pole operator LPPoleFF.  1 is the chiral value and is not a fit; 0 removes the diagram, which is what the model looked like through V10 and is how the before/after is produced.  IT ALSO HAS A MECHANICAL JOB: without a coupling constant of its own the pion-pole terms come out numerically proportional to the contact term's, FeynRules groups the two into ONE Lorentz structure, and the UFO ends up with a single structure carrying two different form factors -- the failure mode documented at LNNPPFF, where a 2 MNucleon does the same work."
+  },
+  MNPP == {
+    ParameterType    -> Internal,
+    Value            -> MNucleon,
+    InteractionOrder -> {QED, 0},
+    Description      -> "Equal to MNucleon; appears only as MNucleon/MNPP = 1 in the pseudovector induced pseudoscalar LNNPPFF.  Its job is mechanical, like PPNorm's: a symbol of its own in that coupling keeps FeynRules from merging q^mu qslash gamma5 into the axial structure, which would put two form factors on one Lorentz structure."
   },
   MV2ND == {
     ParameterType    -> External,
@@ -2493,24 +2509,53 @@ LC4ANDelta := C4AN*Block[{al, lam, nu, s1},
 (*                                                                              *)
 (*  Its own coupling constant also keeps FeynRules from merging this into the    *)
 (*  C4A structure, which shares the Identity Dirac structure.                    *)
-LC6ANDelta := C6AN*Block[{al, lam, s1},
-   FFC6AA*Sum[del[del[ChiVielbeinVWeakSrc[lam, i1], lam], al]*
-       Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]
- + FFC6AB*HC[Sum[del[del[ChiVielbeinVWeakSrc[lam, i1], lam], al]*
-       Deltabar[s1, al, r1, i1]*Nucleons[s1][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
+(*  V14: THE POLE RIDES ON THE GAUGE-INVARIANT VERTEX, not on the Adler          *)
+(*  q^alpha q^mu.  The two agree only for an ON-SHELL Delta: (C40) reduces       *)
+(*  eps p' gamma gamma5 to i MDelta g^{alpha mu} there, and nowhere else.  In    *)
+(*  the s- and u-channel diagrams the Delta is a propagator, and the Adler form  *)
+(*  left the Delta part of the CC1pi axial current violating PCAC by 13-42% in   *)
+(*  the chiral limit.  Here the weak source of LPiNDeltaGIWeakFF is replaced by  *)
+(*  its pion-pole partner,                                                      *)
+(*      a_lam  ->  - q_lam (q.a)/(q^2 - mpi^2)  =  - d_lam d.a / (Q^2 + mpi^2)   *)
+(*  so the ENTIRE axial transition is transverse in the chiral limit, off shell *)
+(*  as well as on.  On shell it is exactly the old C6A = C5A MN^2/(Q^2+mpi^2),   *)
+(*  so FFC6AA/B and FC6A keep their meaning.  The sign is minus LPiNDeltaGIWeak- *)
+(*  FF's; C6AN (= hD) as the coupling's own symbol stops FeynRules merging this *)
+(*  into the C5A structure.                                                     *)
+LC6ANDelta := (C6AN/MDelta)*Block[{mu, nu, lam, si, ka, s1, s2, s3},
+   FFC6AA*Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+       Ga[si, s1, s2]*Ga[5, s2, s3]*del[del[ChiVielbeinVWeakSrc[ka, i1], ka], lam]*
+       Nucleons[s3][[r1]], {r1, 1, 2}, {i1, 1, 3}]
+ + FFC6AB*HC[Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
+       Ga[si, s1, s2]*Ga[5, s2, s3]*del[del[ChiVielbeinVWeakSrc[ka, i1], ka], lam]*
+       Nucleons[s3][[r1]], {r1, 1, 2}, {i1, 1, 3}]]];
 
 
-LNNPPFF := Block[{mu, s1, s2},
-    I*(ee*Vud/(2*sw*Sqrt[2]))*(-ga)*(2*MNucleon)*FFPPA*
-        del[W[mu], mu]*Protonbar[s1] . Ga[5, s1, s2] . Neutron[s2]
-  + HC[I*(ee*Vud/(2*sw*Sqrt[2]))*(-ga)*(2*MNucleon)*FFPPB*
-        del[W[mu], mu]*Protonbar[s1] . Ga[5, s1, s2] . Neutron[s2]]
+(*  V14: PSEUDOVECTOR FORM.  Through V13 this was 2 MN q^mu gamma5, which equals *)
+(*  q^mu qslash gamma5 only between ON-SHELL spinors.  In the s- and u-channel  *)
+(*  Born graphs of single-pion production one nucleon is off shell, and the     *)
+(*  difference is a contact term of order ga^2 -- measured, it left the nucleon *)
+(*  CC1pi axial current violating PCAC in the chiral limit by 13-22%.  The      *)
+(*  pion pole of a pseudovector pi-N-N coupling IS q^mu qslash gamma5 (HNV use  *)
+(*  this form); with it, and LPPoleFF's sign corrected, q.H vanishes as mpi^2.  *)
+(*  CCQE cannot tell the two apart, so tools/ccqe_ls.py and nucleon_ff.py are   *)
+(*  unaffected.  The extra derivative brings the extra I: (d_nu d.W) -> -q_nu    *)
+(*  q.eps and qslash gamma5 -> 2 MN gamma5 on shell, so c' = I c.               *)
+(*  MNucleon/MNPP is numerically 1.  It replaces the old 2 MNucleon as the      *)
+(*  coupling's private symbol, the thing that stops FeynRules merging this into *)
+(*  the axial structure (the two-form-factor trap described above).  FPP keeps  *)
+(*  its meaning, F_A/(Q^2+mpi^2), so FormFactors.C serves old and new UFOs.     *)
+LNNPPFF := Block[{mu, nu, s1, s2, s3},
+    I*(ee*Vud/(2*sw*Sqrt[2]))*(-ga)*I*(MNucleon/MNPP)*FFPPA*
+        del[del[W[mu], mu], nu]*Protonbar[s1] . Ga[nu, s1, s2] . Ga[5, s2, s3] . Neutron[s3]
+  + HC[I*(ee*Vud/(2*sw*Sqrt[2]))*(-ga)*I*(MNucleon/MNPP)*FFPPB*
+        del[del[W[mu], mu], nu]*Protonbar[s1] . Ga[nu, s1, s2] . Ga[5, s2, s3] . Neutron[s3]]
   (* --- neutral current.  The NC axial is pure isovector, so it carries the  *)
   (* --- SAME pole; the mass is the neutral pion's, hence FPPZ not FPP.       *)
-  + I*(-ee*ga*(cw/(4*sw) + sw/(4*cw)))*(2*MNucleon)*FFPPZP*
-        del[Z[mu], mu]*Protonbar[s1] . Ga[5, s1, s2] . Proton[s2]
-  + I*(ee*ga*(cw/(4*sw) + sw/(4*cw)))*(2*MNucleon)*FFPPZN*
-        del[Z[mu], mu]*Neutronbar[s1] . Ga[5, s1, s2] . Neutron[s2]];
+  + I*(-ee*ga*(cw/(4*sw) + sw/(4*cw)))*I*(MNucleon/MNPP)*FFPPZP*
+        del[del[Z[mu], mu], nu]*Protonbar[s1] . Ga[nu, s1, s2] . Ga[5, s2, s3] . Proton[s3]
+  + I*(ee*ga*(cw/(4*sw) + sw/(4*cw)))*I*(MNucleon/MNPP)*FFPPZN*
+        del[del[Z[mu], mu], nu]*Neutronbar[s1] . Ga[nu, s1, s2] . Ga[5, s2, s3] . Neutron[s3]];
 
 
 (* ------------------- CVC / PCAC on the background diagrams ------------------- *)
@@ -2637,8 +2682,16 @@ LPFFF := Module[{a, b},
 PiPoleSrc[a_] := PiPoleSrc[a] = Block[{nu},
    ExpandIndices[Tr[PauliMatrix[a] . del[LMat[nu] - RMat[nu], nu]]]];
 
+(*  V14: SIGN FLIPPED.  The Q^2 -> 0 test above cannot fix it (the pole goes as  *)
+(*  Q^2 there), and the V11 choice made the contact-plus-pole divergence come   *)
+(*  out ENHANCED by 1 + Q^2/(Q^2+mpi^2) instead of suppressed.  Expanding the    *)
+(*  chiral connection, the gamma^mu contact and this pole are one operator,     *)
+(*      gamma^mu + q^mu (qslash + kslash) / (2 (Q^2 + mpi^2)),                   *)
+(*  transverse in the chiral limit on its own.  Together with LNNPPFF's          *)
+(*  pseudovector form the nucleon CC1pi axial current then satisfies PCAC to    *)
+(*  1e-7 at mpi = 1e-4 GeV, against 13-22% before.                               *)
 PiPole[a_] := PiPole[a] =
-   -(fPi/2)*If[a === 3, FFPPPIZ, FFPPPIW]*PiPoleSrc[a];
+   (fPi/2)*If[a === 3, FFPPPIZ, FFPPPIW]*PiPoleSrc[a];
 
 (*  NOT memoised with the := X = X idiom the rest of the file uses.  That makes  *)
 (*  an OwnValue, and ChiPTClearCache only purges DownValues -- so a memoised     *)
@@ -2755,8 +2808,20 @@ LDeltaPi3 := (-(g3D/2))*Block[{mu1, mu2, s1, s2, s3, s4, s5, i1, i2, ro},
           IndexDelta[i1, i2]*ChiVielbein2[ro, r1, r2]*#1) &)[
       Delta[s5, mu2, r2, i2]], {r1, 1, 2}, {r2, 1, 2}]];
 
-LDeltaSector := LDeltaKin1 + LDeltaKin2 + LDeltaKin3 + LDeltaKin4
-             + LDeltaPi1 + LDeltaPi2 + LDeltaPi3;
+(*  Assign before summing -- the FeynRules pathology documented at LChiPT.       *)
+(*  Written as the bare inline sum of the seven delayed symbols, FeynmanRules    *)
+(*  returned 43 vertices and NOT ONE with g1D: all three LDeltaPi terms were     *)
+(*  silently dropped, so no UFO up to V13 carried pi-Delta-Delta, the axial half *)
+(*  of W/Z-Delta-Delta, or any g1D contact.  LDeltaPi1 on its own gives 46.      *)
+(*  Tree-level single-pion production has no Delta-Delta vertex, so none of the  *)
+(*  published single-pion numbers move; 2pi and Delta rescattering do.           *)
+(*  Sign check (the V0 -> V1 note): in Delta0~ Delta- W the ME.gamma^mu gamma5   *)
+(*  to ME.gamma^mu ratio is -g1D/3, the nucleon's -ga with g1D -> g1D/3, and the *)
+(*  Delta-Delta W/pi ratio is +I g fPi Vud/2, the nucleon's.                     *)
+LDeltaSector := Module[{k1, k2, k3, k4, p1, p2, p3},
+  k1 = LDeltaKin1;  k2 = LDeltaKin2;  k3 = LDeltaKin3;  k4 = LDeltaKin4;
+  p1 = LDeltaPi1;   p2 = LDeltaPi2;   p3 = LDeltaPi3;
+  k1 + k2 + k3 + k4 + p1 + p2 + p3];
 
 
 (* ------------------------------------------- pi N Delta, conventional form -- *)
