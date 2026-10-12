@@ -1,0 +1,4252 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    166283,       4244]
+NotebookOptionsPosition[    160512,       4150]
+NotebookOutlinePosition[    161110,       4171]
+CellTagsIndexPosition[    161067,       4168]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Quit", "[", "]"}], ";"}]], "Input",
+ CellLabel->"In[1]:=",ExpressionUUID->"039f308f-1392-4e14-836c-cbebf8d9fd98"],
+
+Cell[CellGroupData[{
+
+Cell["Initialize", "Section",
+ CellChangeTimes->{{3.943223977041403*^9, 
+  3.943223978440871*^9}},ExpressionUUID->"0faca035-5066-4927-b701-\
+09fbc412c624"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"$FeynRulesPath", "=", 
+   RowBox[{
+   "SetDirectory", "[", "\"\<C:\\\\Program Files\\\\feynrules-current\>\"", 
+    "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"<<", "FeynRules`"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}]}], "Input",
+ CellFrame->{{0, 0}, {0, 0}},
+ CellChangeTimes->{{3.940014194087693*^9, 3.940014195785851*^9}, 
+   3.94588061704275*^9, 3.9458806790009193`*^9, {3.945921446020324*^9, 
+   3.945921511164321*^9}, {3.946461243622387*^9, 3.946461270987267*^9}, {
+   3.946477829719894*^9, 3.946477831018387*^9}, {3.950276766856163*^9, 
+   3.950276773303845*^9}, {3.950277122280142*^9, 3.950277123835655*^9}, {
+   3.950703374754779*^9, 3.950703408664361*^9}, 3.964381330094099*^9, 
+   3.9953871406833725`*^9},
+ CellLabel->"In[1]:=",ExpressionUUID->"33c52573-8e83-644f-b91e-532273eded0f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\" - FeynRules - \"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.0007392744826927`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"bfd58260-1757-8e42-befd-e8aaf327d7b2"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Version: \"\>", "\[InvisibleSpace]", "\<\"2.3.49\"\>", "\[InvisibleSpace]", 
+   RowBox[{"\<\" (\"\>", " ", "\<\"29 September 2021\"\>"}], 
+   "\[InvisibleSpace]", "\<\").\"\>"}],
+  SequenceForm["Version: ", "2.3.49", " (" "29 September 2021", ")."],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.0007392746205826`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"2d022178-7e73-694f-852c-4716aea3eebb"],
+
+Cell[BoxData["\<\"Authors: A. Alloul, N. Christensen, C. Degrande, C. Duhr, \
+B. Fuks\"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.0007392747600994`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"afba1c42-72fb-ca48-b08a-2820fcef9ff9"],
+
+Cell[BoxData["\<\" \"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.000739274898926*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"83e3d1a5-da19-204d-a480-7cf3f81ed178"],
+
+Cell[BoxData["\<\"Please cite:\"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.000739275030134*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"acdf1931-4520-974e-b72f-c4a4c6d84104"],
+
+Cell[BoxData["\<\"    - Comput.Phys.Commun.185:2250-2300,2014 \
+(arXiv:1310.1921);\"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.000739275148672*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"dab3ac09-539c-2842-ab9d-ecf1bbd0371a"],
+
+Cell[BoxData["\<\"    - Comput.Phys.Commun.180:1614-1641,2009 \
+(arXiv:0806.4194).\"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.0007392752661552`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"ab57f87a-ebc2-b94a-9724-4f562d58067c"],
+
+Cell[BoxData["\<\" \"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.0007392753891735`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"353c3cd7-2872-1246-ad7a-41b522067cb9"],
+
+Cell[BoxData["\<\"http://feynrules.phys.ucl.ac.be\"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.0007392755224056`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"dbc4904b-b1d2-364c-8c1a-af54c6ec19c9"],
+
+Cell[BoxData["\<\" \"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.0007392756645336`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"41a3073b-e51a-9a4a-b4f8-ed3a7ad21eb1"],
+
+Cell[BoxData["\<\"The FeynRules palette can be opened using the command \
+FRPalette[].\"\>"], "Print",
+ CellChangeTimes->{
+  3.987151633030208*^9, 3.988557075604332*^9, 3.988560485910581*^9, 
+   3.988825856488358*^9, 3.988826587948097*^9, 3.993810188122647*^9, 
+   3.9940405326483784`*^9, {3.9940454430492764`*^9, 3.9940454631262054`*^9}, 
+   3.9953869863063984`*^9, 3.9953871477746696`*^9, 3.9953872242532825`*^9, 
+   3.9955044262280483`*^9, 4.000687544289177*^9, 4.0006876297673225`*^9, 
+   4.000697471563589*^9, 4.0006993353401527`*^9, 4.000700316006014*^9, 
+   4.000705815261345*^9, 4.000711454453354*^9, 4.0007392757843285`*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"2c7f0081-ad16-8049-9c51-6ca38547c54c"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"reload", "[", "p_", "]"}], ":=", 
+  RowBox[{"With", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"pack", "=", "p"}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"BeginPackage", "[", "pack", "]"}], ";", 
+     RowBox[{"EndPackage", "[", "]"}]}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Map", "[", 
+    RowBox[{"reload", ",", "$ContextPath"}], "]"}], ";"}], 
+  RowBox[{"(*", " ", "AutoComplete", " ", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.9463498095303087`*^9, 3.946349811283544*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"791d685e-ec0d-45c3-bfaf-942a24f596b5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"LoadModel", "[", "\"\<ChiPT-V1.fr\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.965916356847305*^9, 3.965916382382618*^9}, {
+   3.965916414513159*^9, 3.965916419181635*^9}, {3.96595593529005*^9, 
+   3.965955936773519*^9}, 3.9687759159904194`*^9, {3.968858020044479*^9, 
+   3.968858022885662*^9}, {3.982284812483856*^9, 3.982284815635021*^9}, {
+   3.983626009371176*^9, 3.983626009576058*^9}, {3.983639097384859*^9, 
+   3.9836390986332397`*^9}, {4.0006875499408226`*^9, 
+   4.0006875521260643`*^9}, {4.00070584743631*^9, 4.000705848493923*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"c572fbce-e31a-460f-9a10-ca999c566097"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"This model implementation was created by\"\>"], "Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.00073929566403*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"6a69e4f4-2163-4a4f-b576-c8c500831641"],
+
+Cell[BoxData["\<\"\"\>"], "Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.0007392957866726`*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"e12872dc-21b0-db41-b8c2-9abf198678be"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Model Version: \"\>", "\[InvisibleSpace]", "\<\"2.1\"\>"}],
+  SequenceForm["Model Version: ", "2.1"],
+  Editable->False]], "Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.000739295917*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"dff8a225-176d-5347-a6db-2c689e1b6ab6"],
+
+Cell[BoxData["\<\"For more information, type ModelInformation[].\"\>"], \
+"Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.000739296056696*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"ff37e5d6-4dc5-3d4d-86c3-076998569cd6"],
+
+Cell[BoxData["\<\"\"\>"], "Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.0007392961768875`*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"8e978aa6-215c-2141-b91b-413c826026a8"],
+
+Cell[BoxData["\<\"   - Loading particle classes.\"\>"], "Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.0007392963002663`*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"6e127643-6422-8c47-9384-ff1684b1daf3"],
+
+Cell[BoxData["\<\"   - Loading gauge group classes.\"\>"], "Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.000739296435793*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"47e1f1e3-4585-3d45-a1b6-081a6ae75128"],
+
+Cell[BoxData["\<\"   - Loading parameter classes.\"\>"], "Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.000739296566818*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"cb44cff2-1eac-9448-a2a4-8b9f27d345d2"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"\\nModel \"\>", "\[InvisibleSpace]", "\<\"ChiPT\"\>", 
+   "\[InvisibleSpace]", "\<\" loaded.\"\>"}],
+  SequenceForm["\nModel ", "ChiPT", " loaded."],
+  Editable->False]], "Print",
+ CellChangeTimes->{4.000687744731577*^9, 4.0006975308294697`*^9, 
+  4.000699347630102*^9, 4.000700328657099*^9, 4.0007058546466503`*^9, 
+  4.0007114681277046`*^9, 4.000739296689602*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"cdd3cbb6-cc34-b64e-9d95-71fbe5755433"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Definitions", "Section",
+ CellChangeTimes->{{3.9459168642047987`*^9, 3.945916877508211*^9}, 
+   3.945921404771286*^9},ExpressionUUID->"3762a85b-0e4d-4396-ac58-\
+964bbf9982c4"],
+
+Cell["These are used across the code.", "Text",
+ CellChangeTimes->{{3.955707058463471*^9, 
+  3.955707063918245*^9}},ExpressionUUID->"48c462ce-b3e4-404d-a933-\
+b2b510a5d75c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"verticesTableStyle", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Proton", "->", "\"\<p\>\""}], ",", 
+     RowBox[{
+     "Protonbar", "->", "\"\<\!\(\*OverscriptBox[\(p\), \(_\)]\)\>\""}], ",", 
+     RowBox[{"Neutron", "->", "\"\<n\>\""}], ",", 
+     RowBox[{
+     "Neutronbar", "->", "\"\<\!\(\*OverscriptBox[\(n\), \(_\)]\)\>\""}], ",", 
+     RowBox[{
+     "Pi0", "->", "\"\<\!\(\*SuperscriptBox[\(\[Pi]\), \(0\)]\)\>\""}], ",", 
+     RowBox[{
+     "PiP", "->", "\"\<\!\(\*SuperscriptBox[\(\[Pi]\), \(+\)]\)\>\""}], ",", 
+     RowBox[{
+     "PiPbar", "->", "\"\<\!\(\*SuperscriptBox[\(\[Pi]\), \(-\)]\)\>\""}], ",", 
+     RowBox[{
+     "DeltaM", 
+      "->", "\"\<\!\(\*SuperscriptBox[\(\[CapitalDelta]\), \(-\)]\)\>\""}], ",", 
+     RowBox[{
+     "Delta0", 
+      "->", "\"\<\!\(\*SuperscriptBox[\(\[CapitalDelta]\), \(0\)]\)\>\""}], ",", 
+     RowBox[{
+     "DeltaP", 
+      "->", "\"\<\!\(\*SuperscriptBox[\(\[CapitalDelta]\), \(+\)]\)\>\""}], ",", 
+     RowBox[{
+     "DeltaPP", 
+      "->", "\"\<\!\(\*SuperscriptBox[\(\[CapitalDelta]\), \(++\)]\)\>\""}], ",", 
+     RowBox[{
+     "DeltaMbar", 
+      "->", "\"\<\!\(\*OverscriptBox[SuperscriptBox[\(\[CapitalDelta]\), \
+\(-\)], \(_\)]\)\>\""}], ",", 
+     RowBox[{
+     "Delta0bar", 
+      "->", "\"\<\!\(\*OverscriptBox[SuperscriptBox[\(\[CapitalDelta]\), \
+\(0\)], \(_\)]\)\>\""}], ",", 
+     RowBox[{
+     "DeltaPbar", 
+      "->", "\"\<\!\(\*OverscriptBox[SuperscriptBox[\(\[CapitalDelta]\), \
+\(+\)], \(_\)]\)\>\""}], ",", 
+     RowBox[{
+     "DeltaPPbar", 
+      "->", "\"\<\!\(\*OverscriptBox[SuperscriptBox[\(\[CapitalDelta]\), \(++\
+\)], \(_\)]\)\>\""}], ",", 
+     RowBox[{"fPi", "->", 
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<\!\(\*SubscriptBox[\(f\), \(\[Pi]\)]\)\>\"", ",", 
+        RowBox[{"Darker", "@", "Red"}]}], "]"}]}], ",", 
+     RowBox[{"MPi", "->", 
+      RowBox[{"Style", "[", 
+       RowBox[{"\"\<\!\(\*SubscriptBox[\(m\), \(\[Pi]\)]\)\>\"", ",", 
+        RowBox[{"Darker", "@", "Green"}]}], "]"}]}], ",", 
+     RowBox[{"W", "->", "\"\<\!\(\*SuperscriptBox[\(W\), \(+\)]\)\>\""}], ",", 
+     RowBox[{"Wbar", "->", "\"\<\!\(\*SuperscriptBox[\(W\), \(-\)]\)\>\""}]}],
+     "}"}]}], ";"}]], "Input",
+ CellLabel->"In[7]:=",ExpressionUUID->"41a75dd1-96f1-ca4b-b317-4ab7e6d82778"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ChiPTClearCache", "[", "]"}]], "Input",
+ CellChangeTimes->{{4.0006992907337036`*^9, 4.0006993124666843`*^9}, {
+  4.000700333395384*^9, 4.000700338954275*^9}},
+ CellLabel->"In[8]:=",ExpressionUUID->"e7c4435f-b1c8-1543-b111-1f66339fe49d"],
+
+Cell[BoxData["\<\"ChiPT: load-time caches purged\"\>"], "Output",
+ CellChangeTimes->{4.0006997581197586`*^9, 4.0007003405439453`*^9, 
+  4.000705863413618*^9, 4.000711468916729*^9, 4.000739328299324*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"0ca34f04-0046-f144-b411-a9ea269d2295"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Save", "[", 
+  RowBox[{"\"\<GI-lagrangian.m\>\"", ",", "LGammaNDelta"}], "]"}]], "Input",
+ CellChangeTimes->{{4.0007393361374855`*^9, 4.000739370577402*^9}, {
+  4.0007403091664104`*^9, 4.0007403193795166`*^9}, {4.0007403658761196`*^9, 
+  4.0007403810807*^9}, {4.000740418004343*^9, 4.000740422805561*^9}, {
+  4.000740454929449*^9, 4.000740489654049*^9}, {4.0007405519917126`*^9, 
+  4.0007405543783207`*^9}, {4.0007405924007263`*^9, 4.0007406051027718`*^9}, {
+  4.0007406417660103`*^9, 4.0007406605916386`*^9}, {4.0007406924362373`*^9, 
+  4.0007406948645*^9}, {4.000741482030842*^9, 
+  4.000741496889263*^9}},ExpressionUUID->"19df3610-0729-d048-b6ea-\
+04138d0f5013"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"laggy", "=", 
+   RowBox[{"ExpandIndices", "[", "LPiNDeltaGI", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{4.000740635566637*^9, 4.0007406381278477`*^9}},
+ CellLabel->"In[18]:=",ExpressionUUID->"00a35c1e-8801-df48-9f42-ee725f5c0165"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"vrtx", "=", 
+  RowBox[{"FeynmanRules", "[", 
+   RowBox[{"LGammaNDelta", ",", 
+    RowBox[{"MaxParticles", "->", "4"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{4.0006878814382915`*^9, 4.0006878827640667`*^9}, {
+   4.0006879157932186`*^9, 4.0006879646822147`*^9}, 4.0006975070968704`*^9, {
+   4.0006984667772636`*^9, 4.0006984679574623`*^9}, {4.0006986127318935`*^9, 
+   4.000698614469265*^9}, 4.000698903389269*^9, {4.000699527955887*^9, 
+   4.0006995293060894`*^9}, {4.0007409389055767`*^9, 4.000740940336664*^9}, 
+   4.000741502982855*^9},
+ CellLabel->"In[25]:=",ExpressionUUID->"039f5c3a-d22b-fb46-bc4a-f210dfd0dad3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ StyleBox["\<\"Starting Feynman rule calculation.\"\>",
+  StripOnInput->False,
+  LineColor->RGBColor[1, 0.5, 0],
+  FrontFaceColor->RGBColor[1, 0.5, 0],
+  BackFaceColor->RGBColor[1, 0.5, 0],
+  GraphicsColor->RGBColor[1, 0.5, 0],
+  FontWeight->Bold,
+  FontColor->RGBColor[1, 0.5, 0]]], "Print",
+ CellChangeTimes->{4.000740942111719*^9, 4.000741503638628*^9},
+ CellLabel->
+  "During evaluation of \
+In[25]:=",ExpressionUUID->"0390a5b9-ea9f-014e-90a5-0a55dea1fc7e"],
+
+Cell[BoxData["\<\"Expanding the Lagrangian...\"\>"], "Print",
+ CellChangeTimes->{4.000740942111719*^9, 4.0007415037093163`*^9},
+ CellLabel->
+  "During evaluation of \
+In[25]:=",ExpressionUUID->"73422999-4cb3-8f45-8903-40291dbd353d"],
+
+Cell[BoxData["\<\"Collecting the different structures that enter the \
+vertex.\"\>"], "Print",
+ CellChangeTimes->{4.000740942111719*^9, 4.000741503874958*^9},
+ CellLabel->
+  "During evaluation of \
+In[25]:=",ExpressionUUID->"f977bad7-fe87-8946-b338-962e6c1344c2"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "4", "\[InvisibleSpace]", "\<\" possible non-zero vertices have been found \
+-> starting the computation: \"\>", "\[InvisibleSpace]", 
+   DynamicBox[ToBoxes[FeynRules`FR$FeynmanRules, StandardForm],
+    ImageSizeCache->{4.9482421875, {0., 5.74365234375}}], 
+   "\[InvisibleSpace]", "\<\" / \"\>", "\[InvisibleSpace]", "4", 
+   "\[InvisibleSpace]", "\<\".\"\>"}],
+  SequenceForm[
+  4, " possible non-zero vertices have been found -> starting the \
+computation: ", 
+   Dynamic[FeynRules`FR$FeynmanRules], " / ", 4, "."],
+  Editable->False]], "Print",
+ CellChangeTimes->{4.000740942111719*^9, 4.0007415039610825`*^9},
+ CellLabel->
+  "During evaluation of \
+In[25]:=",ExpressionUUID->"19d03aaa-91de-1a4c-a1c5-96d5a744c487"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"4", "\[InvisibleSpace]", "\<\" vertices obtained.\"\>"}],
+  SequenceForm[4, " vertices obtained."],
+  Editable->False]], "Print",
+ CellChangeTimes->{4.000740942111719*^9, 4.0007415047059364`*^9},
+ CellLabel->
+  "During evaluation of \
+In[25]:=",ExpressionUUID->"86c9cdb3-9cdf-e842-b420-bc975fb13e54"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         OverscriptBox["Delta0", "\<\"-\"\>"], ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Neutron", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}]}], "}"}], ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "G2", " ", "Kappa", " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", 
+        SubscriptBox["\<\"\[Mu]\"\>", "3"]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", 
+        SubscriptBox["\<\"\[Mu]\"\>", "1"]], " ", 
+       TemplateBox[{
+         SubscriptBox["\[Gamma]", 
+          RowBox[{
+            SubscriptBox["\"s\"", "1"], ",", 
+            SubscriptBox["\"s\"", "2"]}]], "5"},
+        "Superscript"]}], "+", 
+      FractionBox[
+       RowBox[{"G1", " ", "Kappa", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Beta]1"], " ", 
+        SubscriptBox["\[Delta]", 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       SqrtBox["6"]], "+", 
+      FractionBox[
+       RowBox[{"G1", " ", "Kappa", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Gamma]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Gamma]1"], " ", 
+        SubscriptBox["\[Delta]", 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       SqrtBox["6"]], "+", 
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "G2", " ", "Kappa", " ", 
+       TemplateBox[{
+         SubscriptBox["\[Gamma]", 
+          RowBox[{
+            SubscriptBox["\"s\"", "1"], ",", 
+            SubscriptBox["\"s\"", "2"]}]], "5"},
+        "Superscript"], " ", 
+       SubscriptBox["\[Eta]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"]}]], " ", 
+       RowBox[{
+        SubscriptBox["\<\"p\"\>", "1"], ".", 
+        SubscriptBox["p", "3"]}]}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         OverscriptBox["Neutron", "\<\"-\"\>"], ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Delta0", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}]}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "G2", " ", "Kappa", " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", 
+        SubscriptBox["\<\"\[Mu]\"\>", "3"]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", 
+        SubscriptBox["\<\"\[Mu]\"\>", "2"]], " ", 
+       TemplateBox[{
+         SubscriptBox["\[Gamma]", 
+          RowBox[{
+            SubscriptBox["\"s\"", "1"], ",", 
+            SubscriptBox["\"s\"", "2"]}]], "5"},
+        "Superscript"]}], "-", 
+      FractionBox[
+       RowBox[{"G1", " ", "Kappa", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Beta]1"], " ", 
+        SubscriptBox["\[Delta]", 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "2"], ",", 
+          SubscriptBox["\<\"s\"\>", "1"]}]]}], 
+       SqrtBox["6"]], "-", 
+      FractionBox[
+       RowBox[{"G1", " ", "Kappa", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Gamma]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Gamma]1"], " ", 
+        SubscriptBox["\[Delta]", 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "2"], ",", 
+          SubscriptBox["\<\"s\"\>", "1"]}]]}], 
+       SqrtBox["6"]], "-", 
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "G2", " ", "Kappa", " ", 
+       TemplateBox[{
+         SubscriptBox["\[Gamma]", 
+          RowBox[{
+            SubscriptBox["\"s\"", "1"], ",", 
+            SubscriptBox["\"s\"", "2"]}]], "5"},
+        "Superscript"], " ", 
+       SubscriptBox["\[Eta]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"]}]], " ", 
+       RowBox[{
+        SubscriptBox["\<\"p\"\>", "2"], ".", 
+        SubscriptBox["p", "3"]}]}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         OverscriptBox["DeltaP", "\<\"-\"\>"], ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Proton", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}]}], "}"}], ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "G2", " ", "Kappa", " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", 
+        SubscriptBox["\<\"\[Mu]\"\>", "3"]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", 
+        SubscriptBox["\<\"\[Mu]\"\>", "1"]], " ", 
+       TemplateBox[{
+         SubscriptBox["\[Gamma]", 
+          RowBox[{
+            SubscriptBox["\"s\"", "1"], ",", 
+            SubscriptBox["\"s\"", "2"]}]], "5"},
+        "Superscript"]}], "+", 
+      FractionBox[
+       RowBox[{"G1", " ", "Kappa", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Beta]1"], " ", 
+        SubscriptBox["\[Delta]", 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       SqrtBox["6"]], "+", 
+      FractionBox[
+       RowBox[{"G1", " ", "Kappa", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Gamma]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Gamma]1"], " ", 
+        SubscriptBox["\[Delta]", 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       SqrtBox["6"]], "+", 
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "G2", " ", "Kappa", " ", 
+       TemplateBox[{
+         SubscriptBox["\[Gamma]", 
+          RowBox[{
+            SubscriptBox["\"s\"", "1"], ",", 
+            SubscriptBox["\"s\"", "2"]}]], "5"},
+        "Superscript"], " ", 
+       SubscriptBox["\[Eta]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"]}]], " ", 
+       RowBox[{
+        SubscriptBox["\<\"p\"\>", "1"], ".", 
+        SubscriptBox["p", "3"]}]}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         OverscriptBox["Proton", "\<\"-\"\>"], ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"DeltaP", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}]}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "G2", " ", "Kappa", " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", 
+        SubscriptBox["\<\"\[Mu]\"\>", "3"]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", 
+        SubscriptBox["\<\"\[Mu]\"\>", "2"]], " ", 
+       TemplateBox[{
+         SubscriptBox["\[Gamma]", 
+          RowBox[{
+            SubscriptBox["\"s\"", "1"], ",", 
+            SubscriptBox["\"s\"", "2"]}]], "5"},
+        "Superscript"]}], "-", 
+      FractionBox[
+       RowBox[{"G1", " ", "Kappa", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Beta]1"], " ", 
+        SubscriptBox["\[Delta]", 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "2"], ",", 
+          SubscriptBox["\<\"s\"\>", "1"]}]]}], 
+       SqrtBox["6"]], "-", 
+      FractionBox[
+       RowBox[{"G1", " ", "Kappa", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Gamma]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Gamma]1"], " ", 
+        SubscriptBox["\[Delta]", 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "2"], ",", 
+          SubscriptBox["\<\"s\"\>", "1"]}]]}], 
+       SqrtBox["6"]], "-", 
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "G2", " ", "Kappa", " ", 
+       TemplateBox[{
+         SubscriptBox["\[Gamma]", 
+          RowBox[{
+            SubscriptBox["\"s\"", "1"], ",", 
+            SubscriptBox["\"s\"", "2"]}]], "5"},
+        "Superscript"], " ", 
+       SubscriptBox["\[Eta]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"]}]], " ", 
+       RowBox[{
+        SubscriptBox["\<\"p\"\>", "2"], ".", 
+        SubscriptBox["p", "3"]}]}]}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{4.000741504778347*^9},
+ CellLabel->"Out[25]=",ExpressionUUID->"c18288b9-d148-e64b-a5ff-e7c228c1b60f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"vrtx", "=", 
+  RowBox[{"FeynmanRules", "[", 
+   RowBox[{"LChiPT", ",", 
+    RowBox[{"MaxParticles", "->", "4"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{4.0006878814382915`*^9, 4.0006878827640667`*^9}, {
+   4.0006879157932186`*^9, 4.0006879646822147`*^9}, 4.0006975070968704`*^9, {
+   4.0006984667772636`*^9, 4.0006984679574623`*^9}, {4.0006986127318935`*^9, 
+   4.000698614469265*^9}, 4.000698903389269*^9, {4.000699527955887*^9, 
+   4.0006995293060894`*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"5b472f7f-c6ac-ed41-9917-da10c7532109"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ StyleBox["\<\"Starting Feynman rule calculation.\"\>",
+  StripOnInput->False,
+  LineColor->RGBColor[1, 0.5, 0],
+  FrontFaceColor->RGBColor[1, 0.5, 0],
+  BackFaceColor->RGBColor[1, 0.5, 0],
+  GraphicsColor->RGBColor[1, 0.5, 0],
+  FontWeight->Bold,
+  FontColor->RGBColor[1, 0.5, 0]]], "Print",
+ CellChangeTimes->{4.000687999745249*^9, 4.000697531563921*^9, 
+  4.0006978662638493`*^9, 4.0006985115169373`*^9, 4.000698636349268*^9, 
+  4.00069890496068*^9, 4.0006997797473927`*^9, 4.0007003913429985`*^9, 
+  4.000705910215769*^9, 4.0007115162000923`*^9},
+ CellLabel->
+  "During evaluation of \
+In[9]:=",ExpressionUUID->"2a4b1208-b351-6949-9165-6b7268a99710"],
+
+Cell[BoxData["\<\"Expanding the Lagrangian...\"\>"], "Print",
+ CellChangeTimes->{4.000687999745249*^9, 4.000697531563921*^9, 
+  4.0006978662638493`*^9, 4.0006985115169373`*^9, 4.000698636349268*^9, 
+  4.00069890496068*^9, 4.0006997797473927`*^9, 4.0007003913429985`*^9, 
+  4.000705910215769*^9, 4.0007115162694054`*^9},
+ CellLabel->
+  "During evaluation of \
+In[9]:=",ExpressionUUID->"033b51ba-3e7a-f346-9d86-bbc0274e3690"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Expanding the indices over \"\>", "\[InvisibleSpace]", "8", 
+   "\[InvisibleSpace]", "\<\" cores\"\>"}],
+  SequenceForm["Expanding the indices over ", 8, " cores"],
+  Editable->False]], "Print",
+ CellChangeTimes->{4.000687999745249*^9, 4.000697531563921*^9, 
+  4.0006978662638493`*^9, 4.0006985115169373`*^9, 4.000698636349268*^9, 
+  4.00069890496068*^9, 4.0006997797473927`*^9, 4.0007003913429985`*^9, 
+  4.000705910215769*^9, 4.000711516337694*^9},
+ CellLabel->
+  "During evaluation of \
+In[9]:=",ExpressionUUID->"3d586381-5282-e943-92b7-454bf9520e1c"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Neglecting all terms with more than \"\>", 
+   "\[InvisibleSpace]", "\<\"4\"\>", 
+   "\[InvisibleSpace]", "\<\" particles.\"\>"}],
+  SequenceForm["Neglecting all terms with more than ", "4", " particles."],
+  Editable->False]], "Print",
+ CellChangeTimes->{4.000687999745249*^9, 4.000697531563921*^9, 
+  4.0006978662638493`*^9, 4.0006985115169373`*^9, 4.000698636349268*^9, 
+  4.00069890496068*^9, 4.0006997797473927`*^9, 4.0007003913429985`*^9, 
+  4.000705910215769*^9, 4.000711517014412*^9},
+ CellLabel->
+  "During evaluation of \
+In[9]:=",ExpressionUUID->"29ee3907-1a27-f24e-ac72-ff89fc34f0f6"],
+
+Cell[BoxData["\<\"Collecting the different structures that enter the \
+vertex.\"\>"], "Print",
+ CellChangeTimes->{4.000687999745249*^9, 4.000697531563921*^9, 
+  4.0006978662638493`*^9, 4.0006985115169373`*^9, 4.000698636349268*^9, 
+  4.00069890496068*^9, 4.0006997797473927`*^9, 4.0007003913429985`*^9, 
+  4.000705910215769*^9, 4.0007115974044266`*^9},
+ CellLabel->
+  "During evaluation of \
+In[9]:=",ExpressionUUID->"e6393f9c-234b-df45-835a-ff94c76961d4"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "185", "\[InvisibleSpace]", "\<\" possible non-zero vertices have been \
+found -> starting the computation: \"\>", "\[InvisibleSpace]", 
+   DynamicBox[ToBoxes[FeynRules`FR$FeynmanRules, StandardForm],
+    ImageSizeCache->{123.7060546875, {1.828125, 6.56982421875}}], 
+   "\[InvisibleSpace]", "\<\" / \"\>", "\[InvisibleSpace]", "185", 
+   "\[InvisibleSpace]", "\<\".\"\>"}],
+  SequenceForm[
+  185, " possible non-zero vertices have been found -> starting the \
+computation: ", 
+   Dynamic[FeynRules`FR$FeynmanRules], " / ", 185, "."],
+  Editable->False]], "Print",
+ CellChangeTimes->{4.000687999745249*^9, 4.000697531563921*^9, 
+  4.0006978662638493`*^9, 4.0006985115169373`*^9, 4.000698636349268*^9, 
+  4.00069890496068*^9, 4.0006997797473927`*^9, 4.0007003913429985`*^9, 
+  4.000705910215769*^9, 4.0007115975399513`*^9},
+ CellLabel->
+  "During evaluation of \
+In[9]:=",ExpressionUUID->"93569113-2733-7a4f-bf04-0c39aa329309"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"165", "\[InvisibleSpace]", "\<\" vertices obtained.\"\>"}],
+  SequenceForm[165, " vertices obtained."],
+  Editable->False]], "Print",
+ CellChangeTimes->{4.000687999745249*^9, 4.000697531563921*^9, 
+  4.0006978662638493`*^9, 4.0006985115169373`*^9, 4.000698636349268*^9, 
+  4.00069890496068*^9, 4.0006997797473927`*^9, 4.0007003913429985`*^9, 
+  4.000705910215769*^9, 4.000711618827656*^9},
+ CellLabel->
+  "During evaluation of \
+In[9]:=",ExpressionUUID->"05caf8ea-1bdf-6b4f-942e-b9cd1043d329"]
+}, Open  ]],
+
+Cell[BoxData[
+ TemplateBox[<|"shortenedBoxes" -> TagBox[
+     RowBox[{"{", 
+       RowBox[{
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{"Pi0", ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Pi0", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Pi0", ",", "3"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Pi0", ",", "4"}], "}"}]}], "}"}], ",", 
+             FractionBox[
+              RowBox[{"\[ImaginaryI]", " ", 
+                SuperscriptBox["MPi", "2"]}], 
+              SuperscriptBox["fPi", "2"]]}], "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{"Pi0", ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Pi0", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"PiP", ",", "3"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{
+                    SuperscriptBox["PiP", "\[Dagger]"], ",", "4"}], "}"}]}], 
+               "}"}], ",", 
+             RowBox[{
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  SuperscriptBox["MPi", "2"]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "+", 
+               FractionBox[
+                RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "1"], ".", 
+                    SubscriptBox["p", "2"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "-", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "1"], ".", 
+                    SubscriptBox["p", "3"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "-", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "1"], ".", 
+                    SubscriptBox["p", "4"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "-", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "2"], ".", 
+                    SubscriptBox["p", "3"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "-", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "2"], ".", 
+                    SubscriptBox["p", "4"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "+", 
+               FractionBox[
+                RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "3"], ".", 
+                    SubscriptBox["p", "4"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]]}]}], "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{"PiP", ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"PiP", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{
+                    SuperscriptBox["PiP", "\[Dagger]"], ",", "3"}], "}"}], 
+                 ",", 
+                 RowBox[{"{", 
+                   RowBox[{
+                    SuperscriptBox["PiP", "\[Dagger]"], ",", "4"}], "}"}]}], 
+               "}"}], ",", 
+             RowBox[{
+               FractionBox[
+                RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+                  SuperscriptBox["MPi", "2"]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "-", 
+               FractionBox[
+                RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "1"], ".", 
+                    SubscriptBox["p", "2"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "+", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "1"], ".", 
+                    SubscriptBox["p", "3"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "+", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "1"], ".", 
+                    SubscriptBox["p", "4"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "+", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "2"], ".", 
+                    SubscriptBox["p", "3"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "+", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "2"], ".", 
+                    SubscriptBox["p", "4"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]], "-", 
+               FractionBox[
+                RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+                  RowBox[{
+                    SubscriptBox["\"p\"", "3"], ".", 
+                    SubscriptBox["p", "4"]}]}], 
+                RowBox[{"3", " ", 
+                  SuperscriptBox["fPi", "2"]}]]}]}], "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{"A", ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"A", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"PiP", ",", "3"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{
+                    SuperscriptBox["PiP", "\[Dagger]"], ",", "4"}], "}"}]}], 
+               "}"}], ",", 
+             RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+               SuperscriptBox["e", "2"], " ", 
+               SubscriptBox["\[Eta]", 
+                RowBox[{
+                  SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                  SubscriptBox["\"\[Mu]\"", "2"]}]]}]}], "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{"A", ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"PiP", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{
+                    SuperscriptBox["PiP", "\[Dagger]"], ",", "3"}], "}"}]}], 
+               "}"}], ",", 
+             RowBox[{
+               RowBox[{"\[ImaginaryI]", " ", "e", " ", 
+                 SubsuperscriptBox["\"p\"", "2", 
+                  SubscriptBox["\"\[Mu]\"", "1"]]}], "-", 
+               RowBox[{"\[ImaginaryI]", " ", "e", " ", 
+                 SubsuperscriptBox["\"p\"", "3", 
+                  SubscriptBox["\"\[Mu]\"", "1"]]}]}]}], "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{
+                    OverscriptBox["Proton", "\"-\""], ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Proton", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"A", ",", "3"}], "}"}]}], "}"}], ",", 
+             RowBox[{"\[ImaginaryI]", " ", "e", " ", 
+               TemplateBox[{
+                 SubscriptBox["\[Gamma]", 
+                  RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]], 
+                 SubscriptBox["\"\[Mu]\"", "3"]}, "Superscript", SyntaxForm -> 
+                SuperscriptBox]}]}], "}"}], ",", 
+         TemplateBox[{"153"}, "OutputSizeLimit`Skeleton"], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{
+                    OverscriptBox["Delta0", "\"-\""], ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Neutron", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Z", ",", "3"}], "}"}]}], "}"}], ",", 
+             RowBox[{"-", 
+               FractionBox[
+                RowBox[{"e", " ", "hD", " ", 
+                  SubscriptBox["\[Epsilon]", 
+                   RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "3"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                  SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                  SubscriptBox[
+                   RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                   RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                RowBox[{
+                  SqrtBox["6"], " ", 
+                  SubscriptBox["c", "w"], " ", "MDelta", " ", 
+                  SubscriptBox["s", "w"]}]]}]}], "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{
+                    OverscriptBox["DeltaM", "\"-\""], ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Neutron", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{
+                    SuperscriptBox["PiP", "\[Dagger]"], ",", "3"}], "}"}], 
+                 ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], ",", 
+             RowBox[{
+               RowBox[{"-", 
+                 FractionBox[
+                  RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+                    SubscriptBox["\[Epsilon]", 
+                    RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "4"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                    SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                    SubscriptBox[
+                    RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                    RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                  RowBox[{"2", " ", 
+                    SubscriptBox["c", "w"], " ", "fPi", " ", "MDelta", " ", 
+                    SubscriptBox["s", "w"]}]]}], "+", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+                  SubscriptBox["s", "w"], " ", 
+                  SubscriptBox["\[Epsilon]", 
+                   RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "4"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                  SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                  SubscriptBox[
+                   RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                   RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                RowBox[{
+                  SubscriptBox["c", "w"], " ", "fPi", " ", "MDelta"}]]}]}], 
+           "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{
+                    OverscriptBox["DeltaP", "\"-\""], ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Neutron", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"PiP", ",", "3"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], ",", 
+             RowBox[{
+               RowBox[{"-", 
+                 FractionBox[
+                  RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+                    SubscriptBox["\[Epsilon]", 
+                    RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "4"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                    SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                    SubscriptBox[
+                    RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                    RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                  RowBox[{"2", " ", 
+                    SqrtBox["3"], " ", 
+                    SubscriptBox["c", "w"], " ", "fPi", " ", "MDelta", " ", 
+                    SubscriptBox["s", "w"]}]]}], "+", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+                  SubscriptBox["s", "w"], " ", 
+                  SubscriptBox["\[Epsilon]", 
+                   RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "4"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                  SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                  SubscriptBox[
+                   RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                   RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                RowBox[{
+                  SqrtBox["3"], " ", 
+                  SubscriptBox["c", "w"], " ", "fPi", " ", "MDelta"}]]}]}], 
+           "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{
+                    OverscriptBox["Delta0", "\"-\""], ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Proton", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{
+                    SuperscriptBox["PiP", "\[Dagger]"], ",", "3"}], "}"}], 
+                 ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], ",", 
+             RowBox[{
+               RowBox[{"-", 
+                 FractionBox[
+                  RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+                    SubscriptBox["\[Epsilon]", 
+                    RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "4"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                    SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                    SubscriptBox[
+                    RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                    RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                  RowBox[{"2", " ", 
+                    SqrtBox["3"], " ", 
+                    SubscriptBox["c", "w"], " ", "fPi", " ", "MDelta", " ", 
+                    SubscriptBox["s", "w"]}]]}], "+", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+                  SubscriptBox["s", "w"], " ", 
+                  SubscriptBox["\[Epsilon]", 
+                   RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "4"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                  SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                  SubscriptBox[
+                   RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                   RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                RowBox[{
+                  SqrtBox["3"], " ", 
+                  SubscriptBox["c", "w"], " ", "fPi", " ", "MDelta"}]]}]}], 
+           "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{
+                    OverscriptBox["DeltaP", "\"-\""], ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Proton", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Z", ",", "3"}], "}"}]}], "}"}], ",", 
+             RowBox[{"-", 
+               FractionBox[
+                RowBox[{"e", " ", "hD", " ", 
+                  SubscriptBox["\[Epsilon]", 
+                   RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "3"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                  SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                  SubscriptBox[
+                   RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                   RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                RowBox[{
+                  SqrtBox["6"], " ", 
+                  SubscriptBox["c", "w"], " ", "MDelta", " ", 
+                  SubscriptBox["s", "w"]}]]}]}], "}"}], ",", 
+         RowBox[{"{", 
+           RowBox[{
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{
+                    OverscriptBox["DeltaPP", "\"-\""], ",", "1"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Proton", ",", "2"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"PiP", ",", "3"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], ",", 
+             RowBox[{
+               RowBox[{"-", 
+                 FractionBox[
+                  RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+                    SubscriptBox["\[Epsilon]", 
+                    RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "4"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                    SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                    SubscriptBox[
+                    RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                    RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                  RowBox[{"2", " ", 
+                    SubscriptBox["c", "w"], " ", "fPi", " ", "MDelta", " ", 
+                    SubscriptBox["s", "w"]}]]}], "+", 
+               FractionBox[
+                RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+                  SubscriptBox["s", "w"], " ", 
+                  SubscriptBox["\[Epsilon]", 
+                   RowBox[{
+                    SubscriptBox["\"\[Mu]\"", "1"], ",", 
+                    SubscriptBox["\"\[Mu]\"", "4"], ",", "\[Alpha]1", ",", 
+                    "\[Beta]1"}]], " ", 
+                  SubsuperscriptBox["\"p\"", "1", "\[Alpha]1"], " ", 
+                  SubscriptBox[
+                   RowBox[{
+                    
+                    TemplateBox[{"\[Gamma]", "\[Beta]1"}, "Superscript", 
+                    SyntaxForm -> SuperscriptBox], ".", 
+                    
+                    TemplateBox[{"\[Gamma]", "5"}, "Superscript", SyntaxForm -> 
+                    SuperscriptBox]}], 
+                   RowBox[{
+                    SubscriptBox["\"s\"", "1"], ",", 
+                    SubscriptBox["\"s\"", "2"]}]]}], 
+                RowBox[{
+                  SubscriptBox["c", "w"], " ", "fPi", " ", "MDelta"}]]}]}], 
+           "}"}]}], "}"}], Short[#, 8]& ], "line" -> 9, "sessionID" -> 
+   28800910241303316218, "byteCount" -> 1005608, "size" -> 8, "stored" -> 
+   False, "expr" -> Missing["NotAvailable", "NewSessionID"], "wrap" -> 
+   OutputSizeLimit`Defer, "version" -> 1|>,
+  "OutputSizeLimitTemplate"]], "Output",
+ CellChangeTimes->{4.000699884745596*^9, 4.0007004937006397`*^9, 
+  4.000706009790804*^9, 4.000711618967821*^9},
+ CellLabel->"Out[9]=",ExpressionUUID->"14fbd961-e0af-474b-851d-8d4e7e184884"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Save", "[", 
+  RowBox[{"\"\<vrtx_ChiPT-V1.m\>\"", ",", "vrtx"}], "]"}]], "Input",
+ CellChangeTimes->{{4.0006986847826233`*^9, 4.0006987036425896`*^9}, {
+  4.000700353142765*^9, 4.000700354139986*^9}, {4.0007061099957733`*^9, 
+  4.000706112350174*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"c025ee81-e605-f140-adf6-af9d7ba66650"],
+
+Cell[TextData[StyleBox["(* you applied the patch AI told you and have \
+generated all vertices into vrtx_ChiPT.m *)",
+ FontWeight->"Bold"]], "Text",
+ CellChangeTimes->{{4.000699555617073*^9, 
+  4.0006996072404537`*^9}},ExpressionUUID->"5b474f5d-7b6f-ad4e-a3ba-\
+d5f923c077a2"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Sort", "[", "vrtx", "]"}], "/.", "verticesTableStyle"}], ",", 
+   RowBox[{"Frame", "->", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{4.0006881245267277`*^9, 4.0006881303098736`*^9}, {
+  4.000688195675495*^9, 4.000688199883772*^9}, {4.000688236505291*^9, 
+  4.0006883825487156`*^9}},
+ CellLabel->"In[24]:=",ExpressionUUID->"83e1b700-d7d5-b84e-9067-0fb76d409f7a"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Beta]1"], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["6"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Beta]1"], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{
+       SqrtBox["3"], " ", "MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", 
+        SqrtBox["3"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(-\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Beta]1"], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(-\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", "MDelta", " ", 
+        SubscriptBox["s", "w"]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Beta]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["3"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"2", " ", 
+       SqrtBox["3"], " ", "MDelta", " ", 
+       SubscriptBox["s", "w"]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Beta]1"], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["6"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(++\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Beta]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(++\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"2", " ", "MDelta", " ", 
+       SubscriptBox["s", "w"]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Beta]1"], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["6"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(-\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Beta]1"], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(-\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", "MDelta", " ", 
+        SubscriptBox["s", "w"]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Beta]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["3"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"2", " ", 
+       SqrtBox["3"], " ", "MDelta", " ", 
+       SubscriptBox["s", "w"]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Beta]1"], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{
+       SqrtBox["3"], " ", "MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", 
+        SqrtBox["3"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", 
+       SqrtBox[
+        FractionBox["2", "3"]], " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Beta]1"], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["6"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \\(++\\)]\
+\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1", ",", "\[Gamma]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Beta]1"], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "3", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Gamma]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \\(++\\)]\
+\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "3"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"2", " ", "MDelta", " ", 
+       SubscriptBox["s", "w"]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["6"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{
+       SqrtBox["6"], " ", "MDelta", " ", 
+       SubscriptBox["s", "w"], " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["3"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"2", " ", 
+       SqrtBox["3"], " ", "MDelta", " ", 
+       SubscriptBox["s", "w"], " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(0\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+         SubscriptBox["\[Epsilon]", 
+          RowBox[{
+           SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+           SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+           "\[Beta]1"}]], " ", 
+         SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+         SubscriptBox[
+          RowBox[{
+           TemplateBox[{"\[Gamma]", "\[Beta]1"},
+            "Superscript"], ".", 
+           TemplateBox[{"\[Gamma]", "5"},
+            "Superscript"]}], 
+          RowBox[{
+           SubscriptBox["\<\"s\"\>", "1"], ",", 
+           SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"], " ", 
+         SubscriptBox["c", "w"], " ", "MDelta", " ", 
+         SubscriptBox["s", "w"], " ", 
+         StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+          StripOnInput->False,
+          LineColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          FrontFaceColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          BackFaceColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          GraphicsColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          FontColor->RGBColor[
+            Rational[2, 3], 0, 0]]}]]}], "+", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["s", "w"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["3"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(-\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(-\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"2", " ", "MDelta", " ", 
+       SubscriptBox["s", "w"], " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(-\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+         SubscriptBox["\[Epsilon]", 
+          RowBox[{
+           SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+           SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+           "\[Beta]1"}]], " ", 
+         SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+         SubscriptBox[
+          RowBox[{
+           TemplateBox[{"\[Gamma]", "\[Beta]1"},
+            "Superscript"], ".", 
+           TemplateBox[{"\[Gamma]", "5"},
+            "Superscript"]}], 
+          RowBox[{
+           SubscriptBox["\<\"s\"\>", "1"], ",", 
+           SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+        RowBox[{"2", " ", 
+         SubscriptBox["c", "w"], " ", "MDelta", " ", 
+         SubscriptBox["s", "w"], " ", 
+         StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+          StripOnInput->False,
+          LineColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          FrontFaceColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          BackFaceColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          GraphicsColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          FontColor->RGBColor[
+            Rational[2, 3], 0, 0]]}]]}], "+", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["s", "w"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["3"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"2", " ", 
+       SqrtBox["3"], " ", "MDelta", " ", 
+       SubscriptBox["s", "w"], " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"n\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+         SubscriptBox["\[Epsilon]", 
+          RowBox[{
+           SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+           SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+           "\[Beta]1"}]], " ", 
+         SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+         SubscriptBox[
+          RowBox[{
+           TemplateBox[{"\[Gamma]", "\[Beta]1"},
+            "Superscript"], ".", 
+           TemplateBox[{"\[Gamma]", "5"},
+            "Superscript"]}], 
+          RowBox[{
+           SubscriptBox["\<\"s\"\>", "1"], ",", 
+           SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"], " ", 
+         SubscriptBox["c", "w"], " ", "MDelta", " ", 
+         SubscriptBox["s", "w"], " ", 
+         StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+          StripOnInput->False,
+          LineColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          FrontFaceColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          BackFaceColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          GraphicsColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          FontColor->RGBColor[
+            Rational[2, 3], 0, 0]]}]]}], "+", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["s", "w"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["3"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["6"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(+\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{
+       SqrtBox["6"], " ", "MDelta", " ", 
+       SubscriptBox["s", "w"], " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(++\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(++\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"2", " ", "MDelta", " ", 
+       SubscriptBox["s", "w"], " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[SuperscriptBox[\\(\[CapitalDelta]\
+\\), \\(++\\)], \\(_\\)]\\)\"\>", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"p\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+         SubscriptBox["\[Epsilon]", 
+          RowBox[{
+           SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+           SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+           "\[Beta]1"}]], " ", 
+         SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+         SubscriptBox[
+          RowBox[{
+           TemplateBox[{"\[Gamma]", "\[Beta]1"},
+            "Superscript"], ".", 
+           TemplateBox[{"\[Gamma]", "5"},
+            "Superscript"]}], 
+          RowBox[{
+           SubscriptBox["\<\"s\"\>", "1"], ",", 
+           SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+        RowBox[{"2", " ", 
+         SubscriptBox["c", "w"], " ", "MDelta", " ", 
+         SubscriptBox["s", "w"], " ", 
+         StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+          StripOnInput->False,
+          LineColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          FrontFaceColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          BackFaceColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          GraphicsColor->RGBColor[
+            Rational[2, 3], 0, 0],
+          FontColor->RGBColor[
+            Rational[2, 3], 0, 0]]}]]}], "+", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["s", "w"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "1"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "1", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["6"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{
+       SqrtBox["6"], " ", "MDelta", " ", 
+       SubscriptBox["s", "w"], " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(-\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(-\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(-\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], 
+     RowBox[{
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]], "-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["s", "w"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{
+       SqrtBox["3"], " ", "MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", 
+        SqrtBox["3"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(n\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], 
+     RowBox[{
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", 
+        SqrtBox["3"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]], "-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["s", "w"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["3"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{
+       SqrtBox["3"], " ", "MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", 
+        SqrtBox["3"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(0\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], 
+     RowBox[{
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", 
+        SqrtBox["3"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]], "-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["s", "w"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["3"], " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(+\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SqrtBox["6"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \
+\\(+\\)]\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(+\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["V", "ud"], " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{
+       SqrtBox["6"], " ", "MDelta", " ", 
+       SubscriptBox["s", "w"], " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \\(++\\)]\
+\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"A", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "4"}], "}"}]}], "}"}], 
+     FractionBox[
+      RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+       SubscriptBox["\[Epsilon]", 
+        RowBox[{
+         SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+         SubscriptBox["\<\"\[Mu]\"\>", "3"], ",", "\[Alpha]1", ",", 
+         "\[Beta]1"}]], " ", 
+       SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+       SubscriptBox[
+        RowBox[{
+         TemplateBox[{"\[Gamma]", "\[Beta]1"},
+          "Superscript"], ".", 
+         TemplateBox[{"\[Gamma]", "5"},
+          "Superscript"]}], 
+        RowBox[{
+         SubscriptBox["\<\"s\"\>", "1"], ",", 
+         SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+      RowBox[{"MDelta", " ", 
+       StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+        StripOnInput->False,
+        LineColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FrontFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        BackFaceColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        GraphicsColor->RGBColor[
+          Rational[2, 3], 0, 0],
+        FontColor->RGBColor[
+          Rational[2, 3], 0, 0]]}]]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \\(++\\)]\
+\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(0\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(W\\), \\(-\\)]\\)\"\>", ",", 
+         "4"}], "}"}]}], "}"}], 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["V", "ud"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]},
+    {
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*OverscriptBox[\\(p\\), \\(_\\)]\\)\"\>", ",", 
+         "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[CapitalDelta]\\), \\(++\\)]\
+\\)\"\>", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\<\"\\!\\(\\*SuperscriptBox[\\(\[Pi]\\), \\(-\\)]\\)\"\>", ",",
+          "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"Z", ",", "4"}], "}"}]}], "}"}], 
+     RowBox[{
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{"2", " ", 
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        SubscriptBox["s", "w"], " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]], "-", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "e", " ", "hD", " ", 
+        SubscriptBox["s", "w"], " ", 
+        SubscriptBox["\[Epsilon]", 
+         RowBox[{
+          SubscriptBox["\<\"\[Mu]\"\>", "2"], ",", 
+          SubscriptBox["\<\"\[Mu]\"\>", "4"], ",", "\[Alpha]1", ",", 
+          "\[Beta]1"}]], " ", 
+        SubsuperscriptBox["\<\"p\"\>", "2", "\[Alpha]1"], " ", 
+        SubscriptBox[
+         RowBox[{
+          TemplateBox[{"\[Gamma]", "\[Beta]1"},
+           "Superscript"], ".", 
+          TemplateBox[{"\[Gamma]", "5"},
+           "Superscript"]}], 
+         RowBox[{
+          SubscriptBox["\<\"s\"\>", "1"], ",", 
+          SubscriptBox["\<\"s\"\>", "2"]}]]}], 
+       RowBox[{
+        SubscriptBox["c", "w"], " ", "MDelta", " ", 
+        StyleBox["\<\"\\!\\(\\*SubscriptBox[\\(f\\), \\(\[Pi]\\)]\\)\"\>",
+         StripOnInput->False,
+         LineColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FrontFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         BackFaceColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         GraphicsColor->RGBColor[
+           Rational[2, 3], 0, 0],
+         FontColor->RGBColor[
+           Rational[2, 3], 0, 0]]}]]}]}
+   },
+   AutoDelete->False,
+   GridBoxFrame->{"ColumnsIndexed" -> {{{1, -1}, {1, -1}} -> True}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{
+  4.000688133112425*^9, {4.00068826442173*^9, 4.000688305451645*^9}, 
+   4.0006883389856224`*^9, 4.000698809623949*^9, 4.0006989922801533`*^9, 
+   4.0006999998118973`*^9, 4.000700494567625*^9, 4.000706119716692*^9, 
+   4.0007116737571774`*^9, 4.000740975369503*^9},
+ CellLabel->"Out[24]=",ExpressionUUID->"195e6886-b498-d34c-9c9a-0964d4e54284"]
+}, Open  ]]
+}, Open  ]]
+},
+NotebookAutoSave->True,
+WindowSize->{574.8, 573.6},
+WindowMargins->{{-4.8, Automatic}, {Automatic, 0}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+ShowSelection->True,
+TaggingRules-><|"TryRealOnly" -> False|>,
+Magnification:>0.75 Inherited,
+FrontEndVersion->"14.3 for Microsoft Windows (64-bit) (July 8, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"c15d29e7-48a8-8b45-bc2c-45c49cecd369"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 148, 3, 21, "Input",ExpressionUUID->"039f308f-1392-4e14-836c-cbebf8d9fd98"],
+Cell[CellGroupData[{
+Cell[731, 27, 155, 3, 49, "Section",ExpressionUUID->"0faca035-5066-4927-b701-09fbc412c624"],
+Cell[CellGroupData[{
+Cell[911, 34, 923, 19, 49, "Input",ExpressionUUID->"33c52573-8e83-644f-b91e-532273eded0f"],
+Cell[CellGroupData[{
+Cell[1859, 57, 684, 11, 18, "Print",ExpressionUUID->"bfd58260-1757-8e42-befd-e8aaf327d7b2"],
+Cell[2546, 70, 963, 17, 18, "Print",ExpressionUUID->"2d022178-7e73-694f-852c-4716aea3eebb"],
+Cell[3512, 89, 736, 12, 18, "Print",ExpressionUUID->"afba1c42-72fb-ca48-b08a-2820fcef9ff9"],
+Cell[4251, 103, 668, 11, 18, "Print",ExpressionUUID->"83e3d1a5-da19-204d-a480-7cf3f81ed178"],
+Cell[4922, 116, 679, 11, 18, "Print",ExpressionUUID->"acdf1931-4520-974e-b72f-c4a4c6d84104"],
+Cell[5604, 129, 731, 12, 18, "Print",ExpressionUUID->"dab3ac09-539c-2842-ab9d-ecf1bbd0371a"],
+Cell[6338, 143, 733, 12, 18, "Print",ExpressionUUID->"ab57f87a-ebc2-b94a-9724-4f562d58067c"],
+Cell[7074, 157, 670, 11, 18, "Print",ExpressionUUID->"353c3cd7-2872-1246-ad7a-41b522067cb9"],
+Cell[7747, 170, 700, 11, 18, "Print",ExpressionUUID->"dbc4904b-b1d2-364c-8c1a-af54c6ec19c9"],
+Cell[8450, 183, 670, 11, 18, "Print",ExpressionUUID->"41a3073b-e51a-9a4a-b4f8-ed3a7ad21eb1"],
+Cell[9123, 196, 737, 12, 18, "Print",ExpressionUUID->"2c7f0081-ad16-8049-9c51-6ca38547c54c"]
+}, Open  ]]
+}, Open  ]],
+Cell[9887, 212, 610, 16, 35, "Input",ExpressionUUID->"791d685e-ec0d-45c3-bfaf-942a24f596b5"],
+Cell[CellGroupData[{
+Cell[10522, 232, 644, 9, 21, "Input",ExpressionUUID->"c572fbce-e31a-460f-9a10-ca999c566097"],
+Cell[CellGroupData[{
+Cell[11191, 245, 363, 6, 18, "Print",ExpressionUUID->"6a69e4f4-2163-4a4f-b576-c8c500831641"],
+Cell[11557, 253, 326, 6, 18, "Print",ExpressionUUID->"e12872dc-21b0-db41-b8c2-9abf198678be"],
+Cell[11886, 261, 467, 10, 18, "Print",ExpressionUUID->"dff8a225-176d-5347-a6db-2c689e1b6ab6"],
+Cell[12356, 273, 372, 7, 18, "Print",ExpressionUUID->"ff37e5d6-4dc5-3d4d-86c3-076998569cd6"],
+Cell[12731, 282, 326, 6, 18, "Print",ExpressionUUID->"8e978aa6-215c-2141-b91b-413c826026a8"],
+Cell[13060, 290, 356, 6, 18, "Print",ExpressionUUID->"6e127643-6422-8c47-9384-ff1684b1daf3"],
+Cell[13419, 298, 357, 6, 18, "Print",ExpressionUUID->"47e1f1e3-4585-3d45-a1b6-081a6ae75128"],
+Cell[13779, 306, 355, 6, 18, "Print",ExpressionUUID->"cb44cff2-1eac-9448-a2a4-8b9f27d345d2"],
+Cell[14137, 314, 518, 11, 29, "Print",ExpressionUUID->"cdd3cbb6-cc34-b64e-9d95-71fbe5755433"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14716, 332, 181, 3, 49, "Section",ExpressionUUID->"3762a85b-0e4d-4396-ac58-964bbf9982c4"],
+Cell[14900, 337, 173, 3, 25, "Text",ExpressionUUID->"48c462ce-b3e4-404d-a933-b2b510a5d75c"],
+Cell[15076, 342, 2304, 56, 93, "Input",ExpressionUUID->"41a75dd1-96f1-ca4b-b317-4ab7e6d82778"],
+Cell[CellGroupData[{
+Cell[17405, 402, 260, 4, 21, "Input",ExpressionUUID->"e7c4435f-b1c8-1543-b111-1f66339fe49d"],
+Cell[17668, 408, 280, 3, 24, "Output",ExpressionUUID->"0ca34f04-0046-f144-b411-a9ea269d2295"]
+}, Open  ]],
+Cell[17963, 414, 689, 11, 21, "Input",ExpressionUUID->"19df3610-0729-d048-b6ea-04138d0f5013"],
+Cell[18655, 427, 269, 5, 21, "Input",ExpressionUUID->"00a35c1e-8801-df48-9f42-ee725f5c0165"],
+Cell[CellGroupData[{
+Cell[18949, 436, 644, 11, 21, "Input",ExpressionUUID->"039f5c3a-d22b-fb46-bc4a-f210dfd0dad3"],
+Cell[CellGroupData[{
+Cell[19618, 451, 475, 12, 18, "Print",ExpressionUUID->"0390a5b9-ea9f-014e-90a5-0a55dea1fc7e"],
+Cell[20096, 465, 232, 4, 18, "Print",ExpressionUUID->"73422999-4cb3-8f45-8903-40291dbd353d"],
+Cell[20331, 471, 263, 5, 18, "Print",ExpressionUUID->"f977bad7-fe87-8946-b338-962e6c1344c2"],
+Cell[20597, 478, 766, 17, 18, "Print",ExpressionUUID->"19d03aaa-91de-1a4c-a1c5-96d5a744c487"],
+Cell[21366, 497, 345, 8, 18, "Print",ExpressionUUID->"86c9cdb3-9cdf-e842-b420-bc975fb13e54"]
+}, Open  ]],
+Cell[21726, 508, 10502, 282, 404, "Output",ExpressionUUID->"c18288b9-d148-e64b-a5ff-e7c228c1b60f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32265, 795, 563, 10, 21, "Input",ExpressionUUID->"5b472f7f-c6ac-ed41-9917-da10c7532109"],
+Cell[CellGroupData[{
+Cell[32853, 809, 668, 15, 18, "Print",ExpressionUUID->"2a4b1208-b351-6949-9165-6b7268a99710"],
+Cell[33524, 826, 423, 7, 18, "Print",ExpressionUUID->"033b51ba-3e7a-f346-9d86-bbc0274e3690"],
+Cell[33950, 835, 603, 12, 18, "Print",ExpressionUUID->"3d586381-5282-e943-92b7-454bf9520e1c"],
+Cell[34556, 849, 645, 13, 18, "Print",ExpressionUUID->"29ee3907-1a27-f24e-ac72-ff89fc34f0f6"],
+Cell[35204, 864, 456, 8, 18, "Print",ExpressionUUID->"e6393f9c-234b-df45-835a-ff94c76961d4"],
+Cell[35663, 874, 973, 20, 29, "Print",ExpressionUUID->"93569113-2733-7a4f-bf04-0c39aa329309"],
+Cell[36639, 896, 538, 11, 18, "Print",ExpressionUUID->"05caf8ea-1bdf-6b4f-942e-b9cd1043d329"]
+}, Open  ]],
+Cell[37192, 910, 23155, 529, 374, "Output",ExpressionUUID->"14fbd961-e0af-474b-851d-8d4e7e184884"]
+}, Open  ]],
+Cell[60362, 1442, 354, 6, 21, "Input",ExpressionUUID->"c025ee81-e605-f140-adf6-af9d7ba66650"],
+Cell[60719, 1450, 276, 5, 25, "Text",ExpressionUUID->"5b474f5d-7b6f-ad4e-a3ba-d5f923c077a2"],
+Cell[CellGroupData[{
+Cell[61020, 1459, 439, 9, 21, "Input",ExpressionUUID->"83e1b700-d7d5-b84e-9067-0fb76d409f7a"],
+Cell[61462, 1470, 99022, 2676, 1522, "Output",ExpressionUUID->"195e6886-b498-d34c-9c9a-0964d4e54284"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
