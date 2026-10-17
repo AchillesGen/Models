@@ -9,12 +9,30 @@ same cut (wprod_from_ufo.py --wmax 1.4).  Comparing an uncut model curve to cut
 data flatters the model badly -- the model has strength above the Delta that the
 data excludes -- so the cut is not optional.
 
-THE CORRECTION.  h -> 2.17 h and the Delta propagator width -> 116.5 MeV, the
-value that same vertex then implies.  Both follow from delta_couplings.py:
+*** LEGACY -- V9-ERA SCRIPT, SUPERSEDED BY plot_w_vs_data.py. ***
 
-  * Gamma(Delta -> N pi) from the model's own vertex is 24.75 MeV against the
-    measured 117, so h is short by sqrt(117/24.75) = 2.17 in amplitude;
-  * Gamma(Delta -> N gamma) is 2.23 MeV against 0.66, so g is LARGE by 1.84;
+Everything below describes a hand-applied correction to a model where hD, G1
+and G2 were EXTERNAL numbers, and both hard-coded arrays (BEFORE/AFTER) are
+frozen output of a wprod_from_ufo.py run on ChiPT_UFO_All.  V10 inverted that
+parametrisation -- the widths became the inputs and the couplings are derived
+from them -- and V13 moved both widths to the pole, so from V10 on there is no
+correction left to apply: tools/delta_widths.py returns ratio 1.000000 for both
+widths on ChiPT_UFO_V13.  The numbers in this file are NOT V13 numbers and
+regenerating them would mean rerunning the scan at all 14 energies.
+
+For the current comparison use plot_w_vs_data.py, which reads the W < 1.4 GeV
+Sherpa scan (w_scan_results.csv) and puts the cut on both sides; the V13 result
+it writes is cc1pi_sherpa_vs_data_V13.csv.  This script is kept only so the
+V9-era figure can still be redrawn.
+
+THE CORRECTION (V9-era, historical).  h -> 2.17 h and the Delta propagator
+width -> 116.5 MeV, the value that same vertex then implies.  Both followed
+from delta_couplings.py run on ChiPT_UFO_All:
+
+  * Gamma(Delta -> N pi) from that model's vertex is 24.75 MeV against the
+    Breit-Wigner 117, so h is short by sqrt(117/24.75) = 2.17 in amplitude;
+  * Gamma(Delta -> N gamma) is 2.23 MeV against the PDG 0.66, so g is LARGE
+    by 1.84;
   * the product g*h is off by only 0.84, which is why the Fig. 33
     photoproduction fit -- which constrains g*h alone -- never saw either.
 

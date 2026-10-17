@@ -1,0 +1,51 @@
+# general settings
+EVENTS: 100
+EVENT_GENERATION_MODE: Weighted
+
+# ME generator setup
+ME_GENERATORS: Comix
+CORE_SCALE: VAR{Abs2(p[0]+p[1])}
+
+# model setup
+MODEL: ChiPT_UFO_V15
+
+# Uncomment to disable underlying event simulation:
+# MI_HANDLER: None
+
+# Uncomment to disable hadronization:
+# FRAGMENTATION: Off
+
+# Uncomment to disable shower:
+# SHOWER_GENERATOR: None
+
+# set quarks and leptons massless in ME
+PARTICLE_DATA:
+  1: {Massive: false}
+  2: {Massive: false}
+  3: {Massive: false}
+  4: {Massive: false}
+  5: {Massive: false}
+  11: {Massive: false}
+  13: {Massive: false}
+  15: {Massive: false}
+
+# LHC beam setup:
+BEAMS: 2212
+BEAM_ENERGIES: 6500
+
+PROCESSES:
+# The statement below generates all 2->2
+# scattering processes PP initial states
+- "93 93 -> (22, 23, 24, -24, 12, -12, 14, -14, 16, -16, 11, -11, 13, -13, 15, -15, 2212, -2212, 2112, -2112, 25, 111, 211, -211, 221, 311, -311, 321, -321, 2224, -2224, 2214, -2214, 2114, -2114, 1114, -1114) (22, 23, 24, -24, 12, -12, 14, -14, 16, -16, 11, -11, 13, -13, 15, -15, 2212, -2212, 2112, -2112, 25, 111, 211, -211, 221, 311, -311, 321, -321, 2224, -2224, 2214, -2214, 2114, -2114, 1114, -1114)":
+    Order: {QED: Any, QCD: Any, CHI: Any}
+
+    # Generate feynman diagrans in directory 'diagrams'.
+    # Run './plot_graphs diagrams'
+    # to plot graphs. Use web browser to view diagrams/index.html
+    Print_Graphs: diagrams
+
+SELECTORS: [
+  # Insert phase space cuts here
+]
+
+UFO_PARAM_CARD: param_ChiPT_UFO_V15.dat

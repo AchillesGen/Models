@@ -40,10 +40,12 @@ $HistoryLength = 0;
 (* ---------------------------------------------------------------- settings -- *)
 frPath = Environment["FEYNRULES_PATH"];
 If[frPath === $Failed || frPath === "",
-   frPath = "/home/isaacson/.Wolfram/Applications/feynrules-new"];
+   frPath = FileNameJoin[{$UserBaseDirectory, "Applications", "feynrules"}]];
 
-(* NOTE: use feynrules-new.  feynrules-current silently emits garbage UFOs on
-   Mathematica 14.3. *)
+(* Point FEYNRULES_PATH at a FeynRules installation.  Note that some FeynRules
+   versions are incompatible with recent Mathematica releases and emit UFOs whose
+   vertices are silently wrong rather than failing outright; the consistency
+   checks at the end of this script exist to catch that. *)
 If[!DirectoryQ[frPath],
    Print["ERROR: FeynRules not found at ", frPath,
          "\n       set FEYNRULES_PATH to the feynrules-new directory."];
@@ -100,31 +102,41 @@ Module[{vf, ff},
 (* ------------------------------------------------- form factor leg check -- *)
 (*  A form factor Value is a raw Python string, so FeynRules does NOT relabel  *)
 (*  the leg index inside it to match the exported vertex ordering (see the     *)
-(*  note in ChiPT.fr at the Delta form factors).  A wrong index is silent: the *)
-(*  form factor would simply be evaluated on the wrong leg's momentum.  So     *)
-(*  check every structure that carries one:                                     *)
-(*     FpiNDelta must sit on the Rarita-Schwinger leg  (spin 4)                *)
-(*     FgNDelta  must sit on the photon leg            (spin 3)                *)
+(*  note in ChiPT.fr at the form factor declarations).  A wrong index is       *)
+(*  silent: the form factor would simply be evaluated on the wrong leg's       *)
+(*  momentum and the vertex would still work.                                  *)
+(*                                                                             *)
+(*  The rule is uniform and needs no table of names:                            *)
+(*      -P(-9,n)**2  is  Q^2      ->  leg n MUST be a gauge boson (spin 3)     *)
+(*      +P(-9,n)**2  is  an invariant mass squared                             *)
+(*                                ->  leg n must NOT be a gauge boson          *)
+(*  V8 checked only the two Delta form factors; every placement is checked now, *)
+(*  which is 150-odd of them.  tools/ff_audit.py runs the same test on an       *)
+(*  already-built UFO and adds the "which vertices have no form factor at all"  *)
+(*  and "which need more than one variable" questions.                          *)
 Module[{lf = FileNameJoin[{modelDir, outName, "lorentz.py"}], txt, bad = 0, n = 0},
   If[FileExistsQ[lf],
    txt = Import[lf, "Text"];
-   Do[Module[{spins, hits, want},
+   Do[Module[{spins, hits, want, got},
       spins = ToExpression /@ StringSplit[
         First@StringCases[e, "spins = [" ~~ s : Except["]"] .. ~~ "]" :> s], ","];
       hits = StringCases[e,
-        nm : ("FpiNDelta" | ("FgNDelta" ~~ WordCharacter ..)) ~~ "(" ~~ ("-" | "") ~~
-          "P(-9," ~~ d : DigitCharacter .. ~~ ")" :> {nm, ToExpression[d]}];
+        nm : ("F" ~~ WordCharacter ..) ~~ "(" ~~ sg : ("-" | "") ~~
+          "P(-9," ~~ d : DigitCharacter .. ~~ ")**2)" :> {nm, sg, ToExpression[d]}];
       Do[n++;
-         want = If[StringStartsQ[h[[1]], "Fpi"], 4, 3];
-         If[spins[[h[[2]]]] =!= want, bad++;
+         got  = spins[[h[[3]]]];
+         want = If[h[[2]] === "-", got === 3, got =!= 3];
+         If[!want, bad++;
             Print["   MISMATCH: ",
                   First@StringCases[e, w : WordCharacter .. ~~ " = Lorentz" :> w],
-                  " puts ", h[[1]], " on leg ", h[[2]], " (spin ", spins[[h[[2]]]],
-                  "), expected spin ", want]],
+                  " puts ", h[[1]], " on leg ", h[[3]], " (spin ", got, "), but ",
+                  If[h[[2]] === "-", "-P**2 means Q^2 and needs a gauge boson",
+                     "+P**2 means an invariant mass and needs a hadron"]]],
        {h, hits}]],
-    {e, Select[StringSplit[txt, "\n\n"], StringContainsQ[#, "NDelta"] &]}];
-   Print["Delta FF leg check: ", n, " placements, ", bad, " mismatches",
-         If[bad == 0 && n > 0, "  (ok)", If[n == 0, "  (no Delta form factors in this build)", "  <-- FIX ChiPT.fr"]]]]];
+    {e, Select[StringSplit[txt, "\n\n"], StringContainsQ[#, "P(-9,"] &]}];
+   Print["form factor leg check: ", n, " placements, ", bad, " mismatches",
+         If[bad == 0 && n > 0, "  (ok)",
+            If[n == 0, "  (no form factors in this build)", "  <-- FIX ChiPT.fr"]]]]];
 
 Print[];
 Print["done -> ", FileNameJoin[{modelDir, outName}]];

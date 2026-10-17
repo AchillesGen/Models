@@ -15,6 +15,14 @@ N -> Delta transition.  The missing 1/(2J+1) is absorbed as an exact factor 2
 in amplitude: h -> 2h and g -> g/2, so g*h -- the only combination the Fig. 33
 fit constrains -- is preserved and photoproduction is untouched.  The propagator
 width stays at the card's 102 MeV for the same reason.
+
+*** V9-ERA NUMBERS.  TOTAL/DELTA/BORN below are frozen output of that
+ChiPT_UFO_All run, and the h/g corrections described here belong to a model
+whose hD, G1 and G2 were EXTERNAL.  From V10 the widths are the inputs and the
+couplings are inverted from them, so the vertex reproduces both by construction
+(tools/delta_widths.py, ratio 1.000000 on ChiPT_UFO_V13) and no such rescaling
+applies.  These arrays are NOT V10+ numbers; rerunning the decomposition on a
+current UFO means rerunning wprod_from_ufo.py at all six energies. ***
 W < 1.4 GeV, matching the ANL/BNL cut sets.  Grid (20,12,12,8).
 
 All three pieces are re-run: the CVC fix (F1V on the pion-in-flight and the

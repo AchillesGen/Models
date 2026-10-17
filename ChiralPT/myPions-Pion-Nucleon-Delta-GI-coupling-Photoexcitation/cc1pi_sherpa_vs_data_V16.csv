@@ -1,0 +1,279 @@
+# Everything drawn in cc1pi_sherpa_vs_data.pdf, in one long-format table.
+# Written by plot_w_vs_data.py from the same arrays the figure uses, so the two
+# cannot disagree.  One row per plotted point; `kind` says which layer it is.
+#
+#   kind=model   the Sherpa curve.  One row per scan energy, 32 per channel.
+#                E_lo/E_hi are empty -- it is a point evaluation, not a bin.
+#   kind=data    a measured point.  E_nu is the BIN CENTRE and E_lo/E_hi are the
+#                published bin edges; the quoted value is FLUX-AVERAGED over
+#                that bin, not evaluated at the centre.
+#
+# COLUMNS
+#   channel        ppip / ppi0 / npip, the same names used across this project
+#   process        PDG initial and final state, as given to Sherpa
+#   label_tex      ready-to-use LaTeX for a legend or direct label
+#   isospin        which isospin amplitudes contribute
+#   variant        model only: which scan of the model the row belongs to (the
+#                  --label / --compare-label given to plot_w_vs_data.py);
+#                  empty for data
+#   param_card     model only: the Sherpa param card of that scan
+#   source         Sherpa, ANL or BNL
+#   correction     data only: `wilkinson` (PRD 90, 112017 re-analysis, what the
+#                  figure shows) or `published` (the original numbers).  The
+#                  re-analysis moves ANL UP ~16% and BNL DOWN ~29%, which is
+#                  what brings the two experiments into agreement.
+#   wcut_GeV       hadronic invariant-mass cut.  1.4 on BOTH sides -- the model
+#                  is integrated with the same cut the data carry, not rescaled.
+#   sigma_*        cross section and its error, given twice: in 1e-38 cm^2 (the
+#                  usual unit for these plots, and what the figure's y axis is)
+#                  and in ub.  1 ub = 1e-30 cm^2.  For kind=model the error is
+#                  the Monte-Carlo statistical error only.
+#
+# TWO THINGS TO KNOW BEFORE REPLOTTING
+#  1. The model is a curve through 32 computed energies per channel, spaced
+#     0.025 GeV below 0.65, 0.05 to 1.0 and 0.1 above -- chosen so a plain line
+#     through the points is smooth without interpolation doing the work.  Join
+#     them with a simple line; no spline is needed.
+#  2. The lowest data bin, 0.3-0.5 GeV, spans the muon-mass threshold turn-on,
+#     where sigma rises by three orders of magnitude.  Comparing a curve read at
+#     its centre against that bin understates the model by a factor ~5, so the
+#     figure does not draw any conclusion there.  Every bin above 0.5 GeV is
+#     safe: bin-averaging the model changes the comparison by at most 4%.
+#
+# Data beyond 1.6 GeV exists in anl_bnl_cc1pip.csv (ANL ppip to 4.75 GeV, BNL to
+# 3.1) but is omitted here because the model scan stops at 1.6.
+#
+# model ChiPT_UFO_V16, param param_ChiPT_UFO_V13.dat (+ running_width_factor_V15_W14.csv).  Generated 2026-10-14.
+kind,variant,param_card,channel,process,label_tex,isospin,source,correction,wcut_GeV,E_nu_GeV,E_lo_GeV,E_hi_GeV,sigma_1e38cm2,sigma_err_1e38cm2,sigma_ub,sigma_err_ub
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3000,,,3.540565e-05,5.965e-08,3.540565e-13,5.965e-16
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3250,,,0.0003236895,4.835e-07,3.236895e-12,4.835e-15
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3500,,,0.001267505,2.225e-06,1.267505e-11,2.225e-14
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3750,,,0.00355812,6.62e-06,3.55812e-11,6.62e-14
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4000,,,0.00837947,1.464e-05,8.37947e-11,1.464e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4250,,,0.0176141,2.7e-05,1.76141e-10,2.7e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4500,,,0.0335699,4.19e-05,3.35699e-10,4.19e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4750,,,0.05761315,4.455e-05,5.761315e-10,4.455e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5000,,,0.0889691,3.92e-05,8.89691e-10,3.92e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5250,,,0.1256965,1.45e-05,1.256965e-09,1.45e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5500,,,0.166006,1.7e-05,1.66006e-09,1.7e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5750,,,0.208555,5.3e-05,2.08555e-09,5.3e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6000,,,0.2523925,0.0001205,2.523925e-09,1.205e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6250,,,0.2967425,0.0001665,2.967425e-09,1.665e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6500,,,0.3409885,0.0002515,3.409885e-09,2.515e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.7000,,,0.427469,0.000444,4.27469e-09,4.44e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.7500,,,0.5087905,0.0005475,5.087905e-09,5.475e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8000,,,0.5797905,0.0009395,5.797905e-09,9.395e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8500,,,0.6410265,0.0012345,6.410265e-09,1.2345e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8750,,,0.668994,0.001579,6.68994e-09,1.579e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.9000,,,0.6939995,0.0010845,6.939995e-09,1.0845e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.9500,,,0.7397895,0.0010395,7.397895e-09,1.0395e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.0000,,,0.778366,0.001838,7.78366e-09,1.838e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.1000,,,0.8395175,0.0022605,8.395175e-09,2.2605e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.1250,,,0.8515215,0.0022635,8.515215e-09,2.2635e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.2000,,,0.8800635,0.0032875,8.800635e-09,3.2875e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.2500,,,0.8970455,0.0039115,8.970455e-09,3.9115e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.3000,,,0.9103705,0.0046315,9.103705e-09,4.6315e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.3750,,,0.9279055,0.0067995,9.279055e-09,6.7995e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.4000,,,0.9322915,0.0059645,9.322915e-09,5.9645e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.5000,,,0.9472525,0.0072495,9.472525e-09,7.2495e-11
+model,constant width,param_ChiPT_UFO_V13.dat,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.6000,,,0.957924,0.007186,9.57924e-09,7.186e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3000,,,2.6554238e-05,4.47375e-08,2.6554238e-13,4.47375e-16
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3250,,,0.0002539179,3.7928109e-07,2.539179e-12,3.7928109e-15
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3500,,,0.0010379573,1.822048e-06,1.0379573e-11,1.822048e-14
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.3750,,,0.0028913159,5.3793888e-06,2.8913159e-11,5.3793888e-14
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4000,,,0.0067563248,1.1804159e-05,6.7563248e-11,1.1804159e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4250,,,0.014414948,2.2096138e-05,1.4414948e-10,2.2096138e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4500,,,0.027878325,3.4796106e-05,2.7878325e-10,3.4796106e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.4750,,,0.04786584,3.7012786e-05,4.786584e-10,3.7012786e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5000,,,0.073948714,3.2581982e-05,7.3948714e-10,3.2581982e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5250,,,0.10300627,1.1882518e-05,1.0300627e-09,1.1882518e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5500,,,0.13409882,1.3732515e-05,1.3409882e-09,1.3732515e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.5750,,,0.16603189,4.2193618e-05,1.6603189e-09,4.2193618e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6000,,,0.19798097,9.4522249e-05,1.9798097e-09,9.4522249e-13
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6250,,,0.22980076,0.00012893949,2.2980076e-09,1.2893949e-12
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.6500,,,0.26065354,0.00019224803,2.6065354e-09,1.9224803e-12
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.7000,,,0.3182055,0.00033051108,3.182055e-09,3.3051108e-12
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.7500,,,0.36855919,0.00039659969,3.6855919e-09,3.9659969e-12
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8000,,,0.41701339,0.00067573387,4.1701339e-09,6.7573387e-12
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8500,,,0.45776587,0.00088157349,4.5776587e-09,8.8157349e-12
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.8750,,,0.47602034,0.0011235319,4.7602034e-09,1.1235319e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.9000,,,0.49203121,0.00076888794,4.9203121e-09,7.6888794e-12
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,0.9500,,,0.52069684,0.00073164646,5.2069684e-09,7.3164646e-12
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.0000,,,0.54385211,0.001284229,5.4385211e-09,1.284229e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.1000,,,0.58356742,0.0015713242,5.8356742e-09,1.5713242e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.1250,,,0.59114794,0.0015713794,5.9114794e-09,1.5713794e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.2000,,,0.60859454,0.0022734207,6.0859454e-09,2.2734207e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.2500,,,0.61872906,0.0026979219,6.1872906e-09,2.6979219e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.3000,,,0.62716407,0.0031906904,6.2716407e-09,3.1906904e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.3750,,,0.6380886,0.0046757816,6.380886e-09,4.6757816e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.4000,,,0.64071771,0.004099105,6.4071771e-09,4.099105e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.5000,,,0.64942684,0.0049701847,6.4942684e-09,4.9701847e-11
+model,running width,running_width_factor_V15_W14.csv,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,Sherpa,,1.4,1.6000,,,0.65592313,0.0049204985,6.5592313e-09,4.9204985e-11
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,0.4000,0.3000,0.5000,0.019,0.006,1.9e-10,6e-11
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,0.6250,0.5000,0.7500,0.155,0.017,1.55e-09,1.7e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,0.8750,0.7500,1.0000,0.332,0.03,3.32e-09,3e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,1.1250,1.0000,1.2500,0.427,0.041,4.27e-09,4.1e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,published,1.4,1.3750,1.2500,1.5000,0.455,0.053,4.55e-09,5.3e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,0.6500,0.5000,0.8000,0.227,0.047,2.27e-09,4.7e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,0.9000,0.8000,1.0000,0.484,0.033,4.84e-09,3.3e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,1.1000,1.0000,1.2000,0.605,0.039,6.05e-09,3.9e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,1.3000,1.2000,1.4000,0.64,0.04,6.4e-09,4e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,published,1.4,1.5000,1.4000,1.6000,0.691,0.0521,6.91e-09,5.21e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,0.4000,0.3000,0.5000,0.0219558,0.00693341,2.19558e-10,6.93341e-11
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,0.6250,0.5000,0.7500,0.179113,0.0196447,1.79113e-09,1.96447e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,0.8750,0.7500,1.0000,0.383648,0.034667,3.83648e-09,3.4667e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,1.1250,1.0000,1.2500,0.479536,0.0460444,4.79536e-09,4.60444e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,ANL,wilkinson,1.4,1.3750,1.2500,1.5000,0.495234,0.0576866,4.95234e-09,5.76866e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,0.6500,0.5000,0.8000,0.161311,0.0403278,1.61311e-09,4.03278e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,0.9000,0.8000,1.0000,0.387146,0.07259,3.87146e-09,7.259e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,1.1000,1.0000,1.2000,0.479467,0.0799112,4.79467e-09,7.99112e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,1.3000,1.2000,1.4000,0.508099,0.0793904,5.08099e-09,7.93904e-10
+data,,,ppip,14 2212 -> 13 2212 211,"$\nu_\mu\,p \to \mu^-\,p\,\pi^+$",pure I=3/2,BNL,wilkinson,1.4,1.5000,1.4000,1.6000,0.547304,0.0793194,5.47304e-09,7.93194e-10
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3000,,,5.76632e-05,7.69e-08,5.76632e-13,7.69e-16
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3250,,,0.000279544,2.91e-07,2.79544e-12,2.91e-15
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3500,,,0.0007990615,1.0625e-06,7.990615e-12,1.0625e-14
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3750,,,0.00181644,3.07e-06,1.81644e-11,3.07e-14
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4000,,,0.003641095,6.945e-06,3.641095e-11,6.945e-14
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4250,,,0.006719585,1.1285e-05,6.719585e-11,1.1285e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4500,,,0.0115379,1.95e-05,1.15379e-10,1.95e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4750,,,0.0182742,3.45e-05,1.82742e-10,3.45e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5000,,,0.0266051,3.35e-05,2.66051e-10,3.35e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5250,,,0.03600015,2.645e-05,3.600015e-10,2.645e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5500,,,0.0460615,4.24e-05,4.60615e-10,4.24e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5750,,,0.05644555,3.715e-05,5.644555e-10,3.715e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6000,,,0.06700065,1.685e-05,6.700065e-10,1.685e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6250,,,0.0775205,3.6e-06,7.75205e-10,3.6e-14
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6500,,,0.0879067,1.23e-05,8.79067e-10,1.23e-13
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.7000,,,0.107983,0.000131,1.07983e-09,1.31e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.7500,,,0.126783,0.000263,1.26783e-09,2.63e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8000,,,0.1433415,0.0003365,1.433415e-09,3.365e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8500,,,0.1575995,0.0002055,1.575995e-09,2.055e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8750,,,0.164033,0.000265,1.64033e-09,2.65e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.9000,,,0.170133,0.000501,1.70133e-09,5.01e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.9500,,,0.18122,0.000427,1.8122e-09,4.27e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.0000,,,0.1909055,0.0002905,1.909055e-09,2.905e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.1000,,,0.2068205,0.0004115,2.068205e-09,4.115e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.1250,,,0.209876,0.000456,2.09876e-09,4.56e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.2000,,,0.2184155,0.0005825,2.184155e-09,5.825e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.2500,,,0.223418,0.000749,2.23418e-09,7.49e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.3000,,,0.2277985,0.0007765,2.277985e-09,7.765e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.3750,,,0.233884,0.00064,2.33884e-09,6.4e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.4000,,,0.235587,0.000419,2.35587e-09,4.19e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.5000,,,0.241082,0.00029,2.41082e-09,2.9e-12
+model,constant width,param_ChiPT_UFO_V13.dat,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.6000,,,0.245693,0.000437,2.45693e-09,4.37e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3000,,,4.8052647e-05,6.4083308e-08,4.8052647e-13,6.4083308e-16
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3250,,,0.00024549694,2.5555766e-07,2.4549694e-12,2.5555766e-15
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3500,,,0.00073759529,9.8076931e-07,7.3759529e-12,9.8076931e-15
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.3750,,,0.0016531602,2.7940377e-06,1.6531602e-11,2.7940377e-14
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4000,,,0.0032665829,6.2306581e-06,3.2665829e-11,6.2306581e-14
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4250,,,0.0060613244,1.0179504e-05,6.0613244e-11,1.0179504e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4500,,,0.010464114,1.7685213e-05,1.0464114e-10,1.7685213e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.4750,,,0.016589556,3.1319548e-05,1.6589556e-10,3.1319549e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5000,,,0.024175842,3.0441182e-05,2.4175842e-10,3.0441182e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5250,,,0.032414607,2.3815633e-05,3.2414607e-10,2.3815633e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5500,,,0.041092017,3.7825549e-05,4.1092017e-10,3.7825549e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.5750,,,0.049887819,3.2833987e-05,4.9887819e-10,3.2833987e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6000,,,0.058661213,1.4752714e-05,5.8661213e-10,1.4752714e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6250,,,0.067328777,3.1267032e-06,6.7328777e-10,3.1267032e-14
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.6500,,,0.075733849,1.0596762e-05,7.5733849e-10,1.0596762e-13
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.7000,,,0.091517608,0.00011102495,9.1517608e-10,1.1102495e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.7500,,,0.10567515,0.00021921366,1.0567515e-09,2.1921366e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8000,,,0.11903462,0.00027943862,1.1903462e-09,2.7943862e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8500,,,0.13038862,0.0001700187,1.3038862e-09,1.700187e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.8750,,,0.13545829,0.00021883673,1.3545829e-09,2.1883673e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.9000,,,0.14023321,0.00041295246,1.4023321e-09,4.1295246e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,0.9500,,,0.14881264,0.0003506401,1.4881264e-09,3.506401e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.0000,,,0.15617712,0.00023765398,1.5617712e-09,2.3765398e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.1000,,,0.16878902,0.00033583075,1.6878902e-09,3.3583075e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.1250,,,0.17117917,0.00037192295,1.7117917e-09,3.7192295e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.2000,,,0.17782106,0.00047423725,1.7782106e-09,4.7423725e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.2500,,,0.18167346,0.00060905309,1.8167346e-09,6.0905309e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.3000,,,0.18517321,0.00063120256,1.8517321e-09,6.3120256e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.3750,,,0.19002408,0.00051998176,1.9002408e-09,5.1998176e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.4000,,,0.19137552,0.00034036828,1.9137552e-09,3.4036828e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.5000,,,0.19570747,0.00023541852,1.9570747e-09,2.3541852e-12
+model,running width,running_width_factor_V15_W14.csv,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,Sherpa,,1.4,1.6000,,,0.19946075,0.00035476936,1.9946075e-09,3.5476936e-12
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,0.4000,0.3000,0.5000,0.006,0.004,6e-11,4e-11
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,0.6250,0.5000,0.7500,0.052,0.012,5.2e-10,1.2e-10
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,0.8750,0.7500,1.0000,0.143,0.025,1.43e-09,2.5e-10
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,1.1250,1.0000,1.2500,0.097,0.023,9.7e-10,2.3e-10
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,published,1.4,1.3750,1.2500,1.5000,0.13,0.034,1.3e-09,3.4e-10
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.4000,0.3000,0.5000,0.00693341,0.00462227,6.93341e-11,4.62227e-11
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.6250,0.5000,0.7500,0.0600895,0.0138668,6.00895e-10,1.38668e-10
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.8750,0.7500,1.0000,0.165246,0.0288892,1.65246e-09,2.88892e-10
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,1.1250,1.0000,1.2500,0.108934,0.0258298,1.08934e-09,2.58298e-10
+data,,,ppi0,14 2112 -> 13 2212 111,"$\nu_\mu\,n \to \mu^-\,p\,\pi^0$",I=3/2 and I=1/2,ANL,wilkinson,1.4,1.3750,1.2500,1.5000,0.141495,0.0370065,1.41495e-09,3.70065e-10
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3000,,,1.86107e-05,5.89e-08,1.86107e-13,5.89e-16
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3250,,,0.000104505,2.92e-07,1.04505e-12,2.92e-15
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3500,,,0.000302327,9.61e-07,3.02327e-12,9.61e-15
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3750,,,0.000680025,2.55e-06,6.80025e-12,2.55e-14
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4000,,,0.00135728,5.5e-06,1.35728e-11,5.5e-14
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4250,,,0.00254567,1.104e-05,2.54567e-11,1.104e-13
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4500,,,0.00455571,1.865e-05,4.55571e-11,1.865e-13
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4750,,,0.00766123,3.086e-05,7.66123e-11,3.086e-13
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5000,,,0.01190445,4.725e-05,1.190445e-10,4.725e-13
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5250,,,0.01713635,6.605e-05,1.713635e-10,6.605e-13
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5500,,,0.0231762,9.09e-05,2.31762e-10,9.09e-13
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5750,,,0.02987405,0.00012145,2.987405e-10,1.2145e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6000,,,0.03707515,0.00015105,3.707515e-10,1.5105e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6250,,,0.04468175,0.00017065,4.468175e-10,1.7065e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6500,,,0.0526132,0.0001948,5.26132e-10,1.948e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.7000,,,0.06913175,0.00028185,6.913175e-10,2.8185e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.7500,,,0.0860135,0.0003894,8.60135e-10,3.894e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8000,,,0.1007885,0.0005205,1.007885e-09,5.205e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8500,,,0.1142325,0.0003025,1.142325e-09,3.025e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8750,,,0.1204135,0.0002575,1.204135e-09,2.575e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.9000,,,0.12594,0.000177,1.2594e-09,1.77e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.9500,,,0.136456,0.000478,1.36456e-09,4.78e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.0000,,,0.1456505,0.0008495,1.456505e-09,8.495e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.1000,,,0.1611475,0.0008605,1.611475e-09,8.605e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.1250,,,0.1642845,0.0007155,1.642845e-09,7.155e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.2000,,,0.1724485,0.0008455,1.724485e-09,8.455e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.2500,,,0.1770165,0.0006245,1.770165e-09,6.245e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.3000,,,0.181077,0.000681,1.81077e-09,6.81e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.3750,,,0.1857905,0.0008885,1.857905e-09,8.885e-12
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.4000,,,0.1876355,0.0010305,1.876355e-09,1.0305e-11
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.5000,,,0.193244,0.001095,1.93244e-09,1.095e-11
+model,constant width,param_ChiPT_UFO_V13.dat,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.6000,,,0.1971995,0.0009435,1.971995e-09,9.435e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3000,,,1.86107e-05,5.89e-08,1.86107e-13,5.89e-16
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3250,,,0.00010263885,2.8678576e-07,1.0263885e-12,2.8678576e-15
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3500,,,0.00029152969,9.2667885e-07,2.9152969e-12,9.2667885e-15
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.3750,,,0.00063010266,2.3627981e-06,6.3010266e-12,2.3627981e-14
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4000,,,0.0012064713,4.8888895e-06,1.2064713e-11,4.8888895e-14
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4250,,,0.002181573,9.460993e-06,2.181573e-11,9.460993e-14
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4500,,,0.0037587295,1.538735e-05,3.7587295e-11,1.538735e-13
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.4750,,,0.00617548,2.4875289e-05,6.17548e-11,2.4875289e-13
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5000,,,0.0093697426,3.7189483e-05,9.3697426e-11,3.7189483e-13
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5250,,,0.013251274,5.1075441e-05,1.3251274e-10,5.1075441e-13
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5500,,,0.017602092,6.9037641e-05,1.7602092e-10,6.9037641e-13
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.5750,,,0.022276945,9.0564718e-05,2.2276945e-10,9.0564718e-13
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6000,,,0.027135339,0.00011055365,2.7135339e-10,1.1055365e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6250,,,0.032408128,0.00012377418,3.2408128e-10,1.2377418e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.6500,,,0.037814124,0.00014000653,3.7814124e-10,1.4000653e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.7000,,,0.048775054,0.00019885579,4.8775054e-10,1.9885579e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.7500,,,0.059551963,0.00026960343,5.9551963e-10,2.6960343e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8000,,,0.069715768,0.00036003172,6.9715768e-10,3.6003172e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8500,,,0.078940506,0.00020904299,7.8940506e-10,2.0904299e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.8750,,,0.083172615,0.00017786169,8.3172615e-10,1.7786169e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.9000,,,0.086948825,0.00012220059,8.6948825e-10,1.2220059e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,0.9500,,,0.094120035,0.00032969878,9.4120035e-10,3.2969878e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.0000,,,0.10036689,0.00058538535,1.0036689e-09,5.8538535e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.1000,,,0.11138212,0.00059476142,1.1138212e-09,5.9476142e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.1250,,,0.11363608,0.0004949135,1.1363608e-09,4.949135e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.2000,,,0.1195531,0.00058615843,1.195531e-09,5.8615843e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.2500,,,0.12290468,0.00043359784,1.2290468e-09,4.3359784e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.3000,,,0.12591588,0.00047354833,1.2591588e-09,4.7354833e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.3750,,,0.12948892,0.00061925074,1.2948892e-09,6.1925074e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.4000,,,0.13087426,0.00071876551,1.3087426e-09,7.1876551e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.5000,,,0.13519582,0.00076607514,1.3519582e-09,7.6607514e-12
+model,running width,running_width_factor_V15_W14.csv,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,Sherpa,,1.4,1.6000,,,0.13831612,0.00066177279,1.3831612e-09,6.6177279e-12
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,0.4000,0.3000,0.5000,0.009,0.005,9e-11,5e-11
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,0.6250,0.5000,0.7500,0.061,0.012,6.1e-10,1.2e-10
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,0.8750,0.7500,1.0000,0.105,0.019,1.05e-09,1.9e-10
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,1.1250,1.0000,1.2500,0.098,0.021,9.8e-10,2.1e-10
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,published,1.4,1.3750,1.2500,1.5000,0.112,0.03,1.12e-09,3e-10
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.4000,0.3000,0.5000,0.0104001,0.00577784,1.04001e-10,5.77784e-11
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.6250,0.5000,0.7500,0.0704896,0.0138668,7.04896e-10,1.38668e-10
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,0.8750,0.7500,1.0000,0.121335,0.0219558,1.21335e-09,2.19558e-10
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,1.1250,1.0000,1.2500,0.110057,0.0235837,1.10057e-09,2.35837e-10
+data,,,npip,14 2112 -> 13 2112 211,"$\nu_\mu\,n \to \mu^-\,n\,\pi^+$",I=3/2 and I=1/2,ANL,wilkinson,1.4,1.3750,1.2500,1.5000,0.121904,0.0326528,1.21904e-09,3.26528e-10

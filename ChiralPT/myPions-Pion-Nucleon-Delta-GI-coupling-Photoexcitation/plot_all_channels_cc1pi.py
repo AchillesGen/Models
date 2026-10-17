@@ -23,6 +23,15 @@ Delta that the cut data excludes.
 MODEL: ChiPT_UFO_All with the corrected Delta sector, h -> 2.17 h and the
 propagator width -> 116.5 MeV (delta_couplings.py), grid (20,12,12,8).
 
+*** V9-ERA NUMBERS -- the arrays below are frozen output of a ChiPT_UFO_All
+run, and the h -> 2.17 h correction above belongs to that model, where hD, G1
+and G2 were EXTERNAL and the vertex missed the measured widths.  From V10 the
+widths are the inputs and the couplings are inverted from them, so there is no
+such correction left to apply: tools/delta_widths.py returns ratio 1.000000 for
+both widths on ChiPT_UFO_V13.  Nothing here is recomputed from a V10+ UFO, so
+do not read these curves as current-model predictions.  The live W < 1.4 GeV
+comparison is plot_w_vs_data.py (cc1pi_sherpa_vs_data_V13.csv). ***
+
 COLOUR.  Channel by hue, matching the Achilles figure's assignment so the two
 can be read side by side; experiment by marker (circle ANL, square BNL), also
 its convention.  Curves additionally carry distinct dash patterns and are

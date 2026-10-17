@@ -394,9 +394,14 @@ def write_scan_csv(results, mn, path=SCAN_CSV):
     with open(path, "w") as f:
         f.write("channel,process,model,Egamma_beam,sqrt_s,Egamma_corr,"
                 "sigma_ub,err_ub\n")
+        # Every model in `results`, not just this run's MODELS: results starts
+        # from the existing file, and writing only MODELS used to drop the rows
+        # of every other model on each run.
+        listed = [m for m, *_ in MODELS]
+        others = sorted({m for _, m in results} - set(listed))
         for key in CHANNELS:
             ch = CHANNELS[key]
-            for model, *_ in MODELS:
+            for model in listed + others:
                 if (key, model) not in results:
                     continue
                 r = results[(key, model)]

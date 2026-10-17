@@ -182,21 +182,67 @@ def eq_B7(h, Ms, M, mpi, fpi):
     return h * h * k ** 3 * (EN + M) / (3 * np.pi * fpi ** 2 * Ms)
 
 
-def effective_C5A(V, ns, ff):
+# Couplings in the W p -> Delta++ vertex whose Lorentz structures are NOT
+# proportional to g^{alpha mu}.  They have to be switched off before the
+# projection below measures anything, and on a V10+ UFO they are what made it
+# collapse: the components come out with MIXED SIGN and the signed least
+# squares cancels.  Measured on ChiPT_UFO_V13, where sqrt(3) sqrt(2/3) hD is
+# 2.2018:
+#
+#     live                0.1576      C4AN = 0            0.0241
+#     C6AN = 0            2.0201      C6AN = C4AN = 0     2.2018  (exact)
+#
+#   C6AN multiplies FRV2 = q^alpha q^mu (the induced pseudoscalar, whose
+#     FC6A(0) = 1/mpi^2 = 51.3); q^mu contracted with the lepton current gives
+#     the lepton mass, so this term is large HERE and absent from any
+#     light-lepton cross section.  Nothing is wrong with it.
+#   C4AN multiplies FRV5.
+#
+# The CVC vector pieces FRV3/FRV4 are epsilon-tensor structures orthogonal to
+# g^{alpha mu} and need no isolation -- FVND -> 0 moves the result not at all.
+# A model whose vertex has only the one structure (ChiPT_UFO_All) is unaffected
+# either way: there every component is identically +2.0785j.
+NON_G_COUPLINGS = ('C6AN', 'C4AN')
+
+
+def signed_ratios(rows):
+    """Per-component ratios with their common phase divided out.
+
+    Every ratio here is a real number times the i of the Feynman rule, so the
+    informative content is a SIGN.  Reporting |ratio| -- as this diagnostic used
+    to -- hides precisely the cancellation that makes the projection meaningless
+    when the vertex is not pure g^{alpha mu}.
+    """
+    if not rows:
+        return []
+    ref = max(rows, key=lambda r: abs(r[5]))[5]
+    ref = ref / abs(ref)
+    return [(r[5] / ref).real for r in rows]
+
+
+def effective_C5A(V, ns, ff, isolate=True):
     """The coefficient of g^{alpha mu} the model's W p -> Delta++ vertex supplies.
 
     Kinematics: Delta on shell in its rest frame, nucleon on shell, Q^2 = 0, so
     q = p_Delta - p_N is lightlike -- the photon point, where C5A(0) is defined.
+
+    With isolate=True the couplings in NON_G_COUPLINGS are set to zero first, so
+    what is projected is the C5A structure alone; this is what makes the number
+    a C5A at all on V10+.  Pass isolate=False for the raw projection over every
+    structure in the vertex.  Returns (c5, rows, switched_off).
     """
-    MD, MN = ns['MDelta'], ns['MNucleon']
+    MD, MN = rp(ns['MDelta']), rp(ns['MNucleon'])
     Eq = (MD ** 2 - MN ** 2) / (2 * MD)          # |q| = Eq since Q^2 = 0
     pD = np.array([MD, 0, 0, 0], dtype=complex)
     q = np.array([Eq, 0, 0, Eq], dtype=complex)
     pN = pD - q
     assert abs(dot(q, q).real) < 1e-9 and abs(dot(pN, pN).real - MN ** 2) < 1e-9
 
+    off = [k for k in NON_G_COUPLINGS if k in ns] if isolate else []
+    ns_use = dict(ns, **{k: 0.0 for k in off}) if off else ns
+
     G = build(vertex_by_particles(V, ['p~', 'Delta++', 'W-']),
-              {'p~': -pN, 'Delta++': pD, 'W-': -q}, ns, ff)   # [nu_RS, mu_W, r, c]
+              {'p~': -pN, 'Delta++': pD, 'W-': -q}, ns_use, ff)  # [nu, mu, r, c]
     # strip the common charged-current factor so the result is in the
     # normalisation C5A is defined in
     ee, sw, Vud = ns['ee'], ns['sw'], ns['Vud']
@@ -219,7 +265,7 @@ def effective_C5A(V, ns, ff):
                     rows.append((tl, s, mu, a_model, a_ref, a_model / a_ref))
                 num += a_ref.conjugate() * a_model
                 den += abs(a_ref) ** 2
-    return num / den, rows
+    return num / den, rows, off
 
 
 # ---------------------------------------------------------------------------
@@ -229,7 +275,14 @@ def radiative_width(V, ns, ff):
     This is the independent test of whether g1/g2 are anomalously large.  The
     Fig. 33 photoproduction fit only ever constrains the PRODUCT g x h, so it
     cannot separate them; the RADIATIVE width depends on g alone and is
-    measured -- PDG has Gamma(Delta -> N gamma) = 0.66 MeV (0.55-0.65% of 117).
+    measured -- PDG, Review of Particle Physics, Delta(1232) 3/2+ listings,
+    2024 edition, B(N gamma) = 0.55-0.65% of the 117 MeV Breit-Wigner width,
+    i.e. Gamma(Delta -> N gamma) = 0.66 MeV.
+
+    That Breit-Wigner number is the target only for a V9-style UFO.  From V10
+    the width is an INPUT and the couplings are inverted from it, so the target
+    is the card's own GamNGam and the ratio is 1 by construction; width_targets()
+    picks the right one and main() reports which it used.
 
     Same machinery as strong_width(), including the 1/(2J+1) spin average that
     calibrate_fstar() verified, plus a sum over the two photon polarisations.
@@ -257,6 +310,35 @@ def radiative_width(V, ns, ff):
     return tot / 4.0 * k / (8 * np.pi * MD ** 2), amps, k
 
 
+# The Breit-Wigner partial widths this diagnostic used to hard-code as its
+# targets.  SOURCE: PDG, Review of Particle Physics, Delta(1232) 3/2+ listings,
+# 2024 edition -- Gamma = 117 MeV with B(N gamma) = 0.55-0.65%, so
+# Gamma(N gamma) = 0.66 MeV.  The PDG tabulates the branching ratio, not the
+# radiative partial width.
+#
+# They are the right targets ONLY for a V9-style UFO, where hD, G1 and G2 are
+# external and the widths are whatever they come out to be.  From V10 the
+# widths are the INPUTS and the couplings are inverted from them, so the target
+# is whatever the card says and the honest ratio is 1 -- see width_targets().
+GAM_PI_BW, GAM_GAM_BW = 0.117, 0.00066
+
+
+def rp(x):
+    return float(x.real) if isinstance(x, complex) else float(x)
+
+
+def width_targets(ns):
+    """The widths this model should be compared against, and where they come from.
+
+    V10 and later carry GamNPi/GamNGam as external inputs, so the vertex
+    reproduces them by construction.  A V9-style UFO has neither, and the
+    Breit-Wigner numbers are then the only available target.
+    """
+    if 'GamNPi' in ns and 'GamNGam' in ns:
+        return rp(ns['GamNPi']), rp(ns['GamNGam']), 'card (V10+ inputs)'
+    return GAM_PI_BW, GAM_GAM_BW, 'Breit-Wigner (PDG 2024, V9-style UFO)'
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--ufo', default='ChiPT_UFO_All')
@@ -265,10 +347,19 @@ def main():
     P, V = load_ufo(a.ufo)
     ns = parameter_namespace(P)
     ff = W.form_factors(ns, True)
-    MD, MN, fpi, hD = ns['MDelta'], ns['MNucleon'], ns['fPi'], ns['hD']
+    # From V10 hD, G1 and G2 are INTERNAL, so the UFO builds them with cmath and
+    # they arrive here as complex with a zero imaginary part.  Without rp() the
+    # very first print raises TypeError and the diagnostic cannot run at all on
+    # the current model.
+    MD, MN, fpi = rp(ns['MDelta']), rp(ns['MNucleon']), rp(ns['fPi'])
+    hD = rp(ns['hD'])
+    gam_pi_ref, gam_gam_ref, ref_src = width_targets(ns)
 
     print("UFO %s   hD = %.4f  MDelta = %.4f  MNucleon = %.6f  fPi = %.4f"
           % (a.ufo, hD, MD, MN, fpi))
+    print("   width targets: Gamma(N pi) = %.3f MeV, Gamma(N gamma) = %.4f MeV"
+          % (1e3 * gam_pi_ref, 1e3 * gam_gam_ref))
+    print("   taken from %s" % ref_src)
 
     (sgn, dev), _ = check_projector(MD)
     print("\n1. Rarita-Schwinger machinery")
@@ -299,16 +390,32 @@ def main():
           % (1e3 * tot / 4, tot / 4 / b7))
 
     print("\n4. Effective C5A(0) of the gauged W-N-Delta transition")
-    c5, rows = effective_C5A(V, ns, ff)
+    c5, rows, off = effective_C5A(V, ns, ff)
+    if off:
+        print("   isolated first: %s set to zero, their structures are not"
+              % ", ".join(off))
+        print("   proportional to g^{alpha mu} (see NON_G_COUPLINGS)")
     print("   projection onto g^{alpha mu} :  C5A(0)_eff = %.4f  (phase %+.1f deg)"
           % (abs(c5), np.angle(c5, deg=True)))
     print("   the phase is the i of the Feynman rule; only the modulus is C5A")
-    spread = [abs(r[5]) for r in rows]
-    print("   component-by-component |ratio| : min %.4f  max %.4f  (%d components)"
-          % (min(spread), max(spread), len(spread)))
-    print("   -> the epsilon structure is %s pure g^{alpha mu} at this point"
-          % ("essentially" if (max(spread) - min(spread)) < 0.05 * max(spread)
-             else "NOT"))
+    signed = signed_ratios(rows)
+    print("   component-by-component ratio  : min %+.4f  max %+.4f  (%d components)"
+          % (min(signed), max(signed), len(signed)))
+    if min(signed) < 0 < max(signed):
+        print("   *** MIXED SIGN: the vertex still carries structures beyond")
+        print("       g^{alpha mu}, so this projection is NOT a C5A. ***")
+    else:
+        pure = (max(signed) - min(signed)) < 0.05 * max(abs(x) for x in signed)
+        print("   -> the epsilon structure is %s pure g^{alpha mu} at this point"
+              % ("essentially" if pure else "NOT"))
+    if off:
+        # what the old, un-isolated projection reported -- kept visible so the
+        # collapse stays legible rather than looking like a physics failure
+        craw, rraw, _ = effective_C5A(V, ns, ff, isolate=False)
+        sraw = signed_ratios(rraw)
+        print("   without that isolation it reads %.4f, components %+.4f .. %+.4f"
+              % (abs(craw), min(sraw), max(sraw)))
+        print("   -- a cancellation between structures, not a small C5A")
     print("\n   phenomenological C5A(0) ~ 1.2 (CA5Norm in the param card)")
     print("   deficit in amplitude  %.2f     in Delta-pole rate  %.2f"
           % (1.2 / abs(c5), (1.2 / abs(c5)) ** 2))
@@ -317,14 +424,15 @@ def main():
     a12 = max(abs(v) for kk, v in amps.items() if kk[0] == +1)
     print("\n5. Gamma(Delta+ -> p gamma) -- the test of g1/g2 ALONE")
     print("   model                  %8.4f MeV" % (1e3 * grad))
-    print("   PDG                    %8.4f MeV" % 0.66)
+    print("   target                 %8.4f MeV   (%s)"
+          % (1e3 * gam_gam_ref, ref_src))
     print("   ratio %.2f  ->  g too LARGE by %.2f in amplitude"
-          % (grad / 0.00066, np.sqrt(grad / 0.00066)))
+          % (grad / gam_gam_ref, np.sqrt(grad / gam_gam_ref)))
     print("   |A_3/2|/|A_1/2| = %.4f  (pure M1 -> sqrt(3) = %.4f), so the"
           % (a32 / a12, np.sqrt(3)))
     print("   extraction is M1-dominated as it should be")
-    hshort = np.sqrt(0.117 / (tot / 4))
-    glarge = np.sqrt(grad / 0.00066)
+    hshort = np.sqrt(gam_pi_ref / (tot / 4))
+    glarge = np.sqrt(grad / gam_gam_ref)
     print("\n   THE TWO ERRORS COMPENSATE.  h short by %.2f, g large by %.2f,"
           % (hshort, glarge))
     print("   product g*h off by only %.2f -- which is exactly what a fit to"
@@ -340,7 +448,10 @@ def main():
     # of the ISOSPIN BOOKKEEPING rather than of the physics -- run it both ways
     # and only the right convention comes out consistent.
     gam_phys = tot / 4                              # this model's true width
-    fstar_model = 2.13 * np.sqrt(gam_phys / 0.117)  # f* scales as sqrt(Gamma)
+    # f* scales as sqrt(Gamma).  The literature value 2.13 is quoted at the
+    # BREIT-WIGNER width, so the anchor of this scaling stays GAM_PI_BW even
+    # when the model itself is parametrised at the pole.
+    fstar_model = 2.13 * np.sqrt(gam_phys / GAM_PI_BW)
     c5_gt = 0.0924 * fstar_model / 0.1396           # f_pi f* / m_pi
     print("\n6. The isospin convention for C5A, settled internally")
     print("   physical width of this vertex      %8.2f MeV" % (1e3 * gam_phys))
@@ -355,14 +466,14 @@ def main():
     print("   phenomenology quotes: the reduced value for THIS model is %.3f."
           % (abs(c5) / np.sqrt(3)))
     print("\n7. Everything in one place, all in AMPLITUDE")
-    print("   h   short by %.2f   (strong width, 24.75 vs 117 MeV)"
-          % np.sqrt(0.117 / gam_phys))
-    print("   g   large by %.2f   (radiative width, 2.23 vs 0.66 MeV)"
-          % np.sqrt(grad / 0.00066))
+    print("   h   short by %.2f   (strong width, %.2f vs %.2f MeV)"
+          % (np.sqrt(gam_pi_ref / gam_phys), 1e3 * gam_phys, 1e3 * gam_pi_ref))
+    print("   g   large by %.2f   (radiative width, %.2f vs %.2f MeV)"
+          % (np.sqrt(grad / gam_gam_ref), 1e3 * grad, 1e3 * gam_gam_ref))
     print("   C5A short by %.2f   (reduced %.3f vs phenomenological 1.2)"
           % (1.2 / (abs(c5) / np.sqrt(3)), abs(c5) / np.sqrt(3)))
     print("   g*h off by   %.2f   -> photoproduction is blind to both"
-          % (np.sqrt(grad / 0.00066) / np.sqrt(0.117 / gam_phys)))
+          % (np.sqrt(grad / gam_gam_ref) / np.sqrt(gam_pi_ref / gam_phys)))
 
 
 if __name__ == '__main__':

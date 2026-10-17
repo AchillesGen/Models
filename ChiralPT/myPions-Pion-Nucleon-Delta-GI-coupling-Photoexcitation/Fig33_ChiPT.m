@@ -47,8 +47,14 @@
 
 $HistoryLength = 0;
 
-ELADIR = "/home/isaacson/Documents/Projects/NeutrinoGenerator/AchillesModels/ChiralPT/ELA-Pion-Photoproduction";
-OUTDIR = "/home/isaacson/Documents/Projects/NeutrinoGenerator/AchillesModels/ChiralPT/myPions-Pion-Nucleon-Delta-GI-coupling-Photoexcitation";
+(* Paths.  Override with the environment variables CHIPT_ELADIR / CHIPT_OUTDIR;
+   the defaults assume the ELA reference implementation sits beside this
+   directory, which is the layout of the public repository. *)
+ELADIR = Environment["CHIPT_ELADIR"];
+If[ELADIR === $Failed || ELADIR === "",
+   ELADIR = FileNameJoin[{ParentDirectory[Directory[]], "ELA-Pion-Photoproduction"}]];
+OUTDIR = Environment["CHIPT_OUTDIR"];
+If[OUTDIR === $Failed || OUTDIR === "", OUTDIR = Directory[]];
 
 Get[ELADIR <> "/Fig33v2.m"];      (* machinery + the ELA constants *)
 Get[ELADIR <> "/pi0p_data.m"];    (* measured sigma(gamma p -> pi0 p)          *)

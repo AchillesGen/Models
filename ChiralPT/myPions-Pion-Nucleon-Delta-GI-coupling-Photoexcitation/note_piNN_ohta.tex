@@ -1,0 +1,91 @@
+% Note for ChiPT-3 Appendix C, to follow Eq. (C25) and the paragraph after it.
+% Bib entries for the new keys are in note_piNN_ohta.bib.
+% Numbers: scratchpad c24_cvc.py on ChiPT_UFO_V14, vector current only,
+% physical masses and form factors, W = 1.23-1.35 GeV, Q^2 = 0.1-1 GeV^2.
+
+\paragraph*{The $\pi NN$ form factor off shell.}
+In the $s$- and $u$-channel nucleon poles and in the contact term the pion at the
+$\pi NN$ vertex is the external one, so $\widetilde F$ is evaluated at
+$k_\pi^2 = m_\pi^2$ and reduces to its normalisation. Only the pion-in-flight
+diagram has an off-shell pion at that vertex. Its momentum is $k_\pi - q$, and
+its virtuality is $t = (k_\pi - q)^2$. Writing the strong vertex as
+$\Gamma(k) = \widetilde F(k^2)\,\slashed{k}\gamma_5$, with
+$\widetilde F(m_\pi^2) = 1$ and the coupling $g_A/2f_\pi$ and the isospin factor
+stripped off, the pion-in-flight current is
+\begin{equation}
+  M^\mu_{\rm PF} = C\,\widetilde F(t)\,
+  \frac{(2k_\pi - q)^\mu}{t - m_\pi^2}\,
+  \bar u(k_2)\,(\slashed{k}_\pi - \slashed{q})\gamma_5\, u(k_1) ,
+  \label{eq:MPF}
+\end{equation}
+where $C$ collects the couplings, the pion charge and the common $F_1^V(Q^2)$
+of the $V\pi\pi$ vertex. Because $q\cdot(2k_\pi - q) = m_\pi^2 - t$, its
+divergence is
+\begin{equation}
+  q_\mu M^\mu_{\rm PF} = -C\,\widetilde F(t)\,
+  \bar u(k_2)\,(\slashed{k}_\pi - \slashed{q})\gamma_5\, u(k_1) .
+\end{equation}
+The nucleon poles and the Kroll--Ruderman term cancel this divergence only when
+$\widetilde F(t) = 1$. Leaving $\widetilde F(t)$ on this vertex alone therefore
+violates CVC by a term proportional to $1 - \widetilde F(t)$. In the model this
+violation is between 3\% and 84\% of the vector current over
+$W = 1.23$--$1.35$~GeV and $Q^2 = 0.1$--$1~\text{GeV}^2$, where $\widetilde F(t)$
+falls from $0.79$ to $0.14$.
+
+A momentum-dependent vertex is non-local, and gauging it consistently
+introduces a $V\pi NN$ contact current. Its longitudinal part is fixed by the
+Ward--Takahashi identity
+$q_\mu M^\mu_{\rm c} = C\,[\Gamma(k_\pi) - \Gamma(k_\pi - q)]$. On shell,
+$\Gamma(k_\pi) = \slashed{k}_\pi\gamma_5$, so the right-hand side splits into
+\begin{equation}
+  \Gamma(k_\pi) - \Gamma(k_\pi - q)
+  = \slashed{q}\gamma_5
+  + \bigl[1 - \widetilde F(t)\bigr](\slashed{k}_\pi - \slashed{q})\gamma_5 .
+\end{equation}
+The first term is the Kroll--Ruderman current $C\gamma^\mu\gamma_5$, which keeps
+its point-like strength. The second is new. Minimal substitution in
+$\widetilde F(-\partial^2)$, the prescription of Ohta~\cite{Ohta:1989}, gives
+it the form
+\begin{equation}
+  M^\mu_{\rm O} = C\,\bigl[1 - \widetilde F(t)\bigr]\,
+  \frac{(2k_\pi - q)^\mu}{t - m_\pi^2}\,
+  \bar u(k_2)\,(\slashed{k}_\pi - \slashed{q})\gamma_5\, u(k_1) .
+  \label{eq:MOhta}
+\end{equation}
+Since $\widetilde F(m_\pi^2) = 1$, the factor $1 - \widetilde F(t)$ vanishes at
+the pion pole, so Eq.~\eqref{eq:MOhta} is a contact term with no pole. Added to
+Eq.~\eqref{eq:MPF}, it cancels the form factor identically:
+\begin{equation}
+  M^\mu_{\rm PF} + M^\mu_{\rm O}
+  = C\,\frac{(2k_\pi - q)^\mu}{t - m_\pi^2}\,
+  \bar u(k_2)\,(\slashed{k}_\pi - \slashed{q})\gamma_5\, u(k_1) .
+\end{equation}
+The pion-in-flight diagram together with its gauge partner is therefore
+independent of $\widetilde F$~\cite{Workman:1992}. This is why our vertices
+carry no strong form factor on that diagram. Including $\widetilde F$ together
+with Eq.~\eqref{eq:MOhta} reproduces our amplitude to machine precision, and
+restores the residual of the full vector current to the value without
+$\widetilde F$.
+
+Three consequences follow.
+\begin{itemize}
+\item In single-pion production $\widetilde F$ is not observable in the vector
+  current. The Ohta construction fixes only the longitudinal part of the
+  contact, so any further transverse piece would be new physics with its own
+  parameter, which we do not introduce.
+\item The axial current has no pion-in-flight diagram, since the $A\pi\pi$
+  matrix element vanishes by parity. There, $\widetilde F$ enters through the
+  pion-pole terms instead: through $F_P$ in Eq.~(C15) and through $C_6^A$ in
+  Eq.~(C44), where PCAC and pion-pole dominance fix it.
+\item The cancellation holds diagram by diagram only because one hadron leg is
+  off shell. With two or more pions in the final state, internal pions and
+  nucleons are off shell in several places at once. The contact of
+  Eq.~\eqref{eq:MOhta} must then be kept as an operator, and the more general
+  prescription of Haberzettl~\cite{Haberzettl:1997,Haberzettl:1998} becomes
+  relevant. With the crossing-symmetric choice of Davidson and
+  Workman~\cite{Davidson:2001},
+  $\hat F = 1 - (1-F_s)(1-F_u)(1-F_t)$, it is the $\hat F_B$ of
+  Table~I, applied there at the amplitude level following Ref.~[34]. We leave
+  its vertex-level implementation, which requires form factors with more than
+  one argument in the UFO format, to future work.
+\end{itemize}

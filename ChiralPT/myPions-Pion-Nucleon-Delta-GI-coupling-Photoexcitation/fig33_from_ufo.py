@@ -231,6 +231,17 @@ def eval_structure(struct, mom, ff0):
     return eval(struct, make_evaluator(mom, ff0))
 
 
+def _declared_form_factors(path):
+    """Every form factor function name the UFO's Lorentz structures call."""
+    import re
+    lz = importlib.import_module(os.path.split(os.path.abspath(path))[1]
+                                 + '.lorentz')
+    out = set()
+    for l in lz.all_lorentz:
+        out |= set(re.findall(r'\b(F[A-Za-z0-9]*)\(\s*-?\s*P\(', l.structure))
+    return sorted(out)
+
+
 # --------------------------------------------------------------- UFO helpers
 def vertex_by_particles(V, names):
     want = sorted(names)
@@ -673,6 +684,18 @@ def main():
     kp, kn = 1.792847, -1.913043
     ff0 = {'F1p': lambda q2: 1.0, 'F1n': lambda q2: 0.0,
            'F2p': lambda q2: kp, 'F2n': lambda q2: kn}
+    # Everything else the UFO declares is set to 1.  Two different reasons, and
+    # both are exact here rather than approximations:
+    #   * every Q^2 form factor in the model is a ratio normalised to 1 at
+    #     Q^2 = 0, and this is real photoproduction, so Q^2 = 0 throughout;
+    #   * FpiNDelta is not a Q^2 form factor at all, and this script applies
+    #     the paper's sqrt(X_pi(s,u)) at AMPLITUDE level instead (opt['ffD']),
+    #     so leaving it in the vertex as well would square it.
+    # Reading the names off the model rather than listing them means this keeps
+    # working when a form factor is added; without it the script dies with
+    # "NameError: FVND is not defined" on any build newer than ChiPT_UFO_V3.
+    for _name in _declared_form_factors(ufo):
+        ff0.setdefault(_name, lambda x: 1.0)
     MN, mpi = ns['MNucleon'], ns['MPi0']
     print("UFO: %s   ee=%.6f  MN=%.6f  MDelta=%.4f  Gamma=%.4f  Lambda=%.4f"
           % (ufo, ns['ee'].real, MN, ns['MDelta'], ns['WDeltaP'], ns['LambdaFF']))

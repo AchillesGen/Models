@@ -8,7 +8,18 @@ single-pion comparison, and the figure drawn from it.
 
 WHY THERE ARE TWO MODEL COLUMNS.  The ANL/BNL sets used here are the ones with
 the hadronic invariant-mass cut W < 1.4 GeV, so a model curve has to carry the
-same cut.  SHERPA CANNOT APPLY IT: its "Mass" invariant-mass selector is inert
+same cut.
+
+*** THE CLAIM BELOW IS OUT OF DATE.  On the Sherpa build in use as of 2026-08-26
+(570-update-achilles-interface) the Mass selector DOES work: for
+nu_mu p -> mu- p pi+ at E_nu = 1.0 GeV, W < 1.4 gives 4.9154e-09 ub against
+5.69914e-09 uncut, a 14% cut, and the two agree to MC error nowhere above the
+Delta.  plot_w_vs_data.py is therefore the comparison to use -- it puts the cut
+on BOTH sides.  This script's `sigma_sherpa_uncut_ub` column and its
+`wcut == 'none'` filter are kept as they were so old CSVs still read, but the
+paragraph that follows describes a bug that is no longer present. ***
+
+SHERPA CANNOT APPLY IT: its "Mass" invariant-mass selector is inert
 for this process.  Verified rather than assumed -- with the selector present at
 W < 1.4 and at W < 1.2, both globally and as a per-process `Selectors:` list, the
 integrated cross section is identical to the uncut one to six digits:
@@ -145,14 +156,28 @@ INK, GREY = '#111111', '#8a8a8a'
 CH = ['ppip', 'ppi0', 'npip']
 
 
-def read_sherpa(path='w_scan_results.csv'):
+# Which UFO build this figure is for.  Set CHIPT_MODEL to redraw it against a
+# different one.  It is not decoration: w_scan_results.csv is keyed by
+# (channel, model, param_card, E_nu, wcut) and holds every build ever scanned,
+# so WITHOUT the filter below the V8 and V9 rows collide on (channel, E_nu) and
+# whichever happens to come last in the file wins.
+MODEL = os.environ.get('CHIPT_MODEL', 'ChiPT_UFO_V9')
+
+
+def read_sherpa(path='w_scan_results.csv', model=None):
+    model = model or MODEL
     out = {}
     for r in csv.DictReader(l for l in open(path) if not l.startswith('#')):
         ch = CHANNEL_OF.get(r['process'])
         if ch is None or r.get('wcut', 'none') != 'none':
             continue
+        if r.get('model') != model:
+            continue
+        # the column is 'err_ub' in w_scan_results.csv; the older name is kept
+        # working so an existing csv still reads
+        err = r.get('err_ub', r.get('dsigma_ub'))
         out[(ch, round(float(r['E_nu']), 4))] = (float(r['sigma_ub']),
-                                                 float(r['dsigma_ub']))
+                                                 float(err))
     return out
 
 
@@ -291,7 +316,7 @@ def plot(rows, dat, stem='cc1pi_all_channels'):
         Line2D([], [], ls='none', marker='s', ms=3.6, mfc='none', mec=INK,
                mew=0.9, label='BNL (re-analysed)')],
         loc='upper left', bbox_to_anchor=(0.02, 0.92), handlelength=1.9)
-    ax.text(0.02, 0.96, 'ChiPT_UFO_V8, massive $\\mu$; CVC + PCAC on nucleon and $\\Delta$',
+    ax.text(0.02, 0.96, MODEL + ', massive $\\mu$; CVC + PCAC on nucleon and $\\Delta$',
             transform=ax.transAxes, va='top', fontsize=8, color=GREY)
 
     for col, ch in enumerate(CH):

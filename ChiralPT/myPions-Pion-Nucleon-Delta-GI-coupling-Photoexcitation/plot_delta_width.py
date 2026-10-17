@@ -18,8 +18,9 @@ figure is about SHAPE and nothing here rescales the resonance:
   HNV   Hernandez, Nieves and Valverde [PRD 76 (2007) 033005, Eq. (45)],
             Gamma(s) = Gamma_0 (M_Delta/sqrt(s)) (k/k_0)^3 Theta(sqrt(s)-M-mpi)
         Their own absolute normalisation comes from f* = 2.14 and gives 113 MeV
-        at the pole; that 4% against this model's 117.66 MeV is deliberately NOT
-        folded in.  The bare k^3 runs away above the resonance -- 563 MeV by
+        at the Breit-Wigner mass; it is deliberately NOT folded in, because this
+        model runs at the POLE (102 MeV at 1.209, see ChiPT.fr:1220-1265) and
+        the figure is about shape.  The bare k^3 runs away above the resonance --
         W = 1.4, twenty times Gamma_0 by W = 1.8 -- which is the honest reason
         not to adopt it unmodified.
   BW    the same expression with the l = 1 Blatt-Weisskopf barrier factor put
@@ -37,7 +38,7 @@ figure is about SHAPE and nothing here rescales the resonance:
 THE THETA FUNCTION IS NOT A DETAIL, and it is the part of this that is a defect
 rather than a preference.  Below the pi N threshold the running width is zero,
 and the crossed (u-channel) Delta is ALWAYS below it -- u < 0 for physical
-kinematics.  The fixed-width run hands that propagator a 118 MeV imaginary part
+kinematics.  The fixed-width run hands that propagator a 102 MeV imaginary part
 it has no business having.  No choice of Gamma_0 fixes that; only a width that
 knows its own argument does.
 
@@ -46,19 +47,27 @@ what the rest of the paper uses.  The correction factor
 
     R(E) = sigma[running width] / sigma[fixed width]
 
-comes from width_study.py via width_study_V12.csv -- the analytic engine, nine
+comes from width_study.py via width_study_V13.csv -- the analytic engine, nine
 energies per channel, the SAME integration grid for both widths so the
 quadrature error cancels in the ratio -- and is interpolated onto the Sherpa
 grid.  The dashed curves are the Sherpa cross section times R(E).  Doing it as a
 ratio rather than plotting the analytic engine directly keeps the absolute
 normalisation identical to every other figure in the paper.
 
-THE TWO ENGINES AGREE ONLY IF THE WIDTH IS FORCED.  wprod_from_ufo.py reads
-Gamma_Delta from the UFO's WDeltaP external, which is stale at 0.102, while the
-card and hence Comix carry GamNPi + GamNGam = 0.11766.  Unforced, the analytic
-engine sits 17% high and it looks like a grid error; forced, the two agree to
-better than 1% (0.803 vs 0.810 for ppip at E_nu = 1 GeV, W < 1.4).
-width_study.py forces it.
+THE WIDTH IS STILL FORCED, BUT IT NO LONGER HAS TO BE.  width_study.py sets
+Gamma_0 to GamNPi + GamNGam, the DECAY-block width Comix runs.  Through V12 that
+was 0.11766 while the UFO's WDeltaP external held 0.102, so an unforced analytic
+run sat 17% high and looked like a grid error.  V13 put all three on the pole
+convention -- GamNPi + GamNGam = WDeltaP = DECAY = 0.102 -- so forcing is now a
+no-op that guards against the next divergence rather than a correction.
+
+THIS FIGURE WAS A CONVENTION BEHIND UNTIL 2026-09-27.  It was built from
+width_study_V12.csv, i.e. Gamma_0 = 0.11766 at M_Delta = 1.209: the pole mass
+carrying a Breit-Wigner width, which is the mismatch V13 removed.  Because R(E)
+is a ratio taken at a common Gamma_0 the error largely cancelled, but not
+entirely -- the correction moved by roughly 1.5 to 2.5 percentage points toward
+1 when it was rerun at the pole width.  The prescriptions' signs and ordering
+were unaffected.
 
 Usage:  python3 plot_delta_width.py
 """
@@ -76,9 +85,9 @@ UB = 1e8                       # microbarn -> 1e-38 cm^2
 SCAN = 'w_scan_results.csv'
 DATA = 'anl_bnl_cc1pip.csv'
 STEM = 'cc1pi_width'
-MODEL = 'ChiPT_UFO_V12'
-PARAM = 'param_ChiPT_UFO_V12.dat'
-EDW_CSV = 'width_study_V12.csv'
+MODEL = 'ChiPT_UFO_V13'
+PARAM = 'param_ChiPT_UFO_V13.dat'
+EDW_CSV = 'width_study_V13.csv'
 WCUT = '1.40'
 
 CH = ['ppip', 'ppi0', 'npip']
@@ -90,11 +99,31 @@ MARK = {'ANL': 'o', 'BNL': 's'}
 INK, GREY = '#111111', '#8a8a8a'
 XLIM = (0.25, 1.75)
 
-# The Delta as the model's OWN (default) card carries it.  GAM0 is
-# GamNPi + GamNGam, the value make_param_cards.py writes into the DECAY block
-# and the value Comix therefore runs -- NOT the UFO's stale WDeltaP external of
-# 0.102, which is what wprod_from_ufo.py picks up if it is not overridden.
-MD, GAM0, MN, MPI0 = 1.209, 0.11766, 0.938272, 0.1349768
+# The Delta as the model's OWN (default) card carries it, READ FROM THAT CARD
+# rather than restated here.  GAM0 is the DECAY-block width, which is the number
+# Comix actually runs and -- from V13 on -- is also GamNPi + GamNGam and WDeltaP,
+# all three now agreeing.  Through V12 the DECAY block held 0.11766 (the
+# Breit-Wigner partials) while WDeltaP held the pole width 0.102, and hard-coding
+# either one here is what let this figure drift a convention behind the card.
+MN, MPI0 = 0.938272, 0.1349768
+
+
+def _delta_from_card(path):
+    """(M_Delta, Gamma_Delta) out of a param card's MASS and DECAY blocks."""
+    md = gam = None
+    for line in open(path):
+        tok = line.split('#')[0].split()
+        if len(tok) == 2 and tok[0] == '1114':
+            md = float(tok[1])
+        elif len(tok) == 3 and tok[0].upper() == 'DECAY' and tok[1] == '2224':
+            gam = float(tok[2])
+    if md is None or gam is None:
+        raise SystemExit("could not read M_Delta / Gamma_Delta from %s" % path)
+    return md, gam
+
+
+MD, GAM0 = _delta_from_card(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                         PARAM))
 
 
 def kmom(s, m1, m2):
@@ -355,7 +384,7 @@ def main():
                             r'\,(k/k_0)^3$'),
                Line2D([], [], color=INK, lw=1.5,
                       ls=(0, (6.0, 1.6, 1.2, 1.6)),
-                      label=r'running, $+$ Blatt--Weisskopf $\ell=1$, '
+                      label='running, $+$ Blatt–Weisskopf $\\ell=1$, '
                             r'$R=1$ fm'),
                Line2D([], [], color=INK, lw=1.5, ls=(0, (1.4, 1.4)),
                       label=r'running, Fig. 33: $\Gamma_0\,X_\pi$'),

@@ -3,6 +3,16 @@
 
     python3 plot_w_vs_data.py                 # -> cc1pi_sherpa_vs_data.pdf/.png
     python3 plot_w_vs_data.py --published     # overlay the uncorrected data too
+    CHIPT_MODEL=ChiPT_UFO_V14 python3 plot_w_vs_data.py \
+        --param param_ChiPT_UFO_V13.dat --label "deuterium" \
+        --compare param_ChiPT_UFO_V14_FAlattice.dat --compare-label "lattice QCD" \
+        --legend-title '$F_A^{NN}$ from'          # two scans of one model
+
+--param restricts the scan to one param card.  It matters: w_scan_results.csv
+can hold several cards for one model, and without the filter their rows land on
+the same (channel, E_nu) and are drawn as a single zig-zag curve.  --compare
+overlays a second card of the same model as a thinner line, and its rows go into
+the csv too, tagged by the `variant` column.
 
 Reads the dense W < 1.4 GeV scan written by run_w_all.py (w_scan_results.csv)
 and the bubble-chamber data extracted by anl_bnl_data.py (anl_bnl_cc1pip.csv),
@@ -37,6 +47,7 @@ import csv
 import os
 
 import numpy as np
+import paper_style as ps
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -50,6 +61,12 @@ STEM = "cc1pi_sherpa_vs_data"
 UB = 1e8                     # 1 ub = 1e-30 cm^2, so ub -> 1e-38 cm^2 is x1e8
 WCUT = "1.40"                # the scan rows to plot
 DATA_WCUT = "1.4"            # the matching data sets
+# WHICH UFO BUILD.  w_scan_results.csv is keyed by
+# (channel, model, param_card, E_nu, wcut) and accumulates every build ever
+# scanned, so filtering on wcut alone silently MIXES models -- V8 and V9 rows
+# land on the same (channel, E_nu) and the curve becomes a blend of the two.
+# Set CHIPT_MODEL to redraw against a different build.
+MODEL = os.environ.get("CHIPT_MODEL", "ChiPT_UFO_V9")
 
 CH = ["ppip", "ppi0", "npip"]
 LABEL = {
@@ -85,12 +102,14 @@ MARK = {"ANL": "o", "BNL": "s"}
 XLIM = (0.25, 1.65)
 
 
-def read_scan(path=SCAN_CSV):
+def read_scan(path=SCAN_CSV, param=None):
     """{channel: (E, sigma, err)} in 1e-38 cm^2, from the W<1.4 scan."""
     out = collections.defaultdict(list)
     with open(path) as f:
         for r in csv.DictReader(l for l in f if not l.startswith("#")):
-            if r["wcut"] != WCUT:
+            if r["wcut"] != WCUT or r["model"] != MODEL:
+                continue
+            if param is not None and r["param_card"] != param:
                 continue
             out[r["channel"]].append((float(r["E_nu"]),
                                       float(r["sigma_ub"]) * UB,
@@ -99,12 +118,14 @@ def read_scan(path=SCAN_CSV):
             for k, v in out.items()}
 
 
-def scan_provenance(path=SCAN_CSV):
+def scan_provenance(path=SCAN_CSV, param=None):
     """(model, param card) of the W<WCUT rows, for the csv header."""
     seen = set()
     with open(path) as f:
         for r in csv.DictReader(l for l in f if not l.startswith("#")):
-            if r["wcut"] == WCUT:
+            if param is not None and r["param_card"] != param:
+                continue
+            if r["wcut"] == WCUT and r["model"] == MODEL:
                 seen.add((r["model"], r["param_card"]))
     if len(seen) != 1:
         return ("+".join(sorted(m for m, _ in seen)) or "unknown",
@@ -168,7 +189,8 @@ def model_binaveraged(scan_ch, elo, ehi):
     return out
 
 
-CSV_COLS = ["kind", "channel", "process", "label_tex", "isospin", "source",
+CSV_COLS = ["kind", "variant", "param_card", "channel", "process", "label_tex",
+            "isospin", "source",
             "correction", "wcut_GeV", "E_nu_GeV", "E_lo_GeV", "E_hi_GeV",
             "sigma_1e38cm2", "sigma_err_1e38cm2", "sigma_ub", "sigma_err_ub"]
 
@@ -188,6 +210,10 @@ CSV_HEADER = """\
 #   process        PDG initial and final state, as given to Sherpa
 #   label_tex      ready-to-use LaTeX for a legend or direct label
 #   isospin        which isospin amplitudes contribute
+#   variant        model only: which scan of the model the row belongs to (the
+#                  --label / --compare-label given to plot_w_vs_data.py);
+#                  empty for data
+#   param_card     model only: the Sherpa param card of that scan
 #   source         Sherpa, ANL or BNL
 #   correction     data only: `wilkinson` (PRD 90, 112017 re-analysis, what the
 #                  figure shows) or `published` (the original numbers).  The
@@ -218,14 +244,18 @@ CSV_HEADER = """\
 """
 
 
-def write_plot_csv(path, scan, sets, model, param):
-    """The figure's contents as a tidy table, one row per plotted point."""
+def write_plot_csv(path, scans, sets, model, param):
+    """The figure's contents as a tidy table, one row per plotted point.
+
+    scans is a list of (variant label, param card, scan)."""
     import datetime
     rows = []
-    for ch in CH:
+    for variant, card, scan in scans:
+      for ch in CH:
         E, S, dS = scan[ch]
         for e, s, ds in zip(E, S, dS):
-            rows.append(dict(kind="model", channel=ch, process=PROCESS[ch],
+            rows.append(dict(kind="model", variant=variant, param_card=card,
+                             channel=ch, process=PROCESS[ch],
                              label_tex=LABEL[ch], isospin=ISO_PLAIN[ch],
                              source="Sherpa", correction="", wcut_GeV="1.4",
                              E_nu_GeV="%.4f" % e, E_lo_GeV="", E_hi_GeV="",
@@ -241,7 +271,7 @@ def write_plot_csv(path, scan, sets, model, param):
                 Em, Elo, Ehi, S, dS = d[(ch, exp)]
                 for em, el, eh, s, ds in zip(Em, Elo, Ehi, S, dS):
                     rows.append(dict(
-                        kind="data", channel=ch, process=PROCESS[ch],
+                        kind="data", variant="", param_card="", channel=ch, process=PROCESS[ch],
                         label_tex=LABEL[ch], isospin=ISO_PLAIN[ch], source=exp,
                         correction=corr, wcut_GeV="1.4",
                         E_nu_GeV="%.4f" % em, E_lo_GeV="%.4f" % el,
@@ -251,7 +281,7 @@ def write_plot_csv(path, scan, sets, model, param):
                         sigma_err_ub="%.8g" % (ds / UB)))
     order = {c: i for i, c in enumerate(CH)}
     rows.sort(key=lambda r: (order[r["channel"]], r["kind"] != "model",
-                             r["correction"], r["source"],
+                             r["variant"], r["correction"], r["source"],
                              float(r["E_nu_GeV"])))
     with open(path, "w", newline="") as f:
         # .replace, not %-formatting: the header prose is full of literal
@@ -311,9 +341,25 @@ def main():
     ap.add_argument("--stem", default=STEM)
     ap.add_argument("--no-csv", action="store_true",
                     help="skip writing the machine-readable table")
+    ap.add_argument("--param", default=os.environ.get("CHIPT_PARAM"),
+                    help="only the scan rows of this param card")
+    ap.add_argument("--label", default="",
+                    help="legend name of the --param scan")
+    ap.add_argument("--compare", default=None, metavar="PARAM",
+                    help="overlay the scan of a second param card, same model")
+    ap.add_argument("--compare-label", default="",
+                    help="legend name of the --compare scan")
+    ap.add_argument("--running-width", default=None, metavar="CSV",
+                    help="overlay this scan times w(E_nu) from "
+                         "running_width_factor.py (the App. F thin curves)")
+    ap.add_argument("--legend-title", default="",
+                    help="text before the two scan labels in the legend")
     a = ap.parse_args()
 
-    scan = read_scan(a.scan)
+    scan = read_scan(a.scan, a.param)
+    cmp_scan = read_scan(a.scan, a.compare) if a.compare else None
+    if cmp_scan is not None and [c for c in CH if c not in cmp_scan]:
+        raise SystemExit("no W<%s scan rows for --compare %s" % (WCUT, a.compare))
     wilk = read_data(a.data, "wilkinson")
     pub = read_data(a.data, "published") if a.published else {}
     missing = [c for c in CH if c not in scan]
@@ -323,68 +369,99 @@ def main():
     binav = {k: model_binaveraged(scan[k[0]], d[1], d[2])
              for k, d in wilk.items()}
 
-    style()
-    fig, ax = plt.subplots(figsize=(5.6, 4.0))
+    # The comparison curve: a second param card (--compare), or this scan
+    # times the running-width correction w(E_nu) (--running-width).  For a
+    # fixed-energy scan every event of a point has the same E_nu, so sigma * w
+    # IS the event-by-event reweighting.
+    if a.compare and a.running_width:
+        raise SystemExit("--compare and --running-width draw the same slot; "
+                         "pick one")
+    var_scan, var_label, var_card = cmp_scan, a.compare_label, a.compare
+    if a.running_width:
+        import running_width_factor as rwf
+        rw = rwf.RunningWidthFactor(a.running_width, wmax=WCUT)
+        var_scan = {}
+        for ch in CH:
+            E, S, dS = scan[ch]
+            w = rw(ch, E)
+            var_scan[ch] = (E, S * w, dS * w)
+        var_label = a.compare_label or rwf.LEGEND
+        var_card = a.running_width
 
-    # ---- model curves, then data on top
+    ps.apply()
+    fig, ax = ps.figure()
+
     for ch in CH:
-        E, S, dS = scan[ch]
-        ax.plot(E, S, color=COLOR[ch], lw=1.7, ls=DASH[ch], zorder=4,
-                solid_capstyle='round', dash_capstyle='round')
-        ax.fill_between(E, S - dS, S + dS, color=COLOR[ch], alpha=0.28, lw=0,
-                        zorder=3)
+        E, S, _ = scan[ch]
+        ax.plot(E, S, color=ps.COLOR[ch], lw=ps.LW_MAIN, zorder=4,
+                solid_capstyle="round")
+        if var_scan is not None:
+            E2, S2, _ = var_scan[ch]
+            ax.plot(E2, S2, color=ps.COLOR[ch], lw=ps.LW_VARIANT,
+                    alpha=ps.ALPHA_VARIANT, zorder=4)
 
     for ch in CH:
         for exp in ("ANL", "BNL"):
             if (ch, exp) in pub:
-                draw_data(ax, pub[(ch, exp)], FAINT, exp, filled=False,
-                          size=3.4, zorder=1, lw=0.7)
-    for ch in CH:
-        for exp in ("ANL", "BNL"):
+                Em, Elo, Ehi, S, dS = pub[(ch, exp)]
+                ps.data_points(ax, Em, Elo, Ehi, S, dS, ps.GREY, exp, zorder=3)
             if (ch, exp) in wilk:
-                draw_data(ax, wilk[(ch, exp)], COLOR[ch], exp,
-                          filled=(exp == "ANL"))
+                Em, Elo, Ehi, S, dS = wilk[(ch, exp)]
+                ps.data_points(ax, Em, Elo, Ehi, S, dS, ps.COLOR[ch], exp)
 
-    ax.set_xlim(*XLIM)
-    ax.set_ylim(0, 0.80)
-    ax.set_ylabel(r"$\sigma$  [$10^{-38}\,\mathrm{cm}^2$]")
+    # The paper's axis runs to 1.0; extend it in steps of 0.1 if a curve
+    # would be clipped.
+    top = max(float(np.max(scan[ch][1])) for ch in CH)
+    if var_scan is not None:
+        top = max(top, max(float(np.max(var_scan[ch][1])) for ch in CH))
+    # Headroom: the legend sits top-left, and the tallest curve rises into
+    # that corner, so leave ~15% above it rather than the paper's bare 1.0.
+    ps.cc1pi_axes(ax, ylim=(0.0, max(1.0, np.ceil(top * 1.15 * 10) / 10)))
+    for ch in CH:
+        x, y = ps.CC1PI_LABEL_POS[ch]
+        # With a variant drawn, ppip's label goes in the gap between its two
+        # curves, which is wide there; the paper's spot sits on the thin one.
+        if var_scan is not None and ch == "ppip":
+            x = 1.12
+            y = 0.5 * (np.interp(1.3, *scan[ch][:2])
+                       + np.interp(1.3, *var_scan[ch][:2])) + 0.03
+        elif ch == "ppip":
+            # One curve: the open band is between it and the data points.
+            x = 1.05
+            y = 0.5 * (np.interp(1.25, *scan[ch][:2]) + 0.63) + 0.03
+        elif ch == "npip":
+            # Below every curve and data point: the n pi+ points at 1.1-1.4 GeV
+            # sit just above the paper's spot for this label.
+            x, y = 0.95, 0.062
+        elif ch == "ppi0":
+            # Clear of its own (highest) curve over the label's x span.
+            span = np.linspace(x, x + 0.45, 20)
+            y = max(np.interp(span, *scan[ch][:2]).max(),
+                    np.interp(span, *var_scan[ch][:2]).max()
+                    if var_scan is not None else 0.0) + 0.085
+        ax.text(x, y, ps.LABEL[ch], color=ps.COLOR[ch], ha="left", va="top",
+                fontsize=ps.FT_SMALL)
+    ax.text(0.33, 0.60, r"$W < 1.4$ GeV", color=ps.GREY, ha="left",
+            va="center", fontsize=ps.FT_SMALL)
 
-    # Direct labels rather than three more legend rows, placed in the empty
-    # space each curve leaves on the right.  The two lower channels finish only
-    # 0.026 apart, so one label goes above its curve and the other below.
-    # (x, y-of-label-top); the isospin line always hangs below its own label.
-    for ch, xt, yt in (("ppip", 0.98, 0.700),
-                       ("ppi0", 1.25, 0.262),
-                       ("npip", 1.25, 0.076)):
-        ax.text(xt, yt, LABEL[ch], color=COLOR[ch], fontsize=8.5,
-                ha='left', va='top')
-        ax.text(xt, yt - 0.036, ISO[ch], color=GREY, fontsize=6.8,
-                ha='left', va='top')
-
-    ax.set_xlabel(r"$E_\nu$  [GeV]")
-
-    handles = [
-        Line2D([], [], color=INK, marker='o', ls='none', ms=4.4, mfc=INK,
-               label='ANL'),
-        Line2D([], [], color=INK, marker='s', ls='none', ms=4.4, mfc='white',
-               label='BNL'),
-        Line2D([], [], color=GREY, lw=1.7, label=r'Sherpa, $W<1.4$ GeV'),
-        Patch(facecolor=GREY, alpha=0.28, lw=0, label='MC stat.'),
+    ink = "#3a3a3a"
+    handles = [Line2D([], [], color=ink, lw=ps.LW_MAIN,
+                      label=a.label or "this work")]
+    if var_scan is not None:
+        handles.append(Line2D([], [], color=ink, lw=ps.LW_VARIANT,
+                              alpha=ps.ALPHA_VARIANT,
+                              label=var_label or var_card))
+    handles += [
+        Line2D([], [], color=ink, marker="o", ls="none", ms=ps.MS, mfc=ink,
+               label="ANL (re-analyzed)"),
+        Line2D([], [], color=ink, marker="s", ls="none", ms=ps.MS,
+               mfc="white", label="BNL (re-analyzed)"),
     ]
     if a.published:
-        handles.insert(2, Line2D([], [], color=FAINT, marker='o', ls='none',
-                                 ms=3.4, mfc='white', label='uncorrected'))
-    ax.legend(handles=handles, loc='upper left', ncol=1,
-              bbox_to_anchor=(0.015, 0.985), handletextpad=0.6,
-              labelspacing=0.45)
-    ax.text(0.015, 0.985 - 0.055 * (len(handles) + 1), 'Wilkinson re-analysis',
-            transform=ax.transAxes, fontsize=6.8, color=GREY, va='top')
-
-    ax.text(0.5, -0.155,
-            "ChiPT_UFO_V8.  $W<1.4$ GeV applied on both sides.  Horizontal "
-            "bars are the published energy bins.",
-            transform=ax.transAxes, ha='center', va='top', fontsize=6.8,
-            color=GREY, linespacing=1.5)
+        handles.append(Line2D([], [], color=ps.GREY, marker="o", ls="none",
+                              ms=ps.MS, mfc="white", label="as published"))
+    ax.legend(handles=handles, loc="upper left", handlelength=2.0,
+              labelspacing=0.35, borderaxespad=0.4)
 
     for ext in ("pdf", "png"):
         fig.savefig("%s.%s" % (a.stem, ext), dpi=320)
@@ -394,8 +471,17 @@ def main():
     # to be handed on, and a collaborator restyling this plot should not have to
     # come back for the other data set.
     if not a.no_csv:
-        model, param = scan_provenance(a.scan)
-        write_plot_csv("%s.csv" % a.stem, scan,
+        model, param = scan_provenance(a.scan, a.param)
+        # Plain variant names for the csv; the legend keeps the LaTeX ones.
+        if a.running_width:
+            names = ("constant width", "running width")
+        else:
+            names = (a.label or "constant width", var_label or var_card)
+        scans = [(names[0], param, scan)]
+        if var_scan is not None:
+            scans.append((names[1], var_card, var_scan))
+            param = param + " (+ " + var_card + ")"
+        write_plot_csv("%s.csv" % a.stem, scans,
                        [("wilkinson", wilk),
                         ("published", read_data(a.data, "published"))],
                        model, param)

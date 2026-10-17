@@ -157,6 +157,41 @@ Xpi[l_] := Module[{r}, If[l < (MNv + mpiv)^2, 0.,
    r = kmom[l, mpiv]/k0pi; 2. r^3/(1. + r^5)]];
 Xsu[sI_, uI_] := Module[{a = Xpi[sI], b = Xpi[uI]}, a + b - a b];
 
+(* ------------------------------------------- width prescriptions, 2026-09-27 -- *)
+(*  Gamma as a function of the propagator's OWN invariant mass squared, for the    *)
+(*  pole-vs-Breit-Wigner comparison.  Reached only through opt["wid"]; when that    *)
+(*  key is absent Mamp takes the historical branch below and every existing caller  *)
+(*  is bit-identical.                                                              *)
+(*                                                                                 *)
+(*    "fixed"  Gamma_0, and ZERO below the pi N threshold -- which is where the     *)
+(*             crossed Delta always sits, so this reproduces the old edw -> False   *)
+(*             behaviour (no width on the u-channel propagator) exactly.            *)
+(*    "xpi"    Gamma_0 X(l), Eqs. (44)-(47).  NOTE this is X of the propagator's    *)
+(*             own mass, NOT the paper's combined X_pi(s,u); the historical branch  *)
+(*             keeps the combined form, so "xpi" and edw -> True are not the same   *)
+(*             scheme and the driver reports both.                                  *)
+(*    "hnv"    Hernandez-Nieves-Valverde, PRD 76 (2007) 033005 Eq. (45),            *)
+(*                 Gamma_0 (M_Delta/Sqrt[l]) (q/q0)^3.                              *)
+(*    "bw"     the same with the l = 1 Blatt-Weisskopf barrier factor restored,     *)
+(*                 F^2(q)/F^2(q0) = (1 + (q0 R)^2)/(1 + (q R)^2),                   *)
+(*             normalised to 1 at l = M_Delta^2 so Gamma(M_Delta) = Gamma_0 for     *)
+(*             any R.  Turns the large-q behaviour from q^3 into q.  HNV is its     *)
+(*             R -> 0 limit.                                                        *)
+(*                                                                                 *)
+(*  MDv, GamV, MNv, mpiv and k0pi are read at CALL time, so a driver that resets    *)
+(*  the parameter block (Fig33_ChiPT.m, fig33_width_vecmeson.m) is picked up.       *)
+BWRv = 5.06773;      (* Blatt-Weisskopf radius, GeV^-1; 5.06773 = 1 fm *)
+
+GamRun[l_, wid_] := Module[{q, q0, r},
+  If[wid === "fixed", Return[If[l < (MNv + mpiv)^2, 0., GamV]]];
+  If[l < (MNv + mpiv)^2, Return[0.]];
+  q = kmom[l, mpiv]; q0 = k0pi; r = q/q0;
+  Switch[wid,
+    "xpi", GamV 2. r^3/(1. + r^5),
+    "hnv", GamV (MDv/Sqrt[l]) r^3,
+    "bw",  GamV (MDv/Sqrt[l]) r^3 (1. + (q0 BWRv)^2)/(1. + (q BWRv)^2),
+    _,     GamV]];
+
 (* ****************************************************************************** *)
 (*  Amplitude.  ch = <| ... |>  describes one physical channel.                    *)
 (* ****************************************************************************** *)
@@ -296,10 +331,19 @@ Mamp[W_, th_, ch_, opt_] := Module[
 
   (* ---------------- Delta(1232) ---------------- *)
   If[TrueQ[opt["delta"]],
-    X = Xsu[sI, uI]; Gsu = If[TrueQ[opt["edw"]], GamV X, GamV];
-    ffD = If[TrueQ[opt["edw"]], Sqrt[X], 1.];
-    DsD = sI - MDv^2 + I MDv Gsu;
-    DuD = uI - MDv^2 + If[TrueQ[opt["edw"]], I MDv Gsu, 0.];
+    X = Xsu[sI, uI];
+    (* opt["dff"] decouples the vertex damping from the width so a scheme can
+       change one without the other; absent -> the historical tie to opt["edw"]. *)
+    ffD = If[TrueQ[If[KeyExistsQ[opt, "dff"], opt["dff"], opt["edw"]]],
+             Sqrt[X], 1.];
+    If[KeyExistsQ[opt, "wid"],
+      (* each propagator gets a width built from its OWN invariant mass *)
+      DsD = sI - MDv^2 + I MDv GamRun[sI, opt["wid"]];
+      DuD = uI - MDv^2 + I MDv GamRun[uI, opt["wid"]],
+      (* historical: the paper's combined Gamma_0 X_pi(s,u) on BOTH propagators *)
+      Gsu = If[TrueQ[opt["edw"]], GamV X, GamV];
+      DsD = sI - MDv^2 + I MDv Gsu;
+      DuD = uI - MDv^2 + If[TrueQ[opt["edw"]], I MDv Gsu, 0.]];
     (* hoist the vertices and propagators OUT of the nested sums: otherwise each
        is rebuilt 4x4x4 = 64 times per amplitude, which dominates the runtime *)
     Module[{VsS, VsE, GsN, VuE, VuS, GuN},

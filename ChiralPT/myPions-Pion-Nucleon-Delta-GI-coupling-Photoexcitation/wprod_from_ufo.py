@@ -59,6 +59,15 @@ the level at which the two are separately converged -- see w_vs_analytic.csv:
     nu n -> mu- p pi0   E_nu = 1.0 GeV   +0.16 %
     nu n -> mu- n pi+   E_nu = 1.0 GeV   -0.03 %
 
+THE SPIN AVERAGE IS OVER THE NUCLEON ONLY -- 1/2, not 1/4.  A neutrino beam is
+100% left-handed, so there is no helicity to average over.  Both this script and
+Sherpa used to divide by 4; tools/imd_check.py measured the resulting factor of
+exactly 2 on nu_mu e- -> mu- nu_e, where the tree cross section is a closed
+expression with no hadrons in it.  Sherpa was rebuilt on 2026-08-26 to stop
+counting the neutrino spin (the same check now reads 1.00000 flat over a factor
+25 in s), and this line was changed to match.  Numbers produced before that date
+-- w_scan_results.csv rows, w_vs_analytic.csv -- are a factor 2 low.
+
 Internal checks that come for free and are worth rerunning after any change:
 the leptonic current is conserved to 1e-17, so the q^mu q^nu piece of the W
 propagator changes |M|^2 by exactly zero and the gauge does not matter; and the
@@ -79,6 +88,13 @@ from fig33_from_ufo import (load_ufo, parameter_namespace, build,
                             build_scalar_vec, vertex_by_particles, uspinor,
                             ubar, prop_fermion, prop_scalar, rs_numerator,
                             eval_structure, kmom, dot, METRIC, ID4, HBARC2)
+
+
+def _re(x):
+    """Real part of a UFO parameter.  Internal ones come through complex even
+    when they are real -- anything built with Sqrt does -- and hD, ga and fPi
+    all became Internal at V10."""
+    return float(x.real) if isinstance(x, complex) else float(x)
 
 
 # ------------------------------------------------------------------ channels
@@ -138,8 +154,10 @@ def form_factors(ns, ufo_has_ff):
         ff = {'F1p': one, 'F1n': lambda q2: 0.0,
               'F2p': lambda q2: 1.792847, 'F2n': lambda q2: -1.913043,
               'FpiNDelta': lambda l: 1.0}
-        for n in ('FW1', 'FWA', 'FW2', 'FZ1p', 'FZ1n', 'FZA', 'FZ2p', 'FZ2n',
-                  'FCA5', 'FVND', 'FPP', 'FPPZ', 'FC6A', 'FgNDeltaPG1', 'FgNDeltaPG2', 'FgNDeltaNG1',
+        for n in ('FW1', 'FWA', 'FW2', 'FZ1p', 'FZ1n', 'FZ1pi', 'FZA',
+                  'FZ2p', 'FZ2n',
+                  'FCA5', 'FVND', 'FPP', 'FPPZ', 'FPPpi', 'FPPZpi',
+                  'FC6A', 'FgNDeltaPG1', 'FgNDeltaPG2', 'FgNDeltaNG1',
                   'FgNDeltaNG2'):
             ff[n] = one
         return ff
@@ -147,8 +165,13 @@ def form_factors(ns, ufo_has_ff):
     from formfactors import FormFactors
     F = FormFactors(ns, allow_defaults=True)
     ff = {'FpiNDelta': lambda l: np.sqrt(Xpi(real(l)))}
+    # V16: FDeltaLam(p^2) = Lambda^4/(Lambda^4 + (p^2 - M_D^2)^2), Lambda = LambdaFF,
+    # as FormFactors.C evaluates it.
+    _L4 = float(np.real(ns.get('LambdaFF', 1.121))) ** 4
+    _MD2 = float(np.real(ns['MDelta'])) ** 2
+    ff['FDeltaLam'] = lambda l: _L4 / (_L4 + (real(l) - _MD2) ** 2)
     for name in ('F1p', 'F1n', 'F2p', 'F2n', 'FW1', 'FWA', 'FW2',
-                 'FZ1p', 'FZ1n', 'FZA', 'FZ2p', 'FZ2n'):
+                 'FZ1p', 'FZ1n', 'FZ1pi', 'FZA', 'FZ2p', 'FZ2n'):
         ff[name] = (lambda f: lambda q2: f(real(q2)))(getattr(F, name))
     ff['FCA5'] = lambda q2: F.C5A_ratio(real(q2))
     # The CVC vector N -> Delta dipole.  Baked into the UFO from V4 on; before
@@ -159,6 +182,9 @@ def form_factors(ns, ufo_has_ff):
     ff['FPP'] = lambda q2: F.FPP(real(q2))
     ff['FPPZ'] = lambda q2: F.FPPZ(real(q2))
     ff['FC6A'] = lambda q2: F.FC6A(real(q2))
+    # the PP topology, folded into a four-point operator; see formfactors.FPPpi
+    ff['FPPpi'] = lambda q2: F.FPPpi(real(q2))
+    ff['FPPZpi'] = lambda q2: F.FPPZpi(real(q2))
     # PCAC partner on the axial contact term; see FormFactors.C.  Its pion-pole
     # partner does not exist in the UFO, so PCAC is not restored the way CVC is.
     mrho2 = float(ns.get('MRhoCT', 0.7758)) ** 2
@@ -171,54 +197,27 @@ def form_factors(ns, ufo_has_ff):
     return ff
 
 
-def build_split(v, momout, ns, ff):
-    """build(), but returning (vector part, axial part) separately.
-
-    A UFO Lorentz structure carrying Gamma5 is the axial half; everything else
-    is the vector half.  Needed because CVC and PCAC put DIFFERENT form factors
-    on the two halves of the same four-point contact vertex.
-    """
-    names = [p.name for p in v.particles]
-    legs = {i + 1: momout[names[i]] for i in range(len(names))}
-    tot = {'V': None, 'A': None}
-    for (ci, li), c in v.couplings.items():
-        struct = v.lorentz[li].structure
-        key = 'A' if 'Gamma5' in struct else 'V'
-        val = eval(str(c.value), dict(ns, **ff))
-        piece = eval_structure(struct, legs, ff) * val
-        tot[key] = piece if tot[key] is None else tot[key] + piece
-    ferm = [(i + 1, v.particles[i]) for i in range(len(names))
-            if v.particles[i].spin in (2, 4)]
-    vec = [(i + 1) for i in range(len(names)) if v.particles[i].spin == 3]
-    rs = [(i + 1) for i in range(len(names)) if v.particles[i].spin == 4]
-    row = max(ferm, key=lambda x: x[1].pdg_code)[0]
-    col = min(ferm, key=lambda x: x[1].pdg_code)[0]
-    order = [('L', n) for n in rs] + [('L', n) for n in vec] + [('S', row), ('S', col)]
-    out = {}
-    for k, t in tot.items():
-        out[k] = (np.transpose(t.a, [t.axes.index(x) for x in order])
-                  if t is not None else None)
-    return out['V'], out['A']
-
-
 # ------------------------------------------ CVC / PCAC on the background terms
-# Gonzalez-Jimenez et al., arXiv:1612.05511 Eq. (18): once the isovector nucleon
-# form factors are put on the nucleon-pole diagrams, CVC REQUIRES the same F1V on
-# the pion-in-flight and on the VECTOR half of the contact term,
-#     F_PF(Q^2) = F_CT(Q^2) = F1V(Q^2) = F1p(Q^2) - F1n(Q^2).
-# Leaving them point-like -- which is what this file did before -- breaks the
-# Ward identity in the background, which is precisely the property this model
-# exists to preserve.
+# THE FORM FACTORS ARE NOW IN THE UFO AND NOTHING IS APPLIED HERE.
 #
-# The axial partner is not symmetric.  Those references put a rho-dominance
-# factor F_rho(t) = m_rho^2/(m_rho^2 - t) on the pion-pole term and the SAME
-# factor on the axial half of the contact term, so that PCAC survives.  This
-# model has no pion-pole (PP) diagram at all: it would come from the two-point
-# W-pi mixing, which FeynRules does not export to a UFO.  So F_rho is applied to
-# the axial contact here for consistency with the references, but PCAC is NOT
-# fully restored -- the missing PP term is a genuine limitation of what a
-# vertex-level framework can express, and is left to future work along with the
-# NLO chiral counterterms the unitarisation would need.
+# Up to V8 this file multiplied the pion-in-flight and the contact term by F1V
+# and F_rho at amplitude level, because the UFO carried them on the pi0 channels
+# only.  That patched the pi+- channels and DOUBLE COUNTED on the pi0 ones,
+# where the vertex already had FW1/FrhoCT in its Lorentz structure -- the two
+# channels were being treated differently for no physical reason.
+#
+# From V9 every background vertex carries its own form factor: the nucleon
+# poles, the pion-in-flight (gamma, Z and W), and BOTH halves of the contact
+# term in every charge state.  Which half takes which is not what V8 assumed:
+# the gamma^mu (Weinberg-Tomozawa) half multiplies the AXIAL source and belongs
+# to <pi N|A^mu|N>, so it takes F_rho, while the gamma^mu gamma5
+# (Kroll-Ruderman) half multiplies the VECTOR source and takes F1V.  See the
+# note at LNNCTFF in ChiPT.fr, and tools/ward_background.py, which now checks
+# q_mu V^mu = 0 on the assembled background and returns 1e-16.
+#
+# PCAC is still not restored: q_mu A^mu is saturated by the pion pole and the
+# model has no pion-pole diagram, because it would come from the two-point
+# W-pi mixing that FeynRules does not export to a UFO.
 MRHO2 = 0.775800 ** 2
 
 
@@ -295,13 +294,31 @@ ISO_ND = {'p': np.sqrt(3.0), 'n': 1.0}
 MV2_ND = 0.71
 
 
-# G1/G2 as fitted carry the factor that the radiative width exposes: the model
-# gives Gamma(Delta -> N gamma) = 2.23 MeV against the measured 0.66, i.e. g is
-# 1.84 too large in amplitude.  A vector transition built from them inherits it,
-# and it shows: switching the piece on with G1/G2 unscaled multiplies the cross
-# section by a FLAT 3.5, against 1.84^2 = 3.39.  G_SCALE_ND puts g on its own
-# measured width before CVC is applied.
-G_SCALE_ND = 1.0 / 1.84
+# THIS SCALE IS MODEL-DEPENDENT, and applying it blindly double-corrects V10+.
+#
+# In a V9-style UFO (ChiPT_UFO_All, ChiPT_UFO_DeltaFF, ChiPT) G1 and G2 are
+# EXTERNAL fitted numbers, and the vertex then delivers Gamma(Delta -> N gamma)
+# = 2.23 MeV against the PDG 0.66, i.e. g is 1.84 too large in amplitude.  A
+# vector transition built from them inherits it, and it shows: switching the
+# piece on with G1/G2 unscaled multiplies the cross section by a FLAT 3.5,
+# against 1.84^2 = 3.39.  For those models the 1/1.84 is right.
+#
+# From V10 on, G1 and G2 are INTERNAL and inverted from GamNGam, so the vertex
+# reproduces the measured width BY CONSTRUCTION -- tools/delta_widths.py gets
+# ratio 1.000000 on ChiPT_UFO_V13.  g is then already on its own measured width
+# and the correct scale is 1.0; the old constant would have made the CVC vector
+# piece 1.84 too SMALL.  Whether the card carries GamNGam is what separates the
+# two cases, so the scale is decided from the namespace rather than fixed here.
+G_SCALE_ND_LEGACY = 1.0 / 1.84
+
+
+def g_scale_nd(ns):
+    """The G1/G2 rescaling this UFO needs before CVC is applied.
+
+    1.0 for V10+, where GamNGam is an input and the couplings already sit on the
+    measured radiative width; the legacy 1/1.84 for V9-style external G1/G2.
+    """
+    return 1.0 if 'GamNGam' in ns else G_SCALE_ND_LEGACY
 
 
 def vector_ndelta(V, ns, ff, Ni, D_tau3, momout, Q2, scale=None):
@@ -309,7 +326,7 @@ def vector_ndelta(V, ns, ff, Ni, D_tau3, momout, Q2, scale=None):
     Vem = build(vertex_by_particles(V, [Ni + '~', D_tau3, 'A']), momout, ns, ff)
     g_cc = ns['ee'] * ns['Vud'] / (2 * ns['sw'] * np.sqrt(2))
     fv = 1.0 / (1 + Q2 / MV2_ND) ** 2 / (1 + Q2 / (4 * MV2_ND))
-    g = G_SCALE_ND if scale is None else scale
+    g = g_scale_nd(ns) if scale is None else scale
     return Vem * (g_cc / ns['ee']) * ISO_ND[Ni] * fv * g
 
 
@@ -363,20 +380,56 @@ def hadronic_current(ch, q, P, k, pp, V, ns, ff, opt):
     aNi, apion, api_t = anti(Ni), anti(pion), anti(pi_t)
     MN, MD = ns['MNucleon'], ns['MDelta']
     GD = ns['WDeltaP'] if opt.get('dwidth', True) else 0.0
-    # opt['edw']: Fig. 33's energy-dependent width, Gamma(l) = Gamma_0 X_pi(l).
-    # It is the PARTNER of the sqrt(X_pi) that FpiNDelta puts on the vertex --
-    # the paper's prescription is both together.  Sherpa can only do the fixed
-    # width, so the default here matches Sherpa; turning this on measures what
-    # that mismatch costs.
+    # opt['edw']: an energy-dependent Delta width in place of the fixed one.
+    # Sherpa can only do the fixed width -- Comix takes it from the DECAY block
+    # and applies it to the s- and u-channel alike -- so the default here
+    # matches Sherpa and turning this on measures what that costs.  Two forms:
+    #
+    #   'x'    Fig. 33's Gamma(l) = Gamma_0 X_pi(l).  It is the PARTNER of the
+    #          sqrt(X_pi) that FpiNDelta puts on the vertex; the paper's
+    #          prescription is both together.
+    #   'hnv'  Hernandez, Nieves and Valverde Eq. (45),
+    #              Gamma(s) = Gamma_0 (M_Delta/sqrt(s)) (k(s)/k_0)^3 Theta(...)
+    #          written as a ratio so it keeps THIS model's Gamma_0 from the card
+    #          and changes only the s dependence, which is the whole point of
+    #          the comparison.  Their absolute normalisation comes from
+    #          f* = 2.14 instead, and reproduces 113 MeV at the pole.
+    #
+    # The Theta function matters as much as the k^3: below the pi N threshold
+    # the width is ZERO, and the crossed (u-channel) Delta is ALWAYS below it.
+    # The fixed-width run gives that propagator a 120 MeV imaginary part it has
+    # no business having.
     edw = opt.get('edw', False)
     if edw:
         mpi0_, k0_ = ns['MPi0'], kmom(MD ** 2, ns['MPi0'], MN)
 
-        def _X(l):
+        def _Xshape(l):
             if l < (MN + mpi0_) ** 2:
                 return 0.0
             r = kmom(l, mpi0_, MN) / k0_
             return 2.0 * r ** 3 / (1.0 + r ** 5)
+
+        def _Xhnv(l):
+            if l < (MN + mpi0_) ** 2:
+                return 0.0
+            r = kmom(l, mpi0_, MN) / k0_
+            return (MD / np.sqrt(l)) * r ** 3
+
+        def _Xbw(l):
+            # HNV's k^3 with an l = 1 Blatt-Weisskopf barrier factor put back,
+            #     F^2(q)/F^2(q0) = (1 + (q0 R)^2) / (1 + (q R)^2),
+            # normalised to 1 at the pole so Gamma(M_Delta) = Gamma_0 whatever
+            # R is.  It is the SAME expression as 'hnv' with F = 1, and it
+            # changes the large-q behaviour from q^3 to q.
+            if l < (MN + mpi0_) ** 2:
+                return 0.0
+            q_ = kmom(l, mpi0_, MN)
+            r = q_ / k0_
+            R = opt.get('bwr', 5.06773)          # GeV^-1; 5.068 = 1 fm
+            return ((MD / np.sqrt(l)) * r ** 3
+                    * (1.0 + (k0_ * R) ** 2) / (1.0 + (q_ * R) ** 2))
+
+        _X = {'hnv': _Xhnv, 'bw': _Xbw}.get(str(edw).lower(), _Xshape)
     mpi = ns['MPi0'] if pion == 'Pi0' else ns['MPiP']
     mpi_t = ns['MPi0'] if pi_t == 'Pi0' else ns['MPiP']
 
@@ -410,24 +463,12 @@ def hadronic_current(ch, q, P, k, pp, V, ns, ff, opt):
         Vpi = build(vertex_by_particles(V, [aNi, Nf, api_t]),
                     {aNi: -P, Nf: pp, api_t: -vt}, ns, ff)
         D = prop_scalar(vt, mpi_t)
-        f1v = ff['FW1'](-dot(q, q).real) if opt.get('cvc', True) else 1.0
         for m in range(4):
-            H[m] += f1v * Vwpp[m] * D * Vpi
-        # four-point contact.  CVC puts F1V on the vector half; the axial half
-        # takes the rho-dominance factor -- see the note above build_split.
-        KV, KA = build_split(vertex_by_particles(V, [aNi, Nf, 'W-', pion]),
-                             {aNi: -P, Nf: pp, 'W-': -q, pion: k}, ns, ff)
-        if opt.get('cvc', True):
-            frho = MRHO2 / (MRHO2 - dot(vt, vt).real)
-            if KV is not None:
-                H += f1v * KV
-            if KA is not None:
-                H += frho * KA
-        else:
-            if KV is not None:
-                H += KV
-            if KA is not None:
-                H += KA
+            H[m] += Vwpp[m] * D * Vpi
+        # four-point contact.  Both halves come straight from the vertex.
+        H += build(vertex_by_particles(V, [aNi, Nf, 'W-', pion]),
+                   {aNi: -P, Nf: pp, 'W-': -q, pion: k}, ns, ff)
+        # NO amplitude-level CVC factor here any more; see the note above.
 
     if opt.get('delta', True):
         sD = opt.get('dsign', 1.0)
@@ -452,6 +493,16 @@ def hadronic_current(ch, q, P, k, pp, V, ns, ff, opt):
         s2, u2 = dot(vs, vs).real, dot(vu, vu).real
         Gs = GD * _X(s2) if edw else GD
         Gu = GD * _X(u2) if edw else GD
+        # opt['unit']: a callable R(W) applied to the s-channel Delta amplitude,
+        # the P33 unitarisation factor |T_unit|/|T_tree| measured in pi N by
+        # tools/p33_unitarise.py.  The u-channel Delta is untouched: it sits at
+        # u < 0, below the pi N threshold, where there is no elastic amplitude to
+        # unitarise and R is not defined.  Applying it here rather than rescaling
+        # h_A is the whole point -- h_A is pinned by the pole width and confirmed
+        # by photoproduction, so only something that acts near the peak is
+        # allowed to change the Delta.
+        _unit = opt.get('unit')
+        Rs = float(_unit(np.sqrt(s2))) if (_unit and s2 > 0) else 1.0
         Ds = dot(vs, vs) - MD ** 2 + 1j * MD * Gs
         Du = dot(vu, vu) - MD ** 2 + 1j * MD * Gu
         # s-channel Delta.  The RS numerator N[nu,eta] is NOT symmetric: the
@@ -484,7 +535,7 @@ def hadronic_current(ch, q, P, k, pp, V, ns, ff, opt):
                 for et in range(4):
                     acc += (METRIC[nu, nu] * METRIC[et, et]
                             * VpD[nu] @ (1j * Ns[nu, et] / Ds) @ VwD[et, m])
-            H[m] += sD * ffD * acc
+            H[m] += sD * Rs * ffD * acc
         # u-channel Delta: the weak vertex is now the one on the left
         if c['D_u']:
             Du_ = c['D_u']
@@ -570,6 +621,10 @@ def msq_at(ch, s, Whad, ctl, cth, phi, V, ns, ff, opt):
             ub = ubar(uspinor(pp, MN, sq))
             Hn = np.array([ub @ H[n] @ ui for n in range(4)])
             for sl in range(2):                  # muon spin
+                # The wrong-helicity neutrino amplitude vanishes identically,
+                # so summing both costs nothing and is a live check.  What must
+                # NOT happen is dividing by it: the beam has one helicity, so
+                # the average in `sigma` is over the two NUCLEON spins only.
                 for sn in range(2):              # neutrino spin (one is zero)
                     amp = L[:, sl, sn] @ C @ Hn
                     tot += abs(amp) ** 2
@@ -579,7 +634,7 @@ def msq_at(ch, s, Whad, ctl, cth, phi, V, ns, ff, opt):
 def sigma(ch, Enu, V, ns, ff, opt, grid=(24, 12, 12, 8), verbose=False):
     """Total cross section in microbarn.
 
-    sigma = 1/(2(s-MN^2)) * 1/4 * int dW dcos(th_l) dcos(th_h) dphi_h
+    sigma = 1/(2(s-MN^2)) * 1/2 * int dW dcos(th_l) dcos(th_h) dphi_h
                  q_l k* / (128 pi^4 sqrt(s)) * sum|M|^2
 
     with the three-body phase space split as dPhi3 = dW^2/2pi dPhi2(s -> l, X)
@@ -637,8 +692,8 @@ def sigma(ch, Enu, V, ns, ff, opt, grid=(24, 12, 12, 8), verbose=False):
         tot += wW[iW] * jW * pref * acc
         if verbose:
             print("    W = %.4f  running sigma = %.6g ub"
-                  % (Whad, HBARC2 * tot / (8 * (s - MN ** 2))), flush=True)
-    return HBARC2 * tot / (8 * (s - MN ** 2))    # 1/(2(s-MN^2)) * 1/4
+                  % (Whad, HBARC2 * tot / (4 * (s - MN ** 2))), flush=True)
+    return HBARC2 * tot / (4 * (s - MN ** 2))    # 1/(2(s-MN^2)) * 1/2
 
 
 # --------------------------------------------------------------------- main
@@ -652,8 +707,26 @@ def main():
     ap.add_argument('--wmax', type=float, default=None,
                     help='cut on the hadronic invariant mass, e.g. 1.4 to match '
                          'the ANL/BNL W<1.4 GeV data sets')
+    # THE MUON MASS WAS NOT REACHABLE FROM THE COMMAND LINE, and opt['mmu']
+    # defaults to 0.  Every scan run from this CLI was therefore MASSLESS,
+    # while analytic_scan.log -- the model curve in the ANL/BNL figure -- was
+    # made with the mass on, so the log could not be reproduced from the script
+    # that supposedly produced it.  The mass is not a detail at bubble-chamber
+    # energies: sigma(massive)/sigma(massless) is 0.059 at E_nu = 0.4 GeV.
+    ap.add_argument('--mmu', type=float, default=0.10566,
+                    help='charged-lepton mass in GeV (default: the muon). '
+                         'Pass 0 for the massless limit, which is what the '
+                         'run cards used before 2026-08-15.')
     ap.add_argument('--no-delta', action='store_true')
     ap.add_argument('--no-born', action='store_true')
+    ap.add_argument('--edw', default='', choices=['', 'x', 'hnv', 'bw'],
+                    help="energy-dependent Delta width: 'x' is Fig. 33's "
+                         "Gamma_0 X_pi, 'hnv' is Hernandez-Nieves-Valverde "
+                         "Eq. (45), 'bw' is that with an l = 1 Blatt-Weisskopf "
+                         "barrier factor.  Default (empty) is Sherpa's fixed "
+                         "width.")
+    ap.add_argument('--bwr', type=float, default=5.06773,
+                    help='Blatt-Weisskopf radius in GeV^-1 (5.06773 = 1 fm)')
     ap.add_argument('--verbose', action='store_true')
     a = ap.parse_args()
 
@@ -663,18 +736,21 @@ def main():
     ff = form_factors(ns, has_ff)
     grid = tuple(int(x) for x in a.grid.split(','))
     opt = dict(born=not a.no_born, delta=not a.no_delta,
-               dwidth=True, wwidth=True, wmax=a.wmax)
+               dwidth=True, wwidth=True, wmax=a.wmax, mmu=a.mmu,
+               edw=(a.edw or False), bwr=a.bwr)
 
     print("UFO: %s   MW=%.4f  WW=%.4f  MN=%.6f  MDelta=%.4f  WDelta=%.4f"
           % (a.ufo, ns['MW'].real, ns['WW'], ns['MNucleon'], ns['MDelta'],
              ns['WDeltaP']))
     print("     ee=%.6f  sw=%.6f  ga=%.4f  hD=%.4f  fPi=%.4f  FpiNDelta=%s"
-          % (ns['ee'].real, ns['sw'].real, ns['ga'], ns['hD'], ns['fPi'],
+          % (ns['ee'].real, ns['sw'].real, _re(ns['ga']), _re(ns['hD']),
+             _re(ns['fPi']),
              'on' if has_ff else 'off (plain UFO)'))
     s = ns['MNucleon'] ** 2 + 2 * ns['MNucleon'] * a.enu
     print("channel %s   E_nu = %.3f GeV   sqrt(s) = %.4f GeV   grid = %s   W < %s"
+          "   m_lep = %.5f"
           % (a.channel, a.enu, np.sqrt(s), grid,
-             ("%.2f GeV" % a.wmax) if a.wmax else "no cut"))
+             ("%.2f GeV" % a.wmax) if a.wmax else "no cut", a.mmu))
 
     xs = sigma(a.channel, a.enu, V, ns, ff, opt, grid, a.verbose)
     print("\nsigma = %.6g ub  =  %.6g x 1e-38 cm^2" % (xs, xs * 1e-30 / 1e-38))

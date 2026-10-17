@@ -154,7 +154,15 @@ FeynmanGauge = False;
 (*                                    neutral-current F1^Z/F2^Z/FA^Z on the Z-N-N     *)
 (*                                    current, and a C5A(Q^2) dipole on the W/Z-N-    *)
 (*                                    Delta transition.  See LNNWeakCCFF below.       *)
-(*                      = "All"       all four.                                       *)
+(*                      = "All"       all four, WITHOUT sqrt(X_pi) on the pi-N-Delta  *)
+(*                                    vertex (V15 on; see LPiNDeltaGIWeakFF).          *)
+(*                      = "AllLam"    all four WITH F(p_Delta^2) = Lambda^4/(Lambda^4  *)
+(*                                    + (p_Delta^2 - M_Delta^2)^2) on the pi-N-Delta   *)
+(*                                    vertex, Lambda = LambdaFF (V16).  1 on shell,   *)
+(*                                    nonzero for the u-channel Delta.                *)
+(*                      = "AllXPi"    all four WITH sqrt(X_pi(p_Delta^2)) on the      *)
+(*                                    pi-N-Delta vertex -- what "All" meant through   *)
+(*                                    V14.                                            *)
 (*                                                                                 *)
 (*  M$FormFactors is read while the file is being loaded, which is why the flag     *)
 (*  has to be set first, e.g.                                                       *)
@@ -185,10 +193,26 @@ FeynmanGauge = False;
 (* ****************************************************************************** *)
 
 If[!ValueQ[ChiPT$FormFactors], ChiPT$FormFactors = None];
-ChiPT$NucleonFF = MemberQ[{"Nucleon", "All"}, ChiPT$FormFactors];
-ChiPT$ELAFF     = MemberQ[{"ELA", "All"}, ChiPT$FormFactors];
-ChiPT$DeltaFF   = MemberQ[{"Delta", "All"}, ChiPT$FormFactors];
-ChiPT$WeakFF    = MemberQ[{"Weak",  "All"}, ChiPT$FormFactors];
+ChiPT$NucleonFF = MemberQ[{"Nucleon", "All", "AllXPi", "AllLam"}, ChiPT$FormFactors];
+ChiPT$ELAFF     = MemberQ[{"ELA", "All", "AllXPi", "AllLam"}, ChiPT$FormFactors];
+ChiPT$DeltaFF   = MemberQ[{"Delta", "All", "AllXPi", "AllLam"}, ChiPT$FormFactors];
+ChiPT$WeakFF    = MemberQ[{"Weak",  "All", "AllXPi", "AllLam"}, ChiPT$FormFactors];
+(*  sqrt(X_pi(p_Delta^2)) on the strong pi-N-Delta vertex.  Off by default from *)
+(*  V15: it is a phenomenological resonance-shape function (Fernandez-Ramirez   *)
+(*  Eqs. (44)-(47)), not something chiral symmetry, CVC or PCAC requires, and   *)
+(*  at vertex level X_pi(u) = 0 deletes the crossed (u-channel) Delta outright. *)
+(*  PCAC and pion-pole dominance fix the pi-N-Delta coupling's dependence on    *)
+(*  the PION virtuality only: 1 for the on-shell pion of every s/u Delta graph, *)
+(*  and C5A(Q^2)/C5A(0) on the pion pole, which is FC6A on LC6ANDelta.          *)
+ChiPT$XPiFF     = MemberQ[{"Delta", "AllXPi"}, ChiPT$FormFactors];
+(*  V16: the Delta-virtuality form factor of the paper's Born terms (Eqs. 49-51)  *)
+(*  on the strong pi-N-Delta vertex, F(p^2) = Lambda^4/(Lambda^4+(p^2-M_D^2)^2)   *)
+(*  with Lambda = LambdaFF.  Same hook (FFPNDA/FFPNDB) as sqrt(X_pi), different   *)
+(*  generator function (FDeltaLam).  Phenomenological: no symmetry requires it.   *)
+(*  It is 1 for an on-shell Delta (PCAC/PPD untouched) and, unlike X_pi, does not *)
+(*  vanish below the pi-N threshold, so the crossed Delta survives.  It damps the *)
+(*  GI Delta's off-shell growth above the peak, leaving room for N* resonances.   *)
+ChiPT$LamFF     = MemberQ[{"AllLam"}, ChiPT$FormFactors];
 
 
 (* ************************** *)
@@ -819,13 +843,13 @@ M$FormFactors = Join[If[ChiPT$NucleonFF,
     FFPNDA == {
         Particles        -> {DeltaPbar, Proton, Pi0},
         ComplexParameter -> False,
-        Value            -> "FpiNDelta(P(-9,2)**2)",
+        Value            -> If[ChiPT$LamFF, "FDeltaLam(P(-9,2)**2)", "FpiNDelta(P(-9,2)**2)"],
         ParameterName    -> FFPNDA
     },
     FFPNDB == {
         Particles        -> {Protonbar, DeltaP, Pi0},
         ComplexParameter -> False,
-        Value            -> "FpiNDelta(P(-9,1)**2)",
+        Value            -> If[ChiPT$LamFF, "FDeltaLam(P(-9,1)**2)", "FpiNDelta(P(-9,1)**2)"],
         ParameterName    -> FFPNDB
     },
     FFDPG1A == {
@@ -1159,9 +1183,9 @@ M$Parameters = {
     ParameterType    -> External,
     BlockName        -> CHIPTPION,
     OrderBlock       -> 2,
-    Value            -> 1.271,
+    Value            -> 1.2754,
     InteractionOrder -> {QED, 0},
-    Description      -> "Nucleon axial coupling g_A"
+    Description      -> "Nucleon axial coupling g_A = -F_A(0), PDG 2024 (lambda = -1.2754(13), neutron beta decay).  The deuterium z-expansion of Meyer:2016oeg (arXiv:1603.03048) supplies only the Q^2 shape; that paper normalised to the PDG 2014 value 1.2723"
   },
   AD == {
     ParameterType    -> External,
@@ -1464,9 +1488,9 @@ M$Parameters = {
     ParameterType    -> External,
     BlockName        -> CHIPTFF,
     OrderBlock       -> 21,
-    Value            -> -0.759,
+    Value            -> -0.7580156,
     InteractionOrder -> {QED, 0},
-    Description      -> "axial z-expansion a_0.  Consumed by the generator's form factor plugin, not by any vertex."
+    Description      -> "axial z-expansion a_0, re-fixed by F_A(0) = -g_A = -1.2754 (the rounded -0.759 of arXiv:1603.03048 fn. 13 gives -1.2764).  Consumed by the generator's form factor plugin, not by any vertex."
   },
   AxA1 == {
     ParameterType    -> External,
@@ -2747,7 +2771,8 @@ LPPoleFF := Module[{c1, c2},
 (*  real limit of the automated chain, not a modelling choice.  Symbols stay     *)
 (*  outside HC[].                                                                *)
 LPiNDeltaGIWeakFF := (-(hD/MDelta))*Block[{mu, nu, lam, si, s1, s2, s3, fa, fb},
-  fa = If[ChiPT$DeltaFF, FFPNDA, 1];  fb = If[ChiPT$DeltaFF, FFPNDB, 1];
+  fa = If[ChiPT$XPiFF || ChiPT$LamFF, FFPNDA, 1];
+  fb = If[ChiPT$XPiFF || ChiPT$LamFF, FFPNDB, 1];
   fa*Sum[Eps[mu, nu, lam, si]*del[Deltabar[s1, nu, r1, i1], mu]*
       Ga[si, s1, s2]*Ga[5, s2, s3]*ChiVielbeinVPion[lam, i1]*Nucleons[s3][[r1]],
     {r1, 1, 2}, {i1, 1, 3}]

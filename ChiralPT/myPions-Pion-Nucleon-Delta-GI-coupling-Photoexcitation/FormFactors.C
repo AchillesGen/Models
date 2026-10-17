@@ -341,12 +341,24 @@ namespace {
   // comparisons on m_id, on every single call.  The id never changes after
   // construction, so it is resolved to an enum there instead -- which also
   // moves an unknown id from an evaluation-time to a setup-time failure.
+  // V16: F(p^2) = Lambda^4 / (Lambda^4 + (p^2 - M_Delta^2)^2) on the strong
+  // pi-N-Delta vertex, Lambda = LambdaFF (the paper's Born-term cutoff,
+  // Eqs. 49-51).  1 for an on-shell Delta; nonzero below the pi-N threshold, so
+  // unlike sqrt(X_pi) it keeps the crossed (u-channel) Delta.  The argument is
+  // the Delta leg's own p^2 (P(-9,n)**2 with n the Delta, i.e. +p^2).
+  double DeltaLam(double p2) {
+    static const double lam = Params::Get("LambdaFF"), L4 = lam * lam * lam * lam;
+    static const double md = Params::Opt("MDelta", MD), md2 = md * md;
+    const double d = p2 - md2;
+    return L4 / (L4 + d * d);
+  }
+
   enum class FFId {
     F1p, F1n, F2p, F2n,
     FW1, FW2, FWA, FZ1p,
     FZ1n, FZ2p, FZ2n, FZA,
     FZ1pi, FCA5, FVND, FPP,
-    FPPZ, FPPpi, FPPZpi, FC6A, FrhoCT, FpiNDelta,
+    FPPZ, FPPpi, FPPZpi, FC6A, FrhoCT, FpiNDelta, FDeltaLam,
     FgNDeltaPG1, FgNDeltaPG2, FgNDeltaNG1, FgNDeltaNG2
   };
 
@@ -374,6 +386,7 @@ namespace {
       {"FC6A", FFId::FC6A},
       {"FrhoCT", FFId::FrhoCT},
       {"FpiNDelta", FFId::FpiNDelta},
+      {"FDeltaLam", FFId::FDeltaLam},
       {"FgNDeltaPG1", FFId::FgNDeltaPG1},
       {"FgNDeltaPG2", FFId::FgNDeltaPG2},
       {"FgNDeltaNG1", FFId::FgNDeltaNG1},
@@ -470,6 +483,7 @@ class FormFactorInterface : public METOOLS::Form_Factor {
         if(m_ff == FFId::FrhoCT) return FrhoCT(arg);
 
         if(m_ff == FFId::FpiNDelta) return std::sqrt(XPi(arg));
+        if(m_ff == FFId::FDeltaLam) return DeltaLam(arg);
 
         if(m_ff == FFId::FgNDeltaPG1) return 1;
         if(m_ff == FFId::FgNDeltaPG2) return 1;
@@ -516,6 +530,7 @@ FORM_FACTOR_IMPLEMENTATION(F1n)
 FORM_FACTOR_IMPLEMENTATION(F2p)
 FORM_FACTOR_IMPLEMENTATION(F2n)
 FORM_FACTOR_IMPLEMENTATION(FpiNDelta)
+FORM_FACTOR_IMPLEMENTATION(FDeltaLam)
 FORM_FACTOR_IMPLEMENTATION(FgNDeltaPG1)
 FORM_FACTOR_IMPLEMENTATION(FgNDeltaPG2)
 FORM_FACTOR_IMPLEMENTATION(FgNDeltaNG1)
